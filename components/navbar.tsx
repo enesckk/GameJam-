@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import ThemeToggle from "./theme-toggle";
 import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import ThemeToggle from "./theme-toggle";
 
 const nav = [
   { href: "/hakkinda", label: "Hakkında" },
@@ -11,53 +10,37 @@ const nav = [
   { href: "/kurallar", label: "Kurallar" },
   { href: "/duyurular", label: "Duyurular" },
   { href: "/kayit", label: "Kayıt" },
-  // Panel ve Admin’i ihtiyaç olursa aç:
-  // { href: "/panel", label: "Panel" },
-  // { href: "/admin", label: "Admin" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
 
-  const items = useMemo(
-    () =>
-      nav.map((i) => ({
-        ...i,
-        active:
-          i.href === "/"
-            ? pathname === "/"
-            : pathname === i.href || pathname.startsWith(i.href + "/"),
-      })),
-    [pathname]
-  );
-
   return (
-    <header className="sticky top-0 z-40 border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:bg-slate-900/70">
+    <header className="sticky top-0 z-40 glass">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="font-extrabold tracking-tight">
+        <Link href="/" className="text-base md:text-lg font-extrabold tracking-tight">
           Şehitkamil Game Jam
         </Link>
 
-        <div className="flex items-center gap-3">
-          {items.map((i) => (
-            <Link
-              key={i.href}
-              href={i.href}
-              aria-current={i.active ? "page" : undefined}
-              className={`text-sm px-2 py-1 rounded-md transition ${
-                i.active
-                  ? "bg-slate-100 dark:bg-slate-800"
-                  : "hover:underline"
-              }`}
-            >
-              {i.label}
-            </Link>
-          ))}
+        <div className="flex items-center gap-2 md:gap-3">
+          {nav.map((i) => {
+            const active =
+              pathname === i.href || pathname.startsWith(i.href + "/");
+            return (
+              <Link
+                key={i.href}
+                href={i.href}
+                aria-current={active ? "page" : undefined}
+                className="link-underline text-sm px-2 py-1 rounded-md hover:bg-[color-mix(in_oklab,var(--foreground)_6%,transparent)]"
+              >
+                {i.label}
+              </Link>
+            );
+          })}
 
-          {/* Giriş butonu */}
           <Link
-            className="text-sm rounded-lg bg-primary px-3 py-2 text-white hover:bg-primary-600 shadow-neon"
-            href="/login" // DİKKAT: /(auth)/login değil
+            href="/login"
+            className="text-sm rounded-lg px-3 py-2 text-[color:var(--background)] bg-[--color-primary] hover:bg-[--color-primary-600] btn-neon"
           >
             Giriş
           </Link>

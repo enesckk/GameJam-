@@ -1,16 +1,106 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* === THEME TOKENS === */
+@theme {
+  --color-primary: #10B981;         /* emerald */
+  --color-primary-600: #059669;
+  --color-accent:  #7C3AED;         /* neon mor */
+  --color-accent-2:#2DD4BF;         /* neon mint */
+
+  --radius-xl: 1rem;
+  --shadow-neon: 0 0 24px rgba(16,185,129,.45);
+  --shadow-soft: 0 10px 30px rgba(2,6,23,.08);
 }
 
-/* özel yardımcı */
-.neon-glow { box-shadow: 0 0 24px rgba(16,185,129,.45); }
+/* === UTILITIES === */
+
+/* Camlı navbar arka planı */
+.glass {
+  background: color-mix(in oklab, var(--background) 70%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+
+/* Neon kenarlık + hover parıltı */
+.neon-border {
+  border: 1px solid color-mix(in oklab, var(--color-accent) 45%, transparent);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+  transition: box-shadow .25s ease, border-color .25s ease;
+}
+.neon-border:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 20px color-mix(in oklab, var(--color-accent) 35%, transparent);
+}
+
+/* Link alt çizgi animasyonu */
+.link-underline {
+  position: relative;
+}
+.link-underline::after{
+  content:"";
+  position:absolute;
+  left:0; bottom:-2px;
+  width:0; height:2px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+  transition: width .25s ease;
+}
+.link-underline:hover::after,
+.link-underline[aria-current="page"]::after {
+  width:100%;
+}
+
+/* Neon buton efekti (soft glow) */
+.btn-neon {
+  box-shadow: var(--shadow-neon);
+}
+
+/* Kart hover yükseltme */
+.card {
+  border-radius: var(--radius-xl);
+  border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  background: color-mix(in oklab, var(--background) 92%, transparent);
+  box-shadow: var(--shadow-soft);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--color-accent) 35%, transparent);
+  box-shadow: 0 16px 40px rgba(23,23,23,.12);
+}
+
+/* Bölüm başlığı çizgisi */
+.section-title {
+  display: grid;
+  gap: .75rem;
+}
+.section-title::after{
+  content:"";
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+}
+
+/* Koyu temada zıtlık güçlendirme */
+@keyframes meshPan {
+  0%   { transform: translate3d(-4%, -2%, 0) scale(1.05); }
+  50%  { transform: translate3d(4%, 3%, 0) scale(1.10); }
+  100% { transform: translate3d(-4%, -2%, 0) scale(1.05); }
+}
+@keyframes meshPanAlt {
+  0%   { transform: translate3d(3%, 4%, 0) scale(1.00); }
+  50%  { transform: translate3d(-5%, -3%, 0) scale(1.08); }
+  100% { transform: translate3d(3%, 4%, 0) scale(1.00); }
+}
+@keyframes swirl {
+  0%   { transform: rotate(0deg)   scale(1.05); }
+  50%  { transform: rotate(180deg) scale(1.08); }
+  100% { transform: rotate(360deg) scale(1.05); }
+}
+
+/* Hareketten rahatsız olan kullanıcılarda kapat */
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-[meshPan"], [class*="animate-[meshPanAlt"], [class*="animate-[swirl"] {
+    animation: none !important;
+  }
+}
