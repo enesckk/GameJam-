@@ -1,15 +1,11 @@
-// app/admin/page.tsx
 "use client";
 
 import Link from "next/link";
-import AdminHeader from "./_components/admin-header";
+import { useEffect, useState } from "react";
 import AdminSectionCard from "@/app/admin/_components/admin-sectioncard";
 import { useDisplayName } from "@/lib/use-user";
-import {
-  IdCard, Users, Megaphone, Link2, MessageSquare, Inbox, ShieldCheck
-} from "lucide-react";
+import { IdCard, Users, Megaphone, Link2, MessageSquare, Inbox } from "lucide-react";
 
-// Admin kısayolları
 const quickLinks = [
   { href: "/admin/katilimcilar", label: "Katılımcılar", icon: IdCard },
   { href: "/admin/takimlar", label: "Takımlar", icon: Users },
@@ -19,11 +15,11 @@ const quickLinks = [
   { href: "/admin/teslimler", label: "Ödev/Teslimler", icon: Inbox },
 ];
 
-// (opsiyonel) sayılar; API’den doldurulabilir
-const badges: Record<string, number> = {
- // "/admin/duyurular": 1,
-  "/admin/mesajlar": 3,
-  "/admin/teslimler": 5,
+type Stats = {
+  totalParticipants: number | null;
+  totalTeams: number | null;
+  pendingSubmissions: number | null;
+  unreadMessages: number | null;
 };
 
 function Stat({ icon: Icon, label, value }: { icon: any; label: string; value: string | number }) {
@@ -45,9 +41,72 @@ function Stat({ icon: Icon, label, value }: { icon: any; label: string; value: s
 export default function AdminHome() {
   const { displayName } = useDisplayName();
 
+  const [stats, setStats] = useState<Stats>({
+    totalParticipants: null,
+    totalTeams: null,
+    pendingSubmissions: null,
+    unreadMessages: null,
+  });
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+
+    async function load() {
+      try {
+        setLoading(true);
+
+        const [usersRes, teamsRes, subsTeamsRes] = await Promise.all([
+          fetch("/api/admin/users?page=1&pageSize=1", {
+            cache: "no-store",
+            credentials: "same-origin",
+          }),
+          fetch("/api/admin/teams?page=1&pageSize=1", {
+            cache: "no-store",
+            credentials: "same-origin",
+          }),
+          fetch("/api/admin/submissions/teams?page=1&pageSize=1", {
+            cache: "no-store",
+            credentials: "same-origin",
+          }),
+        ]);
+
+        if (!usersRes.ok) throw new Error(`Users HTTP ${usersRes.status}`);
+        if (!teamsRes.ok) throw new Error(`Teams HTTP ${teamsRes.status}`);
+        if (!subsTeamsRes.ok) throw new Error(`SubmissionsTeams HTTP ${subsTeamsRes.status}`);
+
+        const usersJson = await usersRes.json();
+        const teamsJson = await teamsRes.json();
+        const subsTeamsJson = await subsTeamsRes.json();
+
+        const next: Stats = {
+          totalParticipants: Number(usersJson?.total ?? 0),
+          totalTeams: Number(teamsJson?.totalTeams ?? 0),
+          pendingSubmissions: Number(subsTeamsJson?.totalTeams ?? 0),
+          unreadMessages: 0, // ileride ayrı endpoint eklenirse güncellenecek
+        };
+
+        if (alive) {
+          setStats(next);
+          setErr(null);
+        }
+      } catch (e: any) {
+        if (alive) setErr(e?.message ?? "Bilinmeyen hata");
+      } finally {
+        if (alive) setLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   return (
     <div className="space-y-6">
-      {/* Hoş geldiniz mesajı */}
+      {/* Hoş geldiniz */}
       <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-[var(--foreground)]">
         Merhaba {displayName ?? "Yönetici"}, hoş geldiniz! 👋
       </h1>
@@ -55,57 +114,46 @@ export default function AdminHome() {
         Yönetim panelinden katılımcıları, takımları, duyuruları ve teslimleri buradan yönetebilirsiniz.
       </p>
 
+      {err && (
+        <div className="text-sm rounded-lg border border-red-500/30 bg-red-500/10 p-3">
+          Metrikler yüklenemedi: <span className="font-semibold">{err}</span>
+        </div>
+      )}
+
       {/* Özet Metrikler */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat icon={IdCard} label="Toplam Katılımcı" value="—" />
-        <Stat icon={Users}  label="Toplam Takım"      value="—" />
-        <Stat icon={Inbox}  label="Bekleyen Teslim"   value={badges["/admin/teslimler"] ?? 0} />
-        <Stat icon={MessageSquare} label="Okunmamış Mesaj" value={badges["/admin/mesajlar"] ?? 0} />
+        <Stat icon={IdCard} label="Toplam Katılımcı" value={loading ? "…" : (stats.totalParticipants ?? "—")} />
+        <Stat icon={Users}  label="Toplam Takım"      value={loading ? "…" : (stats.totalTeams ?? "—")} />
+        <Stat icon={Inbox}  label="Bekleyen Teslim"   value={loading ? "…" : (stats.pendingSubmissions ?? "—")} />
+        <Stat icon={MessageSquare} label="Okunmamış Mesaj" value={loading ? "…" : (stats.unreadMessages ?? "—")} />
       </div>
 
-      {/* Kısayollar */}
+      {/* Kısayollar (BADGE YOK) */}
       <AdminSectionCard title="Kısayollar">
         <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
-          {quickLinks.map(({ href, label, icon: Icon }) => {
-            const count = badges[href] ?? 0;
-            return (
-              <Link
-                key={href}
-                href={href}
+          {quickLinks.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className={[
+                "group relative rounded-xl p-4 flex flex-col items-center gap-2 text-center transition",
+                "bg-transparent hover:bg-background/55 hover:backdrop-blur-md hover:scale-[1.02]",
+                "multicolor-hover",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:color-mix(in_oklab,var(--foreground)_35%,transparent)]",
+              ].join(" ")}
+            >
+              <div
                 className={[
-                  "group relative rounded-xl p-4 flex flex-col items-center gap-2 text-center transition",
-                  "bg-transparent hover:bg-background/55 hover:backdrop-blur-md hover:scale-[1.02]",
-                  "multicolor-hover",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:color-mix(in_oklab,var(--foreground)_35%,transparent)]",
+                  "flex h-10 w-10 items-center justify-center rounded-xl transition",
+                  "group-hover:ring-1 group-hover:ring-[color:color-mix(in_oklab,var(--foreground)_18%,transparent)]",
+                  "group-hover:bg-gradient-to-br group-hover:from-fuchsia-500/15 group-hover:via-purple-500/12 group-hover:to-cyan-500/15",
                 ].join(" ")}
               >
-                <div
-                  className={[
-                    "flex h-10 w-10 items-center justify-center rounded-xl transition",
-                    "group-hover:ring-1 group-hover:ring-[color:color-mix(in_oklab,var(--foreground)_18%,transparent)]",
-                    "group-hover:bg-gradient-to-br group-hover:from-fuchsia-500/15 group-hover:via-purple-500/12 group-hover:to-cyan-500/15",
-                  ].join(" ")}
-                >
-                  <Icon className="h-5 w-5" />
-                </div>
-
-                <span className="text-sm font-semibold text-[var(--foreground)]">{label}</span>
-
-                {count > 0 && (
-                  <span
-                    className={[
-                      "absolute top-2 right-2 rounded-full px-1.5 py-0.5 text-[10px] font-bold transition",
-                      "text-[color:var(--background)] bg-[color:color-mix(in_oklab,var(--foreground)_75%,transparent)]",
-                      "group-hover:text-white group-hover:bg-gradient-to-r group-hover:from-fuchsia-600 group-hover:to-cyan-500",
-                    ].join(" ")}
-                    aria-label={`${label} için ${count} yeni`}
-                  >
-                    {count}
-                  </span>
-                )}
-              </Link>
-            );
-          })}
+                <Icon className="h-5 w-5" />
+              </div>
+              <span className="text-sm font-semibold text-[var(--foreground)]">{label}</span>
+            </Link>
+          ))}
         </div>
       </AdminSectionCard>
 
@@ -114,13 +162,11 @@ export default function AdminHome() {
         <ul className="list-disc pl-5 text-sm space-y-1">
           <li>
             <Link href="/admin/teslimler" className="underline">Teslimler</Link> sekmesinde
-            <strong> {badges["/admin/teslimler"] ?? 0}</strong> bekleyen inceleme var.
+            <strong> {loading ? "…" : (stats.pendingSubmissions ?? 0)}</strong> bekleyen inceleme var.
           </li>
           <li>
-            <Link href="/admin/duyurular" className="underline">Duyurular</Link> sekmesinde 1 taslak duyuru.
-          </li>
-          <li>
-            <Link href="/admin/mesajlar" className="underline">Mesajlar</Link> sekmesinde okunmamış iletileriniz var.
+            <Link href="/admin/mesajlar" className="underline">Mesajlar</Link> sekmesinde
+            <strong> {loading ? "…" : (stats.unreadMessages ?? 0)}</strong> okunmamış ileti var.
           </li>
         </ul>
       </AdminSectionCard>
