@@ -86,18 +86,18 @@ export default function AnnouncementsPage() {
   }, [items]);
 
   return (
-    <section className="relative min-h-screen">
-      {/* Arka plan video */}
+    <section className="relative isolate min-h-screen">
+      {/* Arka plan video (sadece MP4) */}
       <VideoBG
+        overlay
+        opacity={0.9}
         light={{
-          webm: "/videos/light.webm",
           mp4: "/videos/bg-light.mp4",
-          poster: "/videos/light-poster.jpg",
+          poster: "/videos/light-poster.jpg", // opsiyonel
         }}
         dark={{
-          webm: "/videos/dark.webm",
           mp4: "/videos/bg-dark.mp4",
-          poster: "/videos/dark-poster.jpg",
+          poster: "/videos/dark-poster.jpg", // opsiyonel
         }}
       />
 

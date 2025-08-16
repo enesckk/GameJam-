@@ -1,86 +1,139 @@
-// app/admin/layout.tsx
 "use client";
 
-import { useEffect, useState } from "react";
-import AdminSidebar from "./_components/admin-sidebar";
-import AdminTopbar from "./_components/admin-topbar";
-import VideoBG from "@/components/background/video-bg";
-import { useDisplayName } from "@/lib/use-user";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useTheme } from "next-themes";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
-  const { displayName } = useDisplayName();
+type VideoSet = { mp4: string; poster?: string };
 
-  // Mobil çekmece açıkken arka plan kaymasın
+type Props = {
+  light: VideoSet;
+  dark: VideoSet;
+  mode?: "auto" | "light" | "dark";
+  opacity?: number;
+  overlay?: boolean;
+  /** true: tema değişince videoyu başa al ve yeniden yükle; false: kaldığı yerden devam etmeye çalış */
+  restartOnThemeChange?: boolean;
+};
+
+export default function VideoBG({
+  light,
+  dark,
+  mode = "auto",
+  opacity = 0.85,
+  overlay = true,
+  restartOnThemeChange = false,
+}: Props) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // SSR hydration guard
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const { resolvedTheme } = useTheme();
+
+  const isDark = useMemo(() => {
+    if (mode === "dark") return true;
+    if (mode === "light") return false;
+    if (resolvedTheme) return resolvedTheme === "dark";
+    if (typeof window !== "undefined") {
+      return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+    }
+    return false;
+  }, [mode, resolvedTheme]);
+
+  const src = isDark ? dark : light;
+
+  // görünürlük & viewport dışında durdur/başlat (performans)
   useEffect(() => {
-    document.documentElement.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.documentElement.style.overflow = "";
-    };
-  }, [open]);
+    const v = videoRef.current;
+    if (!v) return;
 
-  // bfcache / geri tuşu sonrası yeniden mount olunca isim senkronu
-  useEffect(() => {
-    const onShow = () => {
-      window.dispatchEvent(new CustomEvent("user:refresh"));
+    const onVis = () => {
+      if (document.hidden) v.pause();
+      else v.play().catch(() => {});
     };
-    window.addEventListener("pageshow", onShow);
-    window.addEventListener("focus", onShow);
+    document.addEventListener("visibilitychange", onVis);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) e.isIntersecting ? v.play().catch(() => {}) : v.pause();
+      },
+      { rootMargin: "200px" }
+    );
+    io.observe(v);
+
     return () => {
-      window.removeEventListener("pageshow", onShow);
-      window.removeEventListener("focus", onShow);
+      document.removeEventListener("visibilitychange", onVis);
+      io.disconnect();
     };
   }, []);
 
+  // Tema değişiminde davranış
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+
+    if (restartOnThemeChange) {
+      v.load();
+      v.play().catch(() => {});
+      return;
+    }
+
+    const currentTime = v.currentTime || 0;
+    const wasPaused = v.paused;
+    const next = src.mp4;
+
+    if ((v as any)._activeSrc === next) return;
+
+    const onLoaded = () => {
+      try {
+        v.currentTime = Math.min(currentTime, v.duration || currentTime);
+      } catch {}
+      wasPaused ? v.pause() : v.play().catch(() => {});
+      v.removeEventListener("loadedmetadata", onLoaded);
+    };
+
+    v.addEventListener("loadedmetadata", onLoaded);
+    (v as any)._activeSrc = next;
+    v.src = next;
+    if (src.poster) v.poster = src.poster;
+    v.load();
+  }, [src, restartOnThemeChange]);
+
+  if (!mounted) return null;
+
   return (
-    <div className="relative isolate h-screen lg:grid lg:grid-cols-[16rem_1fr]">
-      {/* Arka plan */}
-      <VideoBG
-        overlay
-        mode="auto"
-        opacity={0.9}
-        light={{
-          webm: "/videos/light-bg.webm",
-          mp4: "/videos/bg-light.mp4",
-          poster: "/images/light-bg.jpg",
-        }}
-        dark={{
-          webm: "/videos/dark-bg.webm",
-          mp4: "/videos/bg-dark.mp4",
-          poster: "/images/dark-bg.jpg",
-        }}
-      />
-
-      {/* Sidebar (mobil çekmece + masaüstü sabit) */}
-      <aside
-        className={[
-          "fixed inset-y-0 left-0 z-50 w-64 transition-transform",
-          open ? "translate-x-0" : "-translate-x-full",
-          "bg-background/35 backdrop-blur-xl supports-[backdrop-filter]:bg-background/20",
-          "lg:static lg:translate-x-0 lg:h-screen lg:overflow-y-auto no-scrollbar lg:overscroll-contain lg:pr-2",
-        ].join(" ")}
-      >
-        <div className="flex h-full min-h-0 flex-col p-3">
-          <AdminSidebar onNavigate={() => setOpen(false)} />
-        </div>
-      </aside>
-
-      {/* İçerik sütunu */}
-      <div className="relative flex min-h-0 flex-col">
-        <AdminTopbar onMenuClick={() => setOpen((s) => !s)} />
-
-        {/* Mobilde sidebar açıkken karartma */}
-        {open && (
-          <div
-            className="fixed inset-0 z-40 bg-black/40 lg:hidden"
-            onClick={() => setOpen(false)}
-          />
-        )}
-
-        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
-          {children}
-        </main>
+    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+      {/* motion hassas kullanıcılar için video yerine poster */}
+      <div className="motion-reduce:block hidden absolute inset-0">
+        {src.poster && <img src={src.poster} alt="" className="h-full w-full object-cover" />}
       </div>
+
+      <video
+        ref={videoRef}
+        className="motion-reduce:hidden h-full w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload={restartOnThemeChange ? "metadata" : "auto"}
+        poster={src.poster}
+        key={restartOnThemeChange ? (isDark ? "dark" : "light") : "static"}
+        style={{ opacity }}
+      >
+        <source src={src.mp4} type="video/mp4" />
+      </video>
+
+      {overlay && (
+        <div
+          className={
+            "absolute inset-0 " +
+            (isDark
+              ? "bg-gradient-to-b from-black/50 via-black/45 to-black/60"
+              : "bg-gradient-to-b from-black/30 via-black/25 to-black/40")
+          }
+        />
+      )}
     </div>
   );
 }

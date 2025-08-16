@@ -1,7 +1,8 @@
+// app/(public)/kayit/page.tsx  ← kendi yoluna göre isim değişebilir
 "use client";
 
 import { useState } from "react";
-import VideoBG from "@/components/background/video-bg";
+import VideoBG from "@/components/background/video-bg"; // mp4-only sürüm
 import RoleSelect from "@/app/panel/_components/role-select"; // ← yolu kendi projenle eşleştir
 
 type RoleOption = "developer" | "designer" | "audio" | "pm";
@@ -12,7 +13,7 @@ type Member = {
   email: string;
   phone: string;
   age: string;
-  role: "developer" | "designer" | "audio" | "pm";
+  role: RoleOption;
 };
 
 type FormState = {
@@ -44,7 +45,7 @@ function getPasswordStrength(pw: string) {
   if (pw.length >= 10) score++;
 
   if (score <= 1) return { label: "Zayıf", width: "33%", barClass: "bg-red-500" };
-  if (score <= 3) return { label: "Orta",  width: "66%", barClass: "bg-yellow-500" };
+  if (score <= 3) return { label: "Orta", width: "66%", barClass: "bg-yellow-500" };
   return { label: "Güçlü", width: "100%", barClass: "bg-emerald-500" };
 }
 
@@ -227,21 +228,19 @@ export default function KayitPage() {
   const strength = getPasswordStrength(f.password);
 
   return (
-    <div className="relative min-h-screen">
-      {/* Arka plan video */}
+    <div className="relative isolate min-h-screen">
+      {/* 🎥 Arka plan video (sadece MP4) */}
       <VideoBG
         overlay
         mode="auto"
         opacity={0.9}
         light={{
-          webm: "/videos/register-light.webm",
           mp4: "/videos/bg-light.mp4",
-          poster: "/videos/register-poster-light.jpg",
+          poster: "/videos/register-poster-light.jpg", // opsiyonel
         }}
         dark={{
-          webm: "/videos/register-dark.webm",
           mp4: "/videos/bg-dark.mp4",
-          poster: "/videos/register-poster-dark.jpg",
+          poster: "/videos/register-poster-dark.jpg", // opsiyonel
         }}
       />
 
@@ -474,7 +473,7 @@ export default function KayitPage() {
                       <RoleSelect
                         className="[&>label]:sr-only"
                         value={m.role}
-                        onChange={(r) => onMemberChange(i, { role: r })}
+                        onChange={(r) => onMemberChange(i, { role: r as RoleOption })}
                       />
 
                       <div className="flex items-center">

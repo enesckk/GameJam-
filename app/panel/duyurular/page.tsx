@@ -2,9 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import PageHeader from "../_components/page-header";
-import SectionCard from "../_components/section-card";
 import { Pin } from "lucide-react";
-import VideoBG from "@/components/background/video-bg"; // ✅ eklendi
+import VideoBG from "@/components/background/video-bg"; // mp4-only sürüm
 
 type Announcement = {
   id: string;
@@ -69,12 +68,18 @@ export default function AnnouncementsPage() {
     } finally { setLoading(false); }
   }
 
-  useEffect(() => { let m = true; (async () => { if (m) await load(); })(); return () => { m = false; }; }, []);
+  useEffect(() => {
+    let m = true;
+    (async () => { if (m) await load(); })();
+    return () => { m = false; };
+  }, []);
 
   const sorted = useMemo(() => {
     const c = [...items];
-    c.sort((a, b) => (Number(!!b.pinned) - Number(!!a.pinned)) ||
-      ((new Date(b.createdAt).getTime() || 0) - (new Date(a.createdAt).getTime() || 0)));
+    c.sort((a, b) =>
+      (Number(!!b.pinned) - Number(!!a.pinned)) ||
+      ((new Date(b.createdAt).getTime() || 0) - (new Date(a.createdAt).getTime() || 0))
+    );
     return c;
   }, [items]);
 
@@ -82,11 +87,13 @@ export default function AnnouncementsPage() {
   const others = useMemo(() => sorted.filter(i => !i.pinned), [sorted]);
 
   return (
-    <section className="relative min-h-[100dvh]">
-      {/* 🎥 Arka plan video (panelde de göster) */}
+    <section className="relative isolate min-h-[100dvh]">
+      {/* 🎥 Arka plan video (sadece MP4) */}
       <VideoBG
-        light={{ webm: "/videos/light.webm", mp4: "/videos/bg-light.mp4", poster: "/videos/light-poster.jpg" }}
-        dark={{ webm: "/videos/dark.webm", mp4: "/videos/bg-dark.mp4", poster: "/videos/dark-poster.jpg" }}
+        overlay
+        opacity={0.9}
+        light={{ mp4: "/videos/bg-light.mp4", poster: "/videos/light-poster.jpg" }}
+        dark={{ mp4: "/videos/bg-dark.mp4",  poster: "/videos/dark-poster.jpg"  }}
       />
 
       <div className="relative z-10">

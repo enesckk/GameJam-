@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 
-type VideoSet = { webm: string; mp4: string; poster?: string };
+type VideoSet = { mp4: string; poster?: string };
 
 type Props = {
   light: VideoSet;
@@ -74,18 +74,15 @@ export default function VideoBG({
     if (!v) return;
 
     if (restartOnThemeChange) {
-      // En temiz reset: kaynakları yeniden yükle, en baştan başlat
       v.load();
       v.play().catch(() => {});
       return;
     }
 
-    // Kaldığı yerden devam etmeye çalış: mp4'e tekil src ile geçiş (en uyumlu)
     const currentTime = v.currentTime || 0;
     const wasPaused = v.paused;
-    const next = src.mp4 || src.webm;
+    const next = src.mp4;
 
-    // hiç değişmeyecekse dokunma
     if ((v as any)._activeSrc === next) return;
 
     const onLoaded = () => {
@@ -112,7 +109,6 @@ export default function VideoBG({
         {src.poster && <img src={src.poster} alt="" className="h-full w-full object-cover" />}
       </div>
 
-      {/* Not: restartOnThemeChange=true olduğunda key ile tam reset */}
       <video
         ref={videoRef}
         className="motion-reduce:hidden h-full w-full object-cover"
@@ -122,13 +118,9 @@ export default function VideoBG({
         playsInline
         preload={restartOnThemeChange ? "metadata" : "auto"}
         poster={src.poster}
-        // sadece restart modunda yeniden yarat (aksi halde zamanı koruyoruz)
         key={restartOnThemeChange ? (isDark ? "dark" : "light") : "static"}
         style={{ opacity }}
       >
-        {/* İlk yüklemede tarayıcı seçim yapabilsin diye iki kaynak da duruyor;
-            sonrasında programatik geçiş mp4'e yapılacak */}
-        <source src={src.webm} type="video/webm" />
         <source src={src.mp4} type="video/mp4" />
       </video>
 
