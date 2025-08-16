@@ -20,6 +20,10 @@ export default function Navbar() {
   const [isAuth, setIsAuth] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  // scroll state
+  const [scrolled, setScrolled] = useState(false);
+  const THRESHOLD = 24; // kaç px sonra blur + yarı saydamlık açılsın
+
   useEffect(() => {
     setMounted(true);
     const authCookieRegex =
@@ -27,17 +31,23 @@ export default function Navbar() {
     setIsAuth(authCookieRegex.test(document.cookie));
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled((window.scrollY || 0) > THRESHOLD);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <header
-      className="
-        sticky top-0 z-40 w-full overflow-x-clip
-        bg-white/85 dark:bg-black/85
-        supports-[backdrop-filter]:backdrop-blur
-        supports-[backdrop-filter]:bg-white/65
-        dark:supports-[backdrop-filter]:bg-black/65
-        border-b border-black/5 dark:border-white/10
-        transition-colors duration-300
-      "
+      className={[
+        "sticky top-0 z-40 w-full overflow-x-clip transition-[background,backdrop-filter,box-shadow,border-color] duration-300",
+        // TEPEDE: tam opak beyaz/siyah, blur YOK, border hafif
+        !scrolled
+          ? "bg-white dark:bg-black border-b border-black/5 dark:border-white/10"
+          // AŞAĞIDA: yarı saydam + blur aktif + gölge
+          : "bg-white/70 dark:bg-black/70 supports-[backdrop-filter]:backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/60 border-b border-black/10 dark:border-white/10 shadow-[0_6px_20px_rgba(0,0,0,0.18)]",
+      ].join(" ")}
     >
       <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between px-4 py-3">
         {/* Logo */}
@@ -70,7 +80,6 @@ export default function Navbar() {
           {/* Oturuma göre CTA'lar */}
           {mounted && !isAuth && (
             <>
-              {/* KAYIT */}
               <Link
                 href="/kayit"
                 className="
@@ -92,7 +101,6 @@ export default function Navbar() {
                 Kayıt
               </Link>
 
-              {/* GİRİŞ */}
               <Link
                 href="/login"
                 className="

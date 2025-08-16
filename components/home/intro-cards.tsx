@@ -14,13 +14,13 @@ function Item({
   return (
     <div
       className="
-        not-prose
+        not-prose h-full max-w-[320px] md:max-w-[340px] mx-auto
         group relative rounded-2xl
         border-0 ring-0 outline-none focus-visible:outline-none
         bg-white/[0.04] p-5 backdrop-blur-md
         transition-all duration-300 ease-out
         transform-gpu will-change-transform
-        hover:scale-[1.05] hover:rounded-3xl
+        hover:scale-[1.03] hover:rounded-3xl
         hover:shadow-[0_0_15px_#ff00ff,0_0_20px_#8000ff,0_0_25px_#00ffff]
         motion-reduce:transition-none motion-reduce:hover:scale-100
 
@@ -37,29 +37,31 @@ function Item({
         group-hover:before:[mask-composite:exclude]
       "
     >
-      <div className="mb-3 text-3xl transition-transform duration-300 group-hover:scale-110">
-        {icon}
+      <div className="flex h-full min-h-[176px] md:min-h-[188px] flex-col">
+        <div className="mb-3 text-3xl transition-transform duration-300 group-hover:scale-110">
+          {icon}
+        </div>
+
+        <h3
+          className="
+            font-bold text-lg tracking-wide
+            text-[color:var(--foreground)]
+            group-hover:!text-neon-pink
+            transition-colors duration-300
+          "
+        >
+          {title}
+        </h3>
+
+        <p
+          className="
+            mt-1 text-sm
+            text-[color:color-mix(in_oklab,var(--foreground)_75%,transparent)]
+          "
+        >
+          {desc}
+        </p>
       </div>
-
-      <h3
-        className="
-          font-bold text-lg tracking-wide
-          text-[color:var(--foreground)]
-          group-hover:!text-neon-pink
-          transition-colors duration-300
-        "
-      >
-        {title}
-      </h3>
-
-      <p
-        className="
-          mt-1 text-sm
-          text-[color:color-mix(in_oklab,var(--foreground)_75%,transparent)]
-        "
-      >
-        {desc}
-      </p>
     </div>
   );
 }
@@ -77,7 +79,8 @@ export default function IntroCards() {
         Etkinlik Özeti
       </div>
 
-      <div className="grid justify-center gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Kartlar aynı oranda: ortalı + eşit yükseklik */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-stretch justify-center gap-4 sm:gap-6">
         <Item
           icon={<span role="img" aria-label="Oyun">🎮</span>}
           title="Tema: Oyna ve Kazan!"
