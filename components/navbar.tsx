@@ -24,25 +24,34 @@ export default function Navbar() {
 
   const [isAuth, setIsAuth] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const authCookieRegex =
       /(?:^|;\s*)(auth-token|sj_session|next-auth\.session-token)=/;
     setIsAuth(authCookieRegex.test(document.cookie));
+
+    // Scroll event listener
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <header
-      className="
+      className={`
         sticky top-0 z-40 w-full overflow-x-clip
-        bg-white dark:bg-black
-        supports-[backdrop-filter]:backdrop-blur
-        supports-[backdrop-filter]:bg-white/70
-        dark:supports-[backdrop-filter]:bg-black/70
+        transition-all duration-300
         border-b border-black/5 dark:border-white/10
-        transition-colors duration-300
-      "
+        ${isScrolled 
+          ? 'bg-white/70 dark:bg-black/70 supports-[backdrop-filter]:backdrop-blur'
+          : 'bg-white dark:bg-black'
+        }
+      `}
     >
       <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between px-4 py-3">
         {/* Logo */}
