@@ -1,101 +1,159 @@
-// app/(public)/kurallar/page.tsx
-import VideoBG from "@/components/background/video-bg";
-import PageHeader from "../../panel/_components/page-header"; // kendi yolunu ayarla
+// app/(public)/duyurular/page.tsx
+"use client";
 
-export default function RulesPage() {
+import { useEffect, useMemo, useState } from "react";
+import VideoBG from "@/components/background/video-bg";
+import PageHeader from "../../panel/_components/page-header";
+
+type Announcement = {
+  id: string;
+  title: string;
+  body: string;
+  createdAt: string;
+  pinned?: boolean;
+  author?: { name: string; role?: string } | null;
+};
+
+function fmtDate(s: string) {
+  try {
+    return new Date(s).toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short" });
+  } catch {
+    return s;
+  }
+}
+function isLikelyHTML(s: string) {
+  return typeof s === "string" && /<\/?[a-z][\s\S]*>/i.test(s);
+}
+function stripTags(s: string) {
+  return s.replace(/<[^>]*>/g, " ");
+}
+function previewText(raw: string, limit = 220) {
+  const plain = isLikelyHTML(raw) ? stripTags(raw) : raw;
+  return plain.length > limit ? plain.slice(0, limit) + "…" : plain;
+}
+function toArray(x: any): any[] {
+  if (Array.isArray(x)) return x;
+  if (x?.items) return x.items;
+  if (x?.announcements) return x.announcements;
+  return [];
+}
+
+export default function AnnouncementsPage() {
+  const [items, setItems] = useState<Announcement[]>([]);
+  const [openId, setOpenId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    setLoading(true);
+    (async () => {
+      try {
+        const r = await fetch("/api/announcements", { cache: "no-store" });
+        const j = await r.json();
+        const arr = toArray(j);
+        const normalized: Announcement[] = arr.map((a: any) => ({
+          id: String(a.id),
+          title: String(a.title ?? ""),
+          body: String(a.content ?? ""),
+          createdAt: a.createdAt ?? new Date().toISOString(),
+          pinned: !!a.pinned,
+          author: { name: "Organizasyon Ekibi" },
+        }));
+        if (mounted) setItems(normalized);
+      } catch {
+        if (mounted) {
+          setErr("Duyurular alınamadı.");
+          setItems([]);
+        }
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const sorted = useMemo(() => {
+    const cloned = [...items];
+    cloned.sort((a, b) => {
+      const p = Number(!!b.pinned) - Number(!!a.pinned);
+      if (p !== 0) return p;
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+    return cloned;
+  }, [items]);
+
   return (
     <section className="relative min-h-screen">
       {/* 🎥 Arka plan video */}
       <VideoBG
-        light={{
-          webm: "/videos/light.webm",
-          mp4: "/videos/bg-light.mp4",
-          poster: "/videos/light-poster.jpg",
-        }}
-        dark={{
-          webm: "/videos/dark.webm",
-          mp4: "/videos/bg-dark.mp4",
-          poster: "/videos/dark-poster.jpg",
-        }}
+        light={{ webm: "/videos/light.webm", mp4: "/videos/bg-light.mp4", poster: "/videos/light-poster.jpg" }}
+        dark={{ webm: "/videos/dark.webm", mp4: "/videos/bg-dark.mp4", poster: "/videos/dark-poster.jpg" }}
       />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-20 space-y-12">
-        {/* Katılım Şartları */}
+        {/* Duyurular kartı (Kurallar sayfasındaki kart stiliyle aynı) */}
         <div
           className="gborder rounded-2xl backdrop-blur-md p-8"
           style={{
-            backgroundColor:
-              "color-mix(in oklab, var(--foreground) 5%, transparent)",
+            backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)",
           }}
         >
           <PageHeader
-            title="Katılım Şartları"
-            desc="Etkinliğe kimler katılabilir, nasıl başvuru yapılır?"
+            title="Duyurular"
+            desc="Güncel bilgilendirmeler, kurallar ve program notları"
             variant="plain"
           />
 
-          <div className="space-y-6 text-base leading-relaxed text-[color:var(--foreground)]">
-            <ul className="list-disc pl-5 space-y-2">
-              <li>
-                <strong>Kimler Katılabilir?</strong> Lise ve üzeri eğitim düzeyine sahip
-                herkes katılabilir. Yazılım, tasarım, içerik üretimi, ses/müzik gibi
-                alanlarda katkı sağlayabilecek katılımcılar davetlidir.
-              </li>
-              <li>
-                <strong>Katılım Şekli:</strong> Bireysel veya takım halinde başvuru
-                yapılabilir. Takımlar en fazla 4 kişiden oluşabilir.
-              </li>
-              <li>
-                <strong>Bireysel Katılımcılar:</strong> Tek başına başvuranlar, ilgi ve
-                yetenek alanlarına göre uygun takımlarla eşleştirilecektir.
-              </li>
-              <li>
-                <strong>Süreç Yönetimi:</strong> Tüm eşleştirme, duyurular, görev takibi
-                ve teslimatlar web sitesi üzerinden yönetilecektir.
-              </li>
-              <li>
-                <strong>Mentör Desteği:</strong> Etkinlik boyunca alanında uzman mentörler
-                katılımcılara rehberlik edecek, soru-cevap desteği sunacaktır.
-              </li>
-            </ul>
-          </div>
-        </div>
+          {loading && <p className="text-sm opacity-80 mt-2">Yükleniyor…</p>}
+          {err && <p className="text-sm text-red-400 mt-2">{err}</p>}
 
-        {/* Topluluk Kuralları */}
-        <div
-          className="gborder rounded-2xl backdrop-blur-md p-8"
-          style={{
-            backgroundColor:
-              "color-mix(in oklab, var(--foreground) 5%, transparent)",
-          }}
-        >
-          <PageHeader
-            title="Topluluk Kuralları"
-            desc="Pozitif ve kapsayıcı bir ortam için belirlenen kurallar"
-            variant="plain"
-          />
+          <div className="space-y-6 mt-6">
+            {sorted.map((a) => {
+              const isOpen = openId === a.id;
+              const raw = a.body ?? "";
+              const showHTML = isOpen && isLikelyHTML(raw);
 
-          <div className="space-y-6 text-base leading-relaxed text-[color:var(--foreground)]">
-            <ul className="list-disc pl-5 space-y-2">
-              <li>
-                Saygılı iletişim: Ayrımcı, saldırgan veya toksik davranışlara izin
-                verilmez.
-              </li>
-              <li>
-                Telif ve lisanslara dikkat edin: Kullandığınız asset’lerin kaynağını
-                belirtin.
-              </li>
-              <li>
-                Hazır projelerin aynısını teslim etmeyin; jam süresince üretime odaklanın.
-              </li>
-              <li>
-                Takım içi sorumluluk dağılımını netleştirin; teslim tarihlerini kaçırmayın.
-              </li>
-            </ul>
-            <p>
-              Katılımcılar, bu kurallara uymayı kabul etmiş sayılır. Organizasyon ekibi,
-              ihlaller durumunda gerekli aksiyonları alma hakkını saklı tutar.
-            </p>
+              return (
+                <article
+                  key={a.id}
+                  className="relative rounded-xl p-5 backdrop-blur bg-white/5 dark:bg-black/20 border border-white/20 hover:border-transparent hover:shadow-[0_0_15px_#ff00ff,0_0_20px_#8000ff,0_0_25px_#00ffff] transition-all"
+                >
+                  <div className="flex items-center justify-between text-xs opacity-70 mb-2">
+                    <span>{a.author?.name}</span>
+                    <span>{fmtDate(a.createdAt)}</span>
+                  </div>
+
+                  <h3 className="text-lg font-semibold text-[color:var(--foreground)]">
+                    {a.title}
+                  </h3>
+
+                  {showHTML ? (
+                    <div
+                      className="prose prose-invert mt-2 text-sm leading-relaxed max-w-none"
+                      dangerouslySetInnerHTML={{ __html: raw }}
+                    />
+                  ) : (
+                    <p className="mt-2 text-sm leading-relaxed text-[color:var(--foreground)]">
+                      {isOpen ? raw : previewText(raw)}
+                    </p>
+                  )}
+
+                  <button
+                    onClick={() => setOpenId(isOpen ? null : a.id)}
+                    className="mt-3 text-xs underline underline-offset-4 hover:opacity-90"
+                  >
+                    {isOpen ? "Kapat" : "Devamını oku"}
+                  </button>
+                </article>
+              );
+            })}
+
+            {!loading && sorted.length === 0 && (
+              <p className="text-sm opacity-75">Henüz duyuru yok.</p>
+            )}
           </div>
         </div>
       </div>

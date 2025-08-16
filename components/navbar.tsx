@@ -16,51 +16,48 @@ const nav = [
 export default function Navbar() {
   const pathname = usePathname();
 
-  // 1) Panel/Admin altında navbar'ı hiç render etme
+  // /panel ve /admin altında navbar'ı gösterme
   const HIDE_PREFIXES = ["/panel", "/admin"];
-  const shouldHide = HIDE_PREFIXES.some((p) => pathname?.startsWith(p));
-  if (shouldHide) return null;
+  if (pathname && HIDE_PREFIXES.some((p) => pathname.startsWith(p))) return null;
 
-  // 2) Oturum kontrolü (cookie tabanlı basit kontrol)
-  //  - Cookie adını kendi sistemine göre düzenle:
-  //    'auth-token' | 'sj_session' | 'next-auth.session-token' vb.
   const [isAuth, setIsAuth] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const authCookieRegex =
-      /(?:^|;\s*)(auth-token|sj_session|next-auth\.session-token)=/;
+    const authCookieRegex = /(?:^|;\s*)(auth-token|sj_session|next-auth\.session-token)=/;
     setIsAuth(authCookieRegex.test(document.cookie));
 
-    // Scroll event listener
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const handleScroll = () => setIsScrolled((window.scrollY || 0) > 10);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header className={`sticky top-0 z-40 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-black/5 dark:border-white/10' 
-        : 'bg-white dark:bg-black border-b border-transparent'
-    }`}>
+    <header
+      className={[
+        "sticky top-0 z-40 w-full overflow-x-clip isolate",
+        // sadece ilgili özellikleri animate et (opacity/scale sapıtmasın)
+        "transition-[background,backdrop-filter,border-color,box-shadow] duration-300",
+        // TEPEDE: tam beyaz/siyah + blur kapalı (Safari’de kalıntı olmasın diye 'backdrop-blur-0' zorunlu)
+        !isScrolled
+          ? "bg-white dark:bg-black border-b border-black/5 dark:border-white/10 backdrop-blur-0"
+          // AŞAĞIDA: yarı saydam + blur + hafif gölge
+          : "bg-white/70 dark:bg-black/70 supports-[backdrop-filter]:backdrop-blur-md supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/60 border-b border-black/10 dark:border-white/10 shadow-[0_6px_20px_rgba(0,0,0,0.18)]",
+      ].join(" ")}
+    >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="text-base md:text-lg font-extrabold tracking-tight">
           Şehitkamil Game Jam
         </Link>
 
         <div className="flex items-center gap-2 md:gap-3">
-          {/* Düz linkler (Kayıt hariç) */}
           {nav
             .filter((i) => i.href !== "/kayit")
             .map((i) => {
-              const active =
-                pathname === i.href || pathname?.startsWith(i.href + "/");
+              const active = pathname === i.href || pathname?.startsWith(i.href + "/");
               return (
                 <Link
                   key={i.href}
@@ -73,7 +70,6 @@ export default function Navbar() {
               );
             })}
 
-          {/* Oturuma göre CTA'lar */}
           {mounted && !isAuth && (
             <>
               <Link
@@ -83,8 +79,7 @@ export default function Navbar() {
                   rounded-xl px-3.5 py-2 text-sm font-semibold
                   text-[color:var(--background)]
                   bg-gradient-to-r from-fuchsia-600 to-cyan-500
-                  transition-all duration-300
-                  hover:scale-105
+                  transition-all duration-300 hover:scale-105
                   hover:shadow-[0_0_16px_#ff00ff,0_0_22px_#00ffff]
                   before:content-[''] before:absolute before:inset-0
                   before:rounded-xl before:pointer-events-none before:opacity-0
@@ -104,8 +99,7 @@ export default function Navbar() {
                   rounded-xl px-3.5 py-2 text-sm font-semibold
                   text-[color:var(--background)]
                   bg-[--color-primary] hover:bg-[--color-primary-600]
-                  transition-all duration-300
-                  hover:scale-105
+                  transition-all duration-300 hover:scale-105
                   hover:shadow-[0_0_14px_#ff00ff,0_0_18px_#00ffff]
                   before:content-[''] before:absolute before:inset-0
                   before:rounded-xl before:pointer-events-none before:opacity-0
