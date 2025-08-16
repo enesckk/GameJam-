@@ -26,7 +26,9 @@ export default function Hero() {
   return (
     <section
       className="
-        relative w-full overflow-x-clip overflow-y-visible py-20 md:py-24
+        relative z-0 isolate w-full
+        overflow-x-clip overflow-y-visible
+        py-20 md:py-24
         bg-gradient-to-b from-slate-950 via-slate-900 to-slate-900
         text-white
       "
@@ -35,7 +37,7 @@ export default function Hero() {
       <div
         aria-hidden
         className="
-          pointer-events-none absolute inset-[-20%] opacity-80
+          pointer-events-none absolute -z-10 inset-[-20%] opacity-80
           [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
           motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
         "
@@ -45,7 +47,7 @@ export default function Hero() {
       <div
         aria-hidden
         className="
-          pointer-events-none absolute inset-[-30%] opacity-70
+          pointer-events-none absolute -z-10 inset-[-30%] opacity-70
           [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
           motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
         "
@@ -55,7 +57,7 @@ export default function Hero() {
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -inset-[25%] opacity-60
+          pointer-events-none absolute -z-10 -inset-[25%] opacity-60
           [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
           motion-safe:animate-[swirl_22s_linear_infinite]
           rounded-[9999px] blur-3xl
