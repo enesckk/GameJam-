@@ -10,52 +10,51 @@ const nav = [
   { href: "/takvim", label: "Takvim" },
   { href: "/kurallar", label: "Kurallar" },
   { href: "/duyurular", label: "Duyurular" },
-  { href: "/kayit", label: "Kayıt" }, // CTA
+  { href: "/kayit", label: "Kayıt" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
 
-  // 1) Panel/Admin altında navbar'ı hiç render etme
-  const HIDE_PREFIXES = ["/panel", "/admin"];
-  const shouldHide = HIDE_PREFIXES.some((p) => pathname?.startsWith(p));
-  if (shouldHide) return null;
+  // 🚫 Bu prefixlerle başlayan sayfalarda Navbar gösterilmesin
+  const HIDE_PREFIXES = ["/panel", "/admin", "/auth"];
+  if (pathname && HIDE_PREFIXES.some((p) => pathname.startsWith(p))) {
+    return null;
+  }
 
-  // 2) Oturum kontrolü (cookie tabanlı basit kontrol)
-  //  - Cookie adını kendi sistemine göre düzenle:
-  //    'auth-token' | 'sj_session' | 'next-auth.session-token' vb.
   const [isAuth, setIsAuth] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const authCookieRegex =
       /(?:^|;\s*)(auth-token|sj_session|next-auth\.session-token)=/;
     setIsAuth(authCookieRegex.test(document.cookie));
-
-    // Scroll event listener
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <header className={`sticky top-0 z-40 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-black/5 dark:border-white/10' 
-        : 'bg-white dark:bg-black border-b border-transparent'
-    }`}>
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="text-base md:text-lg font-extrabold tracking-tight">
+    <header
+      className="
+        sticky top-0 z-40 w-full overflow-x-clip
+        bg-white dark:bg-black
+        supports-[backdrop-filter]:backdrop-blur
+        supports-[backdrop-filter]:bg-white/70
+        dark:supports-[backdrop-filter]:bg-black/70
+        border-b border-black/5 dark:border-white/10
+        transition-colors duration-300
+      "
+    >
+      <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between px-4 py-3">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="text-base md:text-lg font-extrabold tracking-tight whitespace-nowrap"
+        >
           Şehitkamil Game Jam
         </Link>
 
-        <div className="flex items-center gap-2 md:gap-3">
-          {/* Düz linkler (Kayıt hariç) */}
+        {/* Linkler */}
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
           {nav
             .filter((i) => i.href !== "/kayit")
             .map((i) => {
