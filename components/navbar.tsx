@@ -44,7 +44,11 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className={`sticky top-0 z-40 ${isScrolled ? 'glass' : 'bg-white dark:bg-black'} transition-all duration-300`}>
+    <header className={`sticky top-0 z-40 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-black/5 dark:border-white/10' 
+        : 'bg-white dark:bg-black border-b border-transparent'
+    }`}>
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link href="/" className="text-base md:text-lg font-extrabold tracking-tight">
           Şehitkamil Game Jam
