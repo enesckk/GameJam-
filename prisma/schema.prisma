@@ -17,13 +17,27 @@ enum Role {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  role      Role     @default(PARTICIPANT)
-  teamId    String?
-  team      Team?    @relation(fields: [teamId], references: [id])
-  createdAt DateTime @default(now())
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  phone        String
+  age          Int
+  passwordHash String? // <- opsiyonel: takım üyeleri için null
+  canLogin     Boolean  @default(false) // <- yalnız lider true olacak
+  role         Role     @default(PARTICIPANT)
+  profileRole  String? // <-- EKLENDİ: "developer" | "designer" | "audio" | "pm"
+  teamId       String?
+  team         Team?    @relation(fields: [teamId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  PasswordResetToken PasswordResetToken[]
+
+  Submission Submission[]
+
+  MessageRecipient MessageRecipient[]
+
+  Message Message[]
 }
 
 model Team {
@@ -31,17 +45,47 @@ model Team {
   name        String
   members     User[]
   submissions Submission[]
+
+  Message Message[]
 }
 
 model Submission {
   id        String   @id @default(cuid())
-  team      Team     @relation(fields: [teamId], references: [id])
-  teamId    String
-  repoUrl   String?
-  buildUrl  String?
-  videoUrl  String?
-  note      String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title       String
+  description String? // mevcut
+  itchUrl     String?
+  githubUrl   String?
+  buildUrl    String?
+
+  // UI’nin istediği ek kolonlar (mükerrer veri riski):
+  videoUrl String?
+  note     String?
+
+  user   User    @relation(fields: [userId], references: [id])
+  userId String
+  team   Team?   @relation(fields: [teamId], references: [id])
+  teamId String?
+
+  tags SubmissionTag[]
+}
+
+model Tag {
+  id   String          @id @default(cuid())
+  name String          @unique
+  subs SubmissionTag[]
+}
+
+model SubmissionTag {
+  submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  submissionId String
+  tag          Tag        @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  tagId        String
+
+  @@id([submissionId, tagId])
+  @@index([tagId])
 }
 
 model Announcement {
@@ -52,11 +96,62 @@ model Announcement {
   createdAt DateTime @default(now())
 }
 
+// Başvuru kaydı; email'i UNIQUE yapalım ki aynı mail tekrar başvuramasın
 model Application {
   id          String   @id @default(cuid())
   name        String
-  email       String
+  email       String   @unique
   role        String // "developer" | "designer" | "audio" | "pm"
+  // İstersen takım başvurularında liderin telefon/yaşını da burada saklayabilirsin:
+  phone       String?
+  age         Int?
   consentKVKK Boolean
+  // Bireysel/Team flag + takım adı (team başvurusunda zorunlu)
+  type        String // "individual" | "team"
+  teamName    String?
   createdAt   DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String    @unique // kullanıcı başına tek aktif token
+  tokenHash String    @unique // ham token db’de SHA-256 hashlenmiş saklanır
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subject String
+  body    String
+
+  sender   User   @relation(fields: [senderId], references: [id])
+  senderId String
+
+  team   Team?   @relation(fields: [teamId], references: [id])
+  teamId String?
+
+  recipients MessageRecipient[]
+
+  deletedBySenderAt DateTime?
+}
+
+model MessageRecipient {
+  id        String  @id @default(cuid())
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  messageId String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+
+  readAt               DateTime?
+  deletedByRecipientAt DateTime?
+
+  @@unique([messageId, userId])
+  @@index([userId, readAt])
 }

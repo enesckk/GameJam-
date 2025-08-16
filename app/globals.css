@@ -104,3 +104,256 @@
     animation: none !important;
   }
 }
+
+/* Küçük başlıklarda bile belirgin neon parıltı */
+.neon-title{
+  text-shadow:
+    0 0 10px color-mix(in oklab, var(--color-accent) 55%, transparent),
+    0 0 18px color-mix(in oklab, var(--color-accent-2) 45%, transparent);
+}
+
+/* Odak (klavye) erişilebilirliği – neon ring */
+.focus-neon:focus-visible{
+  outline: 2px solid var(--color-accent-2);
+  outline-offset: 2px;
+}
+
+/* Kartlarda ekstra glow için isteğe bağlı halka */
+.neon-ring{
+  position: relative;
+}
+.neon-ring::after{
+  content:""; position:absolute; inset:-1px; border-radius: inherit; pointer-events:none;
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--color-accent) 40%, transparent),
+    0 0 26px color-mix(in oklab, var(--color-accent-2) 28%, transparent);
+  opacity:0; transition: opacity .2s ease;
+}
+.neon-ring:hover::after{ opacity:1; }
+
+/* Safari'de color-mix desteklenmezse çok soluk kalmasın diye (opsiyonel hafif fallback) */
+@supports not (color: color-mix(in oklab, black 10%, white)){
+  .neon-border { border-color: var(--color-accent); }
+}
+
+/* === Menü ögelerinde çok renkli kutu/çerçeve efekti === */
+.multicolor-hover {
+  position: relative;
+  border-radius: var(--radius-xl);
+  transition: transform .2s ease;
+}
+.multicolor-hover:hover { transform: translateY(-1px); }
+.multicolor-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent),
+    #7c3aed,
+    var(--color-accent-2),
+    #22c55e,
+    #f59e0b,
+    var(--color-accent)
+  );
+  background-size: 200% 100%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .25s ease, background-position .8s ease;
+}
+.multicolor-hover:hover::after {
+  opacity: 1;
+  background-position: 100% 0;
+}
+
+/* (İsteğe bağlı) color-mix desteklenmiyorsa birkaç ek fallback */
+@supports not (color: color-mix(in oklab, black 10%, white)) {
+  .glass { border-bottom-color: rgba(124, 58, 237, .18); }
+  .card  { border-color: rgba(124, 58, 237, .15); }
+}
+
+/* Animasyonlu gradient hero bar */
+@keyframes hero-shift {
+  0%,100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.hero-gradient {
+  background-image: linear-gradient(90deg, #5411f0, #ac2d6d, #0591a9, #219c4e);
+  background-size: 200% 200%;
+  animation: hero-shift 14s ease infinite;
+}
+/* Daha yumuşak parlaklık */
+.hero-overlay {
+  background: radial-gradient(1200px 400px at 20% -10%, rgba(255,255,255,.25), transparent 60%),
+              radial-gradient(1000px 300px at 80% 0%, rgba(255,255,255,.18), transparent 60%);
+}
+
+/* Aktif linkte renkli çerçeveyi kalıcı açık tut */
+.multicolor-persist::after {
+  opacity: 1 !important;
+}
+
+/* Sidebar linklerinin base hali: beyaz tipografi + hafif hover animasyonu */
+.sidebar-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 14px;
+  padding: 10px 12px;
+  color: rgba(255,255,255,.94);
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease, filter .18s ease;
+  /* hafif renk geçişli zemin (hover beklemeden belirginlik) */
+  background-image: linear-gradient(90deg, rgba(236,72,153,.08), rgba(6,182,212,.08));
+}
+
+/* Hover’da yumuşak büyüme ve glow */
+.sidebar-link:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.08);
+  box-shadow: 0 0 18px rgba(236,72,153,.18), 0 0 22px rgba(6,182,212,.18);
+  background-image: linear-gradient(90deg, rgba(236,72,153,.12), rgba(6,182,212,.12));
+}
+
+/* Aktif link: kalıcı daha belirgin tint + glow */
+.sidebar-link-active {
+  background-image: linear-gradient(90deg, rgba(236,72,153,.18), rgba(6,182,212,.18));
+  box-shadow: 0 0 22px rgba(236,72,153,.22), 0 0 26px rgba(6,182,212,.22);
+  color: white;
+}
+.sidebar-title {
+  color: rgba(255,255,255,.95);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 800;
+  text-shadow: 0 1px 1px rgba(0,0,0,.25);
+}
+
+/* Scrollable ama görünmeyen scrollbar */
+.no-scrollbar {
+  -ms-overflow-style: none;       /* IE/Edge (eski) */
+  scrollbar-width: none;          /* Firefox */
+  -webkit-overflow-scrolling: touch;
+}
+.no-scrollbar::-webkit-scrollbar { /* Chrome/Safari/Opera */
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* input-frame: focus-within iken çok renkli kenarlık */
+.input-frame {
+  position: relative;
+}
+.input-frame::after {
+  content: "";
+  position: absolute;
+  inset: -1px; /* mevcut ring'i kaplasın */
+  border-radius: 0.75rem; /* rounded-xl */
+  opacity: 0;
+  transition: opacity .2s ease;
+  pointer-events: none;
+  background: linear-gradient(90deg, #ec4899, #8b5cf6, #06b6d4);
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1.5px; /* kenarlık kalınlığı */
+}
+.input-frame:focus-within::after {
+  opacity: 1;
+}
+
+/* Cam panel: hem light/dark hem de blur destekli + fallback */
+.glass-panel {
+  position: relative;
+  border-radius: 0.75rem; /* rounded-xl ile uyumlu */
+  overflow: hidden;       /* köşelerde taşma olmasın */
+}
+.glass-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  /* Fallback yarı opak zemin */
+  background: rgba(255, 255, 255, 0.82);
+  /* Blur + saturate (desteklenirse) */
+  -webkit-backdrop-filter: saturate(130%) blur(10px);
+  backdrop-filter: saturate(130%) blur(10px);
+}
+.dark .glass-panel::before {
+  background: rgba(15, 15, 15, 0.68);
+}
+/* İçerik üste gelsin */
+.glass-panel > * { position: relative; z-index: 1; }
+
+/* === Gradient Çerçeve Yardımcıları === */
+/* Her zaman görünen renkli çerçeve */
+.gborder,
+.gborder-hover {
+  position: relative;
+  border-radius: 1rem; /* ihtiyaca göre override edilebilir */
+}
+.gborder::before,
+.gborder-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 2px; /* çerçeve kalınlığı */
+  background: linear-gradient(90deg,#ff00ff,#7c3aed,#06b6d4);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude; /* iç kısım şeffaf kalsın (sadece kenar) */
+}
+/* Sadece hover/odakta görünen renkli çerçeve */
+.gborder-hover::before {
+  opacity: 0;
+  padding: 0;
+  transition: opacity .2s ease, padding .2s ease;
+}
+.gborder-hover:hover::before,
+.gborder-hover:focus-within::before {
+  opacity: 1;
+  padding: 2px;
+}
+.gborder-hover-toc {
+  position: relative;
+  border-radius: .75rem;
+}
+.gborder-hover-toc::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  padding: 0;
+  background: linear-gradient(90deg,#ff00ff,#7c3aed,#06b6d4);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  transition: opacity .2s ease, padding .2s ease;
+}
+.gborder-hover-toc:hover::before { opacity: 1; padding: 2px; }
+
+/* dikey kablo animasyonu */
+@keyframes cable {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 200%; }
+}
+.animate-cable {
+  animation: cable 4s linear infinite;
+}
+
+/* isteğe bağlı: nokta etrafında daha yumuşak parlama */
+.dot-glow {
+  box-shadow: 0 0 0.5rem rgba(255,255,255,.35), 0 0 1.25rem rgba(168,85,247,.25);
+}

@@ -1,12 +1,17 @@
+// app/api/announcements/route.ts
+import { NextResponse } from "next/server";
 import { db } from "@/lib/prisma";
 
-export async function GET(){
-  const items = await db.announcement.findMany({ orderBy: { createdAt: "desc" } });
-  return Response.json(items);
-}
+// GET ?limit=
+export async function GET(req: Request) {
+  const sp = new URL(req.url).searchParams;
+  const limit = Math.min(Math.max(parseInt(sp.get("limit") ?? "0", 10) || 0, 0), 100);
 
-export async function POST(req: Request){
-  const { title, content, pinned } = await req.json();
-  const item = await db.announcement.create({ data: { title, content, pinned: !!pinned } });
-  return Response.json(item);
+  const items = await db.announcement.findMany({
+    orderBy: [{ pinned: "desc" as const }, { createdAt: "desc" as const }],
+    take: limit || undefined,
+    select: { id: true, title: true, content: true, pinned: true, createdAt: true },
+  });
+
+  return NextResponse.json({ items });
 }
