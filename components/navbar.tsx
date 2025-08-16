@@ -10,18 +10,20 @@ const nav = [
   { href: "/takvim", label: "Takvim" },
   { href: "/kurallar", label: "Kurallar" },
   { href: "/duyurular", label: "Duyurular" },
-  { href: "/kayit", label: "Kayıt" },
+  { href: "/kayit", label: "Kayıt" }, // CTA
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
 
-  // 🚫 Panel/Admin/Auth altında görünmesin
-  const HIDE_PREFIXES = ["/panel", "/admin", "/auth"];
-  if (pathname && HIDE_PREFIXES.some((p) => pathname.startsWith(p))) {
-    return null;
-  }
+  // 1) Panel/Admin altında navbar'ı hiç render etme
+  const HIDE_PREFIXES = ["/panel", "/admin"];
+  const shouldHide = HIDE_PREFIXES.some((p) => pathname?.startsWith(p));
+  if (shouldHide) return null;
 
+  // 2) Oturum kontrolü (cookie tabanlı basit kontrol)
+  //  - Cookie adını kendi sistemine göre düzenle:
+  //    'auth-token' | 'sj_session' | 'next-auth.session-token' vb.
   const [isAuth, setIsAuth] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,31 +34,28 @@ export default function Navbar() {
       /(?:^|;\s*)(auth-token|sj_session|next-auth\.session-token)=/;
     setIsAuth(authCookieRegex.test(document.cookie));
 
-    // scroll listener
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Scroll event listener
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <header
-  className={`sticky top-0 z-40 w-full transition-colors duration-300 ${
-    isScrolled
-      ? "backdrop-blur bg-transparent border-b border-black/5 dark:border-white/10"
-      : "bg-white dark:bg-black border-b border-transparent"
-  }`}
->
+    <header className={`sticky top-0 z-40 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-black/5 dark:border-white/10' 
+        : 'bg-white dark:bg-black border-b border-transparent'
+    }`}>
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        {/* Logo */}
-        <Link
-          href="/"
-          className="text-base md:text-lg font-extrabold tracking-tight whitespace-nowrap"
-        >
+        <Link href="/" className="text-base md:text-lg font-extrabold tracking-tight">
           Şehitkamil Game Jam
         </Link>
 
         <div className="flex items-center gap-2 md:gap-3">
-          {/* Normal linkler */}
+          {/* Düz linkler (Kayıt hariç) */}
           {nav
             .filter((i) => i.href !== "/kayit")
             .map((i) => {
@@ -74,28 +73,47 @@ export default function Navbar() {
               );
             })}
 
-          {/* Giriş/Kayıt vs. */}
+          {/* Oturuma göre CTA'lar */}
           {mounted && !isAuth && (
             <>
               <Link
                 href="/kayit"
-                className="group relative inline-flex items-center justify-center
+                className="
+                  group relative inline-flex items-center justify-center
                   rounded-xl px-3.5 py-2 text-sm font-semibold
                   text-[color:var(--background)]
                   bg-gradient-to-r from-fuchsia-600 to-cyan-500
-                  transition-all duration-300 hover:scale-105
-                  hover:shadow-[0_0_16px_#ff00ff,0_0_22px_#00ffff]"
+                  transition-all duration-300
+                  hover:scale-105
+                  hover:shadow-[0_0_16px_#ff00ff,0_0_22px_#00ffff]
+                  before:content-[''] before:absolute before:inset-0
+                  before:rounded-xl before:pointer-events-none before:opacity-0
+                  group-hover:before:opacity-100 group-hover:before:p-[2px]
+                  group-hover:before:[background:linear-gradient(90deg,#ff00ff,#8000ff,#00ffff)]
+                  group-hover:before:[-webkit-mask:linear-gradient(#000_0_0)_content-box,linear-gradient(#000_0_0)]
+                  group-hover:before:[-webkit-mask-composite:xor] group-hover:before:[mask-composite:exclude]
+                "
               >
                 Kayıt
               </Link>
+
               <Link
                 href="/login"
-                className="group relative inline-flex items-center justify-center
+                className="
+                  group relative inline-flex items-center justify-center
                   rounded-xl px-3.5 py-2 text-sm font-semibold
                   text-[color:var(--background)]
                   bg-[--color-primary] hover:bg-[--color-primary-600]
-                  transition-all duration-300 hover:scale-105
-                  hover:shadow-[0_0_14px_#ff00ff,0_0_18px_#00ffff]"
+                  transition-all duration-300
+                  hover:scale-105
+                  hover:shadow-[0_0_14px_#ff00ff,0_0_18px_#00ffff]
+                  before:content-[''] before:absolute before:inset-0
+                  before:rounded-xl before:pointer-events-none before:opacity-0
+                  group-hover:before:opacity-100 group-hover:before:p-[2px]
+                  group-hover:before:[background:linear-gradient(90deg,#ff00ff,#8000ff,#00ffff)]
+                  group-hover:before:[-webkit-mask:linear-gradient(#000_0_0)_content-box,linear-gradient(#000_0_0)]
+                  group-hover:before:[-webkit-mask-composite:xor] group-hover:before:[mask-composite:exclude]
+                "
               >
                 Giriş
               </Link>
