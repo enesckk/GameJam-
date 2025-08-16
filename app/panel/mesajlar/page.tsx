@@ -1,402 +1,285 @@
-// app/panel/mesajlar/page.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import PageHeader from "../_components/page-header";
-import SectionCard from "../_components/section-card";
-import { Mail, Send, PlusCircle, Trash2, Edit2, Save, X, ExternalLink, Search } from "lucide-react";
+import { Search, Inbox, Mail, Send, EyeOff, Trash2, ChevronDown, ChevronRight } from "lucide-react";
 
-type Person = { name: string; email: string; title?: string };
-type Message = {
+type InboxItem = {
   id: string;
   subject: string;
   body: string;
-  from: Person;
-  to: Person;
   createdAt: string;
-  updatedAt: string;
-  read: boolean;
+  sender: { id: string; name: string | null; email: string };
+  readAt: string | null;
 };
-type Box = { inbox: Message[]; sent: Message[] };
+type OutboxItem = {
+  id: string;
+  subject: string;
+  body: string;
+  createdAt: string;
+  recipients: { id: string; name: string | null; email: string; readAt: string | null }[];
+};
 
-const ADMINS: Person[] = [
-  { name: "Etkinlik Koordinatörü", email: "admin@gamejam.local", title: "Koordinatör" },
-  { name: "Teknik Sorumlu",       email: "tech@gamejam.local",  title: "Teknik Ekip" },
-  { name: "İletişim Sorumlusu",   email: "comms@gamejam.local", title: "İletişim" },
-];
-
-function fmtDate(s: string) {
-  try {
-    return new Date(s).toLocaleString("tr-TR", { dateStyle: "medium", timeStyle: "short" });
-  } catch { return s; }
-}
-
-export default function MessagesPage() {
-  const [tab, setTab] = useState<"inbox" | "sent" | "compose">("inbox");
-  const [box, setBox] = useState<Box | null>(null);
+export default function UserMessagesPage() {
+  const [tab, setTab] = useState<"inbox" | "outbox" | "compose">("inbox");
+  const [q, setQ] = useState("");
+  const [onlyUnread, setOnlyUnread] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize] = useState(10);
+  const [total, setTotal] = useState(0);
+  const totalPages = useMemo(() => Math.max(1, Math.ceil(total / pageSize)), [total, pageSize]);
   const [loading, setLoading] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
-  const [msg, setMsg] = useState<string | null>(null);
+  const [inbox, setInbox] = useState<InboxItem[]>([]);
+  const [outbox, setOutbox] = useState<OutboxItem[]>([]);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [alert, setAlert] = useState<string | null>(null);
 
-  // detail/edit state
-  const [openId, setOpenId] = useState<string | null>(null);
-  const [editId, setEditId] = useState<string | null>(null);
-  const [editSubject, setEditSubject] = useState("");
-  const [editBody, setEditBody] = useState("");
-
-  // compose state
-  const [toEmail, setToEmail] = useState(ADMINS[0].email);
-  const [subject, setSubject] = useState("");
+  const [subj, setSubj] = useState("");
   const [body, setBody] = useState("");
-
-  // filters
-  const [query, setQuery] = useState("");
-  const [unreadOnly, setUnreadOnly] = useState(false);
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
-    let mounted = true;
-    setLoading(true);
+    if (tab === "compose") return;
+    let ignore = false;
     (async () => {
+      setLoading(true);
+      setAlert(null);
       try {
-        const r = await fetch("/api/messages", { cache: "no-store" });
+        const sp = new URLSearchParams();
+        sp.set("box", tab);
+        if (q) sp.set("q", q);
+        if (tab === "inbox" && onlyUnread) sp.set("unread", "1");
+        sp.set("page", String(page));
+        sp.set("pageSize", String(pageSize));
+
+        const r = await fetch(`/api/messages?${sp.toString()}`, { credentials: "include", cache: "no-store" });
         const j = await r.json();
-        if (mounted) setBox(j);
-      } catch {
-        if (mounted) setErr("Mesajlar alınamadı.");
-      } finally {
-        if (mounted) setLoading(false);
-      }
+        if (!ignore) {
+          if (!r.ok) throw new Error(j?.message || "Liste alınamadı");
+          setTotal(j.total ?? 0);
+          if (tab === "inbox") setInbox(j.items ?? []);
+          else setOutbox(j.items ?? []);
+        }
+      } catch (e: any) {
+        if (!ignore) {
+          setTotal(0); setInbox([]); setOutbox([]);
+          setAlert(e?.message || "Hata oluştu");
+        }
+      } finally { if (!ignore) setLoading(false); }
     })();
-    return () => { mounted = false; };
-  }, []);
+    return () => { ignore = true; };
+  }, [tab, q, onlyUnread, page, pageSize]);
 
-  const inbox = box?.inbox || [];
-  const sent = box?.sent || [];
-
-  const unreadCount = useMemo(() => inbox.filter(m => !m.read).length, [inbox]);
-
-  function match(m: Message, q: string) {
-    if (!q) return true;
-    const hay = [
-      m.subject, m.body,
-      m.from?.name, m.from?.email, m.from?.title,
-      m.to?.name, m.to?.email, m.to?.title,
-    ].filter(Boolean).join(" ").toLocaleLowerCase("tr-TR");
-    return hay.includes(q.toLocaleLowerCase("tr-TR"));
-  }
-
-  const filteredInbox = useMemo(
-    () => inbox.filter(m => match(m, query)).filter(m => !unreadOnly || !m.read),
-    [inbox, query, unreadOnly]
-  );
-  const filteredSent = useMemo(
-    () => sent.filter(m => match(m, query)),
-    [sent, query]
-  );
-
-  async function refresh() {
-    const r = await fetch("/api/messages?refresh=1", { cache: "no-store" });
-    if (r.ok) setBox(await r.json());
-  }
+  const fmt = (iso: string) => { try { return new Date(iso).toLocaleString("tr-TR"); } catch { return iso; } };
+  const toggleExpand = (id: string) => setExpanded((s) => ({ ...s, [id]: !s[id] }));
 
   async function markRead(id: string) {
-    // optimistik
-    setBox(prev => prev ? ({ ...prev, inbox: prev.inbox.map(m => m.id === id ? { ...m, read: true } : m) }) : prev);
-    await fetch("/api/messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "mark_read", id }) });
+    try {
+      await fetch("/api/messages/read", {
+        method: "POST", credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messageId: id }),
+      });
+      setInbox((prev) => prev.map((m) => (m.id === id ? { ...m, readAt: m.readAt ?? new Date().toISOString() } : m)));
+    } catch {}
   }
 
-  async function remove(id: string, folder: "inbox"|"sent") {
-    const r = await fetch(`/api/messages?id=${id}&box=${folder}`, { method: "DELETE" });
-    const j = await r.json().catch(()=> ({}));
-    if (!r.ok) { setErr(j?.message || "Silinemedi"); return; }
-    setBox(j.box || j);
-    setMsg("Mesaj silindi.");
+  async function deleteInbox(id: string) {
+    if (!confirm("Bu mesajı gelen kutundan silmek istiyor musun?")) return;
+    try {
+      const r = await fetch(`/api/messages/${id}?box=inbox`, { method: "DELETE", credentials: "include" });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j?.message || "Silinemedi");
+      setInbox((prev) => prev.filter((m) => m.id !== id));
+      setAlert("Mesaj silindi.");
+    } catch (e: any) {
+      setAlert(e?.message || "Hata");
+    }
   }
 
-  function startEdit(m: Message) {
-    setEditId(m.id);
-    setEditSubject(m.subject);
-    setEditBody(m.body);
+  async function deleteOutbox(id: string) {
+    if (!confirm("Gönderdiğin mesaj silinsin mi?")) return;
+    try {
+      const r = await fetch(`/api/messages/${id}?box=outbox`, { method: "DELETE", credentials: "include" });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j?.message || "Silinemedi");
+      setOutbox((prev) => prev.filter((m) => m.id !== id));
+      setAlert("Mesaj silindi.");
+    } catch (e: any) {
+      setAlert(e?.message || "Hata");
+    }
   }
-  async function saveEdit() {
-    if (!editId) return;
-    const r = await fetch("/api/messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "edit", id: editId, subject: editSubject, body: editBody }) });
-    const j = await r.json().catch(()=> ({}));
-    if (!r.ok) { setErr(j?.message || "Kaydedilemedi"); return; }
-    setBox(j.box || j);
-    setMsg("Mesaj güncellendi.");
-    setEditId(null);
-  }
-
-  const toPerson = useMemo(() => {
-    const admin = ADMINS.find(a => a.email === toEmail) || ADMINS[0];
-    return admin;
-  }, [toEmail]);
 
   async function send() {
-    setErr(null); setMsg(null);
-    if (!subject.trim()) { setErr("Konu zorunlu."); return; }
-    const r = await fetch("/api/messages", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "compose", to: toPerson, subject: subject.trim(), body: body.trim() }),
-    });
-    const j = await r.json().catch(()=> ({}));
-    if (!r.ok) { setErr(j?.message || "Gönderilemedi"); return; }
-    setBox(j.box || j);
-    setSubject(""); setBody("");
-    setTab("sent");
-    setMsg("Mesaj gönderildi.");
+    setSending(true);
+    setAlert(null);
+    try {
+      const payload = { subject: subj.trim(), body: body.trim() };
+      const r = await fetch("/api/messages", {
+        method: "POST", credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j?.message || "Gönderilemedi");
+      setSubj(""); setBody("");
+      setAlert("Mesajın yetkili ekibe gönderildi.");
+      setTab("outbox"); setPage(1);
+    } catch (e: any) {
+      setAlert(e?.message || "Hata");
+    } finally { setSending(false); }
   }
 
   return (
     <div className="space-y-6">
-      {/* Başlık: tema uyumlu siyah/beyaz */}
-      <PageHeader title="Mesajlar" desc="Gelen kutusu, gönderilenler ve yeni mesaj oluştur" variant="plain" />
+      <h1 className="text-xl font-bold">Mesajlar</h1>
 
-      {/* Tabs */}
-      <div className="flex flex-wrap items-center gap-2">
-        {[
-          { key: "inbox",  label: `Gelen (${inbox.length}${unreadCount ? ` / ${unreadCount} okunmamış` : ""})`,  icon: Mail },
-          { key: "sent",   label: `Gönderilen (${sent.length})`, icon: Send },
-          { key: "compose",label: "Yeni Oluştur", icon: PlusCircle },
-        ].map(({ key, label, icon: Icon }) => (
-          <button
-            key={key}
-            onClick={() => setTab(key as any)}
-            className={[
-              "rounded-xl px-3 py-2 text-sm font-medium transition backdrop-blur",
-              tab === key ? "bg-foreground/10" : "bg-foreground/5 hover:bg-foreground/10",
-            ].join(" ")}
-          >
-            <span className="inline-flex items-center gap-2"><Icon className="h-4 w-4" /> {label}</span>
-          </button>
-        ))}
-
-        {/* Arama kutusu */}
-        {tab !== "compose" && (
-          <div className="ml-auto flex items-center gap-2">
-            <div className="group relative rounded-xl ring-1 ring-foreground/15 bg-foreground/5 focus-within:ring-foreground/25">
-              <div className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 opacity-70">
-                <Search className="h-4 w-4" />
-              </div>
-              <input
-                value={query}
-                onChange={(e)=> setQuery(e.target.value)}
-                placeholder="Ara (konu, içerik, kişi, e-posta)…"
-                className="w-64 bg-transparent pl-8 pr-3 py-2 outline-none text-sm"
-              />
-            </div>
-
-            {/* Okunmamış filtresi (yalnız Gelen) */}
-            {tab === "inbox" && (
-              <label className="inline-flex items-center gap-2 text-sm">
-                <input type="checkbox" checked={unreadOnly} onChange={(e)=> setUnreadOnly(e.target.checked)} />
-                Sadece okunmamış
-              </label>
-            )}
-          </div>
-        )}
+      <div className="flex items-center gap-2">
+        <button onClick={() => { setTab("inbox"); setPage(1); }} className={btn(tab === "inbox")}><Inbox className="h-4 w-4" /> Gelen</button>
+        <button onClick={() => { setTab("outbox"); setPage(1); }} className={btn(tab === "outbox")}><Mail className="h-4 w-4" /> Giden</button>
+        <button onClick={() => setTab("compose")} className={btn(tab === "compose")}><Send className="h-4 w-4" /> Yeni</button>
       </div>
+
+      {alert && <div className="rounded-lg bg-foreground/10 px-3 py-2 text-sm">{alert}</div>}
+
+      {tab !== "compose" && (
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60" />
+            <input
+              className="w-80 rounded-xl bg-foreground/5 pl-8 pr-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+              placeholder={tab === "inbox" ? "Konu/içerik/gönderen ara…" : "Konu/içerik/alıcı ara…"}
+              value={q}
+              onChange={(e) => { setQ(e.target.value); setPage(1); }}
+            />
+          </div>
+          {tab === "inbox" && (
+            <label className="inline-flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={onlyUnread} onChange={(e) => { setOnlyUnread(e.target.checked); setPage(1); }} />
+              Yalnızca okunmamış
+            </label>
+          )}
+          <div className="ml-auto text-sm opacity-75">Toplam: <strong>{total}</strong></div>
+        </div>
+      )}
 
       {/* GELEN */}
       {tab === "inbox" && (
-        <SectionCard title="Gelen" subtitle="Yönetimden size ulaşan mesajlar">
-          <div className="space-y-2">
-            {filteredInbox.map(m => (
-              <div key={m.id} className="rounded-xl bg-white/10 dark:bg-black/10 backdrop-blur p-3">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-semibold">{m.subject}</div>
-                    <div className="truncate text-xs opacity-80">
-                      {m.from.name} • {m.from.email} {m.from.title ? `• ${m.from.title}` : ""} • {fmtDate(m.createdAt)}
-                    </div>
-                  </div>
-                  <div className="flex shrink-0 items-center gap-2">
-                    {!m.read && (
-                      <button
-                        onClick={()=>markRead(m.id)}
-                        className="rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/20 hover:bg-foreground/10"
-                      >
-                        Okundu
-                      </button>
-                    )}
-                    <button
-                      onClick={()=>remove(m.id,"inbox")}
-                      className="rounded-lg px-2 py-1 text-xs bg-red-600/85 text-white hover:bg-red-600"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-                <div className="mt-2 text-sm leading-relaxed opacity-95">
-                  {openId === m.id ? m.body : (m.body.length > 180 ? m.body.slice(0,180) + "…" : m.body)}
-                </div>
-                <div className="mt-2">
-                  <button
-                    onClick={() => {
-                      setOpenId(openId === m.id ? null : m.id);
-                      if (!m.read) markRead(m.id);
-                    }}
-                    className="text-xs underline underline-offset-4 hover:opacity-90"
-                  >
-                    {openId === m.id ? "Kapat" : "Devamını oku"}
-                  </button>
-                </div>
-              </div>
-            ))}
-            {filteredInbox.length === 0 && (
-              <p className="text-sm opacity-75">
-                {inbox.length === 0 ? "Gelen mesaj yok." : "Aramanızla eşleşen okunmamış/mesaj bulunamadı."}
-              </p>
-            )}
-          </div>
-        </SectionCard>
-      )}
-
-      {/* GÖNDERİLEN */}
-      {tab === "sent" && (
-        <SectionCard title="Gönderilen" subtitle="Yönetime gönderdiğiniz mesajlar">
-          {/* Admin kısayolları (ileride panel linki) */}
-          <div className="mb-3 flex flex-wrap gap-2">
-            {ADMINS.map(a => (
-              <span key={a.email} className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs ring-1 ring-foreground/20 bg-foreground/5">
-                {a.name} {a.title ? `• ${a.title}` : ""}
-                <button className="inline-flex items-center gap-1 rounded px-1 text-[10px] opacity-70 cursor-not-allowed" title="Yakında">
-                  Panel <ExternalLink className="h-3 w-3" />
-                </button>
-              </span>
-            ))}
-          </div>
-
-          <div className="space-y-2">
-            {filteredSent.map(m => {
-              const isEdit = editId === m.id;
+        <div className="rounded-2xl ring-1 ring-foreground/10 p-3">
+          {loading && <div className="py-10 text-center opacity-70">Yükleniyor…</div>}
+          {!loading && inbox.length === 0 && <div className="py-10 text-center opacity-70">Mesaj yok.</div>}
+          <div className="grid gap-3">
+            {inbox.map((m) => {
+              const open = !!expanded[m.id];
+              const unread = !m.readAt;
               return (
-                <div key={m.id} className="rounded-xl bg-white/10 dark:bg-black/10 backdrop-blur p-3">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="truncate text-sm font-semibold">
-                        {isEdit ? (
-                          <input value={editSubject} onChange={e=>setEditSubject(e.target.value)}
-                            className="w-full rounded-md bg-background/60 px-2 py-1 text-sm outline-none" />
-                        ) : m.subject}
-                      </div>
-                      <div className="truncate text-xs opacity-80">
-                        {m.to.name} • {m.to.email} {m.to.title ? `• ${m.to.title}` : ""} • {fmtDate(m.createdAt)}
-                      </div>
+                <div key={m.id} className="relative rounded-xl ring-1 ring-foreground/10 bg-white/50 dark:bg-white/10">
+                  <div
+                    role="button"
+                    onClick={() => { toggleExpand(m.id); if (!open && unread) markRead(m.id); }}
+                    className="flex items-center justify-between px-3 py-2 hover:bg-foreground/[0.04]"
+                  >
+                    <div className="flex items-center gap-3">
+                      {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                      <div className="font-semibold">{m.subject}</div>
+                      <span className="text-xs opacity-70">Gönderen: {m.sender.name ?? m.sender.email}</span>
+                      {unread && <span className="inline-flex items-center gap-1 rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-bold"><EyeOff className="h-3 w-3" /> Yeni</span>}
                     </div>
-                    <div className="flex shrink-0 items-center gap-2">
-                      {isEdit ? (
-                        <>
-                          <button onClick={saveEdit} className="rounded-lg px-2 py-1 text-xs bg-emerald-600/90 text-white hover:bg-emerald-600">
-                            <Save className="h-4 w-4" />
-                          </button>
-                          <button onClick={()=>setEditId(null)} className="rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/20 hover:bg-foreground/10">
-                            <X className="h-4 w-4" />
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button onClick={()=>startEdit(m)} className="rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/20 hover:bg-foreground/10">
-                            <Edit2 className="h-4 w-4" />
-                          </button>
-                          <button onClick={()=>remove(m.id,"sent")} className="rounded-lg px-2 py-1 text-xs bg-red-600/85 text-white hover:bg-red-600">
-                            <Trash2 className="h-4 w-4" />
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="mt-2 text-sm leading-relaxed opacity-95">
-                    {isEdit ? (
-                      <textarea value={editBody} onChange={e=>setEditBody(e.target.value)}
-                        rows={4} className="w-full rounded-md bg-background/60 px-2 py-2 outline-none" />
-                    ) : (
-                      <>{openId === m.id ? m.body : (m.body.length > 220 ? m.body.slice(0,220) + "…" : m.body)}</>
-                    )}
-                  </div>
-                  {!isEdit && (
-                    <div className="mt-2">
-                      <button onClick={()=> setOpenId(openId === m.id ? null : m.id)} className="text-xs underline underline-offset-4 hover:opacity-90">
-                        {openId === m.id ? "Kapat" : "Devamını oku"}
+                    <div className="flex items-center gap-2">
+                      <div className="text-xs opacity-70">{fmt(m.createdAt)}</div>
+                      <button
+                        type="button"
+                        onClick={(e) => { e.stopPropagation(); deleteInbox(m.id); }}
+                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 hover:bg-foreground/5"
+                      >
+                        <Trash2 className="h-4 w-4" /> Sil
                       </button>
                     </div>
-                  )}
+                  </div>
+                  {open && <div className="px-3 pb-3 text-sm whitespace-pre-wrap">{m.body}</div>}
                 </div>
               );
             })}
-            {filteredSent.length === 0 && (
-              <p className="text-sm opacity-75">
-                {sent.length === 0 ? "Gönderilmiş mesaj yok." : "Aramanızla eşleşen gönderilmiş mesaj bulunamadı."}
-              </p>
-            )}
           </div>
-        </SectionCard>
+          <Pager page={page} total={total} pageSize={pageSize} onPrev={() => setPage((p) => Math.max(1, p - 1))} onNext={() => setPage((p) => Math.min(totalPages, p + 1))} />
+        </div>
       )}
 
-      {/* YENİ OLUŞTUR */}
-      {tab === "compose" && (
-        <SectionCard title="Yeni Mesaj" subtitle="Yöneticiye mesaj gönderin">
+      {/* GİDEN */}
+      {tab === "outbox" && (
+        <div className="rounded-2xl ring-1 ring-foreground/10 p-3">
+          {loading && <div className="py-10 text-center opacity-70">Yükleniyor…</div>}
+          {!loading && outbox.length === 0 && <div className="py-10 text-center opacity-70">Mesaj yok.</div>}
           <div className="grid gap-3">
-            {/* Admin seçimi */}
-            <div>
-              <label className="text-sm">Alıcı</label>
-              <div className="group relative rounded-xl ring-1 ring-foreground/15 bg-foreground/5 focus-within:ring-foreground/25">
-                <select
-                  className="w-full bg-transparent px-3 py-2 outline-none"
-                  value={toEmail}
-                  onChange={(e)=> setToEmail(e.target.value)}
-                >
-                  {ADMINS.map(a => (
-                    <option key={a.email} value={a.email}>
-                      {a.name} {a.title ? `• ${a.title}` : ""} — {a.email}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
+            {outbox.map((m) => {
+              const open = !!expanded[m.id];
+              const anyRead = m.recipients.some((r) => r.readAt);
+              return (
+                <div key={m.id} className="relative rounded-xl ring-1 ring-foreground/10 bg-white/50 dark:bg-white/10">
+                  <div className="flex items-center justify-between px-3 py-2">
+                    <div role="button" onClick={() => toggleExpand(m.id)} className="flex items-center gap-3">
+                      {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                      <div className="font-semibold">{m.subject}</div>
+                      <span className="text-xs opacity-70">Alıcılar: {m.recipients.map((r) => r.name ?? r.email).join(", ")}</span>
+                      {anyRead && <span className="text-[10px] rounded-full bg-foreground/10 px-2 py-0.5">Okundu var</span>}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="text-xs opacity-70">{fmt(m.createdAt)}</div>
+                      <button
+                        type="button"
+                        onClick={() => deleteOutbox(m.id)}
+                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 hover:bg-foreground/5"
+                      >
+                        <Trash2 className="h-4 w-4" /> Sil
+                      </button>
+                    </div>
+                  </div>
+                  {open && <div className="px-3 pb-3 text-sm whitespace-pre-wrap">{m.body}</div>}
+                </div>
+              );
+            })}
+          </div>
+          <Pager page={page} total={total} pageSize={pageSize} onPrev={() => setPage((p) => Math.max(1, p - 1))} onNext={() => setPage((p) => Math.min(totalPages, p + 1))} />
+        </div>
+      )}
 
-            {/* Konu */}
-            <div>
-              <label className="text-sm">Konu</label>
-              <div className="group relative rounded-xl ring-1 ring-foreground/15 bg-foreground/5 focus-within:ring-foreground/25">
-                <input
-                  className="w-full bg-transparent px-3 py-2 outline-none"
-                  placeholder="Konu"
-                  value={subject}
-                  onChange={(e)=> setSubject(e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* Mesaj */}
-            <div>
-              <label className="text-sm">Mesaj</label>
-              <div className="group relative rounded-xl ring-1 ring-foreground/15 bg-foreground/5 focus-within:ring-foreground/25">
-                <textarea
-                  rows={6}
-                  className="w-full bg-transparent px-3 py-2 outline-none"
-                  placeholder="Mesajınızı yazın…"
-                  value={body}
-                  onChange={(e)=> setBody(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={send}
-                className="group relative inline-flex items-center gap-2 rounded-xl px-4 py-2 font-semibold text-[color:var(--background)] bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 hover:shadow-[0_8px_24px_rgba(99,102,241,.35)] active:scale-[0.99]"
-              >
-                Gönder
+      {/* YENİ */}
+      {tab === "compose" && (
+        <div className="rounded-2xl ring-1 ring-foreground/10 p-4">
+          <p className="mb-3 text-sm opacity-80">Bu formdan gönderdiğin mesaj organizasyon ekibine (admin) iletilir.</p>
+          <div className="grid gap-2">
+            <label className="text-sm">Konu</label>
+            <input className="rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10" value={subj} onChange={(e) => setSubj(e.target.value)} />
+            <label className="text-sm">Mesaj</label>
+            <textarea className="min-h-[140px] rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10" value={body} onChange={(e) => setBody(e.target.value)} />
+            <div className="flex items-center justify-end gap-2 mt-2">
+              <button type="button" onClick={() => { setSubj(""); setBody(""); }} className="rounded-lg px-3 py-2 text-sm ring-1 ring-foreground/15 hover:bg-foreground/5">Temizle</button>
+              <button type="button" onClick={send} disabled={sending} className="rounded-lg px-3 py-2 text-sm text-[color:var(--background)] bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 disabled:opacity-60">
+                {sending ? "Gönderiliyor…" : "Gönder"}
               </button>
-              {err && <span className="text-sm text-red-300">{err}</span>}
-              {msg && <span className="text-sm text-emerald-300">{msg}</span>}
             </div>
           </div>
-        </SectionCard>
+        </div>
       )}
+    </div>
+  );
+}
+
+function btn(active: boolean) {
+  return [
+    "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm",
+    "ring-1 ring-foreground/15 hover:bg-foreground/5",
+    active ? "multicolor-persist" : "multicolor-hover",
+  ].join(" ");
+}
+function Pager({ page, total, pageSize, onPrev, onNext }: { page: number; total: number; pageSize: number; onPrev: () => void; onNext: () => void; }) {
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  return (
+    <div className="mt-4 flex items-center justify-between text-sm">
+      <div className="opacity-70">Toplam <strong>{total}</strong> mesaj • Sayfa <strong>{page}</strong> / {totalPages}</div>
+      <div className="flex items-center gap-2">
+        <button type="button" onClick={onPrev} disabled={page <= 1} className="rounded-lg px-3 py-1 ring-1 ring-foreground/15 disabled:opacity-50">Önceki</button>
+        <button type="button" onClick={onNext} disabled={page >= totalPages} className="rounded-lg px-3 py-1 ring-1 ring-foreground/15 disabled:opacity-50">Sonraki</button>
+      </div>
     </div>
   );
 }

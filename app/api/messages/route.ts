@@ -1,162 +1,159 @@
-// app/api/messages/route.ts
-import { NextRequest, NextResponse } from "next/server";
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-type Person = { name: string; email: string; title?: string };
-type Message = {
-  id: string;
-  subject: string;
-  body: string;
-  from: Person;
-  to: Person;
-  createdAt: string; // ISO
-  updatedAt: string; // ISO
-  read: boolean;
-};
+import { NextResponse, type NextRequest } from "next/server";
+import { db } from "@/lib/prisma";
+import { jwtVerify } from "jose";
 
-type Mailbox = { inbox: Message[]; sent: Message[] };
-
-const BOX_COOKIE = "messages";
-const PROFILE_COOKIE = "profile";
-const SECURE = process.env.NODE_ENV === "production";
-
-const ADMINS: Person[] = [
-  { name: "Etkinlik Koordinatörü", email: "admin@gamejam.local", title: "Koordinatör" },
-  { name: "Teknik Sorumlu",       email: "tech@gamejam.local",  title: "Teknik Ekip" },
-  { name: "İletişim Sorumlusu",   email: "comms@gamejam.local", title: "İletişim" },
-];
-
-function uid() { return Math.random().toString(36).slice(2, 10); }
-
-function readCookieJSON<T = any>(req: NextRequest, name: string): T | null {
-  const raw = req.cookies.get(name)?.value;
-  if (!raw) return null;
-  try { return JSON.parse(raw); } catch { return null; }
-}
-
-function writeMailbox(res: NextResponse, box: Mailbox) {
-  res.cookies.set(BOX_COOKIE, JSON.stringify(box), {
-    path: "/", sameSite: "lax", maxAge: 60 * 60 * 24 * 365, secure: SECURE,
-  });
-}
-
-function nowISO() { return new Date().toISOString(); }
-
-function seedMailbox(profile: any): Mailbox {
-  const me: Person = {
-    name: profile?.fullName || "Katılımcı",
-    email: (profile?.email || "user@example.com").toLowerCase(),
-    title: "Katılımcı",
-  };
-
-  const admin = ADMINS[0];
-  const m1: Message = {
-    id: uid(),
-    subject: "Şehitkamil Game Jam’e Hoş Geldiniz",
-    body: "Merhaba, kayıt işleminiz alınmıştır. Program ve kuralları 'Duyurular' bölümünde bulabilirsiniz.",
-    from: admin,
-    to: me,
-    createdAt: nowISO(),
-    updatedAt: nowISO(),
-    read: false,
-  };
-  const m2: Message = {
-    id: uid(),
-    subject: "Teslim Hatırlatması",
-    body: "Oyun teslimi son tarihi etkinlik sayfasında yer alıyor. Başarılar!",
-    from: ADMINS[1],
-    to: me,
-    createdAt: nowISO(),
-    updatedAt: nowISO(),
-    read: false,
-  };
-  return { inbox: [m1, m2], sent: [] };
-}
-
-export async function GET(req: NextRequest) {
-  const refresh = new URL(req.url).searchParams.get("refresh") === "1";
-  let box = readCookieJSON<Mailbox>(req, BOX_COOKIE);
-  if (!box || refresh) {
-    const profile = readCookieJSON(req, PROFILE_COOKIE);
-    box = seedMailbox(profile);
-    const res = NextResponse.json(box, { status: 200 });
-    writeMailbox(res, box);
-    return res;
+async function requireUser(req: NextRequest) {
+  const token = req.cookies.get("auth")?.value;
+  const sec = process.env.AUTH_SECRET;
+  if (!token || !sec || sec.length < 16) {
+    return { error: NextResponse.json({ message: "Unauthorized" }, { status: 401 }) };
   }
-  return NextResponse.json(box, { status: 200 });
+  try {
+    const { payload } = await jwtVerify(token, new TextEncoder().encode(sec), { clockTolerance: 5 });
+    if (!payload?.sub) throw new Error("unauth");
+    return { userId: String(payload.sub), role: String(payload.role || "PARTICIPANT") };
+  } catch {
+    return { error: NextResponse.json({ message: "Forbidden" }, { status: 403 }) };
+  }
 }
 
-// Yeni mesaj oluştur / Düzenle / Oku işaretle
-export async function POST(req: NextRequest) {
-  const body = await req.json().catch(() => ({}));
-  let box = readCookieJSON<Mailbox>(req, BOX_COOKIE) || { inbox: [], sent: [] };
-  const profile = readCookieJSON(req, PROFILE_COOKIE) || {};
+// GET ?box=inbox|outbox&q=&unread=1&page=&pageSize=
+export async function GET(req: NextRequest) {
+  const auth = await requireUser(req);
+  if ("error" in auth) return auth.error;
+  const me = auth.userId;
 
-  if (body.action === "compose") {
-    const to: Person = body.to; // {name,email,title}
-    const from: Person = { name: profile.fullName || "Katılımcı", email: (profile.email || "user@example.com").toLowerCase(), title: "Katılımcı" };
-    const subject = String(body.subject || "").trim();
-    const message = String(body.body || "").trim();
+  try {
+    const sp = new URL(req.url).searchParams;
+    const box = (sp.get("box") ?? "inbox") as "inbox" | "outbox";
+    const q = (sp.get("q") ?? "").trim();
+    const unread = sp.get("unread") === "1";
+    const page = Math.max(1, parseInt(sp.get("page") ?? "1", 10) || 1);
+    const pageSize = Math.min(Math.max(parseInt(sp.get("pageSize") ?? "10", 10) || 10, 1), 50);
 
-    if (!to?.email || !subject) {
-      return NextResponse.json({ message: "Alıcı ve konu zorunlu" }, { status: 400 });
+    if (box === "inbox") {
+      const where: any = {
+        recipients: {
+          some: {
+            userId: me,
+            ...(unread ? { readAt: null } : {}),
+            deletedByRecipientAt: null,
+          },
+        },
+      };
+      if (q) {
+        where.OR = [
+          { subject: { contains: q } },
+          { body: { contains: q } },
+          { sender: { name: { contains: q } } },
+          { sender: { email: { contains: q } } },
+        ];
+      }
+
+      const [total, items] = await Promise.all([
+        db.message.count({ where }),
+        db.message.findMany({
+          where,
+          orderBy: { createdAt: "desc" },
+          skip: (page - 1) * pageSize,
+          take: pageSize,
+          include: {
+            sender: { select: { id: true, name: true, email: true } },
+            recipients: { where: { userId: me, deletedByRecipientAt: null }, select: { readAt: true } },
+          },
+        }),
+      ]);
+
+      return NextResponse.json({
+        total, page, pageSize, totalPages: Math.max(1, Math.ceil(total / pageSize)),
+        items: items.map((m) => ({
+          id: m.id, subject: m.subject, body: m.body, createdAt: m.createdAt, sender: m.sender,
+          readAt: m.recipients[0]?.readAt ?? null,
+        })),
+      });
     }
 
-    const msg: Message = {
-      id: uid(),
-      subject,
-      body: message,
-      from,
-      to,
-      createdAt: nowISO(),
-      updatedAt: nowISO(),
-      read: true,
-    };
+    // outbox
+    const where: any = { senderId: me, deletedBySenderAt: null };
+    if (q) {
+      where.OR = [
+        { subject: { contains: q } },
+        { body: { contains: q } },
+        { recipients: { some: { user: { name: { contains: q } } } } },
+        { recipients: { some: { user: { email: { contains: q } } } } },
+      ];
+    }
 
-    box.sent.unshift(msg); // en üstte
-    const res = NextResponse.json({ ok: true, box }, { status: 201 });
-    writeMailbox(res, box);
-    return res;
+    const [total, items] = await Promise.all([
+      db.message.count({ where }),
+      db.message.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+        include: {
+          recipients: { select: { user: { select: { id: true, name: true, email: true } }, readAt: true } },
+        },
+      }),
+    ]);
+
+    return NextResponse.json({
+      total, page, pageSize, totalPages: Math.max(1, Math.ceil(total / pageSize)),
+      items: items.map((m) => ({
+        id: m.id, subject: m.subject, body: m.body, createdAt: m.createdAt,
+        recipients: m.recipients.map((r) => ({ ...r.user, readAt: r.readAt })),
+      })),
+    });
+  } catch (e) {
+    console.error("[messages.user.GET] ", e);
+    return NextResponse.json({ message: "Sunucu hatası" }, { status: 500 });
   }
-
-  if (body.action === "edit") {
-    const id = String(body.id || "");
-    const idx = box.sent.findIndex(m => m.id === id);
-    if (idx === -1) return NextResponse.json({ message: "Mesaj bulunamadı" }, { status: 404 });
-    box.sent[idx] = {
-      ...box.sent[idx],
-      subject: String(body.subject ?? box.sent[idx].subject),
-      body: String(body.body ?? box.sent[idx].body),
-      updatedAt: nowISO(),
-    };
-    const res = NextResponse.json({ ok: true, box }, { status: 200 });
-    writeMailbox(res, box);
-    return res;
-  }
-
-  if (body.action === "mark_read") {
-    const id = String(body.id || "");
-    const msg = box.inbox.find(m => m.id === id);
-    if (msg) msg.read = true;
-    const res = NextResponse.json({ ok: true, box }, { status: 200 });
-    writeMailbox(res, box);
-    return res;
-  }
-
-  return NextResponse.json({ message: "Unsupported action" }, { status: 400 });
 }
 
-export async function DELETE(req: NextRequest) {
-  const url = new URL(req.url);
-  const id = url.searchParams.get("id") || "";
-  const folder = (url.searchParams.get("box") || "inbox") as "inbox"|"sent";
+// POST { subject, body }
+// -> Alıcılar: sistemdeki tüm ADMIN’ler
+export async function POST(req: NextRequest) {
+  const auth = await requireUser(req);
+  if ("error" in auth) return auth.error;
+  const me = auth.userId;
 
-  let box = readCookieJSON<Mailbox>(req, BOX_COOKIE) || { inbox: [], sent: [] };
-  const before = box[folder].length;
-  box[folder] = box[folder].filter(m => m.id !== id);
-  if (box[folder].length === before) {
-    return NextResponse.json({ message: "Mesaj bulunamadı" }, { status: 404 });
+  try {
+    const body = (await req.json().catch(() => null)) as { subject?: string; body?: string } | null;
+    const subject = (body?.subject ?? "").trim();
+    const text = (body?.body ?? "").trim();
+    if (subject.length < 3 || text.length < 1) {
+      return NextResponse.json({ message: "Başlık en az 3, içerik en az 1 karakter" }, { status: 400 });
+    }
+
+    const admins = await db.user.findMany({
+      where: { role: "ADMIN" },
+      select: { id: true },
+    });
+    const recipientIds = new Set(admins.map((a) => a.id));
+    // Kendine gönderme
+    recipientIds.delete(me);
+    const ids = Array.from(recipientIds);
+    if (ids.length === 0) {
+      return NextResponse.json({ message: "Sistemde admin bulunamadı" }, { status: 400 });
+    }
+
+    const msg = await db.$transaction(async (tx) => {
+      const created = await tx.message.create({
+        data: { subject, body: text, senderId: me, teamId: null },
+      });
+      await tx.messageRecipient.createMany({
+        data: ids.map((userId) => ({ messageId: created.id, userId })),
+      });
+      return created;
+    });
+
+    return NextResponse.json({ ok: true, id: msg.id }, { status: 201 });
+  } catch (e) {
+    console.error("[messages.user.POST] ", e);
+    return NextResponse.json({ message: "Sunucu hatası" }, { status: 500 });
   }
-  const res = NextResponse.json({ ok: true, box }, { status: 200 });
-  writeMailbox(res, box);
-  return res;
 }
