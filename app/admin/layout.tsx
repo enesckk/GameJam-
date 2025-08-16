@@ -33,25 +33,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, []);
 
   return (
-    <div className="relative h-screen lg:grid lg:grid-cols-[16rem_1fr]">
+    <div className="relative isolate h-screen lg:grid lg:grid-cols-[16rem_1fr]">
       {/* Arka plan */}
-      <div className="fixed inset-0 -z-10">
-        <VideoBG
-          overlay
-          mode="auto"
-          opacity={0.9}
-          light={{
-            webm: "/videos/light-bg.webm",
-            mp4: "/videos/bg-light.mp4",
-            poster: "/images/light-bg.jpg",
-          }}
-          dark={{
-            webm: "/videos/dark-bg.webm",
-            mp4: "/videos/bg-dark.mp4",
-            poster: "/images/dark-bg.jpg",
-          }}
-        />
-      </div>
+      <VideoBG
+        overlay
+        mode="auto"
+        opacity={0.9}
+        light={{
+          webm: "/videos/light-bg.webm",
+          mp4: "/videos/bg-light.mp4",
+          poster: "/images/light-bg.jpg",
+        }}
+        dark={{
+          webm: "/videos/dark-bg.webm",
+          mp4: "/videos/bg-dark.mp4",
+          poster: "/images/dark-bg.jpg",
+        }}
+      />
 
       {/* Sidebar (mobil çekmece + masaüstü sabit) */}
       <aside
