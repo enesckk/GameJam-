@@ -1,6 +1,12 @@
+// app/api/apply/route.ts
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 import { NextResponse } from "next/server";
 import { db } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
+import { sendAccessEmail } from "@/lib/mailer";
 
 const ROLES = new Set(["developer", "designer", "audio", "pm"]);
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -15,6 +21,7 @@ type Member = {
 };
 
 const MAX_TEAM = 4;
+const sha256 = (s: string) => crypto.createHash("sha256").update(s).digest("hex");
 
 function uid() {
   return Math.random().toString(36).slice(2, 10);
@@ -84,7 +91,7 @@ export async function POST(req: Request) {
           emailRe.test(e) &&
           phoneRe.test(p) &&
           Number.isInteger(a) && a >= 14 &&
-          ROLES.has(r); // ⬅️ NOKTALI VİRGÜL HATASI DÜZELTİLDİ
+          ROLES.has(r);
 
         if (!ok) {
           return NextResponse.json({ message: `Üye bilgisi hatalı: ${n || e || "bilinmiyor"}` }, { status: 400 });
@@ -122,13 +129,13 @@ export async function POST(req: Request) {
     // ---- Kayıt (transaction) ----
     const passwordHash = await bcrypt.hash(password, 10);
 
+    // Transaction içinde oluşturulanları dışarıda kullanmaya gerek yok; üyeleri daha sonra mailler için e-posta ile çekeceğiz.
     await db.$transaction(async (tx) => {
-      // 1) Team (sadece team tipinde)
       const team = type === "team"
         ? await tx.team.create({ data: { name: teamName! } })
         : null;
 
-      // 2) Lider User
+      // Lider User
       await tx.user.create({
         data: {
           name: leadName,
@@ -142,7 +149,7 @@ export async function POST(req: Request) {
         },
       });
 
-      // 3) Takım üyeleri (şifresiz, login pasif)
+      // Takım üyeleri (şifresiz, login pasif)
       if (team && members.length) {
         for (const m of members) {
           await tx.user.create({
@@ -160,7 +167,7 @@ export async function POST(req: Request) {
         }
       }
 
-      // 4) Application (lider)
+      // Application (lider)
       await tx.application.create({
         data: {
           name: leadName,
@@ -170,7 +177,7 @@ export async function POST(req: Request) {
           age: leadAge,
           consentKVKK,
           type,
-          teamName: team?.name,
+          teamName: team?.name ?? null,
         },
       });
     });
@@ -195,7 +202,7 @@ export async function POST(req: Request) {
       phone: String(m.phone).replace(/\s/g, ""),
       age: Number(m.age),
       role: String(m.role),
-      status: "form_applied" as const,   // ← formdan geldi
+      status: "form_applied" as const,
     }));
 
     const res = NextResponse.json({ ok: true }, { status: 201 });
@@ -220,6 +227,49 @@ export async function POST(req: Request) {
     res.cookies.set("displayName", encodeURIComponent(leadName), {
       path: "/", sameSite: "lax", maxAge: 60 * 60 * 24 * 365, httpOnly: false
     });
+
+    // ---- Kayıt sonrası davet/erişim mailleri (tek şablon) ----
+    // Üyeler login kapalı geldi; hepsine 1 saatlik token üretip erişim maili gönderiyoruz.
+    try {
+      if (type === "team" && members.length) {
+        const base = (process.env.APP_URL || "").trim() || "http://localhost:3000";
+        const memberEmails = members.map(m => String(m.email).toLowerCase().trim());
+
+        // Az önce oluşturulan üyeleri çek (id ve ad için)
+        const createdMembers = await db.user.findMany({
+          where: { email: { in: memberEmails } },
+          select: { id: true, name: true, email: true },
+        });
+
+        await Promise.all(createdMembers.map(async (u) => {
+          const raw = crypto.randomBytes(32).toString("hex");
+          const tokenHash = sha256(raw);
+          const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 saat
+
+          await db.passwordResetToken.create({
+            data: { userId: u.id, tokenHash, expiresAt },
+          });
+
+          const link = `${base}/reset?token=${encodeURIComponent(raw)}`;
+          const r: any = await sendAccessEmail({ to: u.email, name: u.name ?? undefined, link, reason: "invite" });
+          if (r?.error) console.error("ACCESS_EMAIL_ERROR", r.error);
+        }));
+      }
+
+      // (Opsiyonel) Lider’e de aynı erişim maili gönderilebilir:
+      // - Lider zaten şifre belirlediği için genelde gerekmez.
+      // const base = (process.env.APP_URL || "").trim() || "http://localhost:3000";
+      // const leadUser = await db.user.findUnique({ where: { email: leadEmail }, select: { id: true, name: true, email: true } });
+      // if (leadUser) {
+      //   const rawLead = crypto.randomBytes(32).toString("hex");
+      //   await db.passwordResetToken.create({ data: { userId: leadUser.id, tokenHash: sha256(rawLead), expiresAt: new Date(Date.now() + 60 * 60 * 1000) } });
+      //   await sendAccessEmail({ to: leadUser.email, name: leadUser.name ?? undefined, link: `${base}/reset?token=${encodeURIComponent(rawLead)}`, reason: "invite" });
+      // }
+
+    } catch (mailErr: any) {
+      // Mail hataları başvuruyu iptal etmesin; log yeter.
+      console.error("POST_APPLY_MAIL_ERROR", mailErr?.response?.body || mailErr?.message || mailErr);
+    }
 
     return res;
   } catch (e: any) {

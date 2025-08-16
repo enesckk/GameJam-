@@ -1,6 +1,11 @@
+// app/api/team/route.ts
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/prisma";
 import crypto from "crypto";
+import { sendAccessEmail } from "@/lib/mailer";
 
 type Role = "developer" | "designer" | "audio" | "pm";
 type Member = {
@@ -29,6 +34,11 @@ const SECURE = process.env.NODE_ENV === "production";
 /* ------------------ helpers ------------------ */
 function uid() { return Math.random().toString(36).slice(2, 10); }
 function newInvite() { return Math.random().toString(36).slice(2, 8).toUpperCase(); }
+function sha256(s: string) { return crypto.createHash("sha256").update(s).digest("hex"); }
+function rawToken() { return crypto.randomBytes(32).toString("hex"); }
+function originFrom(req: NextRequest) { return req.headers.get("origin") ?? new URL(req.url).origin; }
+function baseUrl(req: NextRequest) { return (process.env.APP_URL || "").trim() || originFrom(req); }
+
 function readCookieJSON(req: NextRequest, name: string) {
   const raw = req.cookies.get(name)?.value;
   if (!raw) return null;
@@ -45,15 +55,6 @@ function isPlaceholder(t: TeamState | null) {
   if (!t.members?.length) return true;
   if (t.members[0]?.email === "leader@example.com") return true;
   return false;
-}
-function sha256(s: string) {
-  return crypto.createHash("sha256").update(s).digest("hex");
-}
-function originFrom(req: NextRequest) {
-  return req.headers.get("origin") ?? new URL(req.url).origin;
-}
-function rawToken() {
-  return crypto.randomBytes(32).toString("hex");
 }
 
 /** Cookie yoksa profilden DB'ye bakarak TeamState üretir ve cookie'yi senkronlar */
@@ -82,7 +83,7 @@ async function buildFromDBOrBootstrap(req: NextRequest): Promise<TeamState> {
     if (me?.team) {
       const t = me.team;
 
-      // "invited" durumunu doğru göstermek için geçerli (kullanılmamış & süresi geçmemiş) reset token'ları çek
+      // Geçerli (kullanılmamış & süresi geçmemiş) reset token'ları çek → "invited" statüsü için
       const userIds = t.members.map(m => m.id);
       const now = new Date();
       const tokens = await db.passwordResetToken.findMany({
@@ -212,7 +213,7 @@ export async function PATCH(req: NextRequest) {
   return res;
 }
 
-/* ------------------ POST (add_member + invite) ------------------ */
+/* ------------------ POST (add_member + invite mail) ------------------ */
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
   if (body?.action !== "add_member") {
@@ -252,7 +253,7 @@ export async function POST(req: NextRequest) {
   let existingCanLogin = false;
   let willInvite = sendInvite;
 
-  // ---- DB kontrol / ekle-ata / token üret
+  // ---- DB kontrol / ekle-ata / token üret + mail gönder ----
   try {
     const prof = readCookieJSON(req, PROFILE_COOKIE) || {};
     const me = await db.user.findUnique({
@@ -261,7 +262,6 @@ export async function POST(req: NextRequest) {
     });
 
     const currentTeamId = me?.teamId || null;
-
     const existing = await db.user.findUnique({ where: { email } });
     existingCanLogin = !!existing?.canLogin;
 
@@ -277,18 +277,12 @@ export async function POST(req: NextRequest) {
       if (currentTeamId) {
         await db.user.update({
           where: { email },
-          data: {
-            teamId: currentTeamId,
-            profileRole: role,
-            // canLogin mevcut neyse o kalsın
-          },
+          data: { teamId: currentTeamId, profileRole: role },
         });
       }
 
       // Zaten aktif kullanıcıyı davet etme
-      if (existing.canLogin) {
-        willInvite = false;
-      }
+      if (existing.canLogin) willInvite = false;
     } else {
       // Yeni kullanıcı oluştur (login pasif)
       if (currentTeamId) {
@@ -304,25 +298,36 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Davet: yalnızca giriş yapamayanlar için token üret
+    // Davet: yalnızca giriş yapamayanlar için token üret + TEK MAİL gönder
     if (willInvite) {
-      const target = await db.user.findUnique({ where: { email }, select: { id: true } });
+      const target = await db.user.findUnique({ where: { email }, select: { id: true, name: true } });
       if (target) {
-        await db.passwordResetToken.deleteMany({ where: { userId: target.id } });
+        await db.passwordResetToken.deleteMany({ where: { userId: target.id, usedAt: null } });
+
         const raw = rawToken();
         const tokenHash = sha256(raw);
-        const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24 saat
+        // Not: diğer akışlarla tutarlı olsun diye 1 saat
+        const expiresAt = new Date(Date.now() + 1000 * 60 * 60); // 1 saat
+
         await db.passwordResetToken.create({
           data: { userId: target.id, tokenHash, expiresAt },
         });
-        const link = `${originFrom(req)}/reset-password?token=${raw}`;
-        inviteResetUrl = link;
-        console.log("[INVITE LINK:add_member]", link);
+
+        const link = `${baseUrl(req)}/reset?token=${encodeURIComponent(raw)}`;
+        inviteResetUrl = link; // istersen response'tan kaldırabilirsin
+
+        const r: any = await sendAccessEmail({
+          to: email,
+          name: name || undefined,
+          link,
+          // reason: "invite" // opsiyonel, metni özelleştirir
+        });
+        if (r?.error) console.error("ACCESS_EMAIL_ERROR", r.error);
       }
     }
   } catch (e) {
     console.error("[team:add_member] error:", e);
-    // DB erişilemezse cookie üzerinden devam (demo)
+    // DB erişilemezse cookie üzerinden devam (demo/hata toleransı)
   }
 
   // Cookie’ye eklenecek status
