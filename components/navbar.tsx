@@ -10,13 +10,18 @@ const nav = [
   { href: "/takvim", label: "Takvim" },
   { href: "/kurallar", label: "Kurallar" },
   { href: "/duyurular", label: "Duyurular" },
-  { href: "/kayit", label: "Kayıt" }, // CTA
+  { href: "/kayit", label: "Kayıt" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
 
-  // oturum kontrolü
+  // 🚫 Bu prefixlerle başlayan sayfalarda Navbar gösterilmesin
+  const HIDE_PREFIXES = ["/panel", "/admin", "/auth"];
+  if (pathname && HIDE_PREFIXES.some((p) => pathname.startsWith(p))) {
+    return null;
+  }
+
   const [isAuth, setIsAuth] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -31,10 +36,10 @@ export default function Navbar() {
     <header
       className="
         sticky top-0 z-40 w-full overflow-x-clip
-        bg-white/85 dark:bg-black/85
+        bg-white dark:bg-black
         supports-[backdrop-filter]:backdrop-blur
-        supports-[backdrop-filter]:bg-white/65
-        dark:supports-[backdrop-filter]:bg-black/65
+        supports-[backdrop-filter]:bg-white/70
+        dark:supports-[backdrop-filter]:bg-black/70
         border-b border-black/5 dark:border-white/10
         transition-colors duration-300
       "
@@ -48,7 +53,7 @@ export default function Navbar() {
           Şehitkamil Game Jam
         </Link>
 
-        {/* Linkler (gizleme yok, mobilde sarar) */}
+        {/* Linkler */}
         <div className="flex flex-wrap items-center gap-2 md:gap-3">
           {nav
             .filter((i) => i.href !== "/kayit")
@@ -70,7 +75,6 @@ export default function Navbar() {
           {/* Oturuma göre CTA'lar */}
           {mounted && !isAuth && (
             <>
-              {/* KAYIT */}
               <Link
                 href="/kayit"
                 className="
@@ -92,7 +96,6 @@ export default function Navbar() {
                 Kayıt
               </Link>
 
-              {/* GİRİŞ */}
               <Link
                 href="/login"
                 className="
