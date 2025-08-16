@@ -1,11 +1,11 @@
 // app/panel/takim/page.tsx
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import PageHeader from "../_components/page-header";
 import SectionCard from "../_components/section-card";
 import RoleSelect from "../_components/role-select";
-import { Copy, RefreshCw, Trash2, Save } from "lucide-react";
+import { Copy, RefreshCw, Trash2, Save, Check, ChevronDown } from "lucide-react";
 
 type Role = "developer" | "designer" | "audio" | "pm";
 type Member = {
@@ -57,6 +57,121 @@ function statusLabel(s: Member["status"]) {
   }
 }
 
+/* ===========================
+   TypeSelect — RoleSelect ile aynı görsel/etkileşim
+   =========================== */
+type TeamType = "individual" | "team";
+const TYPES: { value: TeamType; label: string }[] = [
+  { value: "individual", label: "Bireysel" },
+  { value: "team",       label: "Takım" },
+];
+
+function TypeSelect({
+  value,
+  onChange,
+  className = "",
+  label = "Tür",
+}: {
+  value: TeamType;
+  onChange: (v: TeamType) => void;
+  className?: string;
+  label?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const listId = "type-listbox";
+
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      if (!boxRef.current) return;
+      if (!boxRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("click", onClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("click", onClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  const current = TYPES.find(t => t.value === value)?.label ?? "";
+
+  return (
+    <div className={className}>
+      <label className="text-sm text-[var(--foreground)]">{label}</label>
+
+      <div
+        ref={boxRef}
+        className={[
+          "group relative mt-1 rounded-xl input-frame",
+          "ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_12%,transparent)]",
+          "bg-[color:color-mix(in_oklab,var(--foreground)_6%,transparent)]",
+          "hover:bg-[color:color-mix(in_oklab,var(--foreground)_9%,transparent)]",
+          "focus-within:ring-transparent",
+          "transition",
+        ].join(" ")}
+        data-open={open ? "true" : "false"}
+      >
+        <button
+          type="button"
+          onClick={() => setOpen(s => !s)}
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          aria-controls={listId}
+          className="flex w-full items-center justify-between px-3 py-2 text-left text-[var(--foreground)]"
+        >
+          <span className="truncate">{current}</span>
+          <ChevronDown
+            className={[
+              "h-4 w-4 opacity-70 transition-transform group-hover:opacity-100",
+              open ? "rotate-180" : "",
+            ].join(" ")}
+          />
+        </button>
+
+        {open && (
+          <div
+            id={listId}
+            role="listbox"
+            className={[
+              "absolute z-50 mt-1 w-full rounded-xl shadow-xl border",
+              "border-[color:color-mix(in_oklab,var(--foreground)_18%,transparent)]",
+              "glass-panel",
+            ].join(" ")}
+          >
+            <div className="p-1">
+              {TYPES.map((t) => {
+                const active = t.value === value;
+                return (
+                  <div
+                    key={t.value}
+                    role="option"
+                    aria-selected={active}
+                    onClick={() => { onChange(t.value); setOpen(false); }}
+                    className={[
+                      "flex cursor-pointer items-center justify-between rounded-lg px-2 py-2",
+                      "text-[var(--foreground)]",
+                      "hover:bg-[color:color-mix(in_oklab,var(--foreground)_10%,transparent)]",
+                      active ? "bg-[color:color-mix(in_oklab,var(--foreground)_12%,transparent)] font-semibold" : "",
+                    ].join(" ")}
+                  >
+                    <span>{t.label}</span>
+                    {active && <Check className="h-4 w-4" />}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ===========================
+   Sayfa
+   =========================== */
 export default function TeamPage() {
   const [team, setTeam] = useState<Team | null>(null);
   const [loading, setLoading] = useState(false);
@@ -83,12 +198,10 @@ export default function TeamPage() {
     setLoading(true);
     (async () => {
       try {
-        // 1) normal oku
         const r1 = await fetch("/api/team", { cache: "no-store" });
         if (!r1.ok) throw new Error("team fetch failed");
         const t1: Team = await r1.json();
         if (!mounted) return;
-        // 2) placeholder ise DB’den tazele
         if (isPlaceholderTeam(t1)) {
           const r2 = await fetch("/api/team?refresh=1", { cache: "no-store" });
           if (r2.ok) {
@@ -164,7 +277,7 @@ export default function TeamPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "add_member",
-          sendInvite: true, // davet gönder
+          sendInvite: true,
           member: {
             name: mName.trim(),
             email: mEmail.trim().toLowerCase(),
@@ -230,7 +343,7 @@ export default function TeamPage() {
               <div className={[wrap, "flex-1"].join(" ")}>
                 <input
                   className={input}
-                  value={team.teamName ?? ""} // controlled
+                  value={team.teamName ?? ""}
                   onChange={(e) => setTeam((t) => (t ? { ...t, teamName: e.target.value } : t))}
                   placeholder="Takım Adı"
                 />
@@ -245,28 +358,16 @@ export default function TeamPage() {
             </div>
           </div>
 
-          {/* Tür */}
-          {/* Tür */}
-<div>
-  <label className="text-sm">Tür</label>
-  <div className={wrap}>
-    <select
-      className={[
-        input,
-        "appearance-none cursor-pointer",
-        "bg-[color:color-mix(in_oklab,var(--foreground)_6%,transparent)]", // arka plan şeffaf yerine uyumlu renk
-      ].join(" ")}
-      value={team.type}
-      onChange={(e) => saveTeamBasics({ type: e.target.value as Team["type"] })}
-    >
-      <option value="individual">Bireysel</option>
-      <option value="team">Takım</option>
-    </select>
-  </div>
-  <p className="mt-1 text-xs text-[color:color-mix(in_oklab,var(--foreground)_70%,transparent)]">
-    Üye eklemek için türü “Takım”a alın.
-  </p>
-</div>
+          {/* Tür – RoleSelect ile aynı görünüm */}
+          <TypeSelect
+            value={team.type}
+            onChange={(v) => saveTeamBasics({ type: v })}
+          />
+          <div className="md:col-span-2 -mt-3">
+            <p className="mt-1 text-xs text-[color:color-mix(in_oklab,var(--foreground)_70%,transparent)]">
+              Üye eklemek için türü “Takım”a alın.
+            </p>
+          </div>
 
           {/* Opsiyonel: Takım Kodu */}
           <div>

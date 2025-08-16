@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import VideoBG from "@/components/background/video-bg";
+import RoleSelect from "@/app/panel/_components/role-select"; // ← yolu kendi projenle eşleştir
 
 type RoleOption = "developer" | "designer" | "audio" | "pm";
 type ApplyType = "individual" | "team";
@@ -414,29 +415,12 @@ export default function KayitPage() {
               </div>
             </div>
 
-            {/* Rol */}
-            <select
-  className="w-full rounded-xl border border-white/50 dark:border-white/10 
-             bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 
-             outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent 
-             backdrop-blur-sm appearance-none"
-  value={f.role}
-  onChange={(e) => onChange("role", e.target.value as RoleOption)}
->
-  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="developer">
-    Yazılımcı
-  </option>
-  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="designer">
-    Tasarımcı
-  </option>
-  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="audio">
-    Ses/Müzik
-  </option>
-  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="pm">
-    İçerik/PM
-  </option>
-</select>
-
+            {/* Lider Rol — RoleSelect */}
+            <RoleSelect
+              className="[&>label]:sr-only"
+              value={f.role}
+              onChange={(r) => onChange("role", r as RoleOption)}
+            />
 
             {/* Takım üyeleri */}
             {f.type === "team" && (
@@ -485,19 +469,13 @@ export default function KayitPage() {
                         value={m.age}
                         onChange={(e) => onMemberChange(i, { age: e.target.value })}
                       />
-                      <select
-  className="rounded-xl border border-white/50 dark:border-white/10 
-             bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 
-             backdrop-blur-sm appearance-none"
-  value={m.role}
-  onChange={(e) => onMemberChange(i, { role: e.target.value as Member["role"] })}
->
-  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="developer">Yazılımcı</option>
-  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="designer">Tasarımcı</option>
-  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="audio">Ses/Müzik</option>
-  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="pm">İçerik/PM</option>
-</select>
 
+                      {/* Üye Rol — RoleSelect */}
+                      <RoleSelect
+                        className="[&>label]:sr-only"
+                        value={m.role}
+                        onChange={(r) => onMemberChange(i, { role: r })}
+                      />
 
                       <div className="flex items-center">
                         <button
@@ -520,7 +498,7 @@ export default function KayitPage() {
               </div>
             )}
 
-            {/* KVKK checkbox + AÇILIR İÇERİK (standart şablon, tema uyumlu) */}
+            {/* KVKK checkbox + AÇILIR İÇERİK */}
             <div className="space-y-2">
               <label className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
                 <input
@@ -596,7 +574,7 @@ export default function KayitPage() {
               {loading ? "Gönderiliyor..." : "Başvuruyu Gönder"}
             </button>
 
-            {/* Alt bilgilendirme — talebine göre güncel */}
+            {/* Alt bilgilendirme */}
             <p className="text-center text-xs text-gray-900 dark:text-gray-100/80">
               Başvurudan sonra lider için hesap otomatik açılır. Diğer takım üyelerine
               <br className="hidden sm:block" />
