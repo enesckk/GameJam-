@@ -1,3 +1,4 @@
+// components/background/video-bg.tsx
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -11,8 +12,11 @@ type Props = {
   mode?: "auto" | "light" | "dark";
   opacity?: number;
   overlay?: boolean;
-  /** true: tema değişince videoyu başa al ve yeniden yükle; false: kaldığı yerden devam etmeye çalış */
   restartOnThemeChange?: boolean;
+  /** "absolute" (varsayılan) ya da "fixed" — stacking sorunlarını aşmak için fixed önerilir */
+  position?: "absolute" | "fixed";
+  /** Görünürlük/viewport performans optimizasyonu. Sorunlu sayfalarda false yap. */
+  useIO?: boolean;
 };
 
 export default function VideoBG({
@@ -22,10 +26,12 @@ export default function VideoBG({
   opacity = 0.85,
   overlay = true,
   restartOnThemeChange = false,
+  position = "absolute",
+  useIO = true,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // SSR hydration guard
+  // SSR guard
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -43,8 +49,9 @@ export default function VideoBG({
 
   const src = isDark ? dark : light;
 
-  // görünürlük & viewport dışında durdur/başlat (performans)
+  // görünürlük/IO
   useEffect(() => {
+    if (!useIO) return;
     const v = videoRef.current;
     if (!v) return;
 
@@ -66,9 +73,9 @@ export default function VideoBG({
       document.removeEventListener("visibilitychange", onVis);
       io.disconnect();
     };
-  }, []);
+  }, [useIO]);
 
-  // Tema değişiminde davranış
+  // Tema değişiminde kaynak değiştirme
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -102,9 +109,14 @@ export default function VideoBG({
 
   if (!mounted) return null;
 
+  const wrapper = [
+    "pointer-events-none",
+    position === "fixed" ? "fixed inset-0 z-[-1]" : "absolute inset-0 -z-10",
+  ].join(" ");
+
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-      {/* motion hassas kullanıcılar için video yerine poster */}
+    <div aria-hidden className={wrapper}>
+      {/* motion-reduce için poster fallback */}
       <div className="motion-reduce:block hidden absolute inset-0">
         {src.poster && <img src={src.poster} alt="" className="h-full w-full object-cover" />}
       </div>
@@ -118,8 +130,10 @@ export default function VideoBG({
         playsInline
         preload={restartOnThemeChange ? "metadata" : "auto"}
         poster={src.poster}
+        // restart modunda temaya göre key değiştirerek tam reset
         key={restartOnThemeChange ? (isDark ? "dark" : "light") : "static"}
         style={{ opacity }}
+        onCanPlay={() => videoRef.current?.play().catch(() => {})}
       >
         <source src={src.mp4} type="video/mp4" />
       </video>

@@ -87,19 +87,14 @@ export default function AnnouncementsPage() {
 
   return (
     <section className="relative isolate min-h-screen">
-      {/* Arka plan video (sadece MP4) */}
-      <VideoBG
-        overlay
-        opacity={0.9}
-        light={{
-          mp4: "/videos/bg-light.mp4",
-          poster: "/videos/light-poster.jpg", // opsiyonel
-        }}
-        dark={{
-          mp4: "/videos/bg-dark.mp4",
-          poster: "/videos/dark-poster.jpg", // opsiyonel
-        }}
-      />
+  <VideoBG
+    position="fixed"
+    useIO={false}
+    overlay
+    opacity={0.9}
+    light={{ mp4: "/videos/bg-light.mp4", poster: "/videos/light-poster.jpg" }}
+    dark={{  mp4: "/videos/bg-dark.mp4",  poster: "/videos/dark-poster.jpg"  }}
+  />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-20">
         <div

@@ -33,12 +33,13 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     <div className="relative h-screen lg:grid lg:grid-cols-[16rem_1fr]">
       <div className="fixed inset-0 -z-10">
         <VideoBG
-          overlay
-          mode="auto"
-          opacity={0.9}
-          light={{ webm: "/videos/register-light.webm", mp4: "/videos/bg-light.mp4", poster: "/videos/register-poster-light.jpg" }}
-          dark={{ webm: "/videos/register-dark.webm", mp4: "/videos/bg-dark.mp4", poster: "/videos/register-poster-dark.jpg" }}
-        />
+  position="fixed"
+  useIO={false}
+  overlay
+  opacity={0.9}
+  light={{ mp4: "/videos/bg-light.mp4", poster: "/images/light-bg.jpg" }}
+  dark={{  mp4: "/videos/bg-dark.mp4",  poster: "/images/dark-bg.jpg"  }}
+/>
       </div>
 
       <aside
