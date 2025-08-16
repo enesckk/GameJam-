@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+
+import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import VideoBG from "@/components/background/video-bg";
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const params = useSearchParams();
   const token = params.get("token") ?? "";
   const router = useRouter();
@@ -19,7 +20,10 @@ export default function ResetPasswordPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setErr(null); setMsg(null);
-    if (!passOk) { setErr("Şifreler en az 6 karakter olmalı ve eşleşmeli."); return; }
+    if (!passOk) { 
+      setErr("Şifreler en az 6 karakter olmalı ve eşleşmeli."); 
+      return; 
+    }
     setLoading(true);
     try {
       const res = await fetch("/api/auth/reset", {
@@ -28,7 +32,10 @@ export default function ResetPasswordPage() {
         body: JSON.stringify({ token, password: p1 }),
       });
       const j = await res.json().catch(()=> ({}));
-      if (!res.ok) { setErr(j?.message || "Sıfırlama başarısız."); return; }
+      if (!res.ok) { 
+        setErr(j?.message || "Sıfırlama başarısız."); 
+        return; 
+      }
       setMsg("Şifreniz güncellendi! Yönlendiriliyorsunuz...");
       setTimeout(()=> router.push("/login"), 800);
     } finally { setLoading(false); }
@@ -55,20 +62,20 @@ export default function ResetPasswordPage() {
             <input
               type="password"
               placeholder="Yeni şifre (min 6)"
-              className="w-full rounded-xl border border-black/10 bg-white/90 px-3 py-2 text-gray-900 outline-none focus:ring-2 focus:ring-emerald-400 dark:border-white/20 dark:bg-white/80"
+              className="w-full rounded-xl border px-3 py-2"
               value={p1} onChange={(e)=> setP1(e.target.value)}
             />
             <input
               type="password"
               placeholder="Yeni şifre (tekrar)"
-              className="w-full rounded-xl border border-black/10 bg-white/90 px-3 py-2 text-gray-900 outline-none focus:ring-2 focus:ring-emerald-400 dark:border-white/20 dark:bg-white/80"
+              className="w-full rounded-xl border px-3 py-2"
               value={p2} onChange={(e)=> setP2(e.target.value)}
             />
-            {err && <p className="rounded-lg bg-red-500/15 p-2 text-sm text-red-700 dark:text-red-100">{err}</p>}
-            {msg && <p className="rounded-lg bg-emerald-500/15 p-2 text-sm text-emerald-700 dark:text-emerald-100">{msg}</p>}
+            {err && <p className="rounded-lg bg-red-500/15 p-2 text-sm text-red-700">{err}</p>}
+            {msg && <p className="rounded-lg bg-emerald-500/15 p-2 text-sm text-emerald-700">{msg}</p>}
             <button
               type="submit" disabled={loading || !passOk}
-              className="group relative w-full overflow-hidden rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white shadow-lg ring-1 ring-emerald-400/30 transition-all hover:shadow-emerald-500/60"
+              className="w-full rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white shadow-lg"
             >
               {loading ? "Güncelleniyor..." : "Şifreyi Güncelle"}
             </button>
@@ -76,5 +83,13 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div>Yükleniyor...</div>}>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }
