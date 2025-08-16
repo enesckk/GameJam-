@@ -26,7 +26,7 @@ export default function Hero() {
   return (
     <section
       className="
-        relative overflow-hidden py-24
+        relative w-full overflow-x-clip overflow-y-visible py-20 md:py-24
         bg-gradient-to-b from-slate-950 via-slate-900 to-slate-900
         text-white
       "
@@ -64,10 +64,10 @@ export default function Hero() {
       />
 
       {/* İçerik */}
-      <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-6 md:grid-cols-2">
+      <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 sm:px-6 md:grid-cols-2">
         {/* SOL */}
         <div className="drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight">
             Oyna ve Kazan!
           </h1>
           <p className="mt-4 max-w-xl opacity-90">
@@ -75,15 +75,15 @@ export default function Hero() {
             mobil uygulamasına entegre edilecek.
           </p>
 
-          {/* CTA’lar (ikonlu) */}
+          {/* CTA’lar */}
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/kayit">
+            <Link href="/kayit" aria-label="Kayıt Ol sayfasına git">
               <Button
                 variant="neon"
                 className="px-5 py-2 text-base font-semibold transition-all hover:scale-105 hover:shadow-[0_0_16px_#ff00ff,0_0_22px_#00ffff]"
               >
                 <span className="mr-2 inline-flex items-center" aria-hidden>
-                  {/* Pencil / Kayıt ikonu */}
+                  {/* Pencil */}
                   <svg
                     viewBox="0 0 24 24"
                     width="20"
@@ -102,13 +102,13 @@ export default function Hero() {
               </Button>
             </Link>
 
-            <Link href="/takvim">
+            <Link href="/takvim" aria-label="Etkinlik takvimini gör">
               <Button
                 variant="neon"
                 className="px-5 py-2 text-base font-semibold bg-white/15 hover:bg-white/25 transition-all hover:scale-105"
               >
                 <span className="mr-2 inline-flex items-center" aria-hidden>
-                  {/* Takvim ikonu */}
+                  {/* Takvim */}
                   <svg
                     viewBox="0 0 24 24"
                     width="20"

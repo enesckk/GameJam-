@@ -6,17 +6,12 @@ import { useTheme } from "next-themes";
 type VideoSet = { webm: string; mp4: string; poster?: string };
 
 type Props = {
-  /** Light tema için video seti */
   light: VideoSet;
-  /** Dark tema için video seti */
   dark: VideoSet;
-  /** 'auto' = temayı otomatik algıla (varsayılan), 'light' veya 'dark' ile zorlayabilirsin */
   mode?: "auto" | "light" | "dark";
-  /** Video opaklığı (0..1) */
   opacity?: number;
-  /** Karanlık maske/overlay (true: varsayılan degrade; false: kapalı) */
   overlay?: boolean;
-  /** Tema değişince mevcut videoyu sıfırdan başlatmak istemezsen false yap */
+  /** true: tema değişince videoyu başa al ve yeniden yükle; false: kaldığı yerden devam etmeye çalış */
   restartOnThemeChange?: boolean;
 };
 
@@ -30,7 +25,7 @@ export default function VideoBG({
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // SSR hydration sorunlarını önlemek için
+  // SSR hydration guard
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -39,7 +34,6 @@ export default function VideoBG({
   const isDark = useMemo(() => {
     if (mode === "dark") return true;
     if (mode === "light") return false;
-    // auto: next-themes + sistem tercihine saygı
     if (resolvedTheme) return resolvedTheme === "dark";
     if (typeof window !== "undefined") {
       return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
@@ -47,21 +41,23 @@ export default function VideoBG({
     return false;
   }, [mode, resolvedTheme]);
 
-  // Tema değişiminde videonun takılmasını önlemek için play/pause + kaynak güncelleme
+  const src = isDark ? dark : light;
+
+  // görünürlük & viewport dışında durdur/başlat (performans)
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
 
-    // Sekme gizliyken durdur, görünür olunca devam et (performans)
     const onVis = () => {
       if (document.hidden) v.pause();
       else v.play().catch(() => {});
     };
     document.addEventListener("visibilitychange", onVis);
 
-    // Ekranda yokken durdur (performans)
     const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => (e.isIntersecting ? v.play().catch(() => {}) : v.pause())),
+      (entries) => {
+        for (const e of entries) e.isIntersecting ? v.play().catch(() => {}) : v.pause();
+      },
       { rootMargin: "200px" }
     );
     io.observe(v);
@@ -72,54 +68,78 @@ export default function VideoBG({
     };
   }, []);
 
-  // Tema değişince videoyu başa alma tercihi
+  // Tema değişiminde davranış
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
+
     if (restartOnThemeChange) {
-      try {
-        v.currentTime = 0;
-      } catch {}
+      // En temiz reset: kaynakları yeniden yükle, en baştan başlat
+      v.load();
+      v.play().catch(() => {});
+      return;
     }
-    v.play().catch(() => {});
-  }, [isDark, restartOnThemeChange]);
+
+    // Kaldığı yerden devam etmeye çalış: mp4'e tekil src ile geçiş (en uyumlu)
+    const currentTime = v.currentTime || 0;
+    const wasPaused = v.paused;
+    const next = src.mp4 || src.webm;
+
+    // hiç değişmeyecekse dokunma
+    if ((v as any)._activeSrc === next) return;
+
+    const onLoaded = () => {
+      try {
+        v.currentTime = Math.min(currentTime, v.duration || currentTime);
+      } catch {}
+      wasPaused ? v.pause() : v.play().catch(() => {});
+      v.removeEventListener("loadedmetadata", onLoaded);
+    };
+
+    v.addEventListener("loadedmetadata", onLoaded);
+    (v as any)._activeSrc = next;
+    v.src = next;
+    if (src.poster) v.poster = src.poster;
+    v.load();
+  }, [src, restartOnThemeChange]);
 
   if (!mounted) return null;
-
-  const src = isDark ? dark : light;
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
       {/* motion hassas kullanıcılar için video yerine poster */}
-      <div className="hidden prefers-reduced-motion:block absolute inset-0">
+      <div className="motion-reduce:block hidden absolute inset-0">
         {src.poster && <img src={src.poster} alt="" className="h-full w-full object-cover" />}
       </div>
 
+      {/* Not: restartOnThemeChange=true olduğunda key ile tam reset */}
       <video
         ref={videoRef}
-        className="prefers-reduced-motion:hidden h-full w-full object-cover"
+        className="motion-reduce:hidden h-full w-full object-cover"
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload={restartOnThemeChange ? "metadata" : "auto"}
         poster={src.poster}
+        // sadece restart modunda yeniden yarat (aksi halde zamanı koruyoruz)
+        key={restartOnThemeChange ? (isDark ? "dark" : "light") : "static"}
         style={{ opacity }}
-        key={isDark ? "dark" : "light"} // tema değişiminde kaynakları güvenle yenile
       >
+        {/* İlk yüklemede tarayıcı seçim yapabilsin diye iki kaynak da duruyor;
+            sonrasında programatik geçiş mp4'e yapılacak */}
         <source src={src.webm} type="video/webm" />
         <source src={src.mp4} type="video/mp4" />
       </video>
 
       {overlay && (
-        // Light/Dark'a göre overlay yoğunluğunu doğal tut
         <div
-          className={[
-            "absolute inset-0",
-            isDark
+          className={
+            "absolute inset-0 " +
+            (isDark
               ? "bg-gradient-to-b from-black/50 via-black/45 to-black/60"
-              : "bg-gradient-to-b from-black/30 via-black/25 to-black/40",
-          ].join(" ")}
+              : "bg-gradient-to-b from-black/30 via-black/25 to-black/40")
+          }
         />
       )}
     </div>

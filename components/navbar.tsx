@@ -16,14 +16,7 @@ const nav = [
 export default function Navbar() {
   const pathname = usePathname();
 
-  // 1) Panel/Admin altında navbar'ı hiç render etme
-  const HIDE_PREFIXES = ["/panel", "/admin"];
-  const shouldHide = HIDE_PREFIXES.some((p) => pathname?.startsWith(p));
-  if (shouldHide) return null;
-
-  // 2) Oturum kontrolü (cookie tabanlı basit kontrol)
-  //  - Cookie adını kendi sistemine göre düzenle:
-  //    'auth-token' | 'sj_session' | 'next-auth.session-token' vb.
+  // oturum kontrolü
   const [isAuth, setIsAuth] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -35,18 +28,23 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 glass">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="text-base md:text-lg font-extrabold tracking-tight">
+    <header className="sticky top-0 z-40 w-full overflow-x-clip bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between px-4 py-3">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="text-base md:text-lg font-extrabold tracking-tight whitespace-nowrap"
+        >
           Şehitkamil Game Jam
         </Link>
 
-        <div className="flex items-center gap-2 md:gap-3">
-          {/* Düz linkler (Kayıt hariç) */}
+        {/* Linkler */}
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
           {nav
             .filter((i) => i.href !== "/kayit")
             .map((i) => {
-              const active = pathname === i.href || pathname?.startsWith(i.href + "/");
+              const active =
+                pathname === i.href || pathname?.startsWith(i.href + "/");
               return (
                 <Link
                   key={i.href}
@@ -62,7 +60,7 @@ export default function Navbar() {
           {/* Oturuma göre CTA'lar */}
           {mounted && !isAuth && (
             <>
-              {/* KAYIT — gradient CTA */}
+              {/* KAYIT */}
               <Link
                 href="/kayit"
                 className="
@@ -109,15 +107,12 @@ export default function Navbar() {
           )}
 
           {mounted && isAuth && (
-            <>
-              {/* Oturum varken Giriş/Kayıt yerine Panel kısayolu */}
-              <Link
-                href="/panel"
-                className="rounded-xl border px-3.5 py-2 text-sm font-semibold hover:bg-[color-mix(in_oklab,var(--foreground)_6%,transparent)]"
-              >
-                Panel
-              </Link>
-            </>
+            <Link
+              href="/panel"
+              className="rounded-xl border px-3.5 py-2 text-sm font-semibold hover:bg-[color-mix(in_oklab,var(--foreground)_6%,transparent)]"
+            >
+              Panel
+            </Link>
           )}
 
           <ThemeToggle />
