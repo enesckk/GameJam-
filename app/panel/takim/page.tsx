@@ -419,8 +419,12 @@ export default function TeamPage() {
               </div>
             </div>
 
-            {/* Rol seçimi — label kaldırıldı */}
-            <RoleSelect className="md:col-span-1" value={mRole} onChange={setMRole} />
+            {/* Rol seçimi — etiketi gizle */}
+            <RoleSelect
+              className="md:col-span-1 [&>label]:sr-only"
+              value={mRole}
+              onChange={setMRole}
+            />
 
             <div className="md:col-span-6">
               <button
