@@ -134,9 +134,24 @@ export default function UserMessagesPage() {
       <h1 className="text-xl font-bold">Mesajlar</h1>
 
       <div className="flex items-center gap-2">
-        <button onClick={() => { setTab("inbox"); setPage(1); }} className={btn(tab === "inbox")}><Inbox className="h-4 w-4" /> Gelen</button>
-        <button onClick={() => { setTab("outbox"); setPage(1); }} className={btn(tab === "outbox")}><Mail className="h-4 w-4" /> Giden</button>
-        <button onClick={() => setTab("compose")} className={btn(tab === "compose")}><Send className="h-4 w-4" /> Yeni</button>
+        <button
+          onClick={() => { setTab("inbox"); setPage(1); }}
+          className={btn(tab === "inbox")}
+        >
+          <Inbox className="h-4 w-4" /> Gelen
+        </button>
+        <button
+          onClick={() => { setTab("outbox"); setPage(1); }}
+          className={btn(tab === "outbox")}
+        >
+          <Mail className="h-4 w-4" /> Giden
+        </button>
+        <button
+          onClick={() => setTab("compose")}
+          className={btn(tab === "compose")}
+        >
+          <Send className="h-4 w-4" /> Yeni
+        </button>
       </div>
 
       {alert && <div className="rounded-lg bg-foreground/10 px-3 py-2 text-sm">{alert}</div>}
@@ -154,7 +169,11 @@ export default function UserMessagesPage() {
           </div>
           {tab === "inbox" && (
             <label className="inline-flex items-center gap-2 text-sm">
-              <input type="checkbox" checked={onlyUnread} onChange={(e) => { setOnlyUnread(e.target.checked); setPage(1); }} />
+              <input
+                type="checkbox"
+                checked={onlyUnread}
+                onChange={(e) => { setOnlyUnread(e.target.checked); setPage(1); }}
+              />
               Yalnızca okunmamış
             </label>
           )}
@@ -172,24 +191,35 @@ export default function UserMessagesPage() {
               const open = !!expanded[m.id];
               const unread = !m.readAt;
               return (
-                <div key={m.id} className="relative rounded-xl ring-1 ring-foreground/10 bg-white/50 dark:bg-white/10">
+                <div
+                  key={m.id}
+                  className={[
+                    "relative rounded-xl",
+                    "bg-white/50 dark:bg-white/10 backdrop-blur-md",
+                    open ? "ring-2 ring-violet-500" : "ring-1 ring-transparent hover:ring-violet-400",
+                  ].join(" ")}
+                >
                   <div
                     role="button"
                     onClick={() => { toggleExpand(m.id); if (!open && unread) markRead(m.id); }}
-                    className="flex items-center justify-between px-3 py-2 hover:bg-foreground/[0.04]"
+                    className="flex items-center justify-between px-3 py-2 hover:bg-violet-500/5"
                   >
                     <div className="flex items-center gap-3">
                       {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                       <div className="font-semibold">{m.subject}</div>
                       <span className="text-xs opacity-70">Gönderen: {m.sender.name ?? m.sender.email}</span>
-                      {unread && <span className="inline-flex items-center gap-1 rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-bold"><EyeOff className="h-3 w-3" /> Yeni</span>}
+                      {unread && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-bold">
+                          <EyeOff className="h-3 w-3" /> Yeni
+                        </span>
+                      )}
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="text-xs opacity-70">{fmt(m.createdAt)}</div>
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); deleteInbox(m.id); }}
-                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 hover:bg-foreground/5"
+                        className={chipBtn()}
                       >
                         <Trash2 className="h-4 w-4" /> Sil
                       </button>
@@ -200,7 +230,13 @@ export default function UserMessagesPage() {
               );
             })}
           </div>
-          <Pager page={page} total={total} pageSize={pageSize} onPrev={() => setPage((p) => Math.max(1, p - 1))} onNext={() => setPage((p) => Math.min(totalPages, p + 1))} />
+          <Pager
+            page={page}
+            total={total}
+            pageSize={pageSize}
+            onPrev={() => setPage((p) => Math.max(1, p - 1))}
+            onNext={() => setPage((p) => Math.min(totalPages, p + 1))}
+          />
         </div>
       )}
 
@@ -214,8 +250,15 @@ export default function UserMessagesPage() {
               const open = !!expanded[m.id];
               const anyRead = m.recipients.some((r) => r.readAt);
               return (
-                <div key={m.id} className="relative rounded-xl ring-1 ring-foreground/10 bg-white/50 dark:bg-white/10">
-                  <div className="flex items-center justify-between px-3 py-2">
+                <div
+                  key={m.id}
+                  className={[
+                    "relative rounded-xl",
+                    "bg-white/50 dark:bg-white/10 backdrop-blur-md",
+                    open ? "ring-2 ring-violet-500" : "ring-1 ring-transparent hover:ring-violet-400",
+                  ].join(" ")}
+                >
+                  <div className="flex items-center justify-between px-3 py-2 hover:bg-violet-500/5">
                     <div role="button" onClick={() => toggleExpand(m.id)} className="flex items-center gap-3">
                       {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                       <div className="font-semibold">{m.subject}</div>
@@ -227,7 +270,7 @@ export default function UserMessagesPage() {
                       <button
                         type="button"
                         onClick={() => deleteOutbox(m.id)}
-                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 hover:bg-foreground/5"
+                        className={chipBtn()}
                       >
                         <Trash2 className="h-4 w-4" /> Sil
                       </button>
@@ -238,22 +281,52 @@ export default function UserMessagesPage() {
               );
             })}
           </div>
-          <Pager page={page} total={total} pageSize={pageSize} onPrev={() => setPage((p) => Math.max(1, p - 1))} onNext={() => setPage((p) => Math.min(totalPages, p + 1))} />
+          <Pager
+            page={page}
+            total={total}
+            pageSize={pageSize}
+            onPrev={() => setPage((p) => Math.max(1, p - 1))}
+            onNext={() => setPage((p) => Math.min(totalPages, p + 1))}
+          />
         </div>
       )}
 
       {/* YENİ */}
       {tab === "compose" && (
-        <div className="rounded-2xl ring-1 ring-foreground/10 p-4">
+        <div className="rounded-2xl ring-1 ring-foreground/10 p-4 bg-white/50 dark:bg-white/10 backdrop-blur-md">
           <p className="mb-3 text-sm opacity-80">Bu formdan gönderdiğin mesaj organizasyon ekibine (admin) iletilir.</p>
           <div className="grid gap-2">
             <label className="text-sm">Konu</label>
-            <input className="rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10" value={subj} onChange={(e) => setSubj(e.target.value)} />
+            <input
+              className="rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+              value={subj}
+              onChange={(e) => setSubj(e.target.value)}
+            />
             <label className="text-sm">Mesaj</label>
-            <textarea className="min-h-[140px] rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10" value={body} onChange={(e) => setBody(e.target.value)} />
+            <textarea
+              className="min-h-[140px] rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+            />
             <div className="flex items-center justify-end gap-2 mt-2">
-              <button type="button" onClick={() => { setSubj(""); setBody(""); }} className="rounded-lg px-3 py-2 text-sm ring-1 ring-foreground/15 hover:bg-foreground/5">Temizle</button>
-              <button type="button" onClick={send} disabled={sending} className="rounded-lg px-3 py-2 text-sm text-[color:var(--background)] bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 disabled:opacity-60">
+              <button
+                type="button"
+                onClick={() => { setSubj(""); setBody(""); }}
+                className={chipBtn()}
+              >
+                Temizle
+              </button>
+              <button
+                type="button"
+                onClick={send}
+                disabled={sending}
+                className={[
+                  "rounded-lg px-3 py-2 text-sm text-[color:var(--background)]",
+                  "bg-white/30 dark:bg-white/10 backdrop-blur-md",
+                  "ring-2 ring-transparent hover:ring-violet-500 active:ring-violet-600 disabled:opacity-60",
+                  "transition"
+                ].join(" ")}
+              >
                 {sending ? "Gönderiliyor…" : "Gönder"}
               </button>
             </div>
@@ -264,21 +337,56 @@ export default function UserMessagesPage() {
   );
 }
 
+/** Sekme butonları — blur + görünmez kenarlık, hover’da renkli; aktifken kalıcı */
 function btn(active: boolean) {
   return [
-    "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm",
-    "ring-1 ring-foreground/15 hover:bg-foreground/5",
-    active ? "multicolor-persist" : "multicolor-hover",
+    "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition",
+    "bg-white/30 dark:bg-white/10 backdrop-blur-md",
+    active ? "ring-2 ring-violet-600" : "ring-2 ring-transparent hover:ring-violet-500 active:ring-violet-600",
   ].join(" ");
 }
-function Pager({ page, total, pageSize, onPrev, onNext }: { page: number; total: number; pageSize: number; onPrev: () => void; onNext: () => void; }) {
+
+/** Küçük çip buton — blur + hover’da renkli kenarlık */
+function chipBtn() {
+  return [
+    "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs transition",
+    "bg-white/30 dark:bg-white/10 backdrop-blur-md",
+    "ring-2 ring-transparent hover:ring-violet-500 active:ring-violet-600",
+  ].join(" ");
+}
+
+function Pager({
+  page, total, pageSize, onPrev, onNext,
+}: { page: number; total: number; pageSize: number; onPrev: () => void; onNext: () => void; }) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   return (
     <div className="mt-4 flex items-center justify-between text-sm">
       <div className="opacity-70">Toplam <strong>{total}</strong> mesaj • Sayfa <strong>{page}</strong> / {totalPages}</div>
       <div className="flex items-center gap-2">
-        <button type="button" onClick={onPrev} disabled={page <= 1} className="rounded-lg px-3 py-1 ring-1 ring-foreground/15 disabled:opacity-50">Önceki</button>
-        <button type="button" onClick={onNext} disabled={page >= totalPages} className="rounded-lg px-3 py-1 ring-1 ring-foreground/15 disabled:opacity-50">Sonraki</button>
+        <button
+          type="button"
+          onClick={onPrev}
+          disabled={page <= 1}
+          className={[
+            "rounded-lg px-3 py-1 transition disabled:opacity-50",
+            "bg-white/30 dark:bg-white/10 backdrop-blur-md",
+            "ring-2 ring-transparent hover:ring-violet-500 active:ring-violet-600",
+          ].join(" ")}
+        >
+          Önceki
+        </button>
+        <button
+          type="button"
+          onClick={onNext}
+          disabled={page >= totalPages}
+          className={[
+            "rounded-lg px-3 py-1 transition disabled:opacity-50",
+            "bg-white/30 dark:bg-white/10 backdrop-blur-md",
+            "ring-2 ring-transparent hover:ring-violet-500 active:ring-violet-600",
+          ].join(" ")}
+        >
+          Sonraki
+        </button>
       </div>
     </div>
   );
