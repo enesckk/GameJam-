@@ -313,7 +313,7 @@ export async function POST(req: NextRequest) {
           data: { userId: target.id, tokenHash, expiresAt },
         });
 
-        const link = `${baseUrl(req)}/reset?token=${encodeURIComponent(raw)}`;
+        const link = `${baseUrl(req)}/reset-password?token=${encodeURIComponent(raw)}`;
         inviteResetUrl = link; // istersen response'tan kaldırabilirsin
 
         const r: any = await sendAccessEmail({

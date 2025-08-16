@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       await db.passwordResetToken.create({ data: { userId: user.id, tokenHash, expiresAt } });
 
       const base = (process.env.APP_URL || "").trim() || new URL(req.url).origin;
-      const link = `${base}/reset?token=${encodeURIComponent(raw)}`;
+      const link = `${base}/reset-password?token=${encodeURIComponent(raw)}`;
 
       const r: any = await sendAccessEmail({ to: user.email, name: user.name ?? undefined, link, reason: "reset" });
       if (r?.error) console.error("ACCESS_EMAIL_ERROR", r.error);

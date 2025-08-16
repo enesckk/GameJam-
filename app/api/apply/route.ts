@@ -250,7 +250,7 @@ export async function POST(req: Request) {
             data: { userId: u.id, tokenHash, expiresAt },
           });
 
-          const link = `${base}/reset?token=${encodeURIComponent(raw)}`;
+          const link = `${base}/reset-password?token=${encodeURIComponent(raw)}`;
           const r: any = await sendAccessEmail({ to: u.email, name: u.name ?? undefined, link, reason: "invite" });
           if (r?.error) console.error("ACCESS_EMAIL_ERROR", r.error);
         }));
