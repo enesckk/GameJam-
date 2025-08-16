@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react";
 const SPONSORS = [
   { src: "/sehitkamill.png", alt: "Şehitkamil Belediyesi" },
   { src: "/huaweilogo.png",  alt: "Huawei Türkiye" },
-  { src: "/rotatelab.png",   alt: "RotateLab" },
+
   { src: "/globe.svg",       alt: "Planet Ekipman" },
-  { src: "/varil.png",       alt: "Varil Çorba" },
+
   // ...daha fazlası
 ];
 

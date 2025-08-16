@@ -38,15 +38,7 @@ export default function SponsorsPage() {
     },
   ];
 
-  const SUPPORT: Sponsor[] = [
-    {
-      name: "RotateLab",
-      logo: "/rotatelab.png",
-      website: "https://rotatelab.co",
-      note: "Ödül, mentörlük ve girişimleşme desteği",
-      badge: "Destek Sponsoru",
-    },
-  ];
+  
 
   const EQUIPMENT: Sponsor[] = [
     {
@@ -58,15 +50,7 @@ export default function SponsorsPage() {
     },
   ];
 
-  const CATERING: Sponsor[] = [
-    {
-      name: "Varil Çorba",
-      logo: "/varil.png",
-      website: "",
-      note: "Protokol ve akşam yemeği ikramları",
-      badge: "İkram Sponsoru",
-    },
-  ];
+  
 
   return (
     <div className="space-y-8">
@@ -79,9 +63,9 @@ export default function SponsorsPage() {
       {/* Daha büyük kartlar için 2 sütunlu geniş grid */}
       <SectionBlock title="Ev Sahibi / Organizasyon" items={HOST} />
       <SectionBlock title="Ana Sponsor" items={MAIN} />
-      <SectionBlock title="Destek Sponsoru" items={SUPPORT} />
+
       <SectionBlock title="Ekipman Sponsoru" items={EQUIPMENT} />
-      <SectionBlock title="İkram Sponsoru" items={CATERING} />
+   
 
       <SectionCard>
         <p className="text-xs opacity-75">
