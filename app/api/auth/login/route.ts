@@ -17,11 +17,7 @@ type Role = (typeof ROLES)[number];
 const SECURE = process.env.NODE_ENV === "production";
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
-function invCode() {
-  return Math.random().toString(36).slice(2, 8).toUpperCase();
-}
-
-// Panel yönlendirmeleri (gerekirse genişlet)
+// Panel yönlendirmeleri
 const routeByRole: Record<string, string> = {
   ADMIN: "/admin",
   MENTOR: "/mentor",
@@ -29,43 +25,42 @@ const routeByRole: Record<string, string> = {
   PARTICIPANT: "/panel",
 };
 
+// API ile Frontend farklı origin ise .env'de FRONTEND_ORIGIN set ederek cross-site cookie moduna geç
+const CROSS_SITE = !!process.env.FRONTEND_ORIGIN;
+const SAMESITE: "lax" | "none" = CROSS_SITE ? "none" : "lax";
+
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => null);
-    if (!body) {
-      return NextResponse.json({ message: "Geçersiz gövde" }, { status: 400 });
-    }
+    if (!body) return NextResponse.json({ message: "Geçersiz gövde" }, { status: 400 });
 
     const email = String(body.email ?? "").toLowerCase().trim();
     const password = String(body.password ?? "");
-
     if (!email || !password) {
       return NextResponse.json({ message: "E-posta ve şifre zorunlu" }, { status: 400 });
     }
 
-    // TAKIM + ÜYELERİYLE OKU
+    // Kullanıcı + takım ilişkisi
     const user = await db.user.findUnique({
       where: { email },
       include: { team: { include: { members: true } } },
     });
 
-    // Kullanıcı/şifre doğrulaması
     if (!user || !user.passwordHash || !(await bcrypt.compare(password, user.passwordHash))) {
       return NextResponse.json({ message: "E-posta veya şifre hatalı" }, { status: 401 });
     }
 
-   // canLogin kuralı — ADMIN için bypass
-if (!user.canLogin && user.role !== "ADMIN") {
-  return NextResponse.json(
-    { message: "Hesabın aktif değil. Davet linkini kullanarak şifreni belirlemelisin." },
-    { status: 403 }
-  );
-}
+    // canLogin kuralı — ADMIN için bypass
+    if (!user.canLogin && user.role !== "ADMIN") {
+      return NextResponse.json(
+        { message: "Hesabın aktif değil. Davet linkini kullanarak şifreni belirlemelisin." },
+        { status: 403 }
+      );
+    }
 
-    
     const safeName = normalizeDisplayNameTR(user.name ?? "");
 
-    // JWT üret
+    // JWT
     const token = await new SignJWT({
       sub: user.id,
       email: user.email,
@@ -78,28 +73,46 @@ if (!user.canLogin && user.role !== "ADMIN") {
       .setExpirationTime("7d")
       .sign(getSecret());
 
-    // Yönlendirme hedefi (role -> route)
-    const defaultRedirect =
-      routeByRole[user.role as keyof typeof routeByRole] ?? "/panel";
+    // Yönlendirme
+    const redirectTo = routeByRole[user.role as keyof typeof routeByRole] ?? "/panel";
 
-    // Response (JSON + cookies)
-    const res = NextResponse.json(
-      { ok: true, role: user.role, redirectTo: defaultRedirect },
-      { status: 200 }
-    );
+    // JSON body — UI bunu localStorage'a yazabilir ya da /api/me çağırabilir
+    const payload = {
+      ok: true,
+      redirectTo,
+      user: {
+        id: user.id,
+        fullName: safeName,
+        email: user.email.toLowerCase(),
+        phone: user.phone ?? "",
+        role: user.role,
+        profileRole: (ROLES.includes(user.profileRole as Role) ? user.profileRole : "developer") as Role,
+      },
+      team:
+        user.team
+          ? {
+              type: "team" as const,
+              teamName: user.team?.name || "Takımım",
+              memberCount: user.team.members.length, // yalnızca özet
+            }
+          : { type: "individual" as const },
+    };
 
-    // Eski UI cookie’lerini temizle
+    // Response
+    const res = NextResponse.json(payload, { status: 200 });
+
+    // Eski UI cookie’lerini temizlik
     for (const name of ["profile", "displayName", "team"]) {
       res.cookies.set(name, "", { path: "/", sameSite: "lax", maxAge: 0 });
     }
 
-    // AUTH cookies (HttpOnly)
+    // Auth cookies (küçük ve güvenli)
     res.cookies.set({
       name: "auth",
       value: token,
       httpOnly: true,
       secure: SECURE,
-      sameSite: "lax",
+      sameSite: SAMESITE,
       path: "/",
       maxAge: 60 * 60 * 24 * 7, // 7 gün
     });
@@ -108,87 +121,28 @@ if (!user.canLogin && user.role !== "ADMIN") {
       value: user.id,
       httpOnly: true,
       secure: SECURE,
-      sameSite: "lax",
+      sameSite: SAMESITE,
       path: "/",
       maxAge: ONE_YEAR,
     });
 
-    // PROFILE cookie (UI’nin okuduğu)
-    res.cookies.set(
-      "profile",
-      JSON.stringify({
-        fullName: safeName,
-        email: user.email.toLowerCase(),
-        phone: user.phone ?? "",
-        role: (ROLES.includes(user.profileRole as Role)
-          ? user.profileRole
-          : "developer") as Role,
-      }),
-      { path: "/", sameSite: "lax", maxAge: ONE_YEAR }
-    );
-
-    // TEAM cookie snapshot
-    const teamMembers = user.team
-      ? user.team.members.map((m) => ({
-          id: m.id,
-          name: m.name ?? "",
-          email: (m.email ?? "").toLowerCase(),
-          phone: m.phone ?? "",
-          age: Number.isFinite(m.age as any) ? Number(m.age) : 18,
-          role: (ROLES.includes(m.profileRole as Role)
-            ? (m.profileRole as Role)
-            : "developer") as Role,
-          status: m.canLogin ? "active" : "admin_added",
-          isLeader: m.id === user.id, // giriş yapan lider
-        }))
-      : [
-          {
-            id: user.id,
-            name: safeName,
-            email: user.email.toLowerCase(),
-            phone: user.phone ?? "",
-            age: Number.isFinite(user.age as any) ? Number(user.age) : 18,
-            role: (ROLES.includes(user.profileRole as Role)
-              ? (user.profileRole as Role)
-              : "developer") as Role,
-            status: "active" as const,
-            isLeader: true,
-          },
-        ];
-
-    // garanti: en az bir isLeader olsun
-    if (!teamMembers.some((x) => x.isLeader)) {
-      const meIdx = teamMembers.findIndex(
-        (x) => x.email === user.email.toLowerCase()
-      );
-      if (meIdx >= 0) {
-        teamMembers[meIdx].isLeader = true;
-        teamMembers[meIdx].status = "active";
-      }
-    }
-
-    res.cookies.set(
-      "team",
-      JSON.stringify({
-        type: user.team ? "team" : "individual",
-        teamName: user.team?.name || "Takımım",
-        inviteCode: invCode(),
-        members: teamMembers,
-      }),
-      { path: "/", sameSite: "lax", maxAge: ONE_YEAR }
-    );
-
-    // Üst bardaki isim (HttpOnly değil)
+    // (Opsiyonel) üst barda ad göstermek istersen küçük ve HttpOnly olmayan cookie
     res.cookies.set("displayName", safeName, {
       path: "/",
-      sameSite: "lax",
+      sameSite: SAMESITE,
+      secure: SECURE,
       maxAge: ONE_YEAR,
       httpOnly: false,
     });
 
     return res;
-  } catch (e) {
-    console.error(e);
+  } catch (e: any) {
+    console.error("LOGIN_500", {
+      err: e?.message,
+      stack: e?.stack,
+      hasDbUrl: !!process.env.DATABASE_URL,
+      secretLen: process.env.AUTH_SECRET?.length,
+    });
     return NextResponse.json({ message: "Sunucu hatası" }, { status: 500 });
   }
 }
