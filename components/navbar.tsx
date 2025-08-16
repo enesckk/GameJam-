@@ -7,23 +7,24 @@ import ThemeToggle from "./theme-toggle";
 
 const nav = [
   { href: "/hakkinda", label: "Hakkında" },
-  { href: "/takvim",  label: "Takvim" },
+  { href: "/takvim", label: "Takvim" },
   { href: "/kurallar", label: "Kurallar" },
   { href: "/duyurular", label: "Duyurular" },
-  { href: "/kayit",   label: "Kayıt" }, // CTA
+  { href: "/kayit", label: "Kayıt" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
 
-  // 1) Panel/Admin altında navbar'ı hiç render etme
-  const HIDE_PREFIXES = ["/panel", "/admin"];
-  const shouldHide = HIDE_PREFIXES.some((p) => pathname?.startsWith(p));
-  if (shouldHide) return null;
+  // 🚫 Bu prefixlerle başlayan sayfalarda Navbar gösterilmesin
+  const HIDE_PREFIXES = ["/panel", "/admin", "/auth"];
+  if (pathname && HIDE_PREFIXES.some((p) => pathname.startsWith(p))) {
+    return null;
+  }
 
-  // 2) Oturum kontrolü (cookie tabanlı basit kontrol)
   const [isAuth, setIsAuth] = useState(false);
   const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
     setMounted(true);
     const authCookieRegex =
@@ -31,38 +32,34 @@ export default function Navbar() {
     setIsAuth(authCookieRegex.test(document.cookie));
   }, []);
 
-  // 3) Scroll'a göre opak→yarı saydam + blur geçişi
-  const [scrolled, setScrolled] = useState(false);
-  const THRESHOLD = 24; // kaç px sonra blur+opacity açılsın
-  useEffect(() => {
-    const onScroll = () => setScrolled((window.scrollY || 0) > THRESHOLD);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <header
-      className={[
-        "sticky top-0 z-40 w-full overflow-x-clip transition-[background,backdrop-filter,border-color,box-shadow] duration-300",
-        // tepedeyken tam beyaz/tam siyah, blur yok
-        !scrolled
-          ? "bg-white dark:bg-black border-b border-black/5 dark:border-white/10"
-          // aşağıda yarı saydam + blur + hafif gölge
-          : "bg-white/70 dark:bg-black/70 supports-[backdrop-filter]:backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-black/60 border-b border-black/10 dark:border-white/10 shadow-[0_6px_20px_rgba(0,0,0,0.18)]",
-      ].join(" ")}
+      className="
+        sticky top-0 z-40 w-full overflow-x-clip
+        bg-white dark:bg-black
+        supports-[backdrop-filter]:backdrop-blur
+        supports-[backdrop-filter]:bg-white/70
+        dark:supports-[backdrop-filter]:bg-black/70
+        border-b border-black/5 dark:border-white/10
+        transition-colors duration-300
+      "
     >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="text-base md:text-lg font-extrabold tracking-tight">
+      <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between px-4 py-3">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="text-base md:text-lg font-extrabold tracking-tight whitespace-nowrap"
+        >
           Şehitkamil Game Jam
         </Link>
 
-        <div className="flex items-center gap-2 md:gap-3">
-          {/* Düz linkler (Kayıt hariç) */}
+        {/* Linkler */}
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
           {nav
             .filter((i) => i.href !== "/kayit")
             .map((i) => {
-              const active = pathname === i.href || pathname?.startsWith(i.href + "/");
+              const active =
+                pathname === i.href || pathname?.startsWith(i.href + "/");
               return (
                 <Link
                   key={i.href}
