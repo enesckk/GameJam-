@@ -246,22 +246,27 @@ export default function TeamPage() {
           </div>
 
           {/* Tür */}
-          <div>
-            <label className="text-sm">Tür</label>
-            <div className={wrap}>
-              <select
-                className={[input, "appearance-none cursor-pointer"].join(" ")}
-                value={team.type}
-                onChange={(e) => saveTeamBasics({ type: e.target.value as Team["type"] })}
-              >
-                <option value="individual">Bireysel</option>
-                <option value="team">Takım</option>
-              </select>
-            </div>
-            <p className="mt-1 text-xs text-[color:color-mix(in_oklab,var(--foreground)_70%,transparent)]">
-              Üye eklemek için türü “Takım”a alın.
-            </p>
-          </div>
+          {/* Tür */}
+<div>
+  <label className="text-sm">Tür</label>
+  <div className={wrap}>
+    <select
+      className={[
+        input,
+        "appearance-none cursor-pointer",
+        "bg-[color:color-mix(in_oklab,var(--foreground)_6%,transparent)]", // arka plan şeffaf yerine uyumlu renk
+      ].join(" ")}
+      value={team.type}
+      onChange={(e) => saveTeamBasics({ type: e.target.value as Team["type"] })}
+    >
+      <option value="individual">Bireysel</option>
+      <option value="team">Takım</option>
+    </select>
+  </div>
+  <p className="mt-1 text-xs text-[color:color-mix(in_oklab,var(--foreground)_70%,transparent)]">
+    Üye eklemek için türü “Takım”a alın.
+  </p>
+</div>
 
           {/* Opsiyonel: Takım Kodu */}
           <div>

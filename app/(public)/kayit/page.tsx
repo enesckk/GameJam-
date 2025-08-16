@@ -416,15 +416,27 @@ export default function KayitPage() {
 
             {/* Rol */}
             <select
-              className="w-full rounded-xl border border-white/50 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent backdrop-blur-sm"
-              value={f.role}
-              onChange={(e) => onChange("role", e.target.value as RoleOption)}
-            >
-              <option value="developer">Yazılımcı</option>
-              <option value="designer">Tasarımcı</option>
-              <option value="audio">Ses/Müzik</option>
-              <option value="pm">İçerik/PM</option>
-            </select>
+  className="w-full rounded-xl border border-white/50 dark:border-white/10 
+             bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 
+             outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent 
+             backdrop-blur-sm appearance-none"
+  value={f.role}
+  onChange={(e) => onChange("role", e.target.value as RoleOption)}
+>
+  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="developer">
+    Yazılımcı
+  </option>
+  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="designer">
+    Tasarımcı
+  </option>
+  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="audio">
+    Ses/Müzik
+  </option>
+  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="pm">
+    İçerik/PM
+  </option>
+</select>
+
 
             {/* Takım üyeleri */}
             {f.type === "team" && (
@@ -474,15 +486,18 @@ export default function KayitPage() {
                         onChange={(e) => onMemberChange(i, { age: e.target.value })}
                       />
                       <select
-                        className="rounded-xl border border-white/50 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 backdrop-blur-sm"
-                        value={m.role}
-                        onChange={(e) => onMemberChange(i, { role: e.target.value as Member["role"] })}
-                      >
-                        <option value="developer">Yazılımcı</option>
-                        <option value="designer">Tasarımcı</option>
-                        <option value="audio">Ses/Müzik</option>
-                        <option value="pm">İçerik/PM</option>
-                      </select>
+  className="rounded-xl border border-white/50 dark:border-white/10 
+             bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 
+             backdrop-blur-sm appearance-none"
+  value={m.role}
+  onChange={(e) => onMemberChange(i, { role: e.target.value as Member["role"] })}
+>
+  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="developer">Yazılımcı</option>
+  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="designer">Tasarımcı</option>
+  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="audio">Ses/Müzik</option>
+  <option className="bg-white/70 dark:bg-black/40 text-gray-900 dark:text-gray-100" value="pm">İçerik/PM</option>
+</select>
+
 
                       <div className="flex items-center">
                         <button
