@@ -40,12 +40,12 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-colors duration-300 ${
-        isScrolled
-          ? "backdrop-blur bg-white/70 dark:bg-black/70 border-b border-black/5 dark:border-white/10"
-          : "bg-white dark:bg-black border-b border-transparent"
-      }`}
-    >
+  className={`sticky top-0 z-40 w-full transition-colors duration-300 ${
+    isScrolled
+      ? "backdrop-blur border-b border-black/5 dark:border-white/10"
+      : "bg-white dark:bg-black border-b border-transparent"
+  }`}
+>
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         {/* Logo */}
         <Link
