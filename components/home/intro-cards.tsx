@@ -69,14 +69,15 @@ export default function IntroCards() {
     <section className="relative z-0 mx-auto w-full overflow-x-clip px-4 sm:px-6 py-12 md:py-14">
       <div
         className="
-          mb-6 text-xl font-extrabold uppercase tracking-wide
+          mb-6 text-center
+          text-xl font-extrabold uppercase tracking-wide
           text-neon-blue drop-shadow-[0_0_8px_#00ffff]
         "
       >
         Etkinlik Özeti
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid justify-center gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <Item
           icon={<span role="img" aria-label="Oyun">🎮</span>}
           title="Tema: Oyna ve Kazan!"

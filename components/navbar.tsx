@@ -28,7 +28,17 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 w-full overflow-x-clip bg-background/70 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className="
+        sticky top-0 z-40 w-full overflow-x-clip
+        bg-white/85 dark:bg-black/85
+        supports-[backdrop-filter]:backdrop-blur
+        supports-[backdrop-filter]:bg-white/65
+        dark:supports-[backdrop-filter]:bg-black/65
+        border-b border-black/5 dark:border-white/10
+        transition-colors duration-300
+      "
+    >
       <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between px-4 py-3">
         {/* Logo */}
         <Link
@@ -38,7 +48,7 @@ export default function Navbar() {
           Şehitkamil Game Jam
         </Link>
 
-        {/* Linkler */}
+        {/* Linkler (gizleme yok, mobilde sarar) */}
         <div className="flex flex-wrap items-center gap-2 md:gap-3">
           {nav
             .filter((i) => i.href !== "/kayit")
