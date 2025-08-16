@@ -15,8 +15,8 @@ function getSecret() {
 export async function GET() {
   try {
     // ← HATA BURADAYDI: cookies() Promise; await et
-    const store = cookies();
-    const token = (await store).get("auth")?.value;
+    const store = await cookies();
+    const token = store.get("auth")?.value;
     if (!token) return NextResponse.json({ ok: false }, { status: 401 });
 
     const { payload } = await jwtVerify(token, getSecret(), { clockTolerance: 5 });
