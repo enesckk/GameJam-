@@ -42,7 +42,7 @@ export default function Navbar() {
     <header
   className={`sticky top-0 z-40 w-full transition-colors duration-300 ${
     isScrolled
-      ? "backdrop-blur border-b border-black/5 dark:border-white/10"
+      ? "backdrop-blur bg-transparent border-b border-black/5 dark:border-white/10"
       : "bg-white dark:bg-black border-b border-transparent"
   }`}
 >
