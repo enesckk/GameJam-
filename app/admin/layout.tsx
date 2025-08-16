@@ -11,12 +11,8 @@ type Props = {
   mode?: "auto" | "light" | "dark";
   opacity?: number;
   overlay?: boolean;
-  /** true: tema değişince videoyu başa alıp resetler; false: kaldığı yerden devam etmeye çalışır */
+  /** true: tema değişince videoyu başa al ve yeniden yükle; false: kaldığı yerden devam etmeye çalış */
   restartOnThemeChange?: boolean;
-  /** stacking sorunlarını aşmak için: "absolute" (varsayılan) veya "fixed" */
-  position?: "absolute" | "fixed";
-  /** görünürlük optimizasyonu (IntersectionObserver). Sorunlu sayfalarda false yap */
-  useIO?: boolean;
 };
 
 export default function VideoBG({
@@ -26,8 +22,6 @@ export default function VideoBG({
   opacity = 0.85,
   overlay = true,
   restartOnThemeChange = false,
-  position = "absolute",
-  useIO = true,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -51,7 +45,6 @@ export default function VideoBG({
 
   // görünürlük & viewport dışında durdur/başlat (performans)
   useEffect(() => {
-    if (!useIO) return;
     const v = videoRef.current;
     if (!v) return;
 
@@ -73,7 +66,7 @@ export default function VideoBG({
       document.removeEventListener("visibilitychange", onVis);
       io.disconnect();
     };
-  }, [useIO]);
+  }, []);
 
   // Tema değişiminde davranış
   useEffect(() => {
@@ -86,12 +79,10 @@ export default function VideoBG({
       return;
     }
 
-    // Kaldığı yerden devam etmeye çalış
     const currentTime = v.currentTime || 0;
     const wasPaused = v.paused;
     const next = src.mp4;
 
-    // hiç değişmeyecekse dokunma
     if ((v as any)._activeSrc === next) return;
 
     const onLoaded = () => {
@@ -111,12 +102,8 @@ export default function VideoBG({
 
   if (!mounted) return null;
 
-  const wrapperClass =
-    "pointer-events-none " +
-    (position === "fixed" ? "fixed inset-0 z-[-1]" : "absolute inset-0 -z-10");
-
   return (
-    <div aria-hidden className={wrapperClass}>
+    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
       {/* motion hassas kullanıcılar için video yerine poster */}
       <div className="motion-reduce:block hidden absolute inset-0">
         {src.poster && <img src={src.poster} alt="" className="h-full w-full object-cover" />}
@@ -133,7 +120,6 @@ export default function VideoBG({
         poster={src.poster}
         key={restartOnThemeChange ? (isDark ? "dark" : "light") : "static"}
         style={{ opacity }}
-        onCanPlay={() => videoRef.current?.play().catch(() => {})}
       >
         <source src={src.mp4} type="video/mp4" />
       </video>
