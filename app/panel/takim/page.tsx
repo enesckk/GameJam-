@@ -418,7 +418,9 @@ export default function TeamPage() {
                 <input className={input} value={mAge} onChange={(e) => setMAge(e.target.value)} placeholder="Yaş (14+)" inputMode="numeric" />
               </div>
             </div>
-            <RoleSelect className="md:col-span-1" value={mRole} onChange={setMRole}/>
+
+            {/* Rol seçimi — label kaldırıldı */}
+            <RoleSelect className="md:col-span-1" value={mRole} onChange={setMRole} />
 
             <div className="md:col-span-6">
               <button
