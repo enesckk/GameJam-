@@ -27,7 +27,7 @@ export default function Hero() {
     <section
       className="
         relative z-0 isolate w-full
-        overflow-x-clip overflow-y-visible
+        overflow-hidden
         py-20 md:py-24
         text-white dark:text-white
         bg-gradient-to-b 

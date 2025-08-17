@@ -133,6 +133,7 @@ export default function UserMessagesPage() {
     <div className="space-y-6">
       <h1 className="text-xl font-bold">Mesajlar</h1>
 
+      {/* Sekmeler: blur, başlangıçta kenarlıksız; hover ve aktifken renkli */}
       <div className="flex items-center gap-2">
         <button
           onClick={() => { setTab("inbox"); setPage(1); }}
@@ -158,10 +159,11 @@ export default function UserMessagesPage() {
 
       {tab !== "compose" && (
         <div className="flex flex-wrap items-center gap-2">
+          {/* Arama: blur, başlangıçta kenarlıksız; focus'ta renkli ring */}
           <div className="relative">
             <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60" />
             <input
-              className="w-80 rounded-xl bg-foreground/5 pl-8 pr-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+              className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none ring-0 focus:ring-2 focus:ring-violet-500"
               placeholder={tab === "inbox" ? "Konu/içerik/gönderen ara…" : "Konu/içerik/alıcı ara…"}
               value={q}
               onChange={(e) => { setQ(e.target.value); setPage(1); }}
@@ -183,7 +185,7 @@ export default function UserMessagesPage() {
 
       {/* GELEN */}
       {tab === "inbox" && (
-        <div className="rounded-2xl ring-1 ring-foreground/10 p-3">
+        <div className="rounded-2xl ring-0 p-3">
           {loading && <div className="py-10 text-center opacity-70">Yükleniyor…</div>}
           {!loading && inbox.length === 0 && <div className="py-10 text-center opacity-70">Mesaj yok.</div>}
           <div className="grid gap-3">
@@ -196,15 +198,16 @@ export default function UserMessagesPage() {
                   className={[
                     "relative rounded-xl",
                     "bg-white/50 dark:bg-white/10 backdrop-blur-md",
-                    open ? "ring-2 ring-violet-500" : "ring-1 ring-transparent hover:ring-violet-400",
+                    open ? "ring-2 ring-violet-500" : "ring-0 hover:ring-2 hover:ring-violet-400",
+                    "transition"
                   ].join(" ")}
                 >
                   <div
                     role="button"
                     onClick={() => { toggleExpand(m.id); if (!open && unread) markRead(m.id); }}
-                    className="flex items-center justify-between px-3 py-2 hover:bg-violet-500/5"
+                    className="flex items-center justify-between px-3 py-2 hover:bg-violet-500/5 rounded-xl"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
                       {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                       <div className="font-semibold">{m.subject}</div>
                       <span className="text-xs opacity-70">Gönderen: {m.sender.name ?? m.sender.email}</span>
@@ -215,7 +218,10 @@ export default function UserMessagesPage() {
                       )}
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="text-xs opacity-70">{fmt(m.createdAt)}</div>
+                      {/* Tarih-saat daha belirgin */}
+                      <time dateTime={m.createdAt} title={m.createdAt} className="text-sm font-medium opacity-90">
+                        {fmt(m.createdAt)}
+                      </time>
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); deleteInbox(m.id); }}
@@ -242,7 +248,7 @@ export default function UserMessagesPage() {
 
       {/* GİDEN */}
       {tab === "outbox" && (
-        <div className="rounded-2xl ring-1 ring-foreground/10 p-3">
+        <div className="rounded-2xl ring-0 p-3">
           {loading && <div className="py-10 text-center opacity-70">Yükleniyor…</div>}
           {!loading && outbox.length === 0 && <div className="py-10 text-center opacity-70">Mesaj yok.</div>}
           <div className="grid gap-3">
@@ -255,18 +261,21 @@ export default function UserMessagesPage() {
                   className={[
                     "relative rounded-xl",
                     "bg-white/50 dark:bg-white/10 backdrop-blur-md",
-                    open ? "ring-2 ring-violet-500" : "ring-1 ring-transparent hover:ring-violet-400",
+                    open ? "ring-2 ring-violet-500" : "ring-0 hover:ring-2 hover:ring-violet-400",
+                    "transition"
                   ].join(" ")}
                 >
-                  <div className="flex items-center justify-between px-3 py-2 hover:bg-violet-500/5">
-                    <div role="button" onClick={() => toggleExpand(m.id)} className="flex items-center gap-3">
+                  <div className="flex items-center justify-between px-3 py-2 hover:bg-violet-500/5 rounded-xl">
+                    <div role="button" onClick={() => toggleExpand(m.id)} className="flex flex-wrap items-center gap-3">
                       {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                       <div className="font-semibold">{m.subject}</div>
                       <span className="text-xs opacity-70">Alıcılar: {m.recipients.map((r) => r.name ?? r.email).join(", ")}</span>
                       {anyRead && <span className="text-[10px] rounded-full bg-foreground/10 px-2 py-0.5">Okundu var</span>}
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="text-xs opacity-70">{fmt(m.createdAt)}</div>
+                      <time dateTime={m.createdAt} title={m.createdAt} className="text-sm font-medium opacity-90">
+                        {fmt(m.createdAt)}
+                      </time>
                       <button
                         type="button"
                         onClick={() => deleteOutbox(m.id)}
@@ -293,18 +302,18 @@ export default function UserMessagesPage() {
 
       {/* YENİ */}
       {tab === "compose" && (
-        <div className="rounded-2xl ring-1 ring-foreground/10 p-4 bg-white/50 dark:bg-white/10 backdrop-blur-md">
+        <div className="rounded-2xl ring-0 p-4 bg-white/50 dark:bg-white/10 backdrop-blur-md">
           <p className="mb-3 text-sm opacity-80">Bu formdan gönderdiğin mesaj organizasyon ekibine (admin) iletilir.</p>
           <div className="grid gap-2">
             <label className="text-sm">Konu</label>
             <input
-              className="rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+              className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none ring-0 focus:ring-2 focus:ring-violet-500"
               value={subj}
               onChange={(e) => setSubj(e.target.value)}
             />
             <label className="text-sm">Mesaj</label>
             <textarea
-              className="min-h-[140px] rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+              className="min-h-[140px] rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none ring-0 focus:ring-2 focus:ring-violet-500"
               value={body}
               onChange={(e) => setBody(e.target.value)}
             />
@@ -323,7 +332,7 @@ export default function UserMessagesPage() {
                 className={[
                   "rounded-lg px-3 py-2 text-sm text-[color:var(--background)]",
                   "bg-white/30 dark:bg-white/10 backdrop-blur-md",
-                  "ring-2 ring-transparent hover:ring-violet-500 active:ring-violet-600 disabled:opacity-60",
+                  "ring-0 hover:ring-2 hover:ring-violet-500 active:ring-2 active:ring-violet-600",
                   "transition"
                 ].join(" ")}
               >
@@ -337,21 +346,23 @@ export default function UserMessagesPage() {
   );
 }
 
-/** Sekme butonları — blur + görünmez kenarlık, hover’da renkli; aktifken kalıcı */
+/** Sekme butonları — blur; başlangıçta kenarlıksız, hover’da renkli; aktifken kalıcı renkli */
 function btn(active: boolean) {
   return [
     "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition",
     "bg-white/30 dark:bg-white/10 backdrop-blur-md",
-    active ? "ring-2 ring-violet-600" : "ring-2 ring-transparent hover:ring-violet-500 active:ring-violet-600",
+    active
+      ? "ring-2 ring-violet-600"
+      : "ring-0 hover:ring-2 hover:ring-violet-500 active:ring-2 active:ring-violet-600",
   ].join(" ");
 }
 
-/** Küçük çip buton — blur + hover’da renkli kenarlık */
+/** Küçük çip buton — blur; başlangıçta kenarlıksız; hover’da/tıklayınca renkli */
 function chipBtn() {
   return [
     "inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs transition",
     "bg-white/30 dark:bg-white/10 backdrop-blur-md",
-    "ring-2 ring-transparent hover:ring-violet-500 active:ring-violet-600",
+    "ring-0 hover:ring-2 hover:ring-violet-500 active:ring-2 active:ring-violet-600",
   ].join(" ");
 }
 
@@ -370,7 +381,7 @@ function Pager({
           className={[
             "rounded-lg px-3 py-1 transition disabled:opacity-50",
             "bg-white/30 dark:bg-white/10 backdrop-blur-md",
-            "ring-2 ring-transparent hover:ring-violet-500 active:ring-violet-600",
+            "ring-0 hover:ring-2 hover:ring-violet-500 active:ring-2 active:ring-violet-600",
           ].join(" ")}
         >
           Önceki
@@ -382,7 +393,7 @@ function Pager({
           className={[
             "rounded-lg px-3 py-1 transition disabled:opacity-50",
             "bg-white/30 dark:bg-white/10 backdrop-blur-md",
-            "ring-2 ring-transparent hover:ring-violet-500 active:ring-violet-600",
+            "ring-0 hover:ring-2 hover:ring-violet-500 active:ring-2 active:ring-violet-600",
           ].join(" ")}
         >
           Sonraki
