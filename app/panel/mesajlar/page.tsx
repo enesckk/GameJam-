@@ -207,13 +207,16 @@ export default function UserMessagesPage() {
                     >
                       <div className="flex flex-wrap items-center gap-3">
                         {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                         {/* küçük renkli nokta */}
+    {unread && <span className="h-2 w-2 rounded-full bg-violet-600 shadow-sm" />}
                         <div className="font-semibold">{m.subject}</div>
                         <span className="text-xs opacity-70">Gönderen: {m.sender.name ?? m.sender.email}</span>
-                        {unread && (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-bold">
-                            <EyeOff className="h-3 w-3" /> Yeni
-                          </span>
-                        )}
+                        {/* rozet belirgin */}
+    {unread && (
+      <span className="inline-flex items-center gap-1 rounded-full bg-violet-600 text-white px-2 py-0.5 text-[10px] font-bold">
+        <EyeOff className="h-3 w-3" /> Yeni
+      </span>
+    )}
                       </div>
                       <div className="flex items-center gap-2">
                         <time dateTime={m.createdAt} title={m.createdAt} className="text-sm font-medium opacity-90">

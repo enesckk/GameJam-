@@ -538,55 +538,77 @@ export default function AdminMessagesPage() {
           )}
 
           <div className="grid gap-3">
-            {inbox.map((m) => {
-              const open = !!expanded[m.id];
-              const unread = !m.readAt;
-              return (
-                <div
-                  key={m.id}
-                  className="relative rounded-2xl ring-1 ring-foreground/10 bg-white/50 backdrop-blur dark:bg-white/10 transition group multicolor-hover hover:multicolor-persist"
-                >
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-y-0 left-0 w-1 rounded-r-full bg-gradient-to-b from-fuchsia-600 via-violet-600 to-cyan-500 opacity-60 group-hover:opacity-100 z-0"
-                  />
-                  <div
-                    role="button"
-                    onClick={() => {
-                      toggleExpand(m.id);
-                      if (!open && unread) markRead(m.id);
-                    }}
-                    className="relative z-10 flex w-full items-center justify-between px-4 py-3 text-left hover:bg-foreground/[0.04]"
-                  >
-                    <div className="flex items-center gap-3">
-                      {open ? (
-                        <ChevronDown className="h-4 w-4" />
-                      ) : (
-                        <ChevronRight className="h-4 w-4" />
-                      )}
-                      <div className="font-semibold">{m.subject}</div>
-                      <span className="text-xs opacity-70">
-                        Gönderen: {m.sender.name ?? m.sender.email}
-                      </span>
-                      {unread && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-bold">
-                          <EyeOff className="h-3 w-3" /> Yeni
-                        </span>
-                      )}
-                    </div>
-                    <time dateTime={m.createdAt} title={m.createdAt} className="text-sm font-medium opacity-90">
-  {fmt(m.createdAt)}
-</time>
+           {inbox.map((m) => {
+  const open = !!expanded[m.id];
+  const unread = !m.readAt;
 
-                  </div>
-                  {open && (
-                    <div className="px-4 pb-4 relative z-10">
-                      <p className="text-sm whitespace-pre-wrap">{m.body}</p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+  return (
+    <div
+      key={m.id}
+      className={[
+        "relative rounded-2xl ring-1 bg-white/50 backdrop-blur dark:bg-white/10 transition group multicolor-hover hover:multicolor-persist",
+        unread ? "ring-violet-500/40 ring-2 bg-violet-50 dark:bg-violet-950/20" : "ring-foreground/10"
+      ].join(" ")}
+    >
+      <span
+        aria-hidden
+        className={[
+          "pointer-events-none absolute inset-y-0 left-0 w-1 rounded-r-full z-0 transition-opacity",
+          unread
+            ? "bg-gradient-to-b from-fuchsia-600 via-violet-600 to-cyan-500 opacity-100"
+            : "bg-gradient-to-b from-fuchsia-600 via-violet-600 to-cyan-500 opacity-60 group-hover:opacity-100"
+        ].join(" ")}
+      />
+      <div
+        role="button"
+        onClick={() => {
+          toggleExpand(m.id);
+          if (!open && unread) markRead(m.id);
+        }}
+        className="relative z-10 flex w-full items-center justify-between px-4 py-3 text-left hover:bg-foreground/[0.04]"
+      >
+        <div className="flex items-center gap-3">
+          {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+
+          {/* durum noktası */}
+          {unread && <span className="h-2 w-2 rounded-full bg-violet-600 shadow-[0_0_0_2px_rgba(255,255,255,0.8)] dark:shadow-[0_0_0_2px_rgba(0,0,0,0.6)]" />}
+
+          {/* konu */}
+          <div className={["truncate", unread ? "font-extrabold" : "font-semibold"].join(" ")}>
+            {m.subject}
+          </div>
+
+          <span className="text-xs opacity-70">
+            Gönderen: {m.sender.name ?? m.sender.email}
+          </span>
+
+          {/* yeni rozeti */}
+          {unread && (
+            <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold
+                             bg-violet-600 text-white shadow-sm">
+              <EyeOff className="h-3 w-3" /> Yeni
+            </span>
+          )}
+        </div>
+
+        <time
+          dateTime={m.createdAt}
+          title={m.createdAt}
+          className={["text-sm opacity-90", unread ? "font-bold" : "font-medium"].join(" ")}
+        >
+          {fmt(m.createdAt)}
+        </time>
+      </div>
+
+      {open && (
+        <div className="px-4 pb-4 relative z-10">
+          <p className="text-sm whitespace-pre-wrap">{m.body}</p>
+        </div>
+      )}
+    </div>
+  );
+})}
+
           </div>
 
           <Pager
