@@ -154,8 +154,8 @@ export default function UserMessagesPage() {
           <div className="relative">
             <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
             <input
-              className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none
-                         ring-0 focus:ring-2 focus:ring-violet-500 transition"
+          className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none
+               ring-0 focus:ring-2 focus:ring-violet-500 transition"
               placeholder={tab === "inbox" ? "Konu/içerik/gönderen ara…" : "Konu/içerik/alıcı ara…"}
               value={q}
               onChange={(e) => { setQ(e.target.value); setPage(1); }}
@@ -177,7 +177,7 @@ export default function UserMessagesPage() {
 
       {/* GELEN — kutu içinde kutu */}
       {tab === "inbox" && (
-        <div className="rounded-2xl p-3">
+        <div className="rounded-2xl p-4 bg-white/30 dark:bg-white/10 backdrop-blur-md">
           {loading && <div className="py-10 text-center opacity-70">Yükleniyor…</div>}
           {!loading && inbox.length === 0 && <div className="py-10 text-center opacity-70">Mesaj yok.</div>}
           <div className="grid gap-3">
@@ -242,7 +242,7 @@ export default function UserMessagesPage() {
 
       {/* GİDEN — kutu içinde kutu */}
       {tab === "outbox" && (
-        <div className="rounded-2xl p-3">
+        <div className="rounded-2xl p-4 bg-white/30 dark:bg-white/10 backdrop-blur-md">
           {loading && <div className="py-10 text-center opacity-70">Yükleniyor…</div>}
           {!loading && outbox.length === 0 && <div className="py-10 text-center opacity-70">Mesaj yok.</div>}
           <div className="grid gap-3">
