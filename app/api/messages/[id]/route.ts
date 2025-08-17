@@ -95,33 +95,66 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
       }
     }
 
-    if (box === "outbox") {
-      if (hard) {
-        const res = await db.message.deleteMany({ where: { id, senderId: me } });
-        if (res.count === 0) return NextResponse.json({ message: "Mesaj bulunamadı" }, { status: 404 });
-        return NextResponse.json({ ok: true, hard: true });
-      }
-      const res = await db.message.updateMany({
-        where: { id, senderId: me, deletedBySenderAt: null },
-        data: { deletedBySenderAt: new Date() },
-      });
-      if (res.count === 0) return NextResponse.json({ message: "Mesaj bulunamadı veya zaten silinmiş" }, { status: 404 });
-      return NextResponse.json({ ok: true, hard: false });
-    }
+    // DELETE (önerilen kısım)
+if (box === "outbox") {
+  if (hard) {
+    await db.$transaction(async (tx) => {
+      await tx.messageRecipient.deleteMany({ where: { messageId: id } });
+      const res = await tx.message.deleteMany({ where: { id, senderId: me } });
+      if (res.count === 0) throw new Error("NOT_FOUND");
+    });
+    return NextResponse.json({ ok: true, hard: true });
+  }
 
-    if (box === "inbox") {
-      if (hard) {
-        const res = await db.messageRecipient.deleteMany({ where: { messageId: id, userId: me } });
-        if (res.count === 0) return NextResponse.json({ message: "Mesaj alımı bulunamadı" }, { status: 404 });
-        return NextResponse.json({ ok: true, hard: true });
+  const res = await db.message.updateMany({
+    where: { id, senderId: me, deletedBySenderAt: null },
+    data: { deletedBySenderAt: new Date() },
+  });
+  if (res.count === 0) return NextResponse.json({ message: "Mesaj bulunamadı veya zaten silinmiş" }, { status: 404 });
+
+  // Sender soft-delete’ten sonra kimse görmüyorsa auto-hard-delete
+  const stillVisible = await db.messageRecipient.count({
+    where: { messageId: id, deletedByRecipientAt: null },
+  });
+  if (stillVisible === 0) {
+    await db.message.delete({ where: { id } }).catch(() => {});
+  }
+  return NextResponse.json({ ok: true, hard: false });
+}
+
+if (box === "inbox") {
+  if (hard) {
+    await db.$transaction(async (tx) => {
+      const res = await tx.messageRecipient.deleteMany({ where: { messageId: id, userId: me } });
+      if (res.count === 0) throw new Error("NOT_FOUND");
+
+      // Bu alıcı çıkarıldıktan sonra kimse kalmadıysa ve sender da silmişse mesajı tamamen kaldır
+      const left = await tx.messageRecipient.count({ where: { messageId: id } });
+      if (left === 0) {
+        const msg = await tx.message.findUnique({ where: { id }, select: { deletedBySenderAt: true } });
+        if (msg?.deletedBySenderAt) await tx.message.delete({ where: { id } });
       }
-      const res = await db.messageRecipient.updateMany({
-        where: { messageId: id, userId: me, deletedByRecipientAt: null },
-        data: { deletedByRecipientAt: new Date() },
-      });
-      if (res.count === 0) return NextResponse.json({ message: "Mesaj alımı bulunamadı veya zaten silinmiş" }, { status: 404 });
-      return NextResponse.json({ ok: true, hard: false });
-    }
+    });
+    return NextResponse.json({ ok: true, hard: true });
+  }
+
+  const res = await db.messageRecipient.updateMany({
+    where: { messageId: id, userId: me, deletedByRecipientAt: null },
+    data: { deletedByRecipientAt: new Date() },
+  });
+  if (res.count === 0) return NextResponse.json({ message: "Mesaj alımı bulunamadı veya zaten silinmiş" }, { status: 404 });
+
+  // Soft-delete sonrası otomatik temizlik
+  const leftVisible = await db.messageRecipient.count({
+    where: { messageId: id, deletedByRecipientAt: null },
+  });
+  if (leftVisible === 0) {
+    const msg = await db.message.findUnique({ where: { id }, select: { deletedBySenderAt: true } });
+    if (msg?.deletedBySenderAt) await db.message.delete({ where: { id } }).catch(() => {});
+  }
+  return NextResponse.json({ ok: true, hard: false });
+}
+
 
     return NextResponse.json({ message: "Mesaj bulunamadı" }, { status: 404 });
   } catch (e) {

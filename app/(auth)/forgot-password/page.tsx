@@ -26,7 +26,7 @@ export default function ForgotPasswordPage() {
         setErr(j?.message || "Bir hata oluştu.");
         return;
       }
-      setMsg("E‑posta gönderildi (geliştirmede konsola yazdırıldı). Gelen kutunu kontrol et.");
+      setMsg("E‑posta gönderildi. Gelen kutunu kontrol et.");
     } finally { setLoading(false); }
   }
 
@@ -36,8 +36,8 @@ export default function ForgotPasswordPage() {
         overlay
         mode="auto"
         opacity={0.9}
-        light={{ webm: "/videos/light-bg.webm", mp4: "/videos/bg-light.mp4", poster: "/images/light-bg.jpg" }}
-        dark={{ webm: "/videos/dark-bg.webm",  mp4: "/videos/bg-dark.mp4",  poster: "/images/dark-bg.jpg"  }}
+        light={{ mp4: "/videos/bg-light.mp4" }}
+        dark={{ mp4: "/videos/bg-dark.mp4" }}
       />
       <div className="relative z-10 mx-auto flex min-h-screen max-w-3xl items-center justify-center px-4">
         <div className="w-full max-w-md rounded-2xl border border-black/10 bg-white/80 p-8 text-gray-900 backdrop-blur-md shadow-xl dark:border-white/10 dark:bg-white/10 dark:text-white">

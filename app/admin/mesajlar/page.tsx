@@ -609,6 +609,7 @@ export default function AdminMessagesPage() {
               const subjectTrim = (draft.subject ?? "").trim();
               const bodyTrim = (draft.body ?? "").trim();
               const isValid = subjectTrim.length >= 3 && bodyTrim.length >= 1;
+              const isDirty = subjectTrim !== (m.subject ?? "") || bodyTrim !== (m.body ?? "");
               const isSaving = !!editState[m.id]?.saving;
               const errorMsg = editState[m.id]?.msg;
 
@@ -720,7 +721,7 @@ export default function AdminMessagesPage() {
                         />
                         <div className="flex items-center justify-end gap-2">
                           <div className="mr-auto text-xs opacity-75">
-                            {isSaving ? "Kaydediliyor…" : errorMsg || ""}
+                            {isSaving ? "Kaydediliyor…" : errorMsg || (!isDirty ? "Değişiklik yok" : (!isValid ? "Başlık ≥ 3, içerik ≥ 1 karakter olmalı" : ""))}
                           </div>
                           <button
                             type="button"
@@ -739,7 +740,7 @@ export default function AdminMessagesPage() {
                               e.stopPropagation();
                               saveEdit(m.id);
                             }}
-                            disabled={isSaving || !isValid}
+                            disabled={isSaving || !isValid || !isDirty}
                             className="rounded-lg px-3 py-1 text-sm text-[color:var(--background)] bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 disabled:opacity-60"
                           >
                             {isSaving ? "Kaydediliyor…" : "Kaydet"}

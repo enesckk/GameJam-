@@ -300,7 +300,7 @@ export default function TeamPage() {
       }
       setTeam(j.team as Team);
       setInviteLink(j.inviteResetUrl as string);
-      setMsg("Üye eklendi. Davet e-postası canlıda gönderilecek. (Demo linki hazır)");
+      setMsg("Üye eklendi. Davet e-postası canlıda gönderilecek.");
       setMName("");
       setMEmail("");
       setMPhone("");
