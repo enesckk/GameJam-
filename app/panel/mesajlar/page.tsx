@@ -152,15 +152,19 @@ export default function UserMessagesPage() {
         <div className="flex flex-wrap items-center gap-2">
           {/* Arama: blur, başta kenarlıksız; focus'ta renkli ring; ikon belirgin */}
           <div className="relative">
-            <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
-            <input
-          className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none
+  <Search 
+    className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 
+               text-neutral-600 dark:text-neutral-300 z-10 pointer-events-none" 
+  />
+  <input
+    className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md 
+               pl-9 pr-3 py-2 text-sm outline-none
                ring-0 focus:ring-2 focus:ring-violet-500 transition"
-              placeholder={tab === "inbox" ? "Konu/içerik/gönderen ara…" : "Konu/içerik/alıcı ara…"}
-              value={q}
-              onChange={(e) => { setQ(e.target.value); setPage(1); }}
-            />
-          </div>
+    placeholder={tab === "inbox" ? "Konu/içerik/gönderen ara…" : "Konu/içerik/alıcı ara…"}
+    value={q}
+    onChange={(e) => { setQ(e.target.value); setPage(1); }}
+  />
+</div>
           {tab === "inbox" && (
             <label className="inline-flex items-center gap-2 text-sm">
               <input
