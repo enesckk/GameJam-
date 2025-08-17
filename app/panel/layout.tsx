@@ -13,13 +13,15 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   // Mobil çekmece açıkken arka plan kaymasın
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
-    return () => { document.documentElement.style.overflow = ""; };
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
   }, [open]);
 
   // bfcache veya geri tuşu sonrası yeniden mount olunca ismi cookie'den çek
   useEffect(() => {
     const onShow = () => {
-      window.dispatchEvent(new CustomEvent("user:refresh")); // useDisplayName'de bu event'i dinle
+      window.dispatchEvent(new CustomEvent("user:refresh"));
     };
     window.addEventListener("pageshow", onShow);
     window.addEventListener("focus", onShow);
@@ -31,20 +33,22 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="relative h-screen lg:grid lg:grid-cols-[16rem_1fr]">
+      {/* Arkaplan video */}
       <div className="fixed inset-0 -z-10">
         <VideoBG
-  position="fixed"
-  useIO={false}
-  overlay
-  opacity={0.9}
-  light={{ mp4: "/videos/bg-light.mp4", poster: "/images/light-bg.jpg" }}
-  dark={{  mp4: "/videos/bg-dark.mp4",  poster: "/images/dark-bg.jpg"  }}
-/>
+          position="fixed"
+          useIO={false}
+          overlay
+          opacity={0.9}
+          light={{ mp4: "/videos/bg-light.mp4", poster: "/images/light-bg.jpg" }}
+          dark={{ mp4: "/videos/bg-dark.mp4", poster: "/images/dark-bg.jpg" }}
+        />
       </div>
 
+      {/* Sidebar */}
       <aside
         className={[
-          "fixed inset-y-0 left-0 z-50 w-64 transition-transform",
+          "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
           open ? "translate-x-0" : "-translate-x-full",
           "bg-background/35 backdrop-blur-xl supports-[backdrop-filter]:bg-background/20",
           "lg:static lg:translate-x-0 lg:h-screen lg:overflow-y-auto no-scrollbar lg:overscroll-contain lg:pr-2",
@@ -55,22 +59,30 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
+      {/* Sağ taraf */}
       <div className="relative flex min-h-0 flex-col">
-       <PanelTopbar
-  onMenuClick={() => setOpen(s => !s)}
-  countdownTargetISO="2025-09-20T10:00:00+03:00"
-  countdownDoneText="Başladı!"
-/>
+        {/* Topbar */}
+        <PanelTopbar
+          onMenuClick={() => setOpen((s) => !s)}
+          countdownTargetISO="2025-09-20T10:00:00+03:00"
+          countdownDoneText="Başladı!"
+        />
 
-
+        {/* Mobilde sidebar overlay */}
         {open && (
           <div
-            className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+            className="fixed inset-0 z-40 bg-black/50 lg:hidden"
             onClick={() => setOpen(false)}
           />
         )}
 
-        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
+        {/* İçerik */}
+        <main
+          className="
+            flex-1 min-h-0 overflow-y-auto overscroll-contain 
+            p-3 sm:p-4 md:p-6
+          "
+        >
           {children}
         </main>
       </div>
