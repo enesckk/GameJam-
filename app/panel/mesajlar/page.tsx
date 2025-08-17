@@ -189,14 +189,14 @@ export default function UserMessagesPage() {
               const open = !!expanded[m.id];
               const unread = !m.readAt;
               return (
-                <div key={m.id} className="group rounded-2xl p-1 bg-white/30 dark:bg-white/10 backdrop-blur-md">
+                <div key={m.id} className="group rounded-2xl p-1 bg-white/30 dark:bg-white/10 backdrop-blur-md, ">
                   <div
                     className={[
-                      "rounded-xl transition bg-white/50 dark:bg-white/10 backdrop-blur-md",
-                      open
-                        ? "ring-2 ring-violet-500"
-                        : "ring-0 group-hover:ring-2 group-hover:ring-violet-400 focus-within:ring-2 focus-within:ring-violet-500"
-                    ].join(" ")}
+    "group rounded-2xl p-1 backdrop-blur-md",
+    unread
+      ? "bg-violet-50 dark:bg-violet-900/20 ring-2 ring-violet-500/40"
+      : "bg-white/30 dark:bg-white/10"
+  ].join(" ")}
                   >
                     <div
                       role="button"
