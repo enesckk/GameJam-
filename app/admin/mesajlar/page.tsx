@@ -344,6 +344,7 @@ export default function AdminMessagesPage() {
           ...s,
           [id]: { saving: false, msg: j?.message || `Hata (${r.status})` },
         }));
+        setAlert(j?.message || `Kaydedilemedi (${r.status})`);
         return;
       }
 
@@ -355,7 +356,16 @@ export default function AdminMessagesPage() {
         )
       );
       setAlert("Mesaj güncellendi.");
+       // Güvenliyenile: tek mesajı tekrar getirip merge et
+       try {
+       const r2 = await fetch(`/api/admin/messages/${id}`, { credentials: "include", cache: "no-store" });
+       const j2 = await r2.json().catch(() => ({}));
+       if (r2.ok) {
+       setOutbox((prev) => prev.map((m) => (m.id === id ? { ...m, subject: j2.subject, body: j2.body } : m)));
+       }
+      } catch {}
       await cancelEdit(id);
+      
     } catch (e: any) {
       if (e?.name === "AbortError") {
         console.log("Request was aborted");
@@ -721,7 +731,10 @@ export default function AdminMessagesPage() {
                         />
                         <div className="flex items-center justify-end gap-2">
                           <div className="mr-auto text-xs opacity-75">
-                            {isSaving ? "Kaydediliyor…" : errorMsg || (!isDirty ? "Değişiklik yok" : (!isValid ? "Başlık ≥ 3, içerik ≥ 1 karakter olmalı" : ""))}
+                            {isSaving
+                                ? "Kaydediliyor…"
+                                 : errorMsg ||
+                                 (!isDirty ? "Değişiklik yok" : (!isValid ? "Başlık ≥ 3, içerik ≥ 1 karakter olmalı" : ""))}
                           </div>
                           <button
                             type="button"

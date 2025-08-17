@@ -37,6 +37,7 @@ export async function GET(req: NextRequest) {
 
     if (box === "inbox") {
       const where: any = {
+         deletedBySenderAt: null, // GÖNDEREN SİLDİYSE GÖSTERME
         recipients: {
           some: {
             userId: me,
@@ -47,10 +48,10 @@ export async function GET(req: NextRequest) {
       };
       if (q) {
         where.OR = [
-          { subject: { contains: q } },
-          { body: { contains: q } },
-          { sender: { name: { contains: q } } },
-          { sender: { email: { contains: q } } },
+          { subject: { contains: q, mode: "insensitive" } },
+          { body:    { contains: q, mode: "insensitive" } },
+          { sender:  { is: { name:  { contains: q, mode: "insensitive" } } } },
+          { sender:  { is: { email: { contains: q, mode: "insensitive" } } } },
         ];
       }
 
