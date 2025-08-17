@@ -135,22 +135,13 @@ export default function UserMessagesPage() {
 
       {/* Sekmeler: blur, başlangıçta kenarlıksız; hover ve aktifken renkli */}
       <div className="flex items-center gap-2">
-        <button
-          onClick={() => { setTab("inbox"); setPage(1); }}
-          className={btn(tab === "inbox")}
-        >
+        <button onClick={() => { setTab("inbox"); setPage(1); }} className={btn(tab === "inbox")}>
           <Inbox className="h-4 w-4" /> Gelen
         </button>
-        <button
-          onClick={() => { setTab("outbox"); setPage(1); }}
-          className={btn(tab === "outbox")}
-        >
+        <button onClick={() => { setTab("outbox"); setPage(1); }} className={btn(tab === "outbox")}>
           <Mail className="h-4 w-4" /> Giden
         </button>
-        <button
-          onClick={() => setTab("compose")}
-          className={btn(tab === "compose")}
-        >
+        <button onClick={() => setTab("compose")} className={btn(tab === "compose")}>
           <Send className="h-4 w-4" /> Yeni
         </button>
       </div>
@@ -159,11 +150,12 @@ export default function UserMessagesPage() {
 
       {tab !== "compose" && (
         <div className="flex flex-wrap items-center gap-2">
-          {/* Arama: blur, başlangıçta kenarlıksız; focus'ta renkli ring */}
+          {/* Arama: blur, başta kenarlıksız; focus'ta renkli ring; ikon belirgin */}
           <div className="relative">
-            <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60" />
+            <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
             <input
-              className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none ring-0 focus:ring-2 focus:ring-violet-500"
+              className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none
+                         ring-0 focus:ring-2 focus:ring-violet-500 transition"
               placeholder={tab === "inbox" ? "Konu/içerik/gönderen ara…" : "Konu/içerik/alıcı ara…"}
               value={q}
               onChange={(e) => { setQ(e.target.value); setPage(1); }}
@@ -183,9 +175,9 @@ export default function UserMessagesPage() {
         </div>
       )}
 
-      {/* GELEN */}
+      {/* GELEN — kutu içinde kutu */}
       {tab === "inbox" && (
-        <div className="rounded-2xl ring-0 p-3">
+        <div className="rounded-2xl p-3">
           {loading && <div className="py-10 text-center opacity-70">Yükleniyor…</div>}
           {!loading && inbox.length === 0 && <div className="py-10 text-center opacity-70">Mesaj yok.</div>}
           <div className="grid gap-3">
@@ -193,45 +185,47 @@ export default function UserMessagesPage() {
               const open = !!expanded[m.id];
               const unread = !m.readAt;
               return (
-                <div
-                  key={m.id}
-                  className={[
-                    "relative rounded-xl",
-                    "bg-white/50 dark:bg-white/10 backdrop-blur-md",
-                    open ? "ring-2 ring-violet-500" : "ring-0 hover:ring-2 hover:ring-violet-400",
-                    "transition"
-                  ].join(" ")}
-                >
+                <div key={m.id} className="group rounded-2xl p-1 bg-white/30 dark:bg-white/10 backdrop-blur-md">
                   <div
-                    role="button"
-                    onClick={() => { toggleExpand(m.id); if (!open && unread) markRead(m.id); }}
-                    className="flex items-center justify-between px-3 py-2 hover:bg-violet-500/5 rounded-xl"
+                    className={[
+                      "rounded-xl transition bg-white/50 dark:bg-white/10 backdrop-blur-md",
+                      open
+                        ? "ring-2 ring-violet-500"
+                        : "ring-0 group-hover:ring-2 group-hover:ring-violet-400 focus-within:ring-2 focus-within:ring-violet-500"
+                    ].join(" ")}
                   >
-                    <div className="flex flex-wrap items-center gap-3">
-                      {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-                      <div className="font-semibold">{m.subject}</div>
-                      <span className="text-xs opacity-70">Gönderen: {m.sender.name ?? m.sender.email}</span>
-                      {unread && (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-bold">
-                          <EyeOff className="h-3 w-3" /> Yeni
-                        </span>
-                      )}
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => { toggleExpand(m.id); if (!open && unread) markRead(m.id); }}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleExpand(m.id); if (!open && unread) markRead(m.id); }}}
+                      className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-violet-500/5 focus:outline-none"
+                    >
+                      <div className="flex flex-wrap items-center gap-3">
+                        {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                        <div className="font-semibold">{m.subject}</div>
+                        <span className="text-xs opacity-70">Gönderen: {m.sender.name ?? m.sender.email}</span>
+                        {unread && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-bold">
+                            <EyeOff className="h-3 w-3" /> Yeni
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <time dateTime={m.createdAt} title={m.createdAt} className="text-sm font-medium opacity-90">
+                          {fmt(m.createdAt)}
+                        </time>
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); deleteInbox(m.id); }}
+                          className={chipBtn()}
+                        >
+                          <Trash2 className="h-4 w-4" /> Sil
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      {/* Tarih-saat daha belirgin */}
-                      <time dateTime={m.createdAt} title={m.createdAt} className="text-sm font-medium opacity-90">
-                        {fmt(m.createdAt)}
-                      </time>
-                      <button
-                        type="button"
-                        onClick={(e) => { e.stopPropagation(); deleteInbox(m.id); }}
-                        className={chipBtn()}
-                      >
-                        <Trash2 className="h-4 w-4" /> Sil
-                      </button>
-                    </div>
+                    {open && <div className="px-3 pb-3 text-sm whitespace-pre-wrap">{m.body}</div>}
                   </div>
-                  {open && <div className="px-3 pb-3 text-sm whitespace-pre-wrap">{m.body}</div>}
                 </div>
               );
             })}
@@ -246,9 +240,9 @@ export default function UserMessagesPage() {
         </div>
       )}
 
-      {/* GİDEN */}
+      {/* GİDEN — kutu içinde kutu */}
       {tab === "outbox" && (
-        <div className="rounded-2xl ring-0 p-3">
+        <div className="rounded-2xl p-3">
           {loading && <div className="py-10 text-center opacity-70">Yükleniyor…</div>}
           {!loading && outbox.length === 0 && <div className="py-10 text-center opacity-70">Mesaj yok.</div>}
           <div className="grid gap-3">
@@ -256,36 +250,39 @@ export default function UserMessagesPage() {
               const open = !!expanded[m.id];
               const anyRead = m.recipients.some((r) => r.readAt);
               return (
-                <div
-                  key={m.id}
-                  className={[
-                    "relative rounded-xl",
-                    "bg-white/50 dark:bg-white/10 backdrop-blur-md",
-                    open ? "ring-2 ring-violet-500" : "ring-0 hover:ring-2 hover:ring-violet-400",
-                    "transition"
-                  ].join(" ")}
-                >
-                  <div className="flex items-center justify-between px-3 py-2 hover:bg-violet-500/5 rounded-xl">
-                    <div role="button" onClick={() => toggleExpand(m.id)} className="flex flex-wrap items-center gap-3">
-                      {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-                      <div className="font-semibold">{m.subject}</div>
-                      <span className="text-xs opacity-70">Alıcılar: {m.recipients.map((r) => r.name ?? r.email).join(", ")}</span>
-                      {anyRead && <span className="text-[10px] rounded-full bg-foreground/10 px-2 py-0.5">Okundu var</span>}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <time dateTime={m.createdAt} title={m.createdAt} className="text-sm font-medium opacity-90">
-                        {fmt(m.createdAt)}
-                      </time>
-                      <button
-                        type="button"
-                        onClick={() => deleteOutbox(m.id)}
-                        className={chipBtn()}
+                <div key={m.id} className="group rounded-2xl p-1 bg-white/30 dark:bg-white/10 backdrop-blur-md">
+                  <div
+                    className={[
+                      "rounded-xl transition bg-white/50 dark:bg-white/10 backdrop-blur-md",
+                      open
+                        ? "ring-2 ring-violet-500"
+                        : "ring-0 group-hover:ring-2 group-hover:ring-violet-400 focus-within:ring-2 focus-within:ring-violet-500"
+                    ].join(" ")}
+                  >
+                    <div className="flex items-center justify-between px-3 py-2 rounded-xl hover:bg-violet-500/5">
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => toggleExpand(m.id)}
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleExpand(m.id); }}}
+                        className="flex flex-wrap items-center gap-3 focus:outline-none"
                       >
-                        <Trash2 className="h-4 w-4" /> Sil
-                      </button>
+                        {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                        <div className="font-semibold">{m.subject}</div>
+                        <span className="text-xs opacity-70">Alıcılar: {m.recipients.map((r) => r.name ?? r.email).join(", ")}</span>
+                        {anyRead && <span className="text-[10px] rounded-full bg-foreground/10 px-2 py-0.5">Okundu var</span>}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <time dateTime={m.createdAt} title={m.createdAt} className="text-sm font-medium opacity-90">
+                          {fmt(m.createdAt)}
+                        </time>
+                        <button type="button" onClick={() => deleteOutbox(m.id)} className={chipBtn()}>
+                          <Trash2 className="h-4 w-4" /> Sil
+                        </button>
+                      </div>
                     </div>
+                    {open && <div className="px-3 pb-3 text-sm whitespace-pre-wrap">{m.body}</div>}
                   </div>
-                  {open && <div className="px-3 pb-3 text-sm whitespace-pre-wrap">{m.body}</div>}
                 </div>
               );
             })}
@@ -300,29 +297,27 @@ export default function UserMessagesPage() {
         </div>
       )}
 
-      {/* YENİ */}
+      {/* YENİ — form blur + başta kenarlıksız; focus'ta renkli ring */}
       {tab === "compose" && (
-        <div className="rounded-2xl ring-0 p-4 bg-white/50 dark:bg-white/10 backdrop-blur-md">
+        <div className="rounded-2xl p-4 bg-white/30 dark:bg-white/10 backdrop-blur-md">
           <p className="mb-3 text-sm opacity-80">Bu formdan gönderdiğin mesaj organizasyon ekibine (admin) iletilir.</p>
           <div className="grid gap-2">
             <label className="text-sm">Konu</label>
             <input
-              className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none ring-0 focus:ring-2 focus:ring-violet-500"
+              className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none
+                         ring-0 focus:ring-2 focus:ring-violet-500"
               value={subj}
               onChange={(e) => setSubj(e.target.value)}
             />
             <label className="text-sm">Mesaj</label>
             <textarea
-              className="min-h-[140px] rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none ring-0 focus:ring-2 focus:ring-violet-500"
+              className="min-h-[140px] rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none
+                         ring-0 focus:ring-2 focus:ring-violet-500"
               value={body}
               onChange={(e) => setBody(e.target.value)}
             />
             <div className="flex items-center justify-end gap-2 mt-2">
-              <button
-                type="button"
-                onClick={() => { setSubj(""); setBody(""); }}
-                className={chipBtn()}
-              >
+              <button type="button" onClick={() => { setSubj(""); setBody(""); }} className={chipBtn()}>
                 Temizle
               </button>
               <button

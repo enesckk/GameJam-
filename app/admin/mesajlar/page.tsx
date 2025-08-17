@@ -481,9 +481,10 @@ export default function AdminMessagesPage() {
       {tab !== "compose" && (
         <div className="flex flex-wrap items-center gap-2">
           <div className="relative">
-            <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60" />
+            <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
             <input
-              className="w-80 rounded-xl bg-foreground/5 pl-8 pr-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+              className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none
+               ring-0 focus:ring-2 focus:ring-violet-500 transition"
               placeholder={
                 tab === "inbox"
                   ? "Konu/içerik/gönderen ara…"
@@ -562,7 +563,10 @@ export default function AdminMessagesPage() {
                         </span>
                       )}
                     </div>
-                    <div className="text-xs opacity-70">{fmt(m.createdAt)}</div>
+                    <time dateTime={m.createdAt} title={m.createdAt} className="text-sm font-medium opacity-90">
+  {fmt(m.createdAt)}
+</time>
+
                   </div>
                   {open && (
                     <div className="px-4 pb-4 relative z-10">
@@ -675,7 +679,9 @@ export default function AdminMessagesPage() {
                       <div className="grid gap-2">
                         <label className="text-xs">Konu</label>
                         <input
-                          className="rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+                          className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none
+           ring-0 focus:ring-2 focus:ring-violet-500"
+
                           value={draft.subject}
                           onChange={(e) =>
                             setEditDrafts((d) => {
@@ -693,7 +699,9 @@ export default function AdminMessagesPage() {
                         />
                         <label className="text-xs">İçerik</label>
                         <textarea
-                          className="min-h-[120px] rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+                          className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none
+           ring-0 focus:ring-2 focus:ring-violet-500"
+
                           value={draft.body}
                           onChange={(e) =>
                             setEditDrafts((d) => {
@@ -818,13 +826,17 @@ export default function AdminMessagesPage() {
             <div className="grid gap-2">
               <label className="text-sm">Konu</label>
               <input
-                className="rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+                className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none
+           ring-0 focus:ring-2 focus:ring-violet-500"
+
                 value={subj}
                 onChange={(e) => setSubj(e.target.value)}
               />
               <label className="text-sm">İçerik</label>
               <textarea
-                className="min-h-[140px] rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+                className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none
+           ring-0 focus:ring-2 focus:ring-violet-500"
+
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
               />
@@ -874,9 +886,10 @@ function UserPicker({
   return (
     <div className="space-y-2">
       <div className="relative">
-        <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60" />
+        <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
         <input
-          className="w-full rounded-xl bg-foreground/5 pl-8 pr-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+          className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none
+               ring-0 focus:ring-2 focus:ring-violet-500 transition"
           placeholder="İsim/e-posta ara…"
           value={userQuery}
           onChange={(e) => setUserQuery(e.target.value)}
@@ -970,9 +983,10 @@ function TeamPicker({
   return (
     <div className="space-y-2">
       <div className="relative">
-        <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60" />
+        <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
         <input
-          className="w-full rounded-xl bg-foreground/5 pl-8 pr-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
+          className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none
+               ring-0 focus:ring-2 focus:ring-violet-500 transition"
           placeholder="Takım ara…"
           value={teamQuery}
           onChange={(e) => setTeamQuery(e.target.value)}
@@ -1123,11 +1137,14 @@ function Td({
 }
 function btn(active: boolean) {
   return [
-    "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm",
-    "ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5",
-    active ? "multicolor-persist" : "multicolor-hover",
+    "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition",
+    "bg-white/30 dark:bg-white/10 backdrop-blur-md",
+    active
+      ? "ring-2 ring-violet-600"
+      : "ring-0 hover:ring-2 hover:ring-violet-500 active:ring-2 active:ring-violet-600",
   ].join(" ");
 }
+
 function Pager({
   page,
   total,
