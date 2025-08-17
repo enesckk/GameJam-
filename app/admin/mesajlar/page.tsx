@@ -685,7 +685,7 @@ export default function AdminMessagesPage() {
                   {open && (
                     <div
                       className="px-4 pb-4 relative z-10 pointer-events-auto"
-                      onClickCapture={(e) => e.stopPropagation()}
+                      onClick={(e) => e.stopPropagation()}
                     >
                       {/* inline edit */}
                       <div className="grid gap-2">
