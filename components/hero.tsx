@@ -111,18 +111,7 @@ export default function Hero() {
               hover:shadow-[0_0_18px_#ff00ff,0_0_24px_#00ffff]
             "
           >
-            <div className="mb-2 text-sm font-semibold uppercase tracking-wide text-black/80 dark:text-white/90">
-              Başlangıca Kalan Süre
-            </div>
-
-            <Countdown targetDate={target} />
-
-            <div className="mt-4 text-sm font-medium text-black dark:text-white">
-              {fullDateTR}
-            </div>
-            <div className="mt-2 text-xs text-black/70 dark:text-white/80">
-              Sayaç İstanbul saatine göre çalışır.
-            </div>
+            
           </div>
         </div>
       </div>
