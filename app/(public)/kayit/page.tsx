@@ -511,45 +511,44 @@ export default function KayitPage() {
               </label>
 
               <details
-                id="kvkk-desc"
-                className="rounded-xl border border-white/25 dark:border-white/10 bg-white/5 p-3 open:bg-white/10 open:backdrop-blur-sm"
-              >
-                <summary className="cursor-pointer select-none text-sm text-emerald-700 hover:text-emerald-600 dark:text-emerald-200 dark:hover:text-emerald-100">
-                  KVKK Aydınlatma Metni (aç/kapa)
-                </summary>
-                <div className="mt-2 space-y-3 text-xs text-gray-900 dark:text-gray-100">
-                  <p>
-                    <strong>Veri Sorumlusu:</strong> Organizasyon Adı (“Şirket”) — İletişim:
-                    <a href="mailto:kvkk@ornek.org" className="underline"> kvkk@ornek.org</a>
-                  </p>
-                  <p>
-                    <strong>İşleme Amaçları:</strong> Başvurunun değerlendirilmesi, kimlik ve iletişim bilgilerinin
-                    doğrulanması, katılımcı kaydının oluşturulması, bilgilendirme ve duyuruların iletilmesi,
-                    yasal yükümlülüklerin yerine getirilmesi, olası itiraz/şikâyetlerin cevaplanması.
-                  </p>
-                  <p>
-                    <strong>İşlenen Veriler:</strong> Kimlik (ad-soyad, yaş), iletişim (e-posta, telefon), rol/uzmanlık
-                    bilgisi, takım bilgileri; takım başvurularında üye bilgileri.
-                  </p>
-                  <p>
-                    <strong>Hukuki Sebepler:</strong> 6698 sayılı Kanun m.5/2(a), (c), (ç) ve (f) uyarınca sözleşmenin
-                    kurulması/ifası, hukuki yükümlülük, veri sorumlusunun meşru menfaati ve açık rıza (gerekli hallerde).
-                  </p>
-                  <p>
-                    <strong>Aktarım:</strong> Amaçla sınırlı olmak üzere bilişim/iletişim hizmet sağlayıcılarına, iş ortaklarına
-                    ve yetkili kamu kurum/kuruluşlarına aktarım yapılabilir.
-                  </p>
-                  <p>
-                    <strong>Saklama Süresi:</strong> Mevzuattaki zorunlu süreler saklı kalmak kaydıyla, başvuru sürecinin
-                    gerekleriyle sınırlı makul süre boyunca muhafaza edilir.
-                  </p>
-                  <p>
-                    <strong>Haklarınız (KVKK m.11):</strong> Verilerinize erişme, düzeltme, silme, işlemeyi kısıtlama, itiraz
-                    ve zarar halinde tazmin talep etme haklarına sahipsiniz. Taleplerinizi{" "}
-                    <a href="mailto:kvkk@ornek.org" className="underline">kvkk@ornek.org</a> adresine iletebilirsiniz.
-                  </p>
-                </div>
-              </details>
+  id="kvkk-desc"
+  className="rounded-xl border border-white/25 dark:border-white/10 bg-white/5 p-3 open:bg-white/10 open:backdrop-blur-sm"
+>
+  <summary className="cursor-pointer select-none text-sm text-emerald-700 hover:text-emerald-600 dark:text-emerald-200 dark:hover:text-emerald-100">
+    KVKK Aydınlatma Metni (aç/kapa)
+  </summary>
+  <div className="mt-2 space-y-3 text-xs text-gray-900 dark:text-gray-100">
+    <p>
+      <strong>Veri Sorumlusu:</strong> Şehitkamil Belediyesi  
+      <br />
+      Adres: Sanayi Mahallesi 60725 Nolu Cad. No:34, Şehitkamil / Gaziantep  
+      <br />
+      Telefon: 0342 323 27 27  
+      <br />
+      E-posta: <a href="mailto:belediye@sehitkamil.bel.tr" className="underline">belediye@sehitkamil.bel.tr</a>
+    </p>
+    <p>
+      <strong>İşlenen Kişisel Veriler:</strong> Ad Soyad, E-posta adresi, Telefon numarası, T.C. Kimlik Numarası, Yaş, Özgeçmiş (CV)
+    </p>
+    <p>
+      <strong>İşleme Amaçları:</strong> Katılımcı kaydının oluşturulması ve yönetilmesi, organizasyonun yürütülmesi ve iletişim sağlanması, ödül teslim süreçlerinin yürütülmesi, organizasyona ilişkin bilgilendirme ve duyuruların yapılması, işe alım fırsatlarının değerlendirilmesi.
+    </p>
+    <p>
+      <strong>Aktarım:</strong> Kişisel verileriniz yalnızca Şehitkamil Belediyesi ve GameJam moderatör ekibi tarafından işlenecek olup, üçüncü kişilerle paylaşılmayacaktır.
+    </p>
+    <p>
+      <strong>Yurt Dışına Aktarım:</strong> Kişisel verileriniz yurt dışına aktarılmamaktadır.
+    </p>
+    <p>
+      <strong>Saklama Süresi:</strong> Kişisel verileriniz, organizasyonun sona ermesinden itibaren 1 (bir) yıl süreyle saklanacak ve sürenin sonunda silinecek veya imha edilecektir.
+    </p>
+    <p>
+      <strong>Haklarınız (KVKK m.11):</strong> Verilerinize erişme, işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını öğrenme, yurt içinde aktarıldığı kişileri bilme, eksik/yanlış işlenmiş verilerin düzeltilmesini isteme, ilgili mevzuat çerçevesinde silinmesini veya yok edilmesini isteme, işlemenin yalnızca otomatik sistemlerle analiz edilmesine itiraz etme ve zarara uğramanız hâlinde tazmin talep etme haklarına sahipsiniz. Taleplerinizi{" "}
+      <a href="mailto:belediye@sehitkamil.bel.tr" className="underline">belediye@sehitkamil.bel.tr</a> adresine iletebilirsiniz.
+    </p>
+  </div>
+</details>
+
             </div>
 
             {/* Mesajlar */}

@@ -38,24 +38,54 @@ function Countdown({ targetDate }: CountdownProps) {
   }, [now, targetDate]);
 
   if (!mounted) {
-    return <div className="text-sm opacity-70">Geri sayım yükleniyor…</div>;
+    return (
+      <div className="inline-flex items-center gap-4 rounded-2xl px-6 py-4 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-blue-500/30 backdrop-blur-sm shadow-lg animate-pulse">
+        <div className="text-center">
+          <div className="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            --
+          </div>
+          <div className="text-xs uppercase opacity-80 mt-1">Gün</div>
+        </div>
+        <div className="w-px h-8 bg-gradient-to-b from-transparent via-blue-500/50 to-transparent opacity-60"></div>
+        <div className="text-center">
+          <div className="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            --
+          </div>
+          <div className="text-xs uppercase opacity-80 mt-1">Saat</div>
+        </div>
+        <div className="w-px h-8 bg-gradient-to-b from-transparent via-blue-500/50 to-transparent opacity-60"></div>
+        <div className="text-center">
+          <div className="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            --
+          </div>
+          <div className="text-xs uppercase opacity-80 mt-1">Dak</div>
+        </div>
+        <div className="w-px h-8 bg-gradient-to-b from-transparent via-blue-500/50 to-transparent opacity-60"></div>
+        <div className="text-center">
+          <div className="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+            --
+          </div>
+          <div className="text-xs uppercase opacity-80 mt-1">Sn</div>
+        </div>
+      </div>
+    );
   }
 
   if (diff.isStarted) {
     return (
-      <div className="inline-flex items-center gap-3 rounded-xl px-6 py-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/40 backdrop-blur-sm shadow-lg">
+      <div className="inline-flex items-center gap-3 rounded-2xl px-8 py-6 bg-gradient-to-r from-green-500/20 via-emerald-500/20 to-teal-500/20 border border-green-500/40 backdrop-blur-sm shadow-xl animate-pulse">
         <div className="text-center">
-          <div className="text-3xl md:text-4xl font-extrabold tracking-tight text-green-500 bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
-            BAŞLADI!
+          <div className="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-green-400 via-emerald-400 to-teal-400 bg-clip-text text-transparent animate-bounce">
+            🎉 BAŞLADI! 🎉
           </div>
-          <div className="text-xs uppercase opacity-80 mt-1">Etkinlik Devam Ediyor</div>
+          <div className="text-sm uppercase opacity-90 mt-2 font-semibold">Etkinlik Devam Ediyor</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="inline-flex items-center gap-4 rounded-2xl px-6 py-4 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-blue-500/30 backdrop-blur-sm shadow-lg">
+    <div className="inline-flex items-center gap-4 rounded-3xl px-8 py-6 bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-pink-500/15 border border-blue-500/40 backdrop-blur-md shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105">
       <TimeBox label="Gün" value={diff.days} />
       <Sep />
       <TimeBox label="Saat" value={diff.hours} />
@@ -69,18 +99,18 @@ function Countdown({ targetDate }: CountdownProps) {
 
 function TimeBox({ label, value }: { label: string; value: number }) {
   return (
-    <div className="text-center">
-      <div className="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+    <div className="text-center group">
+      <div className="text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">
         {pad(value)}
       </div>
-      <div className="text-xs uppercase opacity-80 mt-1">{label}</div>
+      <div className="text-sm uppercase opacity-90 mt-2 font-semibold group-hover:text-blue-400 transition-colors duration-200">{label}</div>
     </div>
   );
 }
 
 function Sep() { 
   return (
-    <div className="w-px h-8 bg-gradient-to-b from-transparent via-blue-500/50 to-transparent opacity-60"></div>
+    <div className="w-px h-10 bg-gradient-to-b from-transparent via-blue-500/60 to-transparent opacity-70 animate-pulse"></div>
   ); 
 }
 
@@ -103,21 +133,26 @@ export default function HomePage() {
         <div className="relative z-10">
            {/* Countdown Bölümü */}
           <section className="py-20">
-            <div className="max-w-4xl mx-auto px-6 text-center">
-              <div className="p-8 rounded-2xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-blue-500/20 backdrop-blur-sm">
+            <div className="max-w-5xl mx-auto px-6 text-center">
+              <div className="p-10 rounded-3xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-blue-500/30 backdrop-blur-md shadow-xl">
                 <PageHeader
                   title="Başlangıca Kalan Süre"
                   desc="Game Jam başlangıcına geri sayım"
                   variant="plain"
                 />
                 
-                <div className="mt-8 flex justify-center">
+                <div className="mt-10 flex justify-center">
                   <Countdown targetDate={targetDate} />
                 </div>
                 
-                <p className="text-sm text-muted-foreground mt-6">
-                  12 Ekim 2025 Pazar 23:59
-                </p>
+                <div className="mt-8 p-4 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-500/20">
+                  <p className="text-lg text-muted-foreground font-medium">
+                    🗓️ 12 Ekim 2025 Pazar 23:59
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1 opacity-80">
+                    ⏰ İstanbul saati (UTC+3)
+                  </p>
+                </div>
               </div>
             </div>
           </section>

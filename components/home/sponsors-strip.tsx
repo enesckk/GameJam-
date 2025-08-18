@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const SPONSORS = [
-  { src: "/sehitkamill.png", alt: "Şehitkamil Belediyesi" },
   { src: "/huaweilogo.png",  alt: "Huawei Türkiye" },
-
+  { src: "/globe.svg",       alt: "Planet Ekipman" },
+  { src: "/globe.svg",       alt: "Planet Ekipman" },
   { src: "/globe.svg",       alt: "Planet Ekipman" },
 
   // ...daha fazlası
