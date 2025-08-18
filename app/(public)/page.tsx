@@ -43,19 +43,19 @@ function Countdown({ targetDate }: CountdownProps) {
 
   if (diff.isStarted) {
     return (
-      <div className="inline-flex items-center gap-3 rounded-xl px-6 py-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 backdrop-blur-sm">
+      <div className="inline-flex items-center gap-3 rounded-xl px-6 py-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/40 backdrop-blur-sm shadow-lg">
         <div className="text-center">
-          <div className="text-2xl md:text-3xl font-extrabold tracking-tight text-green-600">
+          <div className="text-3xl md:text-4xl font-extrabold tracking-tight text-green-500 bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
             BAŞLADI!
           </div>
-          <div className="text-[11px] uppercase opacity-70">Etkinlik Devam Ediyor</div>
+          <div className="text-xs uppercase opacity-80 mt-1">Etkinlik Devam Ediyor</div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="inline-flex items-center gap-3 rounded-xl px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 backdrop-blur-sm">
+    <div className="inline-flex items-center gap-4 rounded-2xl px-6 py-4 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-blue-500/30 backdrop-blur-sm shadow-lg">
       <TimeBox label="Gün" value={diff.days} />
       <Sep />
       <TimeBox label="Saat" value={diff.hours} />
@@ -70,15 +70,19 @@ function Countdown({ targetDate }: CountdownProps) {
 function TimeBox({ label, value }: { label: string; value: number }) {
   return (
     <div className="text-center">
-      <div className="text-2xl md:text-3xl font-extrabold tracking-tight text-blue-600">
+      <div className="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
         {pad(value)}
       </div>
-      <div className="text-[11px] uppercase opacity-70">{label}</div>
+      <div className="text-xs uppercase opacity-80 mt-1">{label}</div>
     </div>
   );
 }
 
-function Sep() { return <span className="opacity-40">•</span>; }
+function Sep() { 
+  return (
+    <div className="w-px h-8 bg-gradient-to-b from-transparent via-blue-500/50 to-transparent opacity-60"></div>
+  ); 
+}
 
 export default function HomePage() {
   // Game Jam başlangıç tarihi: 12 Ekim 2025 23:59 (TSİ)
@@ -111,7 +115,7 @@ export default function HomePage() {
                   <Countdown targetDate={targetDate} />
                 </div>
                 
-                <p className="text-sm text-muted-foreground mt-4">
+                <p className="text-sm text-muted-foreground mt-6">
                   12 Ekim 2025 Pazar 23:59
                 </p>
               </div>
