@@ -64,7 +64,6 @@ export default function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }
               </span>
             </div>
 
-            <ThemeToggle />
 
             <button
               onClick={handleLogout}

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import ThemeToggle from "./theme-toggle";
 
 const nav = [
   { href: "/hakkinda", label: "Hakkında" },
@@ -123,7 +122,6 @@ export default function Navbar() {
             </Link>
           ) : null}
 
-          <ThemeToggle />
         </div>
       </nav>
     </header>

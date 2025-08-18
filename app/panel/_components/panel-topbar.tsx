@@ -141,7 +141,6 @@ export default function PanelTopbar({
             </div>
 
             {/* Tema */}
-            <ThemeToggle />
 
             {/* Çıkış */}
             <button
