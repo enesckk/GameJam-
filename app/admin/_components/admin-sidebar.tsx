@@ -15,7 +15,7 @@ const links = [
   { href: "/admin/duyurular", label: "Duyurular", icon: Megaphone },
   { href: "/admin/eslestirme", label: "Takım Eşleşmeleri", icon: Link2 },
   { href: "/admin/mesajlar", label: "Mesajlar", icon: MessageSquare },
-  { href: "/admin/teslimler", label: "Ödev/Teslimler", icon: Inbox },
+  { href: "/admin/teslimler", label: "Teslimler", icon: Inbox },
 ];
 
 export default function AdminSidebar({ onNavigate }: { onNavigate?: () => void }) {

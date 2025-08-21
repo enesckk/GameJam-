@@ -140,26 +140,25 @@ export default function AdminHome() {
         <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-3">
           {quickLinks.map(({ href, label, icon: Icon }) => (
             <Link
-              key={href}
-              href={href}
-              className={[
-                "group relative rounded-xl p-4 flex flex-col items-center gap-2 text-center transition",
-                "bg-transparent hover:bg-background/55 hover:backdrop-blur-md hover:scale-[1.02]",
-                "multicolor-hover",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:color-mix(in_oklab,var(--foreground)_35%,transparent)]",
-              ].join(" ")}
-            >
-              <div
-                className={[
-                  "flex h-10 w-10 items-center justify-center rounded-xl transition",
-                  "group-hover:ring-1 group-hover:ring-[color:color-mix(in_oklab,var(--foreground)_18%,transparent)]",
-                  "group-hover:bg-gradient-to-br group-hover:from-fuchsia-500/15 group-hover:via-purple-500/12 group-hover:to-cyan-500/15",
-                ].join(" ")}
-              >
-                <Icon className="h-5 w-5" />
-              </div>
-              <span className="text-sm font-semibold text-[var(--foreground)]">{label}</span>
-            </Link>
+  key={href}
+  href={href}
+  className={[
+    "group relative rounded-xl p-4 flex flex-col items-center gap-2 text-center transition",
+    "bg-transparent hover:bg-blue-500/10 hover:backdrop-blur-md hover:scale-[1.02]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/40",
+  ].join(" ")}
+>
+  <div
+    className={[
+      "flex h-10 w-10 items-center justify-center rounded-xl transition",
+      "group-hover:ring-1 group-hover:ring-blue-500/40",
+      "group-hover:bg-blue-500/10",
+    ].join(" ")}
+  >
+    <Icon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+  </div>
+  <span className="text-sm font-semibold text-[var(--foreground)]">{label}</span>
+</Link>
           ))}
         </div>
       </AdminSectionCard>
