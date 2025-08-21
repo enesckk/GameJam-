@@ -1,4 +1,3 @@
-// app/panel/iletisim/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -12,6 +11,11 @@ import {
   ExternalLink,
   MessageCircle,
   Copy,
+  CheckCircle,
+  Building,
+  Globe,
+  Users,
+  Calendar
 } from "lucide-react";
 
 const WHATSAPP_LINK = "https://chat.whatsapp.com/XXXXXXXXXXXXXXX";
@@ -43,36 +47,58 @@ export default function IletisimPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <PageHeader
         title="İletişim"
         desc="Soru ve önerileriniz için bize ulaşın"
         variant="plain"
       />
 
+      {/* Hero Section */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <MessageCircle className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-1">Bizimle İletişime Geçin</h2>
+              <p className="text-purple-200/80">Her zaman yanınızdayız</p>
+            </div>
+          </div>
+          
+          <p className="text-base leading-relaxed text-purple-100 max-w-2xl">
+            Sorularınız, önerileriniz veya teknik destek ihtiyacınız için aşağıdaki kanallardan bize ulaşabilirsiniz. 
+            Organizasyon ekibimiz size en kısa sürede dönüş yapacaktır.
+          </p>
+        </div>
+      </div>
+
       {/* Hızlı aksiyonlar */}
-      <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         {/* WhatsApp */}
         <a
           href={WHATSAPP_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="gborder-hover rounded-2xl transition-transform hover:scale-[1.02]"
+          className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-500/20 via-emerald-500/15 to-teal-500/20 backdrop-blur-xl border border-green-500/30 p-6 hover:scale-105 transition-all duration-300 hover:shadow-xl"
           title="WhatsApp grubuna katıl"
         >
-          <div className="rounded-2xl bg-white/10 dark:bg-black/10 backdrop-blur p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
-            <div className="rounded-2xl bg-foreground/10 ring-1 ring-foreground/10 p-2.5 sm:p-3">
-              <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />
+          <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 via-emerald-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative z-10 flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <MessageCircle className="h-6 w-6 text-white" />
             </div>
-            <div className="min-w-0">
-              <div className="text-sm sm:text-base font-semibold text-foreground">
+            <div className="min-w-0 flex-1">
+              <div className="text-lg font-bold text-white mb-1">
                 WhatsApp Grubu
               </div>
-              <div className="text-xs sm:text-sm opacity-80">
+              <div className="text-sm text-green-200/80">
                 Duyuruları kaçırmamak için gruba katılın
               </div>
             </div>
-            <ExternalLink className="ml-auto h-4 w-4 opacity-70 flex-shrink-0" />
+            <ExternalLink className="h-5 w-5 text-green-300 group-hover:text-green-200 transition-colors" />
           </div>
         </a>
 
@@ -83,22 +109,23 @@ export default function IletisimPage() {
           )}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="gborder-hover rounded-2xl transition-transform hover:scale-[1.02]"
+          className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-500/20 via-indigo-500/15 to-purple-500/20 backdrop-blur-xl border border-blue-500/30 p-6 hover:scale-105 transition-all duration-300 hover:shadow-xl"
           title="Haritada aç"
         >
-          <div className="rounded-2xl bg-white/10 dark:bg-black/10 backdrop-blur p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
-            <div className="rounded-2xl bg-foreground/10 ring-1 ring-foreground/10 p-2.5 sm:p-3">
-              <MapPin className="h-5 w-5 sm:h-6 sm:w-6" />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative z-10 flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <MapPin className="h-6 w-6 text-white" />
             </div>
-            <div className="min-w-0">
-              <div className="text-sm sm:text-base font-semibold text-foreground truncate">
+            <div className="min-w-0 flex-1">
+              <div className="text-lg font-bold text-white mb-1 truncate">
                 {VENUE.name}
               </div>
-              <div className="text-xs sm:text-sm opacity-80 truncate">
+              <div className="text-sm text-blue-200/80 truncate">
                 {VENUE.address}
               </div>
             </div>
-            <ExternalLink className="ml-auto h-4 w-4 opacity-70 flex-shrink-0" />
+            <ExternalLink className="h-5 w-5 text-blue-300 group-hover:text-blue-200 transition-colors" />
           </div>
         </a>
       </div>
@@ -108,74 +135,100 @@ export default function IletisimPage() {
         title="İletişim Bilgileri"
         subtitle="Destek kanalları ve çalışma saatleri"
       >
-        <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2">
           {/* E-posta */}
-          <div className="gborder-hover rounded-2xl">
-            <div className="rounded-2xl bg-white/10 dark:bg-black/10 backdrop-blur p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
-              <div className="rounded-2xl bg-foreground/10 ring-1 ring-foreground/10 p-2.5 sm:p-3">
-                <Mail className="h-5 w-5 sm:h-6 sm:w-6" />
+          <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6 hover:scale-105 transition-all duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <Mail className="h-6 w-6 text-white" />
               </div>
-              <div className="min-w-0">
-                <div className="text-xs sm:text-sm opacity-80">E-posta</div>
+              <div className="min-w-0 flex-1">
+                <div className="text-sm text-purple-200/80 mb-1">E-posta</div>
                 <a
                   href={`mailto:${SUPPORT_EMAIL}`}
-                  className="block font-semibold text-foreground break-words hover:underline text-sm sm:text-base"
+                  className="block font-bold text-white hover:text-purple-200 transition-colors break-words"
                 >
                   {SUPPORT_EMAIL}
                 </a>
               </div>
               <button
                 onClick={() => copy(SUPPORT_EMAIL, "email")}
-                className="ml-auto rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 hover:bg-foreground/10 whitespace-nowrap"
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  copied === "email" 
+                    ? "bg-green-500/20 border-green-500/30 text-green-200" 
+                    : "bg-purple-500/20 border-purple-500/30 text-purple-200 hover:bg-purple-500/30"
+                } border backdrop-blur-sm`}
                 title="Kopyala"
               >
-                <div className="flex items-center gap-1">
-                  <Copy className="h-3.5 w-3.5" />
-                  {copied === "email" ? "Kopyalandı" : "Kopyala"}
-                </div>
+                {copied === "email" ? (
+                  <>
+                    <CheckCircle className="h-4 w-4" />
+                    Kopyalandı
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4" />
+                    Kopyala
+                  </>
+                )}
               </button>
             </div>
           </div>
 
           {/* Telefon */}
-          <div className="gborder-hover rounded-2xl">
-            <div className="rounded-2xl bg-white/10 dark:bg-black/10 backdrop-blur p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
-              <div className="rounded-2xl bg-foreground/10 ring-1 ring-foreground/10 p-2.5 sm:p-3">
-                <Phone className="h-5 w-5 sm:h-6 sm:w-6" />
+          <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-teal-500/10 backdrop-blur-xl border border-green-500/20 p-6 hover:scale-105 transition-all duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <Phone className="h-6 w-6 text-white" />
               </div>
-              <div className="min-w-0">
-                <div className="text-xs sm:text-sm opacity-80">Telefon</div>
+              <div className="min-w-0 flex-1">
+                <div className="text-sm text-green-200/80 mb-1">Telefon</div>
                 <a
                   href={`tel:${PHONE.replace(/\s/g, "")}`}
-                  className="block font-semibold text-foreground hover:underline text-sm sm:text-base"
+                  className="block font-bold text-white hover:text-green-200 transition-colors"
                 >
                   {PHONE}
                 </a>
               </div>
               <button
                 onClick={() => copy(PHONE, "phone")}
-                className="ml-auto rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 hover:bg-foreground/10 whitespace-nowrap"
+                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  copied === "phone" 
+                    ? "bg-green-500/20 border-green-500/30 text-green-200" 
+                    : "bg-green-500/20 border-green-500/30 text-green-200 hover:bg-green-500/30"
+                } border backdrop-blur-sm`}
                 title="Kopyala"
               >
-                <div className="flex items-center gap-1">
-                  <Copy className="h-3.5 w-3.5" />
-                  {copied === "phone" ? "Kopyalandı" : "Kopyala"}
-                </div>
+                {copied === "phone" ? (
+                  <>
+                    <CheckCircle className="h-4 w-4" />
+                    Kopyalandı
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4" />
+                    Kopyala
+                  </>
+                )}
               </button>
             </div>
           </div>
 
           {/* Saatler */}
-          <div className="gborder-hover rounded-2xl md:col-span-2">
-            <div className="rounded-2xl bg-white/10 dark:bg-black/10 backdrop-blur p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
-              <div className="rounded-2xl bg-foreground/10 ring-1 ring-foreground/10 p-2.5 sm:p-3">
-                <Clock className="h-5 w-5 sm:h-6 sm:w-6" />
+          <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-red-500/10 backdrop-blur-xl border border-yellow-500/20 p-6 md:col-span-2 hover:scale-105 transition-all duration-300">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <Clock className="h-6 w-6 text-white" />
               </div>
-              <div className="min-w-0">
-                <div className="text-xs sm:text-sm opacity-80">Destek Saatleri</div>
-                <div className="font-semibold text-foreground text-sm sm:text-base">
+              <div className="min-w-0 flex-1">
+                <div className="text-sm text-yellow-200/80 mb-1">Destek Saatleri</div>
+                <div className="font-bold text-white text-lg">
                   {HOURS}
                 </div>
+              </div>
+              <div className="flex items-center gap-2 text-yellow-200/80">
+                <Calendar className="h-5 w-5" />
+                <span className="text-sm">Pazartesi - Cuma</span>
               </div>
             </div>
           </div>
@@ -184,8 +237,20 @@ export default function IletisimPage() {
 
       {/* Harita */}
       <SectionCard title="Konum" subtitle="Mekan haritası ve yol tarifi">
-        <div className="gborder rounded-2xl overflow-hidden">
-          <div className="w-full h-52 sm:h-60 md:h-72 bg-black/10 dark:bg-white/10">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-500/10 via-indigo-500/5 to-purple-500/10 backdrop-blur-xl border border-blue-500/20">
+          <div className="p-6 pb-4">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                <Building className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-white">{VENUE.name}</h3>
+                <p className="text-sm text-blue-200/80">{VENUE.address}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="w-full h-64 sm:h-72 md:h-80 bg-black/20 rounded-b-3xl overflow-hidden">
             <iframe
               src={MAP_EMBED}
               className="h-full w-full"
@@ -195,21 +260,46 @@ export default function IletisimPage() {
             />
           </div>
         </div>
-        <div className="mt-2 text-xs sm:text-sm opacity-75">
-          Harita açılmıyorsa{" "}
+        
+        <div className="mt-4 flex items-center justify-between text-sm text-purple-200/80">
+          <div className="flex items-center gap-2">
+            <Globe className="h-4 w-4" />
+            <span>Harita açılmıyorsa</span>
+          </div>
           <a
             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
               VENUE.mapQuery
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline underline-offset-4"
+            className="inline-flex items-center gap-2 text-purple-300 hover:text-purple-200 underline underline-offset-4 font-medium transition-colors"
           >
-            Google Maps’de aç
+            Google Maps'de aç
+            <ExternalLink className="h-4 w-4" />
           </a>
-          .
         </div>
       </SectionCard>
+
+      {/* Ek Bilgiler */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        {[
+          { icon: Users, title: "Topluluk", desc: "Aktif katılımcılar", color: "from-purple-500 to-pink-500" },
+          { icon: Calendar, title: "Etkinlik", desc: "48 saat maraton", color: "from-blue-500 to-cyan-500" },
+          { icon: Building, title: "Mekan", desc: "Şehitkamil Belediyesi", color: "from-green-500 to-emerald-500" },
+        ].map((item, index) => (
+          <div key={index} className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6 hover:scale-105 transition-all duration-300">
+            <div className="flex flex-col items-center text-center gap-3">
+              <div className={`w-12 h-12 bg-gradient-to-br ${item.color} rounded-2xl flex items-center justify-center shadow-lg`}>
+                <item.icon className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-white mb-1">{item.title}</h3>
+                <p className="text-sm text-purple-200/80">{item.desc}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

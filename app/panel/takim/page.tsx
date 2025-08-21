@@ -1,11 +1,10 @@
-// app/panel/takim/page.tsx
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import PageHeader from "../_components/page-header";
 import SectionCard from "../_components/section-card";
 import RoleSelect from "../_components/role-select";
-import { Copy, RefreshCw, Trash2, Save, Check, ChevronDown } from "lucide-react";
+import { Copy, RefreshCw, Trash2, Save, Check, ChevronDown, Users, Crown, UserPlus, Settings, Link } from "lucide-react";
 
 type Role = "developer" | "designer" | "audio" | "pm";
 type Member = {
@@ -29,7 +28,6 @@ const MAX_TEAM = 4;
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRe = /^\+?\d{10,14}$/;
 
-// --- küçük yardımcı
 function isPlaceholderTeam(t: Team | null) {
   if (!t) return true;
   if (!t.teamName) return true;
@@ -57,9 +55,6 @@ function statusLabel(s: Member["status"]) {
   }
 }
 
-/* ===========================
-   TypeSelect — RoleSelect ile aynı görsel/etkileşim
-   =========================== */
 type TeamType = "individual" | "team";
 const TYPES: { value: TeamType; label: string }[] = [
   { value: "individual", label: "Bireysel" },
@@ -99,18 +94,11 @@ function TypeSelect({
 
   return (
     <div className={className}>
-      <label className="text-sm text-[var(--foreground)]">{label}</label>
+      <label className="text-sm font-medium text-purple-200 mb-2">{label}</label>
 
       <div
         ref={boxRef}
-        className={[
-          "group relative mt-1 rounded-xl input-frame",
-          "ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_12%,transparent)]",
-          "bg-[color:color-mix(in_oklab,var(--foreground)_6%,transparent)]",
-          "hover:bg-[color:color-mix(in_oklab,var(--foreground)_9%,transparent)]",
-          "focus-within:ring-transparent",
-          "transition",
-        ].join(" ")}
+        className="group relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200"
         data-open={open ? "true" : "false"}
       >
         <button
@@ -119,14 +107,13 @@ function TypeSelect({
           aria-haspopup="listbox"
           aria-expanded={open}
           aria-controls={listId}
-          className="flex w-full items-center justify-between px-3 py-2 text-left text-[var(--foreground)]"
+          className="flex w-full items-center justify-between px-4 py-3 text-left text-white"
         >
           <span className="truncate">{current}</span>
           <ChevronDown
-            className={[
-              "h-4 w-4 opacity-70 transition-transform group-hover:opacity-100",
-              open ? "rotate-180" : "",
-            ].join(" ")}
+            className={`h-4 w-4 text-purple-300 transition-transform duration-200 ${
+              open ? "rotate-180" : ""
+            }`}
           />
         </button>
 
@@ -134,11 +121,7 @@ function TypeSelect({
           <div
             id={listId}
             role="listbox"
-            className={[
-              "absolute z-50 mt-1 w-full rounded-xl shadow-xl border",
-              "border-[color:color-mix(in_oklab,var(--foreground)_18%,transparent)]",
-              "glass-panel",
-            ].join(" ")}
+            className="absolute z-50 mt-1 w-full rounded-xl shadow-xl border border-purple-500/30 bg-white/20 backdrop-blur-xl"
           >
             <div className="p-1">
               {TYPES.map((t) => {
@@ -149,15 +132,12 @@ function TypeSelect({
                     role="option"
                     aria-selected={active}
                     onClick={() => { onChange(t.value); setOpen(false); }}
-                    className={[
-                      "flex cursor-pointer items-center justify-between rounded-lg px-2 py-2",
-                      "text-[var(--foreground)]",
-                      "hover:bg-[color:color-mix(in_oklab,var(--foreground)_10%,transparent)]",
-                      active ? "bg-[color:color-mix(in_oklab,var(--foreground)_12%,transparent)] font-semibold" : "",
-                    ].join(" ")}
+                    className={`flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-white hover:bg-purple-500/20 transition-colors ${
+                      active ? "bg-purple-500/30 font-semibold" : ""
+                    }`}
                   >
                     <span>{t.label}</span>
-                    {active && <Check className="h-4 w-4" />}
+                    {active && <Check className="h-4 w-4 text-purple-300" />}
                   </div>
                 );
               })}
@@ -169,16 +149,12 @@ function TypeSelect({
   );
 }
 
-/* ===========================
-   Sayfa
-   =========================== */
 export default function TeamPage() {
   const [team, setTeam] = useState<Team | null>(null);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
-  // form – yeni üye
   const [mName, setMName] = useState("");
   const [mEmail, setMEmail] = useState("");
   const [mPhone, setMPhone] = useState("");
@@ -186,13 +162,6 @@ export default function TeamPage() {
   const [mRole, setMRole] = useState<Role>("developer");
   const [inviteLink, setInviteLink] = useState<string | null>(null);
 
-  // temel input stilleri
-  const wrap =
-    "group relative rounded-xl transition input-frame ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_12%,transparent)] bg-[color:color-mix(in_oklab,var(--foreground)_6%,transparent)] hover:bg-[color:color-mix(in_oklab,var(--foreground)_9%,transparent)] focus-within:ring-transparent";
-  const input =
-    "w-full bg-transparent outline-none px-3 py-2 text-[var(--foreground)] placeholder:text-[color:color-mix(in_oklab,var(--foreground)_55%,transparent)]";
-
-  // İlk yükleme: cookie → (gerekirse) DB refresh
   useEffect(() => {
     let mounted = true;
     setLoading(true);
@@ -323,264 +292,337 @@ export default function TeamPage() {
     setMsg("Üye çıkarıldı.");
   };
 
-  if (loading && !team) return <div className="text-sm opacity-80">Yükleniyor…</div>;
+  if (loading && !team) return (
+    <div className="flex items-center justify-center py-12">
+      <div className="flex items-center gap-3 text-purple-200/80">
+        <div className="w-6 h-6 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
+        <span className="text-sm font-medium">Takım bilgileri yükleniyor...</span>
+      </div>
+    </div>
+  );
   if (!team) return null;
 
   const leader = team.members.find((m) => m.isLeader);
   const others = team.members.filter((m) => !m.isLeader);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <PageHeader title="Takım" desc="Takım adınız, üyeler ve davetler" variant="plain" />
 
+      {/* Hero Section */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <Users className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-1">Takım Yönetimi</h2>
+              <p className="text-purple-200/80">Üyelerinizi yönetin ve davetler gönderin</p>
+            </div>
+          </div>
+          
+          <p className="text-base leading-relaxed text-purple-100 max-w-2xl">
+            Takımınızı oluşturun, üye ekleyin ve davetler gönderin. Bireysel veya takım olarak 
+            katılabilir, en fazla 4 kişilik ekipler kurabilirsiniz.
+          </p>
+        </div>
+      </div>
+
       {/* Takım Bilgileri */}
-      <SectionCard title="Takım Bilgileri" subtitle={`Durum: ${team.type === "team" ? "Takım" : "Bireysel"}`}>
-        <div className="grid gap-4 md:grid-cols-2">
-          {/* Takım adı + Kaydet */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+            <Settings className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Takım Bilgileri</h3>
+            <p className="text-sm text-purple-200/80">Durum: {team.type === "team" ? "Takım" : "Bireysel"}</p>
+          </div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {/* Takım adı */}
           <div className="md:col-span-2">
-            <label className="text-sm">Takım Adı</label>
-            <div className="flex items-center gap-2">
-              <div className={[wrap, "flex-1"].join(" ")}>
-                <input
-                  className={input}
-                  value={team.teamName ?? ""}
-                  onChange={(e) => setTeam((t) => (t ? { ...t, teamName: e.target.value } : t))}
-                  placeholder="Takım Adı"
-                />
+            <label className="block text-sm font-medium text-purple-200 mb-2">Takım Adı</label>
+            <div className="flex items-center gap-3">
+              <div className="relative flex-1">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
+                <div className="relative flex items-center gap-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
+                    <Crown className="h-5 w-5 text-white" />
+                  </div>
+                  <input
+                    className="flex-1 bg-transparent outline-none px-3 py-3 text-white placeholder:text-purple-200/60"
+                    value={team.teamName ?? ""}
+                    onChange={(e) => setTeam((t) => (t ? { ...t, teamName: e.target.value } : t))}
+                    placeholder="Takım Adı"
+                  />
+                </div>
               </div>
               <button
                 onClick={() => saveTeamName((team.teamName ?? "").trim())}
-                className="inline-flex items-center gap-1 rounded-xl px-3 py-2 bg-[color:color-mix(in_oklab,var(--foreground)_92%,transparent)] text-[color:var(--background)] hover:opacity-95"
-                title="Kaydet"
+                className="flex items-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 transition-all duration-200 text-white font-medium shadow-lg"
               >
-                <Save className="h-4 w-4" /> Kaydet
+                <Save className="h-4 w-4" />
+                Kaydet
               </button>
             </div>
           </div>
 
-          {/* Tür – RoleSelect ile aynı görünüm */}
+          {/* Tür seçimi */}
           <TypeSelect
             value={team.type}
             onChange={(v) => saveTeamBasics({ type: v })}
           />
-          <div className="md:col-span-2 -mt-3">
-            <p className="mt-1 text-xs text-[color:color-mix(in_oklab,var(--foreground)_70%,transparent)]">
-              Üye eklemek için türü “Takım”a alın.
-            </p>
-          </div>
 
-          {/* Opsiyonel: Takım Kodu */}
+          {/* Takım Kodu */}
           <div>
-            <label className="text-sm">Takım Kodu (opsiyonel)</label>
+            <label className="block text-sm font-medium text-purple-200 mb-2">Takım Kodu</label>
             <div className="flex items-center gap-2">
-              <div className={[wrap, "flex-1"].join(" ")}>
-                <input className={input} value={team.inviteCode || ""} readOnly />
+              <div className="relative flex-1">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl blur-lg"></div>
+                <div className="relative flex items-center gap-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 p-1">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center">
+                    <Link className="h-5 w-5 text-white" />
+                  </div>
+                  <input 
+                    className="flex-1 bg-transparent outline-none px-3 py-3 text-white" 
+                    value={team.inviteCode || ""} 
+                    readOnly 
+                  />
+                </div>
               </div>
               <button
                 onClick={async () => {
                   await navigator.clipboard.writeText(team.inviteCode || "");
                   setMsg("Kopyalandı");
                 }}
-                className="rounded-xl px-3 py-2 bg-background/60 ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_20%,transparent)] hover:bg-background/80"
-                title="Kopyala"
+                className="flex items-center gap-2 px-3 py-3 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 border border-blue-500/30 hover:border-blue-500/50 transition-all duration-200 text-white"
               >
                 <Copy className="h-4 w-4" />
               </button>
               <button
                 onClick={regenCode}
-                className="rounded-xl px-3 py-2 bg-background/60 ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_20%,transparent)] hover:bg-background/80"
-                title="Yenile"
+                className="flex items-center gap-2 px-3 py-3 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 border border-green-500/30 hover:border-green-500/50 transition-all duration-200 text-white"
               >
                 <RefreshCw className="h-4 w-4" />
               </button>
             </div>
           </div>
         </div>
-      </SectionCard>
+      </div>
 
       {/* Üyeler */}
-      <SectionCard title="Üyeler" subtitle={`Toplam ${team.members.length}/${MAX_TEAM}`}>
-        {/* Masaüstü tablo header */}
-        <div className="hidden md:grid grid-cols-[1.2fr_1.6fr_1fr_0.6fr_0.9fr_0.9fr_0.7fr] items-center gap-2 rounded-xl bg-background/60 p-2 text-xs font-semibold ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_15%,transparent)]">
-          <div>Ad Soyad</div>
-          <div>E-posta</div>
-          <div>Telefon</div>
-          <div>Yaş</div>
-          <div>Rol</div>
-          <div>Durum</div>
-          <div>İşlem</div>
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+            <Users className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Üyeler</h3>
+            <p className="text-sm text-purple-200/80">Toplam {team.members.length}/{MAX_TEAM}</p>
+          </div>
         </div>
 
-        {/* Lider satırı */}
-        {leader && (
-          <div className="hidden md:grid grid-cols-[1.2fr_1.6fr_1fr_0.6fr_0.9fr_0.9fr_0.7fr] items-center gap-2 rounded-xl bg-white/10 dark:bg-black/10 p-3 backdrop-blur mt-2">
-            <div className="font-semibold">👑 {leader.name}</div>
-            <div className="opacity-90">{leader.email}</div>
-            <div className="opacity-90">{leader.phone}</div>
-            <div className="opacity-90">{leader.age}</div>
-            <div className="opacity-90">{roleLabel(leader.role)}</div>
-            <div className="opacity-90">Aktif</div>
-            <div className="flex items-center gap-2">
-              {team.type === "team" && team.members.length > 1 && (
+        {/* Üye kartları */}
+        <div className="space-y-4">
+          {[leader, ...others].filter(Boolean).map((m) => m && (
+            <div key={m.id} className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 hover:scale-[1.02] transition-all duration-300">
+              <div className="flex items-center gap-4 p-4">
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+                  m.isLeader 
+                    ? "bg-gradient-to-br from-yellow-500 to-orange-600" 
+                    : "bg-gradient-to-br from-purple-500 to-pink-600"
+                }`}>
+                  {m.isLeader ? (
+                    <Crown className="h-6 w-6 text-white" />
+                  ) : (
+                    <span className="text-white font-bold text-lg">
+                      {m.name.charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                </div>
+                
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h4 className="font-bold text-white">
+                      {m.isLeader ? "👑 " : ""}{m.name}
+                    </h4>
+                    {m.isLeader && (
+                      <span className="px-2 py-1 rounded-full bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-200 text-xs font-medium">
+                        Lider
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-sm text-purple-200/80 space-y-1">
+                    <div>{m.email}</div>
+                    <div>{m.phone} • Yaş: {m.age} • {roleLabel(m.role)}</div>
+                    <div>{m.isLeader ? "Aktif" : statusLabel(m.status)}</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {!m.isLeader && (
+                    <button
+                      onClick={() => removeMember(m.email)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-500/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Çıkar
+                    </button>
+                  )}
+                  {m.isLeader && team.type === "team" && team.members.length > 1 && (
+                    <button
+                      onClick={toIndividual}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/30 hover:border-amber-500/50 transition-all duration-200 text-sm font-medium"
+                    >
+                      Bireysel Ol
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Yeni üye ekle */}
+        {team.type === "team" && (
+          <div className="mt-8">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                <UserPlus className="h-4 w-4 text-white" />
+              </div>
+              <h4 className="font-bold text-white">Üye Ekle</h4>
+            </div>
+            
+            <div className="grid gap-4 md:grid-cols-6">
+              <div className="md:col-span-2">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
+                  <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
+                    <input 
+                      className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-purple-200/60" 
+                      value={mName} 
+                      onChange={(e) => setMName(e.target.value)} 
+                      placeholder="Üye Ad Soyad" 
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl blur-lg"></div>
+                <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-blue-500/50 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all duration-200 p-1">
+                  <input 
+                    className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-blue-200/60" 
+                    value={mEmail} 
+                    onChange={(e) => setMEmail(e.target.value)} 
+                    placeholder="uye@mail.com" 
+                  />
+                </div>
+              </div>
+              
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl blur-lg"></div>
+                <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-green-500/50 focus-within:ring-2 focus-within:ring-green-500/20 transition-all duration-200 p-1">
+                  <input 
+                    className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-green-200/60" 
+                    value={mPhone} 
+                    onChange={(e) => setMPhone(e.target.value)} 
+                    placeholder="+90 5xx xxx xx xx" 
+                  />
+                </div>
+              </div>
+              
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl blur-lg"></div>
+                <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-yellow-500/50 focus-within:ring-2 focus-within:ring-yellow-500/20 transition-all duration-200 p-1">
+                  <input 
+                    className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-yellow-200/60" 
+                    value={mAge} 
+                    onChange={(e) => setMAge(e.target.value)} 
+                    placeholder="Yaş (14+)" 
+                    inputMode="numeric" 
+                  />
+                </div>
+              </div>
+
+              <RoleSelect
+                className="md:col-span-1"
+                value={mRole}
+                onChange={setMRole}
+              />
+
+              <div className="md:col-span-6">
                 <button
-                  onClick={toIndividual}
-                  className="rounded-lg px-2.5 py-1.5 text-xs bg-amber-600/85 text-white hover:bg-amber-600"
-                  title="Takımdan ayrıl (bireysel ol)"
+                  onClick={addMember}
+                  disabled={!canAdd || loading}
+                  className="group relative inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold text-white transition-all duration-200 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
-                  Bireysel Ol
+                  <UserPlus className="h-4 w-4" />
+                  {loading ? "Ekleniyor..." : "Üye Ekle"}
                 </button>
-              )}
+
+                {inviteLink && (
+                  <div className="mt-4 flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20">
+                    <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                      <Link className="h-4 w-4 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm text-green-200 mb-1">Davet bağlantısı (demo):</div>
+                      <code className="text-xs text-green-100 bg-green-500/20 px-2 py-1 rounded">{inviteLink}</code>
+                    </div>
+                    <button
+                      onClick={async () => {
+                        await navigator.clipboard.writeText(inviteLink);
+                        setMsg("Davet linki kopyalandı.");
+                      }}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 border border-green-500/30 hover:border-green-500/50 transition-all duration-200 text-sm font-medium"
+                    >
+                      <Copy className="h-4 w-4" />
+                      Kopyala
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
 
-        {/* Diğer üyeler */}
-        {others.map((m) => (
-          <div
-            key={m.id}
-            className="hidden md:grid grid-cols-[1.2fr_1.6fr_1fr_0.6fr_0.9fr_0.9fr_0.7fr] items-center gap-2 rounded-xl bg-white/10 dark:bg-black/10 p-3 backdrop-blur mt-2"
-          >
-            <div className="font-medium">{m.name}</div>
-            <div className="opacity-90">{m.email}</div>
-            <div className="opacity-90">{m.phone}</div>
-            <div className="opacity-90">{m.age}</div>
-            <div className="opacity-90">{roleLabel(m.role)}</div>
-            <div className="opacity-90">{statusLabel(m.status)}</div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => removeMember(m.email)}
-                className="rounded-lg px-2.5 py-1.5 text-xs bg-red-600/85 text-white hover:bg-red-600"
-                title="Üyeyi çıkar"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
+        {team.type !== "team" && (
+          <div className="mt-6 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/20">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
+                <Users className="h-4 w-4 text-white" />
+              </div>
+              <div className="text-sm text-amber-200">
+                Üye eklemek için türü "Takım"a alın.
+              </div>
             </div>
           </div>
-        ))}
+        )}
+      </div>
 
-        {/* Mobil kartlar */}
-        <div className="md:hidden space-y-2">
-          {[leader, ...others].filter(Boolean).map(
-            (m) =>
-              m && (
-                <div key={m.id} className="rounded-xl bg-white/10 dark:bg-black/10 p-3 backdrop-blur">
-                  <div className="font-semibold">{m.isLeader ? "👑 " : ""}{m.name}</div>
-                  <div className="text-xs opacity-90">{m.email}</div>
-                  <div className="text-xs opacity-90">{m.phone}</div>
-                  <div className="text-xs opacity-90">
-                    Yaş: {m.age} • {roleLabel(m.role)} • {m.isLeader ? "Aktif" : statusLabel(m.status)}
-                  </div>
-                  {!m.isLeader && (
-                    <div className="mt-2">
-                      <button
-                        onClick={() => removeMember(m.email)}
-                        className="rounded-lg px-2.5 py-1.5 text-xs bg-red-600/85 text-white hover:bg-red-600"
-                      >
-                        Üyeyi çıkar
-                      </button>
-                    </div>
-                  )}
-                  {m.isLeader && team.type === "team" && team.members.length > 1 && (
-                    <div className="mt-2">
-                      <button
-                        onClick={toIndividual}
-                        className="rounded-lg px-2.5 py-1.5 text-xs bg-amber-600/85 text-white hover:bg-amber-600"
-                      >
-                        Bireysel Ol
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )
-          )}
-        </div>
-
-        {/* Yeni üye ekle */}
-        <div className="mt-5">
-          <h3 className="mb-2 font-semibold text-[var(--foreground)]">Üye Ekle</h3>
-          {team.type !== "team" && (
-            <p className="mb-3 text-sm text-[color:color-mix(in_oklab,var(--foreground)_70%,transparent)]">
-              Üye eklemek için türü “Takım”a alın.
-            </p>
-          )}
-          <div className="grid gap-3 md:grid-cols-6">
-            <div className="md:col-span-2">
-              <div className={wrap}>
-                <input className={input} value={mName} onChange={(e) => setMName(e.target.value)} placeholder="Üye Ad Soyad" />
-              </div>
-            </div>
-            <div>
-              <div className={wrap}>
-                <input className={input} value={mEmail} onChange={(e) => setMEmail(e.target.value)} placeholder="uye@mail.com" />
-              </div>
-            </div>
-            <div>
-              <div className={wrap}>
-                <input className={input} value={mPhone} onChange={(e) => setMPhone(e.target.value)} placeholder="+90 5xx xxx xx xx" />
-              </div>
-            </div>
-            <div>
-              <div className={wrap}>
-                <input className={input} value={mAge} onChange={(e) => setMAge(e.target.value)} placeholder="Yaş (14+)" inputMode="numeric" />
-              </div>
-            </div>
-
-            {/* Rol seçimi — etiketi gizle */}
-            <RoleSelect
-              className="md:col-span-1 [&>label]:sr-only"
-              value={mRole}
-              onChange={setMRole}
-            />
-
-            <div className="md:col-span-6">
-              <button
-                onClick={addMember}
-                disabled={!canAdd || loading}
-                className={[
-                  "group relative inline-flex items-center justify-center rounded-xl px-5 py-2.5 font-semibold",
-                  "text-[color:var(--background)] transition active:scale-[0.99]",
-                  team.type === "team"
-                    ? "bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500"
-                    : "bg-[color:color-mix(in_oklab,var(--foreground)_25%,transparent)]",
-                  "shadow-[0_8px_24px_rgba(99,102,241,.25)] hover:shadow-[0_10px_30px_rgba(99,102,241,.35)]",
-                  "disabled:opacity-60 disabled:cursor-not-allowed",
-                ].join(" ")}
-                title={team.type !== "team" ? "Üye eklemek için türü 'Takım' yapın" : undefined}
-              >
-                {loading ? "Ekleniyor..." : "Üye Ekle"}
-              </button>
-
-              {inviteLink && (
-                <div className="mt-2 flex items-center gap-2">
-                  <span className="text-xs">Davet bağlantısı (demo):</span>
-                  <code className="rounded-md bg-background/60 px-2 py-1 text-xs">{inviteLink}</code>
-                  <button
-                    onClick={async () => {
-                      await navigator.clipboard.writeText(inviteLink);
-                      setMsg("Davet linki kopyalandı.");
-                    }}
-                    className="rounded-md px-2 py-1 text-xs ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_25%,transparent)] hover:bg-background/70"
-                  >
-                    Kopyala
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </SectionCard>
-
+      {/* Notifications */}
       {(msg || err) && (
-        <div className="text-sm">
+        <div className="space-y-3" aria-live="polite">
           {msg && (
-            <span className="rounded-lg bg-emerald-500/15 px-2 py-1 text-[color:color-mix(in_oklab,green_85%,white_15%)]">
-              {msg}
-            </span>
+            <div className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20">
+              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                <Check className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-sm text-green-200">{msg}</span>
+            </div>
           )}
           {err && (
-            <span className="ml-2 rounded-lg bg-red-500/15 px-2 py-1 text-[color:color-mix(in_oklab,crimson_85%,white_15%)]">
-              {err}
-            </span>
+            <div className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-500/20">
+              <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                <span className="text-white text-sm font-bold">!</span>
+              </div>
+              <span className="text-sm text-red-200">{err}</span>
+            </div>
           )}
         </div>
       )}

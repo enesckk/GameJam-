@@ -1,17 +1,16 @@
-// app/panel/teslim/page.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import PageHeader from "../_components/page-header";
 import SectionCard from "../_components/section-card";
-import { Plus, Save, X, Edit3, Trash2, Link2, Tag, Loader2 } from "lucide-react";
+import { Plus, Save, X, Edit3, Trash2, Link2, Tag, Loader2, Upload, Gamepad2, Code, Video, FileText, ExternalLink } from "lucide-react";
 
 type SubmissionItem = {
   id: string;
   title: string;
   description: string | null;
   itchUrl: string | null;
-  githubUrl: string | null;   // eski repoUrl yerine
+  githubUrl: string | null;
   buildUrl: string | null;
   videoUrl: string | null;
   note: string | null;
@@ -21,25 +20,16 @@ type SubmissionItem = {
   tags: string[];
 };
 
-const wrap =
-  "group relative rounded-xl transition input-frame ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_12%,transparent)] bg-[color:color-mix(in_oklab,var(--foreground)_6%,transparent)] hover:bg-[color:color-mix(in_oklab,var(--foreground)_9%,transparent)] focus-within:ring-transparent";
-const input =
-  "w-full bg-transparent outline-none px-3 py-2 text-[var(--foreground)] placeholder:text-[color:color-mix(in_oklab,var(--foreground)_55%,transparent)]";
-const ta =
-  "w-full min-h-[84px] resize-y bg-transparent outline-none px-3 py-2 text-[var(--foreground)] placeholder:text-[color:color-mix(in_oklab,var(--foreground)_55%,transparent)]";
-
 const normTag = (x: string) =>
   x.normalize("NFKC").trim().toLowerCase().replace(/\s+/g, " ").slice(0, 32);
 
 export default function TeslimPage() {
-  // Liste
   const [items, setItems] = useState<SubmissionItem[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
-  // Yeni teslim formu
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [itchUrl, setItchUrl] = useState("");
@@ -51,19 +41,16 @@ export default function TeslimPage() {
   const [tags, setTags] = useState<string[]>([]);
   const [creating, setCreating] = useState(false);
 
-  // Düzenleme
   const [editingId, setEditingId] = useState<string | null>(null);
   const [edit, setEdit] = useState<Partial<SubmissionItem>>({});
   const [savingEdit, setSavingEdit] = useState(false);
 
-  // Basit validasyon
   const formOk = useMemo(() => {
     if (title.trim().length < 3) return false;
     const anyLink = [itchUrl, githubUrl, buildUrl, videoUrl].some((u) => u.trim().length > 0);
     return anyLink;
   }, [title, itchUrl, githubUrl, buildUrl, videoUrl]);
 
-  // İlk yükleme
   useEffect(() => {
     let mounted = true;
     (async () => {
@@ -89,7 +76,6 @@ export default function TeslimPage() {
     };
   }, []);
 
-  // Etiket girişine boşluk/virgül/enter ile ekleme
   function tryPushTagFromInput() {
     const t = normTag(tagInput);
     if (!t) return;
@@ -102,7 +88,6 @@ export default function TeslimPage() {
       e.preventDefault();
       tryPushTagFromInput();
     } else if (e.key === "Backspace" && tagInput === "" && tags.length) {
-      // son tag'i geri al
       setTags((s) => s.slice(0, -1));
     }
   }
@@ -142,7 +127,6 @@ export default function TeslimPage() {
       }
       setItems((s) => [j.item as SubmissionItem, ...s]);
       setTotal((n) => n + 1);
-      // Formu sıfırla
       setTitle("");
       setDescription("");
       setItchUrl("");
@@ -174,10 +158,12 @@ export default function TeslimPage() {
       tags: it.tags ?? [],
     });
   }
+  
   function cancelEdit() {
     setEditingId(null);
     setEdit({});
   }
+  
   function updateEdit<K extends keyof SubmissionItem>(key: K, v: any) {
     setEdit((s) => ({ ...s, [key]: v }));
   }
@@ -197,7 +183,6 @@ export default function TeslimPage() {
         buildUrl: (edit.buildUrl || "").toString().trim(),
         videoUrl: (edit.videoUrl || "").toString().trim(),
         note: (edit.note || "").toString().trim(),
-        // etiketleri komple değiştir
         tagsReplace: Array.isArray(edit.tags)
           ? Array.from(new Set(edit.tags.map(normTag))).filter(Boolean).slice(0, 30)
           : [],
@@ -242,161 +227,289 @@ export default function TeslimPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <PageHeader
         title="Oyun Teslimi"
         desc="Projeni yükle, bağlantılarını ekle ve etiketle. Adminler tüm teslimleri görebilir."
         variant="plain"
       />
 
+      {/* Hero Section */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <Upload className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-1">Oyun Teslimi</h2>
+              <p className="text-purple-200/80">Projenizi yükleyin ve jüriye sunun</p>
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
+              <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
+                <Gamepad2 className="h-4 w-4 text-white" />
+              </div>
+              <div>
+                <div className="text-sm font-medium text-white">Oyun Projesi</div>
+                <div className="text-xs text-purple-200/80">Başlık ve açıklama</div>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center">
+                <Link2 className="h-4 w-4 text-white" />
+              </div>
+              <div>
+                <div className="text-sm font-medium text-white">Bağlantılar</div>
+                <div className="text-xs text-blue-200/80">En az bir link gerekli</div>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30">
+              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                <Tag className="h-4 w-4 text-white" />
+              </div>
+              <div>
+                <div className="text-sm font-medium text-white">Etiketler</div>
+                <div className="text-xs text-green-200/80">Kategorilendirme</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Yeni Teslim Oluştur */}
-      <SectionCard
-        title="Yeni Teslim"
-        subtitle="Başlık ve en az bir bağlantı zorunlu"
-      >
-        <div className="grid gap-4 md:grid-cols-2">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+            <Plus className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Yeni Teslim</h3>
+            <p className="text-sm text-purple-200/80">Başlık ve en az bir bağlantı zorunlu</p>
+          </div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
           <div className="md:col-span-2">
-            <label className="text-sm">Başlık</label>
-            <div className={wrap}>
-              <input
-                className={input}
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Örn. Space Runner"
-              />
+            <label className="block text-sm font-medium text-purple-200 mb-2">Başlık</label>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
+              <div className="relative flex items-center gap-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
+                  <Gamepad2 className="h-5 w-5 text-white" />
+                </div>
+                <input
+                  className="flex-1 bg-transparent outline-none px-3 py-3 text-white placeholder:text-purple-200/60"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  placeholder="Örn. Space Runner"
+                />
+              </div>
             </div>
           </div>
 
           <div className="md:col-span-2">
-            <label className="text-sm">Açıklama (opsiyonel)</label>
-            <div className={wrap}>
-              <textarea
-                className={ta}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Kısa bir açıklama..."
-              />
+            <label className="block text-sm font-medium text-purple-200 mb-2">Açıklama (opsiyonel)</label>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl blur-lg"></div>
+              <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-blue-500/50 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all duration-200 p-1">
+                <textarea
+                  className="w-full min-h-[84px] resize-y bg-transparent outline-none px-3 py-3 text-white placeholder:text-blue-200/60"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Kısa bir açıklama..."
+                />
+              </div>
             </div>
           </div>
 
-          <div>
-            <label className="text-sm flex items-center gap-2"><Link2 className="h-4 w-4" /> Itch.io URL</label>
-            <div className={wrap}>
-              <input className={input} value={itchUrl} onChange={(e) => setItchUrl(e.target.value)} placeholder="https://itch.io/..." />
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
+            <div className="relative flex items-center gap-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
+                <Gamepad2 className="h-5 w-5 text-white" />
+              </div>
+              <div className="flex-1">
+                <label className="block text-xs font-medium text-purple-200 mb-1">Itch.io URL</label>
+                <input 
+                  className="w-full bg-transparent outline-none text-white placeholder:text-purple-200/60" 
+                  value={itchUrl} 
+                  onChange={(e) => setItchUrl(e.target.value)} 
+                  placeholder="https://itch.io/..." 
+                />
+              </div>
             </div>
           </div>
-          <div>
-            <label className="text-sm flex items-center gap-2"><Link2 className="h-4 w-4" /> GitHub URL</label>
-            <div className={wrap}>
-              <input className={input} value={githubUrl} onChange={(e) => setGithubUrl(e.target.value)} placeholder="https://github.com/..." />
+
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl blur-lg"></div>
+            <div className="relative flex items-center gap-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-blue-500/50 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all duration-200 p-1">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center">
+                <Code className="h-5 w-5 text-white" />
+              </div>
+              <div className="flex-1">
+                <label className="block text-xs font-medium text-blue-200 mb-1">GitHub URL</label>
+                <input 
+                  className="w-full bg-transparent outline-none text-white placeholder:text-blue-200/60" 
+                  value={githubUrl} 
+                  onChange={(e) => setGithubUrl(e.target.value)} 
+                  placeholder="https://github.com/..." 
+                />
+              </div>
             </div>
           </div>
-          <div>
-            <label className="text-sm flex items-center gap-2"><Link2 className="h-4 w-4" /> Build URL</label>
-            <div className={wrap}>
-              <input className={input} value={buildUrl} onChange={(e) => setBuildUrl(e.target.value)} placeholder="https://drive/zip/..." />
+
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl blur-lg"></div>
+            <div className="relative flex items-center gap-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-green-500/50 focus-within:ring-2 focus-within:ring-green-500/20 transition-all duration-200 p-1">
+              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                <FileText className="h-5 w-5 text-white" />
+              </div>
+              <div className="flex-1">
+                <label className="block text-xs font-medium text-green-200 mb-1">Build URL</label>
+                <input 
+                  className="w-full bg-transparent outline-none text-white placeholder:text-green-200/60" 
+                  value={buildUrl} 
+                  onChange={(e) => setBuildUrl(e.target.value)} 
+                  placeholder="https://drive/zip/..." 
+                />
+              </div>
             </div>
           </div>
-          <div>
-            <label className="text-sm flex items-center gap-2"><Link2 className="h-4 w-4" /> Video URL</label>
-            <div className={wrap}>
-              <input className={input} value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} placeholder="https://youtube.com/..." />
+
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl blur-lg"></div>
+            <div className="relative flex items-center gap-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-yellow-500/50 focus-within:ring-2 focus-within:ring-yellow-500/20 transition-all duration-200 p-1">
+              <div className="w-10 h-10 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-lg flex items-center justify-center">
+                <Video className="h-5 w-5 text-white" />
+              </div>
+              <div className="flex-1">
+                <label className="block text-xs font-medium text-yellow-200 mb-1">Video URL</label>
+                <input 
+                  className="w-full bg-transparent outline-none text-white placeholder:text-yellow-200/60" 
+                  value={videoUrl} 
+                  onChange={(e) => setVideoUrl(e.target.value)} 
+                  placeholder="https://youtube.com/..." 
+                />
+              </div>
             </div>
           </div>
 
           <div className="md:col-span-2">
-            <label className="text-sm">Not (opsiyonel)</label>
-            <div className={wrap}>
-              <textarea
-                className={ta}
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                placeholder="Jüriye kısa not..."
-              />
+            <label className="block text-sm font-medium text-purple-200 mb-2">Not (opsiyonel)</label>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
+              <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
+                <textarea
+                  className="w-full min-h-[84px] resize-y bg-transparent outline-none px-3 py-3 text-white placeholder:text-purple-200/60"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder="Jüriye kısa not..."
+                />
+              </div>
             </div>
           </div>
 
           {/* Etiketler */}
           <div className="md:col-span-2">
-            <label className="text-sm flex items-center gap-2"><Tag className="h-4 w-4" /> Etiketler</label>
-            <div className={[wrap, "flex flex-wrap items-center gap-2 p-2"].join(" ")}>
-              {tags.map((t, i) => (
-                <span
-                  key={i}
-                  className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_25%,transparent)] bg-background/50"
-                >
-                  {t}
-                  <button
-                    onClick={() => removeTag(i)}
-                    className="rounded p-0.5 hover:bg-foreground/10"
-                    aria-label="etiketi kaldır"
-                  >
-                    <X className="h-3.5 w-3.5" />
-                  </button>
-                </span>
-              ))}
-
-              <input
-                className="min-w-[160px] flex-1 bg-transparent outline-none px-2 py-1 text-[var(--foreground)] placeholder:text-[color:color-mix(in_oklab,var(--foreground)_55%,transparent)]"
-                placeholder="etiket yaz & enter"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={handleTagKeyDown}
-                onBlur={tryPushTagFromInput}
-              />
+            <label className="block text-sm font-medium text-purple-200 mb-2 flex items-center gap-2">
+              <Tag className="h-4 w-4" />
+              Etiketler
+            </label>
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl blur-lg"></div>
+              <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-green-500/50 focus-within:ring-2 focus-within:ring-green-500/20 transition-all duration-200 p-3">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  {tags.map((t, i) => (
+                    <span
+                      key={i}
+                      className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 text-green-200"
+                    >
+                      {t}
+                      <button
+                        onClick={() => removeTag(i)}
+                        className="rounded-full p-0.5 hover:bg-green-500/20 transition-colors"
+                        aria-label="etiketi kaldır"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <input
+                  className="w-full bg-transparent outline-none text-white placeholder:text-green-200/60"
+                  placeholder="etiket yaz & enter"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={handleTagKeyDown}
+                  onBlur={tryPushTagFromInput}
+                />
+                <p className="mt-2 text-xs text-green-200/60">
+                  Örn: platform, puzzle, multiplayer…
+                </p>
+              </div>
             </div>
-            <p className="mt-1 text-xs text-[color:color-mix(in_oklab,var(--foreground)_65%,transparent)]">
-              Örn: platform, puzzle, multiplayer…
-            </p>
           </div>
 
           <div className="md:col-span-2">
             <button
               onClick={createSubmission}
               disabled={!formOk || creating}
-              className={[
-                "group relative inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-semibold",
-                "text-[color:var(--background)] transition active:scale-[0.99]",
-                "bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500",
-                "shadow-[0_8px_24px_rgba(99,102,241,.25)] hover:shadow-[0_10px_30px_rgba(99,102,241,.35)]",
-                "disabled:opacity-60 disabled:cursor-not-allowed",
-              ].join(" ")}
+              className="group relative inline-flex items-center gap-3 rounded-xl px-6 py-3 font-semibold text-white transition-all duration-200 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
-              {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+              {creating ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
               {creating ? "Oluşturuluyor..." : "Teslimi Oluştur"}
             </button>
           </div>
         </div>
-      </SectionCard>
+      </div>
 
       {/* Mevcut Teslimler */}
-      <SectionCard title="Teslimlerim" subtitle={`Toplam ${total}`}>
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+            <FileText className="h-5 w-5 text-white" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Teslimlerim</h3>
+            <p className="text-sm text-purple-200/80">Toplam {total}</p>
+          </div>
+        </div>
+
         {loading ? (
-          <div className="flex items-center gap-2 text-sm opacity-80">
-            <Loader2 className="h-4 w-4 animate-spin" /> Yükleniyor…
+          <div className="flex items-center justify-center py-12">
+            <div className="flex items-center gap-3 text-purple-200/80">
+              <Loader2 className="h-6 w-6 animate-spin" />
+              <span className="text-sm font-medium">Teslimler yükleniyor...</span>
+            </div>
           </div>
         ) : items.length === 0 ? (
-          <p className="text-sm opacity-80">Henüz teslim yok.</p>
+          <div className="text-center py-12">
+            <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <FileText className="h-8 w-8 text-purple-300" />
+            </div>
+            <p className="text-purple-200/80">Henüz teslim yok.</p>
+          </div>
         ) : (
-          <div className="grid gap-3">
+          <div className="space-y-4">
             {items.map((it) => {
               const isEditing = editingId === it.id;
               return (
                 <div
                   key={it.id}
-                  className={[
-                    "rounded-xl p-4 backdrop-blur",
-                    "bg-white/10 dark:bg-black/10",
-                    "ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_12%,transparent)]",
-                    "hover:ring-[color:color-mix(in_oklab,var(--foreground)_35%,transparent)] transition",
-                  ].join(" ")}
+                  className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 hover:scale-[1.02] transition-all duration-300"
                 >
                   {!isEditing ? (
-                    <>
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                    <div className="p-6">
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
                         <div>
-                          <h3 className="text-base font-semibold">{it.title}</h3>
-                          <div className="text-xs opacity-80">
+                          <h3 className="text-lg font-bold text-white mb-1">{it.title}</h3>
+                          <div className="text-sm text-purple-200/80">
                             {(it.team?.name ? `${it.team.name} • ` : "")}
                             {new Date(it.createdAt).toLocaleString()}
                           </div>
@@ -404,183 +517,217 @@ export default function TeslimPage() {
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => startEdit(it)}
-                            className="rounded-lg px-3 py-1.5 text-xs ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_25%,transparent)] hover:bg-background/70 inline-flex items-center gap-1"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 border border-blue-500/30 hover:border-blue-500/50 transition-all duration-200 text-sm font-medium"
                           >
-                            <Edit3 className="h-4 w-4" /> Düzenle
+                            <Edit3 className="h-4 w-4" />
+                            Düzenle
                           </button>
                           <button
                             onClick={() => removeSubmission(it.id)}
-                            className="rounded-lg px-3 py-1.5 text-xs bg-red-600/85 text-white hover:bg-red-600 inline-flex items-center gap-1"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-500/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium"
                           >
-                            <Trash2 className="h-4 w-4" /> Sil
+                            <Trash2 className="h-4 w-4" />
+                            Sil
                           </button>
                         </div>
                       </div>
 
                       {it.description && (
-                        <p className="mt-2 text-sm opacity-90">{it.description}</p>
+                        <p className="text-sm text-purple-200/90 mb-4 leading-relaxed">{it.description}</p>
                       )}
 
-                      <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-                        {it.itchUrl && <LinkRow label="Itch.io" href={it.itchUrl} />}
-                        {it.githubUrl && <LinkRow label="GitHub" href={it.githubUrl} />}
-                        {it.buildUrl && <LinkRow label="Build" href={it.buildUrl} />}
-                        {it.videoUrl && <LinkRow label="Video" href={it.videoUrl} />}
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mb-4">
+                        {it.itchUrl && <LinkRow label="Itch.io" href={it.itchUrl} icon={<Gamepad2 className="h-4 w-4" />} />}
+                        {it.githubUrl && <LinkRow label="GitHub" href={it.githubUrl} icon={<Code className="h-4 w-4" />} />}
+                        {it.buildUrl && <LinkRow label="Build" href={it.buildUrl} icon={<FileText className="h-4 w-4" />} />}
+                        {it.videoUrl && <LinkRow label="Video" href={it.videoUrl} icon={<Video className="h-4 w-4" />} />}
                       </div>
 
                       {it.note && (
-                        <p className="mt-2 text-xs opacity-75">Not: {it.note}</p>
+                        <div className="mb-4 p-3 rounded-xl bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="text-sm font-medium text-yellow-200">Not:</span>
+                          </div>
+                          <p className="text-sm text-yellow-200/80">{it.note}</p>
+                        </div>
                       )}
 
                       {it.tags?.length > 0 && (
-                        <div className="mt-3 flex flex-wrap gap-1.5">
+                        <div className="flex flex-wrap gap-2">
                           {it.tags.map((t) => (
                             <span
                               key={t}
-                              className="rounded-full px-2 py-0.5 text-[11px] ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_25%,transparent)] bg-background/50"
+                              className="rounded-full px-3 py-1 text-xs bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 text-green-200"
                             >
                               {t}
                             </span>
                           ))}
                         </div>
                       )}
-                    </>
+                    </div>
                   ) : (
-                    // EDIT MODE
-                    <div className="space-y-3">
-                      <div className="grid gap-3 md:grid-cols-2">
+                    <div className="p-6 space-y-4">
+                      <div className="grid gap-4 md:grid-cols-2">
                         <div className="md:col-span-2">
-                          <label className="text-sm">Başlık</label>
-                          <div className={wrap}>
-                            <input
-                              className={input}
-                              value={String(edit.title ?? "")}
-                              onChange={(e) => updateEdit("title", e.target.value)}
-                            />
+                          <label className="block text-sm font-medium text-purple-200 mb-2">Başlık</label>
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
+                            <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
+                              <input
+                                className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-purple-200/60"
+                                value={String(edit.title ?? "")}
+                                onChange={(e) => updateEdit("title", e.target.value)}
+                              />
+                            </div>
                           </div>
                         </div>
+                        
                         <div className="md:col-span-2">
-                          <label className="text-sm">Açıklama</label>
-                          <div className={wrap}>
-                            <textarea
-                              className={ta}
-                              value={String(edit.description ?? "")}
-                              onChange={(e) => updateEdit("description", e.target.value)}
-                            />
+                          <label className="block text-sm font-medium text-purple-200 mb-2">Açıklama</label>
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl blur-lg"></div>
+                            <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-blue-500/50 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all duration-200 p-1">
+                              <textarea
+                                className="w-full min-h-[84px] resize-y bg-transparent outline-none px-3 py-3 text-white placeholder:text-blue-200/60"
+                                value={String(edit.description ?? "")}
+                                onChange={(e) => updateEdit("description", e.target.value)}
+                              />
+                            </div>
                           </div>
                         </div>
 
                         <div>
-                          <label className="text-sm">Itch.io</label>
-                          <div className={wrap}>
-                            <input
-                              className={input}
-                              value={String(edit.itchUrl ?? "")}
-                              onChange={(e) => updateEdit("itchUrl", e.target.value)}
-                            />
+                          <label className="block text-sm font-medium text-purple-200 mb-2">Itch.io</label>
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
+                            <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
+                              <input
+                                className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-purple-200/60"
+                                value={String(edit.itchUrl ?? "")}
+                                onChange={(e) => updateEdit("itchUrl", e.target.value)}
+                              />
+                            </div>
                           </div>
                         </div>
+                        
                         <div>
-                          <label className="text-sm">GitHub</label>
-                          <div className={wrap}>
-                            <input
-                              className={input}
-                              value={String(edit.githubUrl ?? "")}
-                              onChange={(e) => updateEdit("githubUrl", e.target.value)}
-                            />
+                          <label className="block text-sm font-medium text-blue-200 mb-2">GitHub</label>
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl blur-lg"></div>
+                            <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-blue-500/50 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all duration-200 p-1">
+                              <input
+                                className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-blue-200/60"
+                                value={String(edit.githubUrl ?? "")}
+                                onChange={(e) => updateEdit("githubUrl", e.target.value)}
+                              />
+                            </div>
                           </div>
                         </div>
+                        
                         <div>
-                          <label className="text-sm">Build</label>
-                          <div className={wrap}>
-                            <input
-                              className={input}
-                              value={String(edit.buildUrl ?? "")}
-                              onChange={(e) => updateEdit("buildUrl", e.target.value)}
-                            />
+                          <label className="block text-sm font-medium text-green-200 mb-2">Build</label>
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl blur-lg"></div>
+                            <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-green-500/50 focus-within:ring-2 focus-within:ring-green-500/20 transition-all duration-200 p-1">
+                              <input
+                                className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-green-200/60"
+                                value={String(edit.buildUrl ?? "")}
+                                onChange={(e) => updateEdit("buildUrl", e.target.value)}
+                              />
+                            </div>
                           </div>
                         </div>
+                        
                         <div>
-                          <label className="text-sm">Video</label>
-                          <div className={wrap}>
-                            <input
-                              className={input}
-                              value={String(edit.videoUrl ?? "")}
-                              onChange={(e) => updateEdit("videoUrl", e.target.value)}
-                            />
+                          <label className="block text-sm font-medium text-yellow-200 mb-2">Video</label>
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl blur-lg"></div>
+                            <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-yellow-500/50 focus-within:ring-2 focus-within:ring-yellow-500/20 transition-all duration-200 p-1">
+                              <input
+                                className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-yellow-200/60"
+                                value={String(edit.videoUrl ?? "")}
+                                onChange={(e) => updateEdit("videoUrl", e.target.value)}
+                              />
+                            </div>
                           </div>
                         </div>
 
                         <div className="md:col-span-2">
-                          <label className="text-sm">Not</label>
-                          <div className={wrap}>
-                            <textarea
-                              className={ta}
-                              value={String(edit.note ?? "")}
-                              onChange={(e) => updateEdit("note", e.target.value)}
-                            />
+                          <label className="block text-sm font-medium text-purple-200 mb-2">Not</label>
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
+                            <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
+                              <textarea
+                                className="w-full min-h-[84px] resize-y bg-transparent outline-none px-3 py-3 text-white placeholder:text-purple-200/60"
+                                value={String(edit.note ?? "")}
+                                onChange={(e) => updateEdit("note", e.target.value)}
+                              />
+                            </div>
                           </div>
                         </div>
 
                         {/* Etiketler (replace) */}
                         <div className="md:col-span-2">
-                          <label className="text-sm flex items-center gap-2"><Tag className="h-4 w-4" /> Etiketler</label>
-                          <div className={[wrap, "flex flex-wrap items-center gap-2 p-2"].join(" ")}>
-                            {(edit.tags || []).map((t, i) => (
-                              <span
-                                key={`${t}-${i}`}
-                                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_25%,transparent)] bg-background/50"
-                              >
-                                {t}
-                                <button
-                                  onClick={() =>
-                                    updateEdit(
-                                      "tags",
-                                      (edit.tags || []).filter((_, idx) => idx !== i)
-                                    )
+                          <label className="block text-sm font-medium text-purple-200 mb-2 flex items-center gap-2">
+                            <Tag className="h-4 w-4" />
+                            Etiketler
+                          </label>
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl blur-lg"></div>
+                            <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-green-500/50 focus-within:ring-2 focus-within:ring-green-500/20 transition-all duration-200 p-3">
+                              <div className="flex flex-wrap items-center gap-2 mb-2">
+                                {(edit.tags || []).map((t, i) => (
+                                  <span
+                                    key={`${t}-${i}`}
+                                    className="inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 text-green-200"
+                                  >
+                                    {t}
+                                    <button
+                                      onClick={() =>
+                                        updateEdit(
+                                          "tags",
+                                          (edit.tags || []).filter((_, idx) => idx !== i)
+                                        )
+                                      }
+                                      className="rounded-full p-0.5 hover:bg-green-500/20 transition-colors"
+                                      aria-label="etiketi kaldır"
+                                    >
+                                      <X className="h-3.5 w-3.5" />
+                                    </button>
+                                  </span>
+                                ))}
+                              </div>
+                              <input
+                                className="w-full bg-transparent outline-none text-white placeholder:text-green-200/60"
+                                placeholder="etiket yaz & enter"
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === "," || e.key === " ") {
+                                    e.preventDefault();
+                                    const val = normTag((e.currentTarget.value || ""));
+                                    if (val && !(edit.tags || []).includes(val)) {
+                                      updateEdit("tags", [...(edit.tags || []), val]);
+                                    }
+                                    e.currentTarget.value = "";
                                   }
-                                  className="rounded p-0.5 hover:bg-foreground/10"
-                                  aria-label="etiketi kaldır"
-                                >
-                                  <X className="h-3.5 w-3.5" />
-                                </button>
-                              </span>
-                            ))}
-                            <input
-                              className="min-w-[160px] flex-1 bg-transparent outline-none px-2 py-1 text-[var(--foreground)] placeholder:text-[color:color-mix(in_oklab,var(--foreground)_55%,transparent)]"
-                              placeholder="etiket yaz & enter"
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === "," || e.key === " ") {
-                                  e.preventDefault();
-                                  const val = normTag((e.currentTarget.value || ""));
-                                  if (val && !(edit.tags || []).includes(val)) {
-                                    updateEdit("tags", [...(edit.tags || []), val]);
-                                  }
-                                  e.currentTarget.value = "";
-                                }
-                              }}
-                            />
+                                }}
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-3">
                         <button
                           onClick={saveEdit}
                           disabled={savingEdit}
-                          className={[
-                            "inline-flex items-center gap-2 rounded-xl px-4 py-2 font-semibold",
-                            "text-[color:var(--background)]",
-                            "bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500",
-                            "shadow-[0_8px_24px_rgba(99,102,241,.25)] hover:shadow-[0_10px_30px_rgba(99,102,241,.35)]",
-                          ].join(" ")}
+                          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 transition-all duration-200 text-white font-semibold shadow-lg"
                         >
                           {savingEdit ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                           {savingEdit ? "Kaydediliyor..." : "Kaydet"}
                         </button>
                         <button
                           onClick={cancelEdit}
-                          className="rounded-xl px-4 py-2 ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_25%,transparent)] hover:bg-background/70"
+                          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-gray-500/20 to-gray-600/20 hover:from-gray-500/30 hover:to-gray-600/30 border border-gray-500/30 hover:border-gray-500/50 transition-all duration-200 text-sm font-medium"
                         >
                           İptal
                         </button>
@@ -592,19 +739,26 @@ export default function TeslimPage() {
             })}
           </div>
         )}
-      </SectionCard>
+      </div>
 
+      {/* Notifications */}
       {(msg || err) && (
-        <div className="text-sm">
+        <div className="space-y-3" aria-live="polite">
           {msg && (
-            <span className="rounded-lg bg-emerald-500/15 px-2 py-1 text-[color:color-mix(in_oklab,green_85%,white_15%)]">
-              {msg}
-            </span>
+            <div className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20">
+              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                <span className="text-white text-sm font-bold">✓</span>
+              </div>
+              <span className="text-sm text-green-200">{msg}</span>
+            </div>
           )}
           {err && (
-            <span className="ml-2 rounded-lg bg-red-500/15 px-2 py-1 text-[color:color-mix(in_oklab,crimson_85%,white_15%)]">
-              {err}
-            </span>
+            <div className="flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-red-500/10 to-red-600/10 border border-red-500/20">
+              <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                <span className="text-white text-sm font-bold">!</span>
+              </div>
+              <span className="text-sm text-red-200">{err}</span>
+            </div>
           )}
         </div>
       )}
@@ -612,20 +766,28 @@ export default function TeslimPage() {
   );
 }
 
-function LinkRow({ label, href }: { label: string; href: string }) {
+function LinkRow({ label, href, icon }: { label: string; href: string; icon: React.ReactNode }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={[
-        "multicolor-hover rounded-lg p-2 text-sm flex items-center gap-2",
-        "ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_15%,transparent)] hover:ring-[color:color-mix(in_oklab,var(--foreground)_40%,transparent)]",
-        "bg-white/10 dark:bg-black/10 backdrop-blur",
-      ].join(" ")}
+      className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 hover:scale-105 transition-all duration-300 p-4"
     >
-      <Link2 className="h-4 w-4" />
-      <span className="truncate">{label}</span>
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg flex items-center justify-center border border-purple-500/30">
+          {icon}
+        </div>
+        <div className="flex-1">
+          <div className="text-sm font-medium text-white group-hover:text-purple-200 transition-colors">
+            {label}
+          </div>
+          <div className="text-xs text-purple-200/60 truncate">
+            {href}
+          </div>
+        </div>
+        <ExternalLink className="h-4 w-4 text-purple-300 group-hover:text-purple-200 transition-colors" />
+      </div>
     </a>
   );
 }

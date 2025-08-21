@@ -1,31 +1,29 @@
-// app/panel/sss/page.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import PageHeader from "../_components/page-header";
 import SectionCard from "../_components/section-card";
-import { Search, ChevronDown, Link as LinkIcon, HelpCircle } from "lucide-react";
+import { Search, ChevronDown, Link as LinkIcon, HelpCircle, MessageCircle, CheckCircle, Copy } from "lucide-react";
 
 type Cat =
-  | "kayit"      // Kayıt & Başvuru
-  | "takim"      // Takım & Profil
-  | "teslim"     // Oyun Teslimi
-  | "takvim"     // Takvim & Mekan
-  | "teknik"     // Teknik & Kurallar
-  | "odul"       // Ödüller & Sponsorlar
-  | "diger";     // Diğer
+  | "kayit"
+  | "takim"
+  | "teslim"
+  | "takvim"
+  | "teknik"
+  | "odul"
+  | "diger";
 
 type FAQ = {
-  id: string;       // anchor için
+  id: string;
   cat: Cat;
   q: string;
   a: string;
 };
 
-// ——— MANUEL İÇERİK: PDF’e/kurallara göre düzenleyin
 const FAQS: FAQ[] = [
   {
-    id: "kimler-katılabilir",
+    id: "kimler-katilabilir",
     cat: "kayit",
     q: "Kimler katılabilir? Yaş sınırı var mı?",
     a: "14 yaş ve üzeri herkes katılabilir. 18 yaş altı katılımcılar için veliden onay gerekebilir.",
@@ -58,13 +56,13 @@ const FAQS: FAQ[] = [
     id: "takvim-mekan",
     cat: "takvim",
     q: "Etkinlik takvimi ve mekân bilgisi nerede?",
-    a: "Panel ▸ Takvim bölümünde güncel saatler; “Hakkında” sayfasında mekân ve ulaşım bilgisi yer alır.",
+    a: "Panel ▸ Takvim bölümünde güncel saatler; Hakkında sayfasında mekân ve ulaşım bilgisi yer alır.",
   },
   {
     id: "kurallar-kisitlar",
     cat: "teknik",
     q: "Teknik kurallar ve kısıtlar neler?",
-    a: "“Kurallar” sayfasında tema, süre, telif, ekipman ve değerlendirme kriterleri detaylıca listelenmiştir.",
+    a: "Kurallar sayfasında tema, süre, telif, ekipman ve değerlendirme kriterleri detaylıca listelenmiştir.",
   },
   {
     id: "oduller",
@@ -100,8 +98,8 @@ export default function FAQPage() {
   const [query, setQuery] = useState("");
   const [cat, setCat] = useState<Cat | "all">("all");
   const [open, setOpen] = useState<Set<string>>(new Set());
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // URL #hash ile gelen soruyu otomatik aç
   useEffect(() => {
     if (typeof window === "undefined") return;
     const hash = decodeURIComponent(window.location.hash.replace("#", ""));
@@ -139,51 +137,83 @@ export default function FAQPage() {
           ? `${window.location.origin}${window.location.pathname}#${id}`
           : `#${id}`;
       await navigator.clipboard?.writeText(url);
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
     } catch {
       /* noop */
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <PageHeader
         title="Sıkça Sorulan Sorular"
         desc="En çok merak edilenler, hızlı yanıtlar ve ipuçları"
         variant="plain"
       />
 
+      {/* Hero Section */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <HelpCircle className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-1">Sıkça Sorulan Sorular</h2>
+              <p className="text-purple-200/80">Hızlı yanıtlar ve ipuçları</p>
+            </div>
+          </div>
+          
+          <p className="text-base leading-relaxed text-purple-100 max-w-2xl">
+            Şehitkamil Game Jam hakkında en çok merak edilen sorular ve yanıtları. 
+            Aradığınız bilgiyi bulamazsanız, mesajlar bölümünden bize ulaşabilirsiniz.
+          </p>
+        </div>
+      </div>
+
       {/* Arama + Kategoriler */}
-      <SectionCard>
-        <div className="flex flex-col gap-4">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+        <div className="space-y-6">
           {/* Arama kutusu */}
           <div className="relative">
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 opacity-70">
-              <Search className="h-4 w-4" />
-            </div>
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-purple-300" />
             <input
-              className="w-full rounded-xl bg-white/10 dark:bg-black/10 backdrop-blur pl-9 pr-3 py-2 text-sm ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_18%,transparent)] focus:outline-none focus:ring-2"
+              className="w-full rounded-xl bg-white/20 backdrop-blur-sm pl-12 pr-4 py-3 text-sm outline-none border border-white/20 focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200"
               placeholder="Ara: kayıt, teslim, ödüller..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
 
-          {/* Kategori pill’leri (yatay kaydırılabilir) */}
-          <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto py-1">
+          {/* Kategori pill'leri */}
+          <div className="flex flex-wrap gap-3">
             <CatPill label="Tümü" active={cat === "all"} onClick={() => setCat("all")} />
             {(["kayit","takim","teslim","takvim","teknik","odul","diger"] as Cat[]).map((c) => (
               <CatPill key={c} label={CAT_LABEL[c]} active={cat === c} onClick={() => setCat(c)} />
             ))}
           </div>
         </div>
-      </SectionCard>
+      </div>
+
+      {/* Sonuç sayısı */}
+      <div className="flex items-center justify-between text-sm text-purple-200/80">
+        <span>{filtered.length} soru bulundu</span>
+        <span>Toplam {FAQS.length} soru</span>
+      </div>
 
       {/* Liste */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {filtered.length === 0 && (
-          <div className="rounded-2xl bg-white/10 dark:bg-black/10 backdrop-blur p-6 text-sm flex items-center gap-3">
-            <HelpCircle className="h-5 w-5 opacity-80" />
-            Aradığınız kriterlere uygun sonuç yok. Kategoriyi değiştirin veya aramayı sadeleştirin.
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl flex items-center justify-center mb-4">
+              <HelpCircle className="h-8 w-8 text-purple-300" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Sonuç Bulunamadı</h3>
+            <p className="text-sm text-purple-200/80">
+              Aradığınız kriterlere uygun sonuç yok. Kategoriyi değiştirin veya aramayı sadeleştirin.
+            </p>
           </div>
         )}
 
@@ -193,46 +223,61 @@ export default function FAQPage() {
             <div
               key={f.id}
               id={f.id}
-              className={[
-                isOpen ? "gborder" : "gborder-hover",
-                "rounded-2xl transition-colors",
-              ].join(" ")}
+              className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 hover:scale-[1.02] transition-all duration-300"
             >
-              <div className="rounded-2xl bg-white/10 dark:bg-black/10 backdrop-blur">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <div className="relative z-10">
                 <button
                   type="button"
                   aria-expanded={isOpen}
                   onClick={() => toggle(f.id)}
-                  className="w-full px-4 py-3 flex items-center gap-3 text-left"
+                  className="w-full px-6 py-4 flex items-center gap-4 text-left"
                 >
-                  <ChevronDown
-                    className={[
-                      "h-4 w-4 shrink-0 transition-transform duration-200",
-                      isOpen ? "rotate-180" : "rotate-0",
-                    ].join(" ")}
-                  />
-                  <span className="font-semibold text-foreground">{f.q}</span>
+                  <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
+                    <ChevronDown
+                      className={`h-4 w-4 text-white transition-transform duration-300 ${
+                        isOpen ? "rotate-180" : "rotate-0"
+                      }`}
+                    />
+                  </div>
+                  
+                  <div className="flex-1">
+                    <h3 className="font-bold text-white text-left">{f.q}</h3>
+                  </div>
 
                   {/* Kopya link */}
-                  <span className="ml-auto">
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        copyLink(f.id);
-                      }}
-                      className="rounded-md px-2 py-1 text-xs ring-1 ring-foreground/15 hover:bg-foreground/10"
-                      title="Bağlantıyı kopyala"
-                    >
-                      <LinkIcon className="h-3.5 w-3.5" />
-                    </button>
-                  </span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      copyLink(f.id);
+                    }}
+                    className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium"
+                    title="Bağlantıyı kopyala"
+                  >
+                    {copiedId === f.id ? (
+                      <>
+                        <CheckCircle className="h-4 w-4 text-green-400" />
+                        Kopyalandı
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-4 w-4" />
+                        Kopyala
+                      </>
+                    )}
+                  </button>
                 </button>
 
                 {/* İçerik */}
                 {isOpen && (
-                  <div className="px-10 pb-4 -mt-1 text-sm opacity-90">
-                    {f.a}
+                  <div className="px-14 pb-6">
+                    <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
+                      <p className="text-sm text-purple-100 leading-relaxed">
+                        {f.a}
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
@@ -241,18 +286,24 @@ export default function FAQPage() {
         })}
       </div>
 
-      {/* İpucu / İletişim */}
-      <SectionCard>
-        <p className="text-xs opacity-75">
-          Cevabını bulamadın mı? <strong>Panel ▸ Mesajlar</strong> bölümünden bize yazabilirsin.
-        </p>
-      </SectionCard>
+      {/* İletişim CTA */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-500/20 via-emerald-500/15 to-teal-500/20 backdrop-blur-xl border border-green-500/30 p-6">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center">
+            <MessageCircle className="h-6 w-6 text-white" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-white mb-1">Cevabını Bulamadın mı?</h3>
+            <p className="text-sm text-green-200/80">
+              Panel ▸ Mesajlar bölümünden bize yazabilirsin.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-/* — Kategori pill — */
-/* — Kategori pill (kenarlık tam kaplar + daha büyük) — */
 function CatPill({
   label,
   active,
@@ -265,15 +316,15 @@ function CatPill({
   return (
     <button
       onClick={onClick}
-      className={[
-        "relative isolate shrink-0 rounded-2xl",
-        "px-4 py-2 text-sm md:text-base font-semibold transition",
-        "backdrop-blur bg-white/10 dark:bg-black/10",
-        active ? "gborder" : "gborder-hover hover:opacity-100",
-      ].join(" ")}
+      className={`group relative overflow-hidden rounded-2xl px-4 py-2 text-sm font-medium transition-all duration-200 ${
+        active 
+          ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/30 shadow-lg" 
+          : "bg-gradient-to-r from-white/10 to-white/5 border-white/20 hover:from-white/20 hover:to-white/10"
+      } backdrop-blur-xl border`}
       title={label}
     >
-      <span className="text-foreground whitespace-nowrap">{label}</span>
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <span className="relative text-white whitespace-nowrap">{label}</span>
     </button>
   );
 }

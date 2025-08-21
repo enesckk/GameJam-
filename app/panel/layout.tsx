@@ -1,4 +1,3 @@
-// app/panel/layout.tsx  (senin yoluna göre)
 "use client";
 
 import { useEffect, useState } from "react";
@@ -35,13 +34,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
     <div
       className="
         relative isolate h-screen lg:grid lg:grid-cols-[16rem_1fr]
-        overflow-hidden
         text-white dark:text-white
-        bg-gradient-to-b from-white via-gray-100 to-gray-200
+        bg-gradient-to-b
+        from-white via-gray-100 to-gray-200
         dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+        overflow-hidden
       "
     >
-      {/* Katman A: büyük mesh */}
+      {/* Background layers */}
       <div
         aria-hidden
         className="
@@ -51,7 +51,6 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         "
         style={{ mixBlendMode: "screen" }}
       />
-      {/* Katman B: küçük mesh */}
       <div
         aria-hidden
         className="
@@ -61,7 +60,6 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         "
         style={{ mixBlendMode: "screen" }}
       />
-      {/* Katman C: conic swirl */}
       <div
         aria-hidden
         className="
@@ -73,29 +71,26 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         style={{ mixBlendMode: "screen" }}
       />
 
-      {/* Sidebar */}
+      {/* Sidebar (mobil çekmece + masaüstü sabit) */}
       <aside
         className={[
           "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
-          open ? "translate-x-0" : "-translate-x-full",
-          "bg-background/35 backdrop-blur-xl supports-[backdrop-filter]:bg-background/20",
-          "lg:static lg:translate-x-0 lg:h-screen lg:overflow-y-auto no-scrollbar lg:overscroll-contain lg:pr-2",
+          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+          "lg:relative lg:translate-x-0 lg:flex lg:flex-col",
+          "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-r border-slate-200/60 dark:border-slate-700/60",
         ].join(" ")}
       >
-        <div className="flex h-full min-h-0 flex-col p-3">
-          <PanelSidebar onNavigate={() => setOpen(false)} />
-        </div>
+        <PanelSidebar onNavigate={() => setOpen(false)} />
       </aside>
 
-      {/* Sağ taraf */}
-      <div className="relative z-10 flex min-h-0 flex-col">
-        {/* Topbar */}
+      {/* Ana içerik alanı */}
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <PanelTopbar
-          onMenuClick={() => setOpen((s) => !s)}
+          onMenuClick={() => setOpen(true)}
           countdownTargetISO="2025-09-20T10:00:00+03:00"
           countdownDoneText="Başladı!"
         />
-
+        
         {/* Mobilde sidebar overlay */}
         {open && (
           <div
@@ -105,7 +100,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         )}
 
         {/* İçerik */}
-        <main className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-3 sm:p-4 md:p-6">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6">
           {children}
         </main>
       </div>
