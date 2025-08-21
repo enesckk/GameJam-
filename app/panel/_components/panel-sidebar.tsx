@@ -110,22 +110,6 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
           })}
         </div>
       </div>
-
-      {/* Footer (row 3) — sabit altta ve scroll'da görünür */}
-      <div className="sticky bottom-0 z-10 px-2 sm:px-3 pb-4 sm:pb-6">
-        <div className="relative">
-          {/* üstten yumuşak ayrım */}
-          <div className="pointer-events-none absolute -top-3 left-0 right-0 h-3 bg-gradient-to-b from-slate-200/40 via-white/20 to-transparent dark:from-slate-800/40 dark:via-slate-900/20 rounded-t-2xl" />
-          <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-white/20 dark:border-slate-700/50 shadow-lg">
-            <div className="flex items-center justify-between">
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate">Game Jam v1.0</div>
-              {/* animasyon kaldırıldı */}
-              <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex-shrink-0" />
-            </div>
-            <div className="text-xs text-slate-400 dark:text-slate-500 mt-1 truncate">Sistem Aktif</div>
-          </div>
-        </div>
-      </div>
     </nav>
   );
 }
