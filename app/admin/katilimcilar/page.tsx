@@ -69,10 +69,14 @@ function PageSizeSelect({
       {open && (
         <div
           className={[
-            "absolute right-0 z-50 mt-2 w-40 overflow-hidden rounded-2xl",
+            "absolute right-0 z-[9999] mt-2 w-40 overflow-hidden rounded-2xl",
             "ring-1 ring-slate-200/60 shadow-xl border border-white/20 dark:border-slate-700/50",
-            "backdrop-blur-xl bg-white/90 dark:bg-slate-800/90",
+            "backdrop-blur-xl bg-white/95 dark:bg-slate-800/95",
           ].join(" ")}
+          style={{
+            top: '100%',
+            marginTop: '0.5rem',
+          }}
         >
           <ul className="py-2">
             {options.map((n) => (

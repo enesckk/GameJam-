@@ -1,4 +1,3 @@
-// app/admin/layout.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -80,7 +79,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           "fixed inset-y-0 left-0 z-50 w-64 transition-transform",
           open ? "translate-x-0" : "-translate-x-full",
           "bg-background/35 backdrop-blur-xl supports-[backdrop-filter]:bg-background/20",
-          "lg:static lg:translate-x-0 lg:h-screen lg:overflow-y-auto no-scrollbar lg:overscroll-contain lg:pr-2",
+          "lg:static lg:translate-x-0 lg:h-full lg:overflow-y-auto no-scrollbar lg:overscroll-contain lg:pr-2",
         ].join(" ")}
       >
         <div className="flex h-full min-h-0 flex-col p-3">
