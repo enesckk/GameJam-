@@ -7,58 +7,86 @@ export default function AboutPage() {
       className="
         relative isolate min-h-screen overflow-hidden
         text-white dark:text-white
-        bg-gradient-to-b from-white via-gray-100 to-gray-200
-        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+        bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30
+        dark:from-slate-950 dark:via-slate-900/50 dark:to-purple-950/30
       "
     >
-      {/* Katman A: büyük mesh */}
+      {/* Katman A: büyük mesh - daha dinamik */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 inset-[-20%] opacity-80
-          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
-          motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
+          pointer-events-none absolute -z-10 inset-[-20%] opacity-90
+          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.4),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.35),transparent_60%)]
+          motion-safe:animate-[meshPan_20s_ease-in-out_infinite]
         "
         style={{ mixBlendMode: "screen" }}
       />
-      {/* Katman B: küçük mesh */}
+      
+      {/* Katman B: küçük mesh - daha yumuşak */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 inset-[-30%] opacity-70
-          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
-          motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
+          pointer-events-none absolute -z-10 inset-[-30%] opacity-80
+          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.35),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.32),transparent_60%)]
+          motion-safe:animate-[meshPanAlt_15s_ease-in-out_infinite]
         "
         style={{ mixBlendMode: "screen" }}
       />
-      {/* Katman C: conic swirl */}
+      
+      {/* Katman C: conic swirl - daha yavaş */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 -inset-[25%] opacity-60
-          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
-          motion-safe:animate-[swirl_22s_linear_infinite]
+          pointer-events-none absolute -z-10 -inset-[25%] opacity-70
+          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.4),rgba(139,92,246,.4),rgba(34,197,94,.3),rgba(14,165,233,.4))]
+          motion-safe:animate-[swirl_25s_linear_infinite]
           rounded-[9999px] blur-3xl
         "
         style={{ mixBlendMode: "screen" }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-16">
-        {/* Hero Section */}
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Hakkımızda
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+      {/* Floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-20">
+        {/* Hero Section - daha etkileyici */}
+        <div className="text-center space-y-6">
+          <div className="relative">
+            <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-pulse">
+              Hakkımızda
+            </h1>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-600/20 blur-3xl -z-10"></div>
+          </div>
+          <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 max-w-4xl mx-auto font-medium leading-relaxed">
             Şehitkamil Game Jam hakkında detaylı bilgiler ve vizyonumuz
           </p>
         </div>
 
-        {/* Ana İçerik */}
+        {/* Ana İçerik - daha şık */}
         <div
-          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
+          className="
+            relative rounded-3xl backdrop-blur-xl p-10 
+            border border-white/30 dark:border-white/20
+            shadow-2xl shadow-blue-500/10 dark:shadow-purple-500/10
+            hover:shadow-3xl hover:shadow-blue-500/20 dark:hover:shadow-purple-500/20
+            transition-all duration-500 hover:scale-[1.02]
+          "
           style={{
-            backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)",
+            background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
+            backdropFilter: "blur(20px)",
           }}
         >
           <PageHeader
@@ -67,132 +95,197 @@ export default function AboutPage() {
             variant="plain"
           />
 
-          <div className="max-w-none space-y-6 leading-relaxed text-[color:var(--foreground)]">
-            <p>
-              <strong className="font-semibold">Şehitkamil Game Jam</strong>, yazılım geliştiriciler, oyun
+          <div className="max-w-none space-y-8 leading-relaxed text-slate-800 dark:text-slate-200 text-lg">
+            <p className="text-xl">
+              <strong className="font-bold text-blue-600 dark:text-blue-400">Şehitkamil Game Jam</strong>, yazılım geliştiriciler, oyun
               tasarımcıları, ses/müzik prodüktörleri ve içerik üreticilerini 48 saat süren
-              yoğun bir üretim maratonunda bir araya getirir. Amacımız; ekip çalışmasını,
-              hızlı prototiplemeyi ve yaratıcı problem çözme becerilerini teşvik ederek
+              yoğun bir üretim maratonunda bir araya getirir.
+            </p>
+            <p>
+              Amacımız; ekip çalışmasını, hızlı prototiplemeyi ve yaratıcı problem çözme becerilerini teşvik ederek
               özgün ve yenilikçi oyun fikirlerinin ortaya çıkmasını sağlamaktır.
             </p>
             <p>
               Etkinlik süresince geliştirilen projeler,{" "}
-              <strong className="font-semibold">Şehitkamil Belediyesi'nin teknoloji vizyonuna</strong> uygun olarak
-              tasarlanır ve sosyal fayda sağlayacak çözümler sunar. Katılımcılar, hem teknik
-              hem de yaratıcı süreçlerde deneyim kazanır, sektör profesyonelleriyle ağ kurma
-              fırsatı yakalar.
+              <strong className="font-semibold text-purple-600 dark:text-purple-400">Şehitkamil Belediyesi'nin teknoloji vizyonuna</strong> uygun olarak
+              tasarlanır ve sosyal fayda sağlayacak çözümler sunar.
             </p>
             <p>
-              Şehitkamil Game Jam, yerel ekosistemi güçlendiren, inovasyonu teşvik eden ve
-              genç yeteneklerin görünürlüğünü artıran bir topluluk etkinliğidir.
+              Katılımcılar, hem teknik hem de yaratıcı süreçlerde deneyim kazanır, sektör profesyonelleriyle ağ kurma
+              fırsatı yakalar.
             </p>
           </div>
         </div>
 
-        {/* Game Jam Hakkında Kartları */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20 backdrop-blur-sm text-center">
-            <div className="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold mb-3">Game Jam Nedir?</h3>
-            <p className="text-sm text-muted-foreground">
-              Oyun geliştiricilerin belirli bir süre içinde oyun yaratma yarışmasıdır. Katılımcılar takımlar halinde çalışarak, verilen tema doğrultusunda oyunlar geliştirirler.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20 backdrop-blur-sm text-center">
-            <div className="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold mb-3">Hedef Kitle</h3>
-            <p className="text-sm text-muted-foreground">
-              Oyun geliştirme tutkusu olan herkes katılabilir. Programcılar, tasarımcılar, sanatçılar ve oyun geliştirme meraklıları için mükemmel bir fırsat.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20 backdrop-blur-sm text-center">
-            <div className="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold mb-3">Yarışma Formatı</h3>
-            <p className="text-sm text-muted-foreground">
-              48 saatlik yoğun bir geliştirme süreci. Takımlar tema açıklandıktan sonra oyunlarını geliştirmeye başlar ve süre sonunda projelerini teslim eder.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-xl bg-gradient-to-br from-orange-500/10 to-amber-500/10 border border-orange-500/20 backdrop-blur-sm text-center">
-            <div className="w-12 h-12 rounded-lg bg-orange-500/20 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold mb-3">Değerlendirme</h3>
-            <p className="text-sm text-muted-foreground">
-              Oyunlar yaratıcılık, teknik kalite, oynanabilirlik ve tema uyumu kriterlerine göre uzman jüri tarafından değerlendirilir.
-            </p>
-          </div>
-        </div>
-
-        {/* Misyon ve Vizyon */}
-        <div className="grid md:grid-cols-2 gap-8">
-          <div
-            className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
-            style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/>
-                </svg>
+        {/* Game Jam Hakkında Kartları - daha interaktif */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {[
+            {
+              icon: "👥",
+              title: "Game Jam Nedir?",
+              desc: "Oyun geliştiricilerin belirli bir süre içinde oyun yaratma yarışmasıdır. Katılımcılar takımlar halinde çalışarak, verilen tema doğrultusunda oyunlar geliştirirler.",
+              gradient: "from-blue-500/20 to-indigo-600/20",
+              border: "border-blue-500/30",
+              bg: "bg-blue-500/10"
+            },
+            {
+              icon: "🎯",
+              title: "Hedef Kitle",
+              desc: "Oyun geliştirme tutkusu olan herkes katılabilir. Programcılar, tasarımcılar, sanatçılar ve oyun geliştirme meraklıları için mükemmel bir fırsat.",
+              gradient: "from-green-500/20 to-emerald-600/20",
+              border: "border-green-500/30",
+              bg: "bg-green-500/10"
+            },
+            {
+              icon: "⚡",
+              title: "Yarışma Formatı",
+              desc: "48 saatlik yoğun bir geliştirme süreci. Takımlar tema açıklandıktan sonra oyunlarını geliştirmeye başlar ve süre sonunda projelerini teslim eder.",
+              gradient: "from-purple-500/20 to-pink-600/20",
+              border: "border-purple-500/30",
+              bg: "bg-purple-500/10"
+            },
+            {
+              icon: "🏆",
+              title: "Değerlendirme",
+              desc: "Oyunlar yaratıcılık, teknik kalite, oynanabilirlik ve tema uyumu kriterlerine göre uzman jüri tarafından değerlendirilir.",
+              gradient: "from-orange-500/20 to-amber-600/20",
+              border: "border-orange-500/30",
+              bg: "bg-orange-500/10"
+            }
+          ].map((card, index) => (
+            <div
+              key={index}
+              className={`
+                group relative p-8 rounded-2xl 
+                bg-gradient-to-br ${card.gradient}
+                border ${card.border} backdrop-blur-sm
+                hover:scale-105 hover:shadow-2xl
+                transition-all duration-500 ease-out
+                cursor-pointer
+              `}
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className={`w-16 h-16 rounded-2xl ${card.bg} flex items-center justify-center mx-auto mb-6 text-3xl group-hover:scale-110 transition-transform duration-300`}>
+                  {card.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-4 text-center group-hover:text-white transition-colors duration-300">
+                  {card.title}
+                </h3>
+                <p className="text-sm text-slate-700 dark:text-slate-300 text-center leading-relaxed group-hover:text-slate-100 transition-colors duration-300">
+                  {card.desc}
+                </p>
               </div>
-              <h2 className="text-2xl font-bold text-blue-600">Misyonumuz</h2>
             </div>
-            <p className="text-muted-foreground mb-4">
-              Gaziantep'te oyun geliştirme ekosistemini güçlendirmek, genç yetenekleri desteklemek ve yerel oyun endüstrisinin gelişimine katkıda bulunmak.
-            </p>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>Oyun geliştirme kültürünü yaygınlaştırmak</li>
-              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>Yerel yetenekleri keşfetmek ve desteklemek</li>
-              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>Teknoloji ve yaratıcılığı birleştirmek</li>
-              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>Topluluk oluşturmak ve networking sağlamak</li>
-            </ul>
+          ))}
+        </div>
+
+        {/* Misyon ve Vizyon - daha modern */}
+        <div className="grid md:grid-cols-2 gap-10">
+          <div
+            className="
+              relative rounded-3xl backdrop-blur-xl p-10
+              border border-white/30 dark:border-white/20
+              shadow-2xl shadow-blue-500/10
+              hover:shadow-3xl hover:shadow-blue-500/20
+              transition-all duration-500 hover:scale-[1.02]
+              group
+            "
+            style={{
+              background: "linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(147,51,234,0.05) 100%)",
+              backdropFilter: "blur(20px)",
+            }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500/30 to-blue-600/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+                  Misyonumuz
+                </h2>
+              </div>
+              <p className="text-slate-700 dark:text-slate-300 mb-6 text-lg leading-relaxed">
+                Gaziantep'te oyun geliştirme ekosistemini güçlendirmek, genç yetenekleri desteklemek ve yerel oyun endüstrisinin gelişimine katkıda bulunmak.
+              </p>
+              <ul className="space-y-3 text-base">
+                {[
+                  "Oyun geliştirme kültürünü yaygınlaştırmak",
+                  "Yerel yetenekleri keşfetmek ve desteklemek",
+                  "Teknoloji ve yaratıcılığı birleştirmek",
+                  "Topluluk oluşturmak ve networking sağlamak"
+                ].map((item, index) => (
+                  <li key={index} className="flex items-start gap-3 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors duration-300">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-3 flex-shrink-0 group-hover:scale-150 transition-transform duration-300"></span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div
-            className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
-            style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
+            className="
+              relative rounded-3xl backdrop-blur-xl p-10
+              border border-white/30 dark:border-white/20
+              shadow-2xl shadow-purple-500/10
+              hover:shadow-3xl hover:shadow-purple-500/20
+              transition-all duration-500 hover:scale-[1.02]
+              group
+            "
+            style={{
+              background: "linear-gradient(135deg, rgba(147,51,234,0.1) 0%, rgba(236,72,153,0.05) 100%)",
+              backdropFilter: "blur(20px)",
+            }}
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                <svg className="w-5 h-5 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"/>
-                </svg>
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500/30 to-purple-600/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <svg className="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent">
+                  Vizyonumuz
+                </h2>
               </div>
-              <h2 className="text-2xl font-bold text-purple-600">Vizyonumuz</h2>
+              <p className="text-slate-700 dark:text-slate-300 mb-6 text-lg leading-relaxed">
+                Gaziantep'i Türkiye'nin önde gelen oyun geliştirme merkezlerinden biri haline getirmek ve uluslararası arenada tanınan oyunlar üretmek.
+              </p>
+              <ul className="space-y-3 text-base">
+                {[
+                  "Uluslararası standartlarda oyunlar geliştirmek",
+                  "Oyun geliştirme eğitimini desteklemek",
+                  "Yerel oyun stüdyolarının kurulmasını teşvik etmek",
+                  "Dijital ekonomiye katkıda bulunmak"
+                ].map((item, index) => (
+                  <li key={index} className="flex items-start gap-3 group-hover:text-purple-700 dark:group-hover:text-purple-400 transition-colors duration-300">
+                    <span className="w-2 h-2 bg-purple-500 rounded-full mt-3 flex-shrink-0 group-hover:scale-150 transition-transform duration-300"></span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <p className="text-muted-foreground mb-4">
-              Gaziantep'i Türkiye'nin önde gelen oyun geliştirme merkezlerinden biri haline getirmek ve uluslararası arenada tanınan oyunlar üretmek.
-            </p>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>Uluslararası standartlarda oyunlar geliştirmek</li>
-              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>Oyun geliştirme eğitimini desteklemek</li>
-              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>Yerel oyun stüdyolarının kurulmasını teşvik etmek</li>
-              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>Dijital ekonomiye katkıda bulunmak</li>
-            </ul>
           </div>
         </div>
 
-        {/* Organizasyon Ekibi */}
+        {/* Organizasyon Ekibi - daha şık */}
         <div
-          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
-          style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
+          className="
+            relative rounded-3xl backdrop-blur-xl p-10
+            border border-white/30 dark:border-white/20
+            shadow-2xl shadow-cyan-500/10
+            hover:shadow-3xl hover:shadow-cyan-500/20
+            transition-all duration-500 hover:scale-[1.01]
+          "
+          style={{
+            background: "linear-gradient(135deg, rgba(6,182,212,0.1) 0%, rgba(59,130,246,0.05) 100%)",
+            backdropFilter: "blur(20px)",
+          }}
         >
           <PageHeader
             title="Organizasyon Ekibi"
@@ -200,80 +293,119 @@ export default function AboutPage() {
             variant="plain"
           />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20">
-              <div className="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
-                </svg>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+            {[
+              {
+                name: "Ahmet Yılmaz",
+                role: "Proje Koordinatörü",
+                org: "Şehitkamil Belediyesi",
+                gradient: "from-blue-500/20 to-indigo-600/20",
+                border: "border-blue-500/30",
+                bg: "bg-blue-500/10",
+                icon: "👨‍💼"
+              },
+              {
+                name: "Mehmet Kaya",
+                role: "Teknik Direktör",
+                org: "Oyun Geliştirici",
+                gradient: "from-green-500/20 to-emerald-600/20",
+                border: "border-green-500/30",
+                bg: "bg-green-500/10",
+                icon: "👨‍💻"
+              },
+              {
+                name: "Ayşe Demir",
+                role: "Tasarım Koordinatörü",
+                org: "UI/UX Tasarımcı",
+                gradient: "from-purple-500/20 to-pink-600/20",
+                border: "border-purple-500/30",
+                bg: "bg-purple-500/10",
+                icon: "👩‍🎨"
+              },
+              {
+                name: "Fatma Özkan",
+                role: "İletişim Sorumlusu",
+                org: "Pazarlama Uzmanı",
+                gradient: "from-orange-500/20 to-amber-600/20",
+                border: "border-orange-500/30",
+                bg: "bg-orange-500/10",
+                icon: "👩‍💼"
+              }
+            ].map((member, index) => (
+              <div
+                key={index}
+                className={`
+                  group text-center p-8 rounded-2xl 
+                  bg-gradient-to-br ${member.gradient}
+                  border ${member.border} backdrop-blur-sm
+                  hover:scale-105 hover:shadow-xl
+                  transition-all duration-500 ease-out
+                  cursor-pointer
+                `}
+              >
+                <div className="w-20 h-20 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-6 text-4xl group-hover:scale-110 transition-transform duration-300">
+                  {member.icon}
+                </div>
+                <h3 className="font-bold mb-2 text-lg group-hover:text-white transition-colors duration-300">
+                  {member.role}
+                </h3>
+                <p className="text-sm font-semibold mb-2 group-hover:text-white/90 transition-colors duration-300">
+                  {member.name}
+                </p>
+                <span className="text-xs text-slate-600 dark:text-slate-400 group-hover:text-slate-200 transition-colors duration-300">
+                  {member.org}
+                </span>
               </div>
-              <h3 className="font-semibold mb-1">Proje Koordinatörü</h3>
-              <p className="text-sm font-medium text-blue-600 mb-1">Ahmet Yılmaz</p>
-              <span className="text-xs text-muted-foreground">Şehitkamil Belediyesi</span>
-            </div>
-
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20">
-              <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              <h3 className="font-semibold mb-1">Teknik Direktör</h3>
-              <p className="text-sm font-medium text-green-600 mb-1">Mehmet Kaya</p>
-              <span className="text-xs text-muted-foreground">Oyun Geliştirici</span>
-            </div>
-
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20">
-              <div className="w-16 h-16 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              <h3 className="font-semibold mb-1">Tasarım Koordinatörü</h3>
-              <p className="text-sm font-medium text-purple-600 mb-1">Ayşe Demir</p>
-              <span className="text-xs text-muted-foreground">UI/UX Tasarımcı</span>
-            </div>
-
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-orange-500/10 to-amber-500/10 border border-orange-500/20">
-              <div className="w-16 h-16 rounded-full bg-orange-500/20 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              <h3 className="font-semibold mb-1">İletişim Sorumlusu</h3>
-              <p className="text-sm font-medium text-orange-600 mb-1">Fatma Özkan</p>
-              <span className="text-xs text-muted-foreground">Pazarlama Uzmanı</span>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* İstatistikler */}
+        {/* İstatistikler - daha etkileyici */}
         <div
-          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
-          style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
+          className="
+            relative rounded-3xl backdrop-blur-xl p-10
+            border border-white/30 dark:border-white/20
+            shadow-2xl shadow-emerald-500/10
+            hover:shadow-3xl hover:shadow-emerald-500/20
+            transition-all duration-500 hover:scale-[1.01]
+          "
+          style={{
+            background: "linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,182,212,0.05) 100%)",
+            backdropFilter: "blur(20px)",
+          }}
         >
-          <PageHeader title="Rakamlarla Game Jam" desc="Etkinliğimizin etkileyici istatistikleri" variant="plain" />
+          <PageHeader 
+            title="Rakamlarla Game Jam" 
+            desc="Etkinliğimizin etkileyici istatistikleri" 
+            variant="plain" 
+          />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20">
-              <div className="text-3xl font-bold text-blue-600 mb-2">100+</div>
-              <div className="text-sm text-muted-foreground">Katılımcı</div>
-            </div>
-
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20">
-              <div className="text-3xl font-bold text-green-600 mb-2">25</div>
-              <div className="text-sm text-muted-foreground">Takım</div>
-            </div>
-
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20">
-              <div className="text-3xl font-bold text-purple-600 mb-2">48</div>
-              <div className="text-sm text-muted-foreground">Saat</div>
-            </div>
-
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-orange-500/10 to-amber-500/10 border border-orange-500/20">
-              <div className="text-3xl font-bold text-orange-600 mb-2">₺50K</div>
-              <div className="text-sm text-muted-foreground">Toplam Ödül</div>
-            </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+            {[
+              { number: "100+", label: "Katılımcı", color: "blue" },
+              { number: "25", label: "Takım", color: "green" },
+              { number: "48", label: "Saat", color: "purple" },
+              { number: "₺50K", label: "Toplam Ödül", color: "orange" }
+            ].map((stat, index) => (
+              <div
+                key={index}
+                className={`
+                  group text-center p-8 rounded-2xl 
+                  bg-gradient-to-br from-${stat.color}-500/20 to-${stat.color}-600/20
+                  border border-${stat.color}-500/30 backdrop-blur-sm
+                  hover:scale-110 hover:shadow-2xl
+                  transition-all duration-500 ease-out
+                  cursor-pointer
+                `}
+              >
+                <div className={`text-4xl font-black text-${stat.color}-600 mb-3 group-hover:scale-125 transition-transform duration-500`}>
+                  {stat.number}
+                </div>
+                <div className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-white transition-colors duration-300">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

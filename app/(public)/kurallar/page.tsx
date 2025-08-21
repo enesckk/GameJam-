@@ -7,57 +7,87 @@ export default function RulesPage() {
       className="
         relative isolate min-h-screen overflow-hidden
         text-white dark:text-white
-        bg-gradient-to-b from-white via-gray-100 to-gray-200
-        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+        bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30
+        dark:from-slate-950 dark:via-slate-900/50 dark:to-purple-950/30
       "
     >
-      {/* Katman A: büyük mesh */}
+      {/* Katman A: büyük mesh - daha dinamik */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 inset-[-20%] opacity-80
-          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
-          motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
+          pointer-events-none absolute -z-10 inset-[-20%] opacity-90
+          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.4),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.35),transparent_60%)]
+          motion-safe:animate-[meshPan_20s_ease-in-out_infinite]
         "
         style={{ mixBlendMode: "screen" }}
       />
-      {/* Katman B: küçük mesh */}
+      
+      {/* Katman B: küçük mesh - daha yumuşak */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 inset-[-30%] opacity-70
-          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
-          motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
+          pointer-events-none absolute -z-10 inset-[-30%] opacity-80
+          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.35),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.32),transparent_60%)]
+          motion-safe:animate-[meshPanAlt_15s_ease-in-out_infinite]
         "
         style={{ mixBlendMode: "screen" }}
       />
-      {/* Katman C: conic swirl */}
+      
+      {/* Katman C: conic swirl - daha yavaş */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 -inset-[25%] opacity-60
-          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
-          motion-safe:animate-[swirl_22s_linear_infinite]
+          pointer-events-none absolute -z-10 -inset-[25%] opacity-70
+          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.4),rgba(139,92,246,.4),rgba(34,197,94,.3),rgba(14,165,233,.4))]
+          motion-safe:animate-[swirl_25s_linear_infinite]
           rounded-[9999px] blur-3xl
         "
         style={{ mixBlendMode: "screen" }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-12">
-        {/* Hero Section */}
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Yarışma Kuralları
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+      {/* Floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full animate-pulse"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-20">
+        {/* Hero Section - daha etkileyici */}
+        <div className="text-center space-y-6">
+          <div className="relative">
+            <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent animate-pulse">
+              Yarışma Kuralları
+            </h1>
+            <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 via-orange-600/20 to-yellow-600/20 blur-3xl -z-10"></div>
+          </div>
+          <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 max-w-4xl mx-auto font-medium leading-relaxed">
             Game Jam'e katılmak için bilmeniz gereken tüm kurallar ve şartlar
           </p>
         </div>
 
-        {/* Genel Kurallar */}
+        {/* Genel Kurallar - daha şık */}
         <div
-          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
-          style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
+          className="
+            relative rounded-3xl backdrop-blur-xl p-10 
+            border border-white/30 dark:border-white/20
+            shadow-2xl shadow-red-500/10 dark:shadow-orange-500/10
+            hover:shadow-3xl hover:shadow-red-500/20 dark:hover:shadow-orange-500/20
+            transition-all duration-500 hover:scale-[1.02]
+          "
+          style={{
+            background: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)",
+            backdropFilter: "blur(20px)",
+          }}
         >
           <PageHeader
             title="Genel Kurallar"
@@ -65,123 +95,164 @@ export default function RulesPage() {
             variant="plain"
           />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
-            {/* Takım Kuralları */}
-            <div className="space-y-4 p-6 rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/20">
-              <div className="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center">
-                <svg className="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-                </svg>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+            {[
+              {
+                icon: "👥",
+                title: "Takım Kuralları",
+                rules: [
+                  "Her takım 2-5 kişiden oluşmalıdır",
+                  "Takım üyeleri 18 yaşını doldurmuş olmalıdır",
+                  "Bir kişi sadece bir takımda yer alabilir",
+                  "Takım isimleri uygun olmalıdır"
+                ],
+                gradient: "from-blue-500/20 to-indigo-600/20",
+                border: "border-blue-500/30",
+                bg: "bg-blue-500/10"
+              },
+              {
+                icon: "⏰",
+                title: "Zaman Kuralları",
+                rules: [
+                  "Geliştirme süresi tam 48 saattir",
+                  "Tema açıklanmadan önce kod yazılamaz",
+                  "Süre sonunda projeler teslim edilmelidir",
+                  "Geç teslim kabul edilmez"
+                ],
+                gradient: "from-green-500/20 to-emerald-600/20",
+                border: "border-green-500/30",
+                bg: "bg-green-500/10"
+              },
+              {
+                icon: "⚙️",
+                title: "Teknik Kurallar",
+                rules: [
+                  "Herhangi bir oyun motoru kullanılabilir",
+                  "Ücretsiz veya lisanslı yazılımlar kullanılabilir",
+                  "Hazır asset'ler kullanılabilir (kaynak belirtilmeli)",
+                  "Oyun çalışır durumda olmalıdır"
+                ],
+                gradient: "from-orange-500/20 to-red-600/20",
+                border: "border-orange-500/30",
+                bg: "bg-orange-500/10"
+              },
+              {
+                icon: "📦",
+                title: "Teslim Kuralları",
+                rules: [
+                  "Oyun dosyaları ve kaynak kodları teslim edilmelidir",
+                  "README dosyası zorunludur",
+                  "Oyun videosu veya screenshot'ları eklenmelidir",
+                  "Dosya boyutu 500MB'ı geçmemelidir"
+                ],
+                gradient: "from-purple-500/20 to-pink-600/20",
+                border: "border-purple-500/30",
+                bg: "bg-purple-500/10"
+              }
+            ].map((card, index) => (
+              <div
+                key={index}
+                className={`
+                  group relative p-8 rounded-2xl 
+                  bg-gradient-to-br ${card.gradient}
+                  border ${card.border} backdrop-blur-sm
+                  hover:scale-105 hover:shadow-2xl
+                  transition-all duration-500 ease-out
+                  cursor-pointer
+                `}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className={`w-16 h-16 rounded-2xl ${card.bg} flex items-center justify-center mx-auto mb-6 text-3xl group-hover:scale-110 transition-transform duration-300`}>
+                    {card.icon}
+                  </div>
+                  <h3 className="text-xl font-bold mb-4 text-center group-hover:text-white transition-colors duration-300">
+                    {card.title}
+                  </h3>
+                  <ul className="space-y-2 text-sm">
+                    {card.rules.map((rule, ruleIndex) => (
+                      <li key={ruleIndex} className="text-slate-700 dark:text-slate-300 group-hover:text-slate-100 transition-colors duration-300">
+                        • {rule}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold">Takım Kuralları</h3>
-              <ul className="space-y-2 text-sm">
-                <li>• Her takım 2-5 kişiden oluşmalıdır</li>
-                <li>• Takım üyeleri 18 yaşını doldurmuş olmalıdır</li>
-                <li>• Bir kişi sadece bir takımda yer alabilir</li>
-                <li>• Takım isimleri uygun olmalıdır</li>
-              </ul>
-            </div>
-
-            {/* Zaman Kuralları */}
-            <div className="space-y-4 p-6 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/20">
-              <div className="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center">
-                <svg className="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold">Zaman Kuralları</h3>
-              <ul className="space-y-2 text-sm">
-                <li>• Geliştirme süresi tam 48 saattir</li>
-                <li>• Tema açıklanmadan önce kod yazılamaz</li>
-                <li>• Süre sonunda projeler teslim edilmelidir</li>
-                <li>• Geç teslim kabul edilmez</li>
-              </ul>
-            </div>
-
-            {/* Teknik Kurallar */}
-            <div className="space-y-4 p-6 rounded-xl bg-gradient-to-br from-orange-500/10 to-red-500/10 border border-orange-500/20">
-              <div className="w-12 h-12 rounded-lg bg-orange-500/20 flex items-center justify-center">
-                <svg className="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold">Teknik Kurallar</h3>
-              <ul className="space-y-2 text-sm">
-                <li>• Herhangi bir oyun motoru kullanılabilir</li>
-                <li>• Ücretsiz veya lisanslı yazılımlar kullanılabilir</li>
-                <li>• Hazır asset'ler kullanılabilir (kaynak belirtilmeli)</li>
-                <li>• Oyun çalışır durumda olmalıdır</li>
-              </ul>
-            </div>
-
-            {/* Teslim Kuralları */}
-            <div className="space-y-4 p-6 rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/20">
-              <div className="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center">
-                <svg className="w-6 h-6 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold">Teslim Kuralları</h3>
-              <ul className="space-y-2 text-sm">
-                <li>• Oyun dosyaları ve kaynak kodları teslim edilmelidir</li>
-                <li>• README dosyası zorunludur</li>
-                <li>• Oyun videosu veya screenshot'ları eklenmelidir</li>
-                <li>• Dosya boyutu 500MB'ı geçmemelidir</li>
-              </ul>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Tema Kuralları */}
+        {/* Tema Kuralları - daha modern */}
         <div
-          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
-          style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
+          className="
+            relative rounded-3xl backdrop-blur-xl p-10
+            border border-white/30 dark:border-white/20
+            shadow-2xl shadow-yellow-500/10
+            hover:shadow-3xl hover:shadow-yellow-500/20
+            transition-all duration-500 hover:scale-[1.02]
+            group
+          "
+          style={{
+            background: "linear-gradient(135deg, rgba(245,158,11,0.1) 0%, rgba(251,191,36,0.05) 100%)",
+            backdropFilter: "blur(20px)",
+          }}
         >
-          <PageHeader
-            title="Tema Kuralları"
-            desc="2025 yılı için belirlenen özel tema ve gereksinimler"
-            variant="plain"
-          />
+          <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-orange-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div className="relative z-10">
+            <PageHeader
+              title="Tema Kuralları"
+              desc="2025 yılı için belirlenen özel tema ve gereksinimler"
+              variant="plain"
+            />
 
-          <div className="mt-8 space-y-6">
-            <div className="p-6 rounded-xl bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20">
-              <h3 className="text-2xl font-bold text-yellow-600 mb-4">2025 Teması: "Oyna ve Kazan!"</h3>
-              <p className="text-lg leading-relaxed">
-                Bu yılın teması, kullanıcıların oynadıkça puan kazandığı ve ödüller alabildiği oyunlar geliştirmektir. 
-                Oyununuz bu konsepti yansıtmalıdır.
-              </p>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-blue-600">Tema Gereksinimleri:</h4>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start gap-2">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                    Oyun, puan sistemi içermelidir
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                    Kullanıcılar oynayarak ödüller kazanabilmelidir
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                    Tema açıkça görülebilir olmalıdır
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                    Orijinal ve yaratıcı olmalıdır
-                  </li>
-                </ul>
+            <div className="mt-10 space-y-8">
+              <div className="p-8 rounded-2xl bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 group-hover:scale-[1.02] transition-transform duration-500">
+                <h3 className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent mb-6">
+                  2025 Teması: "Oyna ve Kazan!"
+                </h3>
+                <p className="text-xl leading-relaxed text-slate-700 dark:text-slate-300">
+                  Bu yılın teması, kullanıcıların oynadıkça puan kazandığı ve ödüller alabildiği oyunlar geliştirmektir. 
+                  Oyununuz bu konsepti yansıtmalıdır.
+                </p>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  <h4 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+                    Tema Gereksinimleri:
+                  </h4>
+                  <ul className="space-y-4">
+                    {[
+                      "Oyun, puan sistemi içermelidir",
+                      "Kullanıcılar oynayarak ödüller kazanabilmelidir",
+                      "Tema açıkça görülebilir olmalıdır",
+                      "Orijinal ve yaratıcı olmalıdır"
+                    ].map((item, index) => (
+                      <li key={index} className="flex items-start gap-4 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors duration-300">
+                        <span className="w-3 h-3 bg-blue-500 rounded-full mt-2 flex-shrink-0 group-hover:scale-150 transition-transform duration-300"></span>
+                        <span className="text-lg">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Değerlendirme Kriterleri */}
+        {/* Değerlendirme Kriterleri - daha etkileyici */}
         <div
-          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
-          style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
+          className="
+            relative rounded-3xl backdrop-blur-xl p-10
+            border border-white/30 dark:border-white/20
+            shadow-2xl shadow-emerald-500/10
+            hover:shadow-3xl hover:shadow-emerald-500/20
+            transition-all duration-500 hover:scale-[1.01]
+          "
+          style={{
+            background: "linear-gradient(135deg, rgba(16,185,129,0.1) 0%, rgba(6,182,212,0.05) 100%)",
+            backdropFilter: "blur(20px)",
+          }}
         >
           <PageHeader
             title="Değerlendirme Kriterleri"
@@ -189,49 +260,53 @@ export default function RulesPage() {
             variant="plain"
           />
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            <div className="p-6 rounded-xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/20">
-              <div className="text-2xl font-bold text-emerald-600 mb-2">25%</div>
-              <h3 className="text-lg font-semibold mb-2">Yaratıcılık</h3>
-              <p className="text-sm text-muted-foreground">Orijinal fikirler, yenilikçi yaklaşımlar ve yaratıcı çözümler</p>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20">
-              <div className="text-2xl font-bold text-blue-600 mb-2">25%</div>
-              <h3 className="text-lg font-semibold mb-2">Teknik Kalite</h3>
-              <p className="text-sm text-muted-foreground">Kod kalitesi, performans, hata yokluğu ve teknik mükemmellik</p>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gradient-to-br from-purple-500/10 to-violet-500/10 border border-purple-500/20">
-              <div className="text-2xl font-bold text-purple-600 mb-2">20%</div>
-              <h3 className="text-lg font-semibold mb-2">Oynanabilirlik</h3>
-              <p className="text-sm text-muted-foreground">Oyun mekanikleri, kullanıcı deneyimi ve eğlence faktörü</p>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gradient-to-br from-orange-500/10 to-amber-500/10 border border-orange-500/20">
-              <div className="text-2xl font-bold text-orange-600 mb-2">15%</div>
-              <h3 className="text-lg font-semibold mb-2">Tema Uyumu</h3>
-              <p className="text-sm text-muted-foreground">Verilen temaya uygunluk ve konsept tutarlılığı</p>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gradient-to-br from-pink-500/10 to-rose-500/10 border border-pink-500/20">
-              <div className="text-2xl font-bold text-pink-600 mb-2">10%</div>
-              <h3 className="text-lg font-semibold mb-2">Görsel Tasarım</h3>
-              <p className="text-sm text-muted-foreground">Grafik kalitesi, sanat yönetimi ve görsel çekicilik</p>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gradient-to-br from-cyan-500/10 to-sky-500/10 border border-cyan-500/20">
-              <div className="text-2xl font-bold text-cyan-600 mb-2">5%</div>
-              <h3 className="text-lg font-semibold mb-2">Sosyal Medya</h3>
-              <p className="text-sm text-muted-foreground">#Şehitkamil etiketiyle yapılan paylaşımlar</p>
-            </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+            {[
+              { percentage: "25%", title: "Yaratıcılık", desc: "Orijinal fikirler, yenilikçi yaklaşımlar ve yaratıcı çözümler", color: "emerald", gradient: "from-emerald-500/20 to-teal-600/20", border: "border-emerald-500/30" },
+              { percentage: "25%", title: "Teknik Kalite", desc: "Kod kalitesi, performans, hata yokluğu ve teknik mükemmellik", color: "blue", gradient: "from-blue-500/20 to-indigo-600/20", border: "border-blue-500/30" },
+              { percentage: "20%", title: "Oynanabilirlik", desc: "Oyun mekanikleri, kullanıcı deneyimi ve eğlence faktörü", color: "purple", gradient: "from-purple-500/20 to-violet-600/20", border: "border-purple-500/30" },
+              { percentage: "15%", title: "Tema Uyumu", desc: "Verilen temaya uygunluk ve konsept tutarlılığı", color: "orange", gradient: "from-orange-500/20 to-amber-600/20", border: "border-orange-500/30" },
+              { percentage: "10%", title: "Görsel Tasarım", desc: "Grafik kalitesi, sanat yönetimi ve görsel çekicilik", color: "pink", gradient: "from-pink-500/20 to-rose-600/20", border: "border-pink-500/30" },
+              { percentage: "5%", title: "Sosyal Medya", desc: "#Şehitkamil etiketiyle yapılan paylaşımlar", color: "cyan", gradient: "from-cyan-500/20 to-sky-600/20", border: "border-cyan-500/30" }
+            ].map((criterion, index) => (
+              <div
+                key={index}
+                className={`
+                  group p-8 rounded-2xl 
+                  bg-gradient-to-br ${criterion.gradient}
+                  border ${criterion.border} backdrop-blur-sm
+                  hover:scale-110 hover:shadow-2xl
+                  transition-all duration-500 ease-out
+                  cursor-pointer
+                `}
+              >
+                <div className={`text-4xl font-black text-${criterion.color}-600 mb-4 group-hover:scale-125 transition-transform duration-500`}>
+                  {criterion.percentage}
+                </div>
+                <h3 className="text-xl font-bold mb-3 group-hover:text-white transition-colors duration-300">
+                  {criterion.title}
+                </h3>
+                <p className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-100 transition-colors duration-300">
+                  {criterion.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Diskalifiye Durumları */}
+        {/* Diskalifiye Durumları - daha şık */}
         <div
-          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
-          style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
+          className="
+            relative rounded-3xl backdrop-blur-xl p-10
+            border border-white/30 dark:border-white/20
+            shadow-2xl shadow-red-500/10
+            hover:shadow-3xl hover:shadow-red-500/20
+            transition-all duration-500 hover:scale-[1.01]
+          "
+          style={{
+            background: "linear-gradient(135deg, rgba(239,68,68,0.1) 0%, rgba(245,101,101,0.05) 100%)",
+            backdropFilter: "blur(20px)",
+          }}
         >
           <PageHeader
             title="Diskalifiye Durumları"
@@ -239,58 +314,87 @@ export default function RulesPage() {
             variant="plain"
           />
 
-          <div className="grid md:grid-cols-3 gap-6 mt-8">
-            <div className="p-6 rounded-xl bg-gradient-to-br from-red-500/10 to-pink-500/10 border border-red-500/20">
-              <div className="w-12 h-12 rounded-lg bg-red-500/20 flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clipRule="evenodd"/>
-                </svg>
+          <div className="grid md:grid-cols-3 gap-8 mt-10">
+            {[
+              {
+                icon: "🚫",
+                title: "Yasaklı İçerik",
+                items: [
+                  "Müstehcen veya uygunsuz içerik",
+                  "Şiddet içeren görseller",
+                  "Telif hakkı ihlali",
+                  "Kötü niyetli kod"
+                ],
+                gradient: "from-red-500/20 to-pink-600/20",
+                border: "border-red-500/30"
+              },
+              {
+                icon: "⚠️",
+                title: "Kural İhlalleri",
+                items: [
+                  "Geç teslim",
+                  "Çalışmayan oyun",
+                  "Eksik dosyalar",
+                  "Kopya içerik"
+                ],
+                gradient: "from-orange-500/20 to-yellow-600/20",
+                border: "border-orange-500/30"
+              },
+              {
+                icon: "🤝",
+                title: "Davranış Kuralları",
+                items: [
+                  "Hakaret veya küfür",
+                  "Diğer katılımcılara zarar verme",
+                  "Organizasyon ekibine saygısızlık",
+                  "Yarışmayı baltalama girişimi"
+                ],
+                gradient: "from-gray-500/20 to-slate-600/20",
+                border: "border-gray-500/30"
+              }
+            ].map((item, index) => (
+              <div
+                key={index}
+                className={`
+                  group p-8 rounded-2xl 
+                  bg-gradient-to-br ${item.gradient}
+                  border ${item.border} backdrop-blur-sm
+                  hover:scale-105 hover:shadow-xl
+                  transition-all duration-500 ease-out
+                  cursor-pointer
+                `}
+              >
+                <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-6 text-4xl group-hover:scale-110 transition-transform duration-300">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-4 text-center group-hover:text-white transition-colors duration-300">
+                  {item.title}
+                </h3>
+                <ul className="space-y-3 text-sm">
+                  {item.items.map((rule, ruleIndex) => (
+                    <li key={ruleIndex} className="text-slate-700 dark:text-slate-300 group-hover:text-slate-100 transition-colors duration-300">
+                      • {rule}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <h3 className="text-lg font-semibold mb-3">Yasaklı İçerik</h3>
-              <ul className="space-y-2 text-sm">
-                <li>• Müstehcen veya uygunsuz içerik</li>
-                <li>• Şiddet içeren görseller</li>
-                <li>• Telif hakkı ihlali</li>
-                <li>• Kötü niyetli kod</li>
-              </ul>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gradient-to-br from-orange-500/10 to-yellow-500/10 border border-orange-500/20">
-              <div className="w-12 h-12 rounded-lg bg-orange-500/20 flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold mb-3">Kural İhlalleri</h3>
-              <ul className="space-y-2 text-sm">
-                <li>• Geç teslim</li>
-                <li>• Çalışmayan oyun</li>
-                <li>• Eksik dosyalar</li>
-                <li>• Kopya içerik</li>
-              </ul>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gradient-to-br from-gray-500/10 to-slate-500/10 border border-gray-500/20">
-              <div className="w-12 h-12 rounded-lg bg-gray-500/20 flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"/>
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold mb-3">Davranış Kuralları</h3>
-              <ul className="space-y-2 text-sm">
-                <li>• Hakaret veya küfür</li>
-                <li>• Diğer katılımcılara zarar verme</li>
-                <li>• Organizasyon ekibine saygısızlık</li>
-                <li>• Yarışmayı baltalama girişimi</li>
-              </ul>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Sık Sorulan Sorular */}
+        {/* Sık Sorulan Sorular - daha interaktif */}
         <div
-          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
-          style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
+          className="
+            relative rounded-3xl backdrop-blur-xl p-10
+            border border-white/30 dark:border-white/20
+            shadow-2xl shadow-indigo-500/10
+            hover:shadow-3xl hover:shadow-indigo-500/20
+            transition-all duration-500 hover:scale-[1.01]
+          "
+          style={{
+            background: "linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(147,51,234,0.05) 100%)",
+            backdropFilter: "blur(20px)",
+          }}
         >
           <PageHeader
             title="Sık Sorulan Sorular"
@@ -298,44 +402,68 @@ export default function RulesPage() {
             variant="plain"
           />
 
-          <div className="mt-8 space-y-4">
-            <div className="p-6 rounded-xl bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20">
-              <h3 className="text-lg font-semibold mb-2">Hangi oyun motorları kullanılabilir?</h3>
-              <p className="text-sm text-muted-foreground">
-                Unity, Unreal Engine, Godot, GameMaker Studio, Construct, Scratch veya herhangi bir oyun motoru kullanabilirsiniz. 
-                Ayrıca sıfırdan kod yazarak da oyun geliştirebilirsiniz.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border border-emerald-500/20">
-              <h3 className="text-lg font-semibold mb-2">Hazır asset'ler kullanabilir miyim?</h3>
-              <p className="text-sm text-muted-foreground">
-                Evet, ücretsiz veya lisanslı asset'ler kullanabilirsiniz. Ancak kullandığınız asset'lerin kaynaklarını 
-                README dosyasında belirtmeniz zorunludur.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-500/20">
-              <h3 className="text-lg font-semibold mb-2">Takım değişikliği yapabilir miyim?</h3>
-              <p className="text-sm text-muted-foreground">
-                Kayıt süresi sona ermeden önce takım değişikliği yapabilirsiniz. Kayıt süresi bittikten sonra değişiklik yapılamaz.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-xl bg-gradient-to-r from-pink-500/10 to-rose-500/10 border border-pink-500/20">
-              <h3 className="text-lg font-semibold mb-2">Oyun hangi platformlarda çalışmalı?</h3>
-              <p className="text-sm text-muted-foreground">
-                Oyununuz Windows, macOS veya web platformlarında çalışabilir. Jüri üyelerinin test edebilmesi için 
-                gerekli kurulum talimatları README dosyasında yer almalıdır.
-              </p>
-            </div>
+          <div className="mt-10 space-y-6">
+            {[
+              {
+                question: "Hangi oyun motorları kullanılabilir?",
+                answer: "Unity, Unreal Engine, Godot, GameMaker Studio, Construct, Scratch veya herhangi bir oyun motoru kullanabilirsiniz. Ayrıca sıfırdan kod yazarak da oyun geliştirebilirsiniz.",
+                gradient: "from-indigo-500/20 to-purple-600/20",
+                border: "border-indigo-500/30"
+              },
+              {
+                question: "Hazır asset'ler kullanabilir miyim?",
+                answer: "Evet, ücretsiz veya lisanslı asset'ler kullanabilirsiniz. Ancak kullandığınız asset'lerin kaynaklarını README dosyasında belirtmeniz zorunludur.",
+                gradient: "from-emerald-500/20 to-teal-600/20",
+                border: "border-emerald-500/30"
+              },
+              {
+                question: "Takım değişikliği yapabilir miyim?",
+                answer: "Kayıt süresi sona ermeden önce takım değişikliği yapabilirsiniz. Kayıt süresi bittikten sonra değişiklik yapılamaz.",
+                gradient: "from-orange-500/20 to-amber-600/20",
+                border: "border-orange-500/30"
+              },
+              {
+                question: "Oyun hangi platformlarda çalışmalı?",
+                answer: "Oyununuz Windows, macOS veya web platformlarında çalışabilir. Jüri üyelerinin test edebilmesi için gerekli kurulum talimatları README dosyasında yer almalıdır.",
+                gradient: "from-pink-500/20 to-rose-600/20",
+                border: "border-pink-500/30"
+              }
+            ].map((faq, index) => (
+              <div
+                key={index}
+                className={`
+                  group p-8 rounded-2xl 
+                  bg-gradient-to-r ${faq.gradient}
+                  border ${faq.border} backdrop-blur-sm
+                  hover:scale-[1.02] hover:shadow-xl
+                  transition-all duration-500 ease-out
+                  cursor-pointer
+                `}
+              >
+                <h3 className="text-xl font-bold mb-4 group-hover:text-white transition-colors duration-300">
+                  {faq.question}
+                </h3>
+                <p className="text-sm text-slate-700 dark:text-slate-300 group-hover:text-slate-100 transition-colors duration-300 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* İletişim Desteği */}
+        {/* İletişim Desteği - daha modern */}
         <div
-          className="gborder rounded-2xl backdrop-blur-md p-8 text-center border border-white/20 dark:border-white/10"
-          style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
+          className="
+            relative rounded-3xl backdrop-blur-xl p-10 text-center
+            border border-white/30 dark:border-white/20
+            shadow-2xl shadow-cyan-500/10
+            hover:shadow-3xl hover:shadow-cyan-500/20
+            transition-all duration-500 hover:scale-[1.01]
+          "
+          style={{
+            background: "linear-gradient(135deg, rgba(6,182,212,0.1) 0%, rgba(59,130,246,0.05) 100%)",
+            backdropFilter: "blur(20px)",
+          }}
         >
           <PageHeader
             title="Kural Hakkında Sorularınız mı Var?"
@@ -343,12 +471,19 @@ export default function RulesPage() {
             variant="plain"
           />
 
-          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="mt-10 flex flex-col sm:flex-row gap-6 justify-center">
             <a 
               href="mailto:rules@gamejam.org" 
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+              className="
+                group inline-flex items-center gap-3 px-8 py-4 
+                bg-gradient-to-r from-blue-600 to-blue-700 
+                hover:from-blue-500 hover:to-blue-600
+                text-white rounded-2xl font-semibold
+                transition-all duration-300 hover:scale-105 hover:shadow-2xl
+                shadow-lg
+              "
             >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
               </svg>
@@ -356,9 +491,16 @@ export default function RulesPage() {
             </a>
             <a 
               href="#"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+              className="
+                group inline-flex items-center gap-3 px-8 py-4 
+                bg-gradient-to-r from-purple-600 to-purple-700 
+                hover:from-purple-500 hover:to-purple-600
+                text-white rounded-2xl font-semibold
+                transition-all duration-300 hover:scale-105 hover:shadow-2xl
+                shadow-lg
+              "
             >
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
                 <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
               </svg>
