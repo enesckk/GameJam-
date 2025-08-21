@@ -49,8 +49,7 @@ export default function SponsorsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Sponsorlar" desc="Değerli destekçilerimiz" variant="plain" />
-
+      
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-6">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>

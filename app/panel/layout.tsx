@@ -74,19 +74,23 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
 
       {/* Sidebar (tek scroll noktası: aside) */}
       <aside
-        className={[
-          "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
-          open ? "translate-x-0" : "-translate-x-full",
-          "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
-          "border-r border-slate-200/60 dark:border-slate-700/60",
-          "overflow-y-auto overscroll-contain",            // <— scroll burada
-          "lg:static lg:translate-x-0 lg:h-full",
-        ].join(" ")}
-      >
-        <div className="flex h-full min-h-0 flex-col">
-          <PanelSidebar onNavigate={() => setOpen(false)} />
-        </div>
-      </aside>
+  className={[
+    "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
+    open ? "translate-x-0" : "-translate-x-full",
+    "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+    "border-r border-slate-200/60 dark:border-slate-700/60",
+    "overflow-y-auto overscroll-contain",
+    // ↓↓↓ yalnızca sidebar’da scrollbar’ı gizle
+    "[-ms-overflow-style:none]",     // IE/Edge
+    "[scrollbar-width:none]",        // Firefox
+    "[&::-webkit-scrollbar]:hidden", // WebKit (Chrome/Safari)
+    "lg:static lg:translate-x-0 lg:h-full",
+  ].join(" ")}
+>
+  <div className="flex h-full min-h-0 flex-col">
+    <PanelSidebar onNavigate={() => setOpen(false)} />
+  </div>
+</aside>
 
       {/* Sağ sütun = TOPBAR + CONTENT (tek scroll container) */}
       <div className="relative z-10 flex min-h-0 flex-col lg:col-start-2

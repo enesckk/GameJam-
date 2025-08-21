@@ -48,12 +48,7 @@ export default function IletisimPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="İletişim"
-        desc="Soru ve önerileriniz için bize ulaşın"
-        variant="plain"
-      />
-
+      
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-4 sm:p-6 lg:p-8">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
