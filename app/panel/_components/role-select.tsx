@@ -80,16 +80,19 @@ export default function RoleSelect({
           />
         </button>
 
-        {/* AÇILIR PANEL: Takım sayfasındaki diğer elementlerle uyumlu */}
+        {/* AÇILIR PANEL: Daha net ve tam görünür */}
         {open && (
           <div
             id={listId}
             role="listbox"
             className={[
-              "absolute z-50 mt-1 w-full rounded-xl shadow-xl border",
-              "bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10",
-              "backdrop-blur-xl border-purple-500/20",
+              "absolute z-[9999] mt-1 w-full rounded-xl shadow-2xl border-2",
+              "bg-white/95 backdrop-blur-xl border-purple-500/30",
+              "max-h-48 overflow-y-auto",
             ].join(" ")}
+            style={{
+              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)"
+            }}
           >
             <div className="p-1">
               {ROLES.map((r) => {
@@ -102,14 +105,14 @@ export default function RoleSelect({
                     onClick={() => { onChange(r.value); setOpen(false); }}
                     className={[
                       "flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-200",
-                      // Takım sayfasındaki diğer elementlerle uyumlu renkler
-                      "text-purple-100",
-                      "hover:bg-white/10 hover:text-white",
-                      active ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white font-semibold" : "",
+                      // Daha net renkler ve kontrast
+                      "text-slate-800 font-medium",
+                      "hover:bg-purple-500/20 hover:text-purple-900",
+                      active ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-900 font-semibold" : "",
                     ].join(" ")}
                   >
                     <span>{r.label}</span>
-                    {active && <Check className="h-4 w-4 text-purple-200" />}
+                    {active && <Check className="h-4 w-4 text-purple-600" />}
                   </div>
                 );
               })}

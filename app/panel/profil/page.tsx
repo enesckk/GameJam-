@@ -268,7 +268,7 @@ export default function ProfilPage() {
                 <RoleSelect
                 value={role}
                 onChange={setRole}
-                showLabel={true} // Profil sayfasında label göster
+                showLabel={false} // Profil sayfasında label göster
                 label="Rol"
                 />
               </div>

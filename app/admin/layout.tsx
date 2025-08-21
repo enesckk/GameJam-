@@ -33,12 +33,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div
       className="
-        relative isolate min-h-[100svh] lg:h-screen lg:grid lg:grid-cols-[16rem_1fr]
+        relative isolate
+        min-h-dvh lg:h-dvh
+        lg:grid lg:grid-cols-[16rem_1fr]
         text-white dark:text-white
         bg-gradient-to-b 
         from-white via-gray-100 to-gray-200
         dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
-        lg:overflow-hidden
+        overflow-x-hidden [overflow-x:clip] lg:overflow-hidden
       "
     >
       {/* Katman A: büyük mesh */}
@@ -49,7 +51,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
           motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
         "
-        style={{ mixBlendMode: "screen" }}
+        style={{ mixBlendMode: "screen", willChange: "transform" }}
       />
       {/* Katman B: küçük mesh */}
       <div
@@ -59,7 +61,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
           motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
         "
-        style={{ mixBlendMode: "screen" }}
+        style={{ mixBlendMode: "screen", willChange: "transform" }}
       />
       {/* Katman C: conic swirl */}
       <div
@@ -70,13 +72,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           motion-safe:animate-[swirl_22s_linear_infinite]
           rounded-[9999px] blur-3xl
         "
-        style={{ mixBlendMode: "screen" }}
+        style={{ mixBlendMode: "screen", willChange: "transform" }}
       />
 
       {/* Sidebar (mobil çekmece + masaüstü sabit) */}
       <aside
         className={[
-          "fixed inset-y-0 left-0 z-50 w-64 transition-transform",
+          "fixed inset-y-0 left-0 z-50 w-64 transition-transform will-change-transform touch-pan-y",
           open ? "translate-x-0" : "-translate-x-full",
           "bg-background/35 backdrop-blur-xl supports-[backdrop-filter]:bg-background/20",
           "lg:static lg:translate-x-0 lg:h-full lg:overflow-y-auto no-scrollbar lg:overscroll-contain",
@@ -99,9 +101,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           />
         )}
 
-        {/* Mobilde sayfa kayar, lg’de main kayar */}
+        {/* Mobilde sayfa (body) kayar; lg’de main kayar */}
         <main
-          className="min-h-0 flex-1 lg:overflow-y-auto overscroll-contain p-4"
+          className="
+            min-h-0 flex-1
+            lg:overflow-y-auto overscroll-contain
+            p-4
+            pb-[env(safe-area-inset-bottom)]
+          "
           style={{ WebkitOverflowScrolling: "touch" }}
         >
           {children}
