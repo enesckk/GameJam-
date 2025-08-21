@@ -31,7 +31,15 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   }, []);
 
   return (
-    <div className="relative isolate min-h-screen lg:grid lg:grid-cols-[16rem_1fr] text-white dark:text-white bg-gradient-to-b from-white via-gray-100 to-gray-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900">
+    <div
+      className="
+        relative isolate h-screen lg:grid lg:grid-cols-[16rem_1fr]
+        text-white dark:text-white
+        bg-gradient-to-b from-white via-gray-100 to-gray-200
+        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+        overflow-hidden
+      "
+    >
       {/* Katman A: büyük mesh */}
       <div
         aria-hidden
@@ -52,22 +60,33 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       />
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 lg:z-auto bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-r border-slate-200/60 dark:border-slate-700/60 ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
-        <div className="h-full flex flex-col">
+      <aside
+        className={[
+          "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
+          open ? "translate-x-0" : "-translate-x-full",
+          "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+          "border-r border-slate-200/60 dark:border-slate-700/60",
+          // masaüstünde kendi scroll'unu al
+          "lg:static lg:translate-x-0 lg:h-full lg:overflow-y-auto overscroll-contain",
+        ].join(" ")}
+      >
+        <div className="flex h-full min-h-0 flex-col">
           <PanelSidebar onNavigate={() => setOpen(false)} />
         </div>
       </aside>
 
       {/* Sağ taraf */}
-      <div className="relative z-10 flex flex-col lg:col-start-2">
+      <div className="relative z-10 flex min-h-0 flex-col lg:col-start-2">
         {/* Topbar */}
-        <PanelTopbar
-          onMenuClick={() => setOpen((s) => !s)}
-          countdownTargetISO="2025-09-20T10:00:00+03:00"
-          countdownDoneText="Başladı!"
-        />
+        <div className="sticky top-0 z-20">
+          <PanelTopbar
+            onMenuClick={() => setOpen((s) => !s)}
+            countdownTargetISO="2025-09-20T10:00:00+03:00"
+            countdownDoneText="Başladı!"
+          />
+        </div>
 
-        {/* Mobilde sidebar overlay */}
+        {/* Mobil overlay */}
         {open && (
           <div
             className="fixed inset-0 z-40 bg-black/50 lg:hidden"
@@ -76,7 +95,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         )}
 
         {/* İçerik */}
-        <main className="flex-1 p-3 sm:p-4 md:p-6">
+        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3 sm:p-4 md:p-6">
           {children}
         </main>
       </div>
