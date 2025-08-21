@@ -112,9 +112,11 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
       </div>
 
       {/* Footer */}
-      <div className="flex-shrink-0 px-2 sm:px-3 pb-4 sm:pb-6">
+      {/* Footer — sabit altta, animasyonsuz */}
+      <div className="mt-auto sticky bottom-0 px-2 sm:px-3 pb-4 sm:pb-6">
         <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-200/50 via-white/50 to-slate-200/50 dark:from-slate-700/50 dark:via-slate-800/50 dark:to-slate-700/50 rounded-2xl blur-sm" />
+          {/* üstten yumuşak ayrım için hafif örtü */}
+          <div className="pointer-events-none absolute -top-3 left-0 right-0 h-3 bg-gradient-to-b from-slate-200/40 via-white/20 to-transparent dark:from-slate-800/40 dark:via-slate-900/20 rounded-t-2xl" />
           <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-white/20 dark:border-slate-700/50 shadow-lg">
             <div className="flex items-center justify-between">
               <div className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate">Game Jam v1.0</div>

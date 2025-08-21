@@ -8,17 +8,17 @@ import { Calendar, Clock, Trophy, Coffee, Users, Code, Gamepad2, Sparkles } from
 type Row = { time: string; title: string; note?: string; icon?: string };
 
 const day1: Row[] = [
-  { time: "09:00 – 10:00", icon: "��️", title: "Kahvaltı & Kayıt", note: "Karşılama, giriş işlemleri, yaka kartı & ekip karşılaması" },
+  { time: "09:00 – 10:00", icon: "🍽️", title: "Kahvaltı & Kayıt", note: "Karşılama, giriş işlemleri, yaka kartı & ekip karşılaması" },
   { time: "10:00 – 10:30", icon: "🗣️", title: "Açılış Konuşmaları", note: "Şehitkamil Belediyesi ve sponsor kurumlar" },
-  { time: "10:30 – 10:45", icon: "��", title: "Tema Açıklanır", note: "Oyna ve Kazan!" },
+  { time: "10:30 – 10:45", icon: "📣", title: "Tema Açıklanır", note: "Oyna ve Kazan!" },
   { time: "10:45 – 11:00", icon: "📱", title: "Sosyal Medya Görevi Başlatılır", note: "Paylaşım rehberi ve görev açıklaması yapılır" },
-  { time: "11:00 – 13:00", icon: "��", title: "Takım içi planlama & fikir geliştirme", note: "Beyin fırtınası ve görev dağılımı" },
+  { time: "11:00 – 13:00", icon: "🤝", title: "Takım içi planlama & fikir geliştirme", note: "Beyin fırtınası ve görev dağılımı" },
   { time: "13:00 – 14:00", icon: "🍽️", title: "Öğle Yemeği" },
   { time: "14:00 – 19:00", icon: "💻", title: "Kodlamaya Başlanır", note: "Geliştirme süreci, mentör desteği aktif" },
-  { time: "19:00 – 20:00", icon: "��️", title: "Akşam Yemeği" },
+  { time: "19:00 – 20:00", icon: "🍽️", title: "Akşam Yemeği" },
   { time: "20:00 – 21:00", icon: "🎯", title: "Kahoot Bilgi Yarışması", note: "Bilgi ve eğlence dolu ödüllü yarışma ��" },
   { time: "21:00 – 23:00", icon: "🌙", title: "Gece Geliştirme Oturumu", note: "Sessiz çalışma ve mentör sohbetleri" },
-  { time: "23:00",        icon: "��", title: "Tatlı İkramı", note: "Gece atıştırmalığı" },
+  { time: "23:00",        icon: "🍰", title: "Tatlı İkramı", note: "Gece atıştırmalığı" },
   { time: "Tüm Gece",     icon: "☕", title: "Kodlamaya Devam & Kahve Standı", note: "Salonlar açık, ekip çalışmaları sürecek" },
 ];
 

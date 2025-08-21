@@ -89,12 +89,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Sağ sütun = TOPBAR + CONTENT (tek scroll container) */}
-      <div
-        className="
-          relative z-10 flex min-h-0 flex-col lg:col-start-2
-          overflow-y-auto overscroll-contain                /* <— scroll burada */
-        "
-      >
+      <div className="relative z-10 flex min-h-0 flex-col lg:col-start-2
+                 overflow-y-auto overscroll-contain
+                 h-dvh lg:h-auto
+                 touch-pan-y [touch-action:pan-y] [-webkit-overflow-scrolling:touch]">
         {/* Topbar (sticky, aynı scroller içinde olduğu için tekerlek her yerde çalışır) */}
         <div className="sticky top-0 z-20">
           <PanelTopbar

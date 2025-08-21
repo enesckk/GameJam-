@@ -82,7 +82,7 @@ export default function PanelPage() {
             </div>
             <div>
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1">
-                Merhaba {displayName ?? "Kullanıcı"}, hoş geldiniz! ��
+                Merhaba {displayName ?? "Kullanıcı"}, hoş geldiniz! 👋
               </h1>
               <p className="text-sm sm:text-base text-purple-200/80">
                 Profilinizi, takımınızı, duyuruları ve oyun teslimini buradan yönetebilirsiniz.
