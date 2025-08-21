@@ -68,7 +68,7 @@ export default function PanelTopbar({
   };
 
   return (
-    <div className="sticky top-0 z-40">
+    <div className="relative z-10">
       {/* Gradient arka plan */}
       <div className="relative h-20 md:h-28 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-white shadow-2xl">
         {/* Animated mesh background */}
