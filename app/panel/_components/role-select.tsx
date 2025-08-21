@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
+import { createPortal } from "react-dom";
 
 type Role = "developer" | "designer" | "audio" | "pm";
 const ROLES: { value: Role; label: string }[] = [
@@ -27,30 +28,74 @@ export default function RoleSelect({
   placeholder?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
-  const listId = "role-listbox";
 
+  // Portal root
+  const [portalEl, setPortalEl] = useState<HTMLElement | null>(null);
   useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (!boxRef.current) return;
-      if (!boxRef.current.contains(e.target as Node)) setOpen(false);
+    const el = document.createElement("div");
+    el.setAttribute("data-role-select-portal", "true");
+    document.body.appendChild(el);
+    setPortalEl(el);
+    return () => {
+      document.body.removeChild(el);
     };
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
-    document.addEventListener("click", onClick);
-    document.addEventListener("keydown", onKey);
-    return () => { document.removeEventListener("click", onClick); document.removeEventListener("keydown", onKey); };
   }, []);
 
-  const current = ROLES.find(r => r.value === value)?.label ?? "";
+  // Dışarı tık & ESC
+  useEffect(() => {
+    function onClick(e: MouseEvent) {
+      if (!open) return;
+      const t = e.target as Node;
+      if (boxRef.current?.contains(t)) return;
+      if (triggerRef.current?.contains(t)) return;
+      setOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("click", onClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("click", onClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  // Dropdown konumunu hesapla
+  const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
+  const reposition = () => {
+    const btn = triggerRef.current;
+    if (!btn) return;
+    const r = btn.getBoundingClientRect();
+    setPos({
+      top: r.bottom + window.scrollY + 4, // 4px offset
+      left: r.left + window.scrollX,
+      width: r.width,
+    });
+  };
+
+  useLayoutEffect(() => {
+    if (open) {
+      reposition();
+      window.addEventListener("resize", reposition);
+      window.addEventListener("scroll", reposition, true);
+      return () => {
+        window.removeEventListener("resize", reposition);
+        window.removeEventListener("scroll", reposition, true);
+      };
+    }
+  }, [open]);
+
+  const current = ROLES.find((r) => r.value === value)?.label ?? "";
+  const listId = "role-listbox";
 
   return (
     <div className={className}>
-      {showLabel && (
-        <label className="block text-sm font-medium text-purple-200 mb-2">{label}</label>
-      )}
+      {showLabel && <label className="block text-sm font-medium text-purple-200 mb-2">{label}</label>}
 
       <div
-        ref={boxRef}
         className={[
           "group relative rounded-xl transition-all duration-200",
           "bg-white/20 backdrop-blur-sm border border-white/20",
@@ -60,8 +105,9 @@ export default function RoleSelect({
         data-open={open ? "true" : "false"}
       >
         <button
+          ref={triggerRef}
           type="button"
-          onClick={() => setOpen(s => !s)}
+          onClick={() => setOpen((s) => !s)}
           aria-haspopup="listbox"
           aria-expanded={open}
           aria-controls={listId}
@@ -77,20 +123,27 @@ export default function RoleSelect({
             ].join(" ")}
           />
         </button>
+      </div>
 
-        {/* Dropdown Panel - Üst üste binmeyi önlemek için */}
-        {open && (
+      {/* PORTAL: dropdown body altında render edilir */}
+      {open && portalEl && pos &&
+        createPortal(
           <div
+            ref={boxRef}
             id={listId}
             role="listbox"
             className={[
-              "absolute z-[9999] mt-1 w-full rounded-xl shadow-2xl border-2",
+              "rounded-xl shadow-2xl border-2",
               "bg-white/95 backdrop-blur-xl border-purple-500/30",
-              // Takım sayfası için daha fazla alan ve scroll
               "max-h-64 overflow-y-auto",
+              "z-[99999] fixed", // body altında sabit konum
             ].join(" ")}
             style={{
-              boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)"
+              top: pos.top,
+              left: pos.left,
+              width: pos.width,
+              boxShadow:
+                "0 20px 25px -5px rgba(0,0,0,0.3), 0 10px 10px -5px rgba(0,0,0,0.2)",
             }}
           >
             <div className="p-1">
@@ -101,12 +154,17 @@ export default function RoleSelect({
                     key={r.value}
                     role="option"
                     aria-selected={active}
-                    onClick={() => { onChange(r.value); setOpen(false); }}
+                    onClick={() => {
+                      onChange(r.value);
+                      setOpen(false);
+                    }}
                     className={[
                       "flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-200",
                       "text-slate-800 font-medium",
                       "hover:bg-purple-500/20 hover:text-purple-900",
-                      active ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-900 font-semibold" : "",
+                      active
+                        ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-900 font-semibold"
+                        : "",
                     ].join(" ")}
                   >
                     <span>{r.label}</span>
@@ -115,9 +173,9 @@ export default function RoleSelect({
                 );
               })}
             </div>
-          </div>
+          </div>,
+          portalEl
         )}
-      </div>
     </div>
   );
 }

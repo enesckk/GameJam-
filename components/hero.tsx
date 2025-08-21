@@ -55,19 +55,19 @@ export default function Hero() {
             mobil uygulamasına entegre edilecek.
           </p>
 
-          {/* CTA'lar — Modern ve Estetik */}
-          <div className="mt-8 flex flex-col sm:flex-row gap-4">
+          {/* CTA'lar — Neon Tema Uyumlu */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Link href="/kayit" aria-label="Kayıt Ol sayfasına git">
               <div className="group relative">
-                {/* Gradient Background */}
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300 opacity-75 group-hover:opacity-100"></div>
+                {/* Neon Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl blur-md group-hover:blur-lg transition-all duration-300 opacity-60 group-hover:opacity-80"></div>
                 
                 {/* Button */}
-                <div className="relative bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 rounded-2xl px-8 py-4 text-white font-bold text-lg shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 hover:scale-105 border border-emerald-400/30 hover:border-emerald-300/50">
-                  <div className="flex items-center justify-center gap-3">
-                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                <div className="relative bg-gradient-to-r from-cyan-500/90 to-blue-600/90 hover:from-cyan-400 hover:to-blue-500 rounded-xl px-6 py-3 text-white font-semibold text-base shadow-lg hover:shadow-cyan-400/30 transition-all duration-300 hover:scale-[1.02] border border-cyan-400/50 hover:border-cyan-300/70">
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
                     <span>Kayıt Ol</span>
-                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                    <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
                   </div>
                 </div>
               </div>
@@ -75,15 +75,15 @@ export default function Hero() {
 
             <Link href="/takvim" aria-label="Etkinlik takvimini gör">
               <div className="group relative">
-                {/* Glassmorphism Background */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300 backdrop-blur-sm"></div>
+                {/* Neon Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 rounded-xl blur-md group-hover:blur-lg transition-all duration-300 opacity-60 group-hover:opacity-80"></div>
                 
                 {/* Button */}
-                <div className="relative bg-white/15 backdrop-blur-xl hover:bg-white/25 rounded-2xl px-8 py-4 text-white font-bold text-lg shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:scale-105 border border-white/30 hover:border-white/50">
-                  <div className="flex items-center justify-center gap-3">
-                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                <div className="relative bg-gradient-to-r from-purple-500/90 to-pink-600/90 hover:from-purple-400 hover:to-pink-500 rounded-xl px-6 py-3 text-white font-semibold text-base shadow-lg hover:shadow-purple-400/30 transition-all duration-300 hover:scale-[1.02] border border-purple-400/50 hover:border-purple-300/70">
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                     <span>Takvimi Gör</span>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const nav = [
-  { href: "/https://game-jam-kappa.vercel.app", label: "Anasayfa" },
+  { href: "/", label: "Anasayfa" },
   { href: "/hakkinda", label: "Hakkında" },
   { href: "/takvim", label: "Takvim" },
   { href: "/kurallar", label: "Kurallar" },
