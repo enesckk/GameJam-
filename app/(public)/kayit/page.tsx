@@ -1,9 +1,9 @@
 // app/(public)/kayit/page.tsx  ← kendi yoluna göre isim değişebilir
+// app/(public)/kayit/page.tsx
 "use client";
 
 import { useState } from "react";
-import VideoBG from "@/components/background/video-bg"; // mp4-only sürüm
-import RoleSelect from "@/app/panel/_components/role-select"; // ← yolu kendi projenle eşleştir
+import RoleSelect from "@/app/panel/_components/role-select"; // kendi yoluna göre ayarla
 
 type RoleOption = "developer" | "designer" | "audio" | "pm";
 type ApplyType = "individual" | "team";
@@ -35,7 +35,7 @@ const MAX_TEAM = 4;
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRe = /^\+?\d{10,14}$/;
 
-// Şifre güç hesaplayıcı (basit ama etkili)
+// Şifre güç hesaplayıcı
 function getPasswordStrength(pw: string) {
   let score = 0;
   if (pw.length >= 6) score++;
@@ -69,7 +69,7 @@ export default function KayitPage() {
   const [showPass, setShowPass] = useState(false);
   const [capsOn, setCapsOn] = useState(false);
 
-  // Lider doğrulamalar
+  // --- Validasyonlar ---
   const emailOk = emailRe.test(f.email);
   const phoneOk = phoneRe.test(f.phone.replace(/\s/g, ""));
   const ageNum = Number(f.age);
@@ -78,16 +78,13 @@ export default function KayitPage() {
   const nameOk = f.name.trim().length >= 3;
   const consentOk = f.consentKVKK === true;
 
-  // Üye doğrulaması
   const memberValid = (m: Member) =>
     m.name.trim().length >= 3 &&
     emailRe.test(m.email.toLowerCase().trim()) &&
     phoneRe.test(m.phone.replace(/\s/g, "")) &&
     Number.isInteger(Number(m.age)) &&
-    Number(m.age) >= 14 &&
-    ["developer", "designer", "audio", "pm"].includes(m.role);
+    Number(m.age) >= 14;
 
-  // Takım kontrolü
   const teamOk =
     f.type === "individual"
       ? true
@@ -104,11 +101,10 @@ export default function KayitPage() {
 
   const allOk = emailOk && phoneOk && ageOk && nameOk && consentOk && passOk && teamOk;
 
-  // Alan değişimleri
+  // --- Change handlers ---
   function onChange<K extends keyof FormState>(key: K, value: FormState[K]) {
     setF((s) => ({ ...s, [key]: value }));
   }
-
   function onMemberChange(i: number, patch: Partial<Member>) {
     setF((s) => {
       const members = [...s.members];
@@ -116,8 +112,6 @@ export default function KayitPage() {
       return { ...s, members };
     });
   }
-
-  // Üye ekle/çıkar
   function addMember() {
     if (f.members.length >= MAX_TEAM - 1) return;
     setF((s) => ({
@@ -128,8 +122,6 @@ export default function KayitPage() {
   function removeMember(i: number) {
     setF((s) => ({ ...s, members: s.members.filter((_, idx) => idx !== i) }));
   }
-
-  // Caps Lock kontrolü
   function onPasswordKey(ev: React.KeyboardEvent<HTMLInputElement>) {
     setCapsOn(ev.getModifierState("CapsLock"));
   }
@@ -146,25 +138,17 @@ export default function KayitPage() {
 
     try {
       setLoading(true);
-
       const payload = {
-        type: f.type,
-        teamName: f.type === "team" ? f.teamName.trim() : undefined,
-        name: f.name.trim(),
-        email: f.email.toLowerCase().trim(),
-        phone: f.phone.replace(/\s/g, ""),
+        ...f,
         age: Number(f.age),
-        password: f.password,
-        role: f.role,
-        consentKVKK: f.consentKVKK,
+        teamName: f.type === "team" ? f.teamName.trim() : undefined,
         members:
           f.type === "team"
             ? f.members.map((m) => ({
-                name: m.name.trim(),
+                ...m,
                 email: m.email.toLowerCase().trim(),
                 phone: m.phone.replace(/\s/g, ""),
                 age: Number(m.age),
-                role: m.role,
               }))
             : [],
       };
@@ -175,37 +159,13 @@ export default function KayitPage() {
         body: JSON.stringify(payload),
       });
 
-      if (res.status === 409) {
-        const j = await res.json().catch(() => ({}));
-        setErr(j?.message || "Bu e-posta ile kayıt/başvuru zaten var.");
-        return;
-      }
       if (!res.ok) {
         const j = await res.json().catch(() => ({}));
-        setErr(j?.message || "Formu kontrol et: Zorunlu alan/format hatası olabilir.");
+        setErr(j?.message || "Form hatalı olabilir.");
         return;
       }
 
-      // ✅ Lider profilini kalıcı yaz (hem LS hem cookie)
-      const leaderProfile = {
-        fullName: f.name.trim(),
-        email: f.email.toLowerCase().trim(),
-        phone: f.phone.replace(/\s/g, ""),
-        role: f.role,
-      };
-      localStorage.setItem("profile", JSON.stringify(leaderProfile));
-      document.cookie = `profile=${encodeURIComponent(JSON.stringify(leaderProfile))}; Path=/; Max-Age=31536000; SameSite=Lax`;
-
-      // ✅ Üst bar için ad
-      const fullName = leaderProfile.fullName;
-      sessionStorage.setItem("displayName", fullName);
-      localStorage.setItem("displayName", fullName);
-      document.cookie = `displayName=${encodeURIComponent(fullName)}; Path=/; Max-Age=31536000; SameSite=Lax`;
-      window.dispatchEvent(new CustomEvent("user:name", { detail: fullName }));
-
       setMsg("Başvurun alındı! E-postanı kontrol et.");
-
-      // Formu sıfırla
       setF({
         type: "individual",
         teamName: "",
@@ -218,8 +178,6 @@ export default function KayitPage() {
         consentKVKK: false,
         members: [],
       });
-      setShowPass(false);
-      setCapsOn(false);
     } finally {
       setLoading(false);
     }
@@ -228,36 +186,51 @@ export default function KayitPage() {
   const strength = getPasswordStrength(f.password);
 
   return (
-    <div className="relative isolate min-h-screen">
-      {/* 🎥 Arka plan video (sadece MP4) */}
-      <VideoBG
-        overlay
-        mode="auto"
-        opacity={0.9}
-        light={{
-          mp4: "/videos/bg-light.mp4",
-          poster: "/videos/register-poster-light.jpg", // opsiyonel
-        }}
-        dark={{
-          mp4: "/videos/bg-dark.mp4",
-          poster: "/videos/register-poster-dark.jpg", // opsiyonel
-        }}
+    <div
+      className="
+        relative isolate min-h-screen
+        overflow-hidden
+        text-white dark:text-white
+        bg-gradient-to-b from-white via-gray-100 to-gray-200
+        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+      "
+    >
+      {/* Katman A */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -z-10 inset-[-20%] opacity-80
+          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
+          motion-safe:animate-[meshPan_18s_ease-in-out_infinite]"
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman B */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -z-10 inset-[-30%] opacity-70
+          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
+          motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]"
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman C */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -z-10 -inset-[25%] opacity-60
+          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
+          motion-safe:animate-[swirl_22s_linear_infinite] rounded-[9999px] blur-3xl"
+        style={{ mixBlendMode: "screen" }}
       />
 
+      {/* Form */}
       <div className="relative z-10 mx-auto flex min-h-screen max-w-3xl items-center justify-center px-4 py-10">
-        {/* ŞEFFAF (GLASS) FORM KUTUSU */}
         <div
-          className={[
-            "w-full rounded-2xl p-6 sm:p-8 shadow-2xl",
-            "bg-white/10 dark:bg-black/20 backdrop-blur-xl",
-            "border border-white/30 dark:border-white/10",
-            "ring-1 ring-white/20 dark:ring-white/5",
-          ].join(" ")}
+          className="w-full rounded-2xl p-6 sm:p-8 shadow-2xl
+            bg-white/10 dark:bg-black/20 backdrop-blur-xl
+            border border-white/30 dark:border-white/10
+            ring-1 ring-white/20 dark:ring-white/5"
         >
           <h1 className="mb-6 text-center text-3xl font-bold text-gray-900 dark:text-white">
             Kayıt / Başvuru
           </h1>
-
           <form onSubmit={onSubmit} className="space-y-5" noValidate>
             {/* Başvuru tipi */}
             <div className="flex flex-wrap items-center justify-center gap-4 text-gray-900 dark:text-gray-100">

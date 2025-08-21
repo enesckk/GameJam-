@@ -1,3 +1,4 @@
+// app/admin/layout.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -34,40 +35,51 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div
       className="
         relative isolate h-screen lg:grid lg:grid-cols-[16rem_1fr]
-        text-gray-900 dark:text-gray-100
-        bg-gradient-to-br 
-        from-slate-50 via-white to-slate-100
-        dark:from-slate-900 dark:via-slate-800 dark:to-slate-900
+        text-white dark:text-white
+        bg-gradient-to-b 
+        from-white via-gray-100 to-gray-200
+        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
         overflow-hidden
       "
     >
-      {/* Modern mesh pattern - tek renkli */}
+      {/* Katman A: büyük mesh */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 inset-0 opacity-30
-          [background:radial-gradient(circle_at_20%_80%,rgba(59,130,246,0.15),transparent_50%),radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.1),transparent_50%)]
-          motion-safe:animate-[meshPan_20s_ease-in-out_infinite]
+          pointer-events-none absolute -z-10 inset-[-20%] opacity-80
+          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
+          motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
         "
+        style={{ mixBlendMode: "screen" }}
       />
-      
-      {/* Subtle geometric pattern */}
+      {/* Katman B: küçük mesh */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 inset-0 opacity-20
-          [background:linear-gradient(45deg,transparent_40%,rgba(59,130,246,0.03)_50%,transparent_60%)]
-          motion-safe:animate-[meshPanAlt_25s_ease-in-out_infinite]
+          pointer-events-none absolute -z-10 inset-[-30%] opacity-70
+          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
+          motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
         "
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman C: conic swirl */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute -z-10 -inset-[25%] opacity-60
+          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
+          motion-safe:animate-[swirl_22s_linear_infinite]
+          rounded-[9999px] blur-3xl
+        "
+        style={{ mixBlendMode: "screen" }}
       />
 
       {/* Sidebar (mobil çekmece + masaüstü sabit) */}
       <aside
         className={[
-          "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
+          "fixed inset-y-0 left-0 z-50 w-64 transition-transform",
           open ? "translate-x-0" : "-translate-x-full",
-          "bg-white/90 backdrop-blur-xl border-r border-slate-200/50",
-          "dark:bg-slate-900/90 dark:border-slate-700/50",
+          "bg-background/35 backdrop-blur-xl supports-[backdrop-filter]:bg-background/20",
           "lg:static lg:translate-x-0 lg:h-screen lg:overflow-y-auto no-scrollbar lg:overscroll-contain lg:pr-2",
         ].join(" ")}
       >
@@ -83,15 +95,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Mobilde sidebar açıkken karartma */}
         {open && (
           <div
-            className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-black/40 lg:hidden"
             onClick={() => setOpen(false)}
           />
         )}
 
-        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-6">
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
+        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
+          {children}
         </main>
       </div>
     </div>
