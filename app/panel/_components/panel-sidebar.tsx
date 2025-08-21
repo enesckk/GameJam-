@@ -59,8 +59,8 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
         </div>
       </div>
 
-      {/* Navigation Links (tek scroll noktası) */}
-      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 sm:px-3 py-2">
+      {/* Navigation Links (artık overflow burada YOK) */}
+      <div className="min-h-0 flex-1 px-2 sm:px-3 py-2">
         <div className="space-y-1 sm:space-y-2">
           {links.map(({ href, label, icon: Icon, color }) => {
             const active = pathname === href || pathname?.startsWith(href + "/");
@@ -78,11 +78,9 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
                   "backdrop-blur-sm",
                 ].join(" ")}
               >
-                {/* Active indicator */}
                 {active && (
                   <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 sm:h-8 bg-gradient-to-b ${color} rounded-r-full`} />
                 )}
-
                 <div
                   className={[
                     "flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl transition-all duration-300 relative overflow-hidden flex-shrink-0",
@@ -94,7 +92,6 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
                   <Icon className="h-4 w-4 sm:h-5 sm:w-5 relative z-10" />
                   {active && <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />}
                 </div>
-
                 <span
                   className={[
                     "text-xs sm:text-sm font-medium transition-all duration-300 relative truncate",

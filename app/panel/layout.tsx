@@ -8,7 +8,7 @@ import { useDisplayName } from "@/lib/use-user";
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
-  const { displayName } = useDisplayName(); // isteğe bağlı
+  const { displayName } = useDisplayName();
   const pathname = usePathname();
 
   // Drawer açıkken body scroll kilidi (güvenli)
@@ -39,7 +39,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   return (
     <div
       className="
-        fixed inset-0                     /* body asla kaymaz */
+        fixed inset-0
         isolate lg:grid lg:grid-cols-[16rem_1fr]
         text-white dark:text-white
         bg-gradient-to-b from-white via-gray-100 to-gray-200
@@ -72,14 +72,15 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         style={{ mixBlendMode: "screen" }}
       />
 
-      {/* Sidebar (mobil çekmece + masaüstü sabit) */}
+      {/* Sidebar (tek scroll noktası: aside) */}
       <aside
         className={[
           "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
           open ? "translate-x-0" : "-translate-x-full",
           "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
           "border-r border-slate-200/60 dark:border-slate-700/60",
-          "lg:static lg:translate-x-0 lg:h-full", // scroll'u PanelSidebar içi yönetir
+          "overflow-y-auto overscroll-contain",            // <— scroll burada
+          "lg:static lg:translate-x-0 lg:h-full",
         ].join(" ")}
       >
         <div className="flex h-full min-h-0 flex-col">
@@ -87,9 +88,14 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      {/* Sağ içerik sütunu */}
-      <div className="relative z-10 flex min-h-0 flex-col lg:col-start-2">
-        {/* Topbar sabit */}
+      {/* Sağ sütun = TOPBAR + CONTENT (tek scroll container) */}
+      <div
+        className="
+          relative z-10 flex min-h-0 flex-col lg:col-start-2
+          overflow-y-auto overscroll-contain                /* <— scroll burada */
+        "
+      >
+        {/* Topbar (sticky, aynı scroller içinde olduğu için tekerlek her yerde çalışır) */}
         <div className="sticky top-0 z-20">
           <PanelTopbar
             onMenuClick={() => setOpen((s) => !s)}
@@ -106,8 +112,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           />
         )}
 
-        {/* İçerik (kendi scroll’u) */}
-        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3 sm:p-4 md:p-6">
+        {/* İçerik */}
+        <main className="min-h-0 flex-1 p-3 sm:p-4 md:p-6">
           {children}
         </main>
       </div>
