@@ -1,84 +1,103 @@
-// app/(public)/layout.tsx
-import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "next-themes";
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+"use client";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"], display: "swap" });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
+import { useEffect, useState } from "react";
+import PanelSidebar from "./_components/panel-sidebar";
+import PanelTopbar from "./_components/panel-topbar";
+import { useDisplayName } from "@/lib/use-user";
 
-export const metadata: Metadata = {
-  title: "Şehitkamil Game Jam — Oyna ve Kazan!",
-  description: "Etkinlik takvimi, kayıt, duyurular ve paneller tek çatı altında.",
-  // Temaya göre renk şeması (destekleyen browser'lar)
-  other: {
-    "color-scheme": "dark light",
-  },
-};
+export default function PanelLayout({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
+  const { displayName } = useDisplayName();
 
-// Mobil viewport + iOS safe area + theme-color
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-  viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0b0c" },
-  ],
-};
+  // Mobil çekmece açıkken arka plan kaymasın
+  useEffect(() => {
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [open]);
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // bfcache veya geri tuşu sonrası yeniden mount olunca ismi cookie'den çek
+  useEffect(() => {
+    const onShow = () => {
+      window.dispatchEvent(new CustomEvent("user:refresh"));
+    };
+    window.addEventListener("pageshow", onShow);
+    window.addEventListener("focus", onShow);
+    return () => {
+      window.removeEventListener("pageshow", onShow);
+      window.removeEventListener("focus", onShow);
+    };
+  }, []);
+
   return (
-    <html
-      lang="tr"
-      suppressHydrationWarning
-      className="
-        h-full scroll-smooth
-        [--safe-top:env(safe-area-inset-top)]
-        [--safe-right:env(safe-area-inset-right)]
-        [--safe-bottom:env(safe-area-inset-bottom)]
-        [--safe-left:env(safe-area-inset-left)]
-      "
+    <div
+      className="relative isolate h-dvh lg:grid lg:grid-cols-[16rem_1fr] text-white dark:text-white
+                 bg-gradient-to-b from-white via-gray-100 to-gray-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+                 overflow-hidden"
     >
-      {/* Skip link: klavye kullanıcıları için */}
-      <a
-        href="#content"
-        className="
-          sr-only focus:not-sr-only focus:fixed focus:z-50
-          focus:left-4 focus:top-4 focus:rounded-lg focus:bg-black/80 focus:text-white
-          focus:px-3 focus:py-2
-        "
-      >
-        İçeriğe atla
-      </a>
+      {/* Katman A: büyük mesh */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -z-10 inset-[-20%] opacity-80
+                   [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
+                   motion-safe:animate-[meshPan_18s_ease-in-out_infinite]"
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman B: küçük mesh */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -z-10 inset-[-30%] opacity-70
+                   [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
+                   motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]"
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman C: conic swirl */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -z-10 -inset-[25%] opacity-60
+                   [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
+                   motion-safe:animate-[swirl_22s_linear_infinite] rounded-[9999px] blur-3xl"
+        style={{ mixBlendMode: "screen" }}
+      />
 
-      <body
-        className={`
-          ${geistSans.variable} ${geistMono.variable}
-          antialiased h-full min-h-dvh
-          bg-[var(--background)] text-[var(--foreground)]
-          overflow-x-clip
-          [padding:var(--safe-top)_var(--safe-right)_calc(var(--safe-bottom)+16px)_var(--safe-left)]
-        `}
+      {/* Sidebar */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out
+                    lg:static lg:translate-x-0 lg:z-auto
+                    bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900
+                    border-r border-slate-200/60 dark:border-slate-700/60
+                    ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          // tema değişiminde renk geçişlerinde FOUC/animasyon zıplamasını engeller
-          disableTransitionOnChange
-          enableColorScheme
-        >
-          <Navbar />
-          <main id="content" className="min-h-[70dvh]">
-            {children}
-          </main>
-          <Footer />
-        </ThemeProvider>
-      </body>
-    </html>
+        <div className="h-full flex flex-col overflow-y-auto">
+          <PanelSidebar onNavigate={() => setOpen(false)} />
+        </div>
+      </aside>
+
+      {/* Sağ taraf */}
+      <div className="relative z-10 flex flex-col h-full lg:col-start-2">
+        {/* Topbar (sabit kalsın istiyorsan sticky) */}
+        <div className="sticky top-0 z-20">
+          <PanelTopbar
+            onMenuClick={() => setOpen((s) => !s)}
+            countdownTargetISO="2025-09-20T10:00:00+03:00"
+            countdownDoneText="Başladı!"
+          />
+        </div>
+
+        {/* Mobilde sidebar overlay */}
+        {open && (
+          <div
+            className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+            onClick={() => setOpen(false)}
+          />
+        )}
+
+        {/* İçerik */}
+        <main className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6">
+          {children}
+        </main>
+      </div>
+    </div>
   );
 }
