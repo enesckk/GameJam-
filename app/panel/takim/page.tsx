@@ -307,7 +307,6 @@ export default function TeamPage() {
 
   return (
     <div className="space-y-8">
-      <PageHeader title="Takım" desc="Takım adınız, üyeler ve davetler" variant="plain" />
 
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">

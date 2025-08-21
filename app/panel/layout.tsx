@@ -103,7 +103,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           />
         )}
 
-        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
+        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 no-scrollbar">
           {children}
         </main>
       </div>

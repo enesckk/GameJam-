@@ -71,11 +71,7 @@ const MENTORLER: Person[] = [
 export default function JuryMentorsPage() {
   return (
     <div className="space-y-8">
-      <PageHeader
-        title="Jüri & Mentörler"
-        desc="Etkinliğimizin jüri ve mentör kadrosu"
-        variant="plain"
-      />
+      
 
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">

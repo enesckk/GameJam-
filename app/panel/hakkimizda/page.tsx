@@ -6,11 +6,7 @@ import { ArrowRight, Users, Clock, Trophy, Target, Heart, Star, Award, MapPin, C
 export default function AboutPage() {
   return (
     <div className="space-y-8">
-      <PageHeader
-        title="Hakkımızda"
-        desc="Şehitkamil Game Jam — oyun geliştiricilerini bir araya getiren yaratıcı maraton"
-        variant="plain"
-      />
+      
 
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">

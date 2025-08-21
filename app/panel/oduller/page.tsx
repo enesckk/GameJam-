@@ -9,11 +9,7 @@ import {
 export default function AwardsPage() {
   return (
     <div className="space-y-8">
-      <PageHeader
-        title="Ödüller"
-        desc="Bu yılın ödülleri, teşvikleri ve entegrasyon fırsatları"
-        variant="plain"
-      />
+      
 
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-500/20 via-orange-500/15 to-red-500/20 backdrop-blur-xl border border-yellow-500/30 p-8">

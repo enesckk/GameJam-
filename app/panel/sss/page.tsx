@@ -146,11 +146,7 @@ export default function FAQPage() {
 
   return (
     <div className="space-y-8">
-      <PageHeader
-        title="Sıkça Sorulan Sorular"
-        desc="En çok merak edilenler, hızlı yanıtlar ve ipuçları"
-        variant="plain"
-      />
+    
 
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">

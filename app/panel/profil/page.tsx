@@ -165,8 +165,6 @@ export default function ProfilPage() {
 
   return (
     <div className="space-y-8">
-      <PageHeader title="Profil" desc="Bilgilerinizi güncelleyin" variant="plain" />
-
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>

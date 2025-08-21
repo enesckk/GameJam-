@@ -94,11 +94,6 @@ export default function AnnouncementsPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Duyurular"
-        desc="Güncel bilgilendirmeler, kurallar ve program notları"
-        variant="plain"
-      />
 
       <SectionCard>
         {loading && (
