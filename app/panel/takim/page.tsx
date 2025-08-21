@@ -550,10 +550,11 @@ export default function TeamPage() {
               </div>
 
               <RoleSelect
-                className="lg:col-span-1"
-                value={mRole}
-                onChange={setMRole}
-                showLabel={false}
+              className="lg:col-span-1"
+              value={mRole}
+              onChange={setMRole}
+              showLabel={false} // Takım sayfasında label gizle
+               placeholder="Rol seçin"
               />
 
               <div className="sm:col-span-2 lg:col-span-6">

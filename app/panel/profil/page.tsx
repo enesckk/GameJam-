@@ -266,9 +266,10 @@ export default function ProfilPage() {
               <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
               <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-yellow-500/50 focus-within:ring-2 focus-within:ring-yellow-500/20 transition-all duration-200">
                 <RoleSelect
-                  value={role}
-                  onChange={(r) => setRole(r)}
-                  label=""
+                value={role}
+                onChange={setRole}
+                showLabel={true} // Profil sayfasında label göster
+                label="Rol"
                 />
               </div>
             </div>

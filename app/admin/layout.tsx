@@ -33,12 +33,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div
       className="
-        relative isolate h-screen lg:grid lg:grid-cols-[16rem_1fr]
+        relative isolate min-h-[100svh] lg:h-screen lg:grid lg:grid-cols-[16rem_1fr]
         text-white dark:text-white
         bg-gradient-to-b 
         from-white via-gray-100 to-gray-200
         dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
-        overflow-hidden
+        lg:overflow-hidden
       "
     >
       {/* Katman A: büyük mesh */}
@@ -99,7 +99,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           />
         )}
 
-        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
+        {/* Mobilde sayfa kayar, lg’de main kayar */}
+        <main
+          className="min-h-0 flex-1 lg:overflow-y-auto overscroll-contain p-4"
+          style={{ WebkitOverflowScrolling: "touch" }}
+        >
           {children}
         </main>
       </div>

@@ -1,9 +1,19 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import AdminHeader from "../_components/admin-header";
+import { useEffect, useRef, useState, useMemo } from "react";
 import AdminSectionCard from "@/app/admin/_components/admin-sectioncard";
-import { Search, ChevronDown, IdCard, Mail, Phone, Calendar, UserCheck, ArrowLeft, ArrowRight, Filter } from "lucide-react";
+import {
+  Search,
+  ChevronDown,
+  IdCard,
+  Mail,
+  Phone,
+  Calendar,
+  ArrowLeft,
+  ArrowRight,
+  Filter,
+  UserCheck,
+} from "lucide-react";
 
 type Row = {
   id: string;
@@ -55,27 +65,24 @@ function PageSizeSelect({
         type="button"
         onClick={() => setOpen((s) => !s)}
         className={[
-          "inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300",
+          "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300",
           "ring-1 ring-slate-200/60 focus:ring-2 focus:ring-indigo-500/20",
           "backdrop-blur-md bg-white/80 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80",
           "border border-white/20 dark:border-slate-700/50 shadow-sm hover:shadow-md",
         ].join(" ")}
+        aria-haspopup="menu"
+        aria-expanded={open}
       >
         <Filter className="h-4 w-4" />
-        {value}/sayfa
+        <span className="hidden sm:inline">{value}/sayfa</span>
+        <span className="sm:hidden">{value}</span>
         <ChevronDown className="h-4 w-4 opacity-70" />
       </button>
 
       {open && (
         <div
-          className="fixed z-[99999] bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700"
-          style={{
-            position: 'fixed',
-            top: ref.current?.getBoundingClientRect().bottom ? ref.current.getBoundingClientRect().bottom + 8 : 0,
-            left: ref.current?.getBoundingClientRect().right ? ref.current.getBoundingClientRect().right - 160 : 0,
-            width: '160px',
-            zIndex: 99999,
-          }}
+          className="absolute top-full right-0 mt-2 w-40 z-[60] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
+          role="menu"
         >
           <ul className="py-2">
             {options.map((n) => (
@@ -90,6 +97,7 @@ function PageSizeSelect({
                     "w-full text-left px-4 py-2.5 text-sm font-medium transition-all duration-200",
                     "hover:bg-indigo-500/10 hover:text-indigo-700 dark:hover:text-indigo-300",
                   ].join(" ")}
+                  role="menuitem"
                 >
                   {n}/sayfa
                 </button>
@@ -156,188 +164,207 @@ export default function AdminParticipantsListPage() {
   const startIndex = (page - 1) * pageSize;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8 text-white shadow-2xl">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-50"></div>
-        <div className="relative flex items-center justify-between">
-          <div className="flex items-center gap-6">
+      <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 sm:p-8 text-white shadow-2xl">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-40 sm:opacity-50" />
+        <div className="relative flex flex-col gap-4 sm:gap-0 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4 sm:gap-6">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-cyan-600 rounded-2xl blur-lg opacity-75"></div>
-              <div className="relative bg-gradient-to-br from-blue-500 to-cyan-600 p-4 rounded-2xl shadow-lg">
-                <IdCard className="h-8 w-8 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-cyan-600 rounded-2xl blur-lg opacity-60 sm:opacity-75" />
+              <div className="relative bg-gradient-to-br from-blue-500 to-cyan-600 p-3 sm:p-4 rounded-2xl shadow-lg">
+                <IdCard className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
               </div>
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-1 sm:mb-2">
                 Katılımcılar
               </h1>
-              <p className="text-slate-300 text-lg">
+              <p className="text-slate-300 text-base sm:text-lg">
                 Toplam <strong>{total}</strong> katılımcı kayıtlı
               </p>
             </div>
           </div>
-          
+
           {/* Search and Filter */}
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl blur-sm opacity-0 focus-within:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+            <div className="relative flex-1 sm:flex-none">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl blur-sm opacity-0 focus-within:opacity-100 transition-opacity duration-300" />
+              <div className="relative flex items-center gap-2 sm:gap-3 rounded-2xl border border-white/20 bg-white/10 px-3 py-2 sm:px-3 sm:py-3 backdrop-blur-sm">
                 <Search className="h-5 w-5 text-white/70" />
                 <input
-                  className="w-80 bg-transparent outline-none text-white placeholder-white/70"
+                  className="w-full sm:w-72 md:w-80 bg-transparent outline-none text-white placeholder-white/70 text-sm sm:text-base"
                   placeholder="İsim, e-posta veya telefon ara…"
                   value={q}
                   onChange={(e) => {
                     setQ(e.target.value);
                     setPage(1);
                   }}
+                  inputMode="search"
                 />
               </div>
             </div>
 
-            <PageSizeSelect
-              value={pageSize}
-              onChange={(n) => {
-                setPageSize(n);
-                setPage(1);
-              }}
-            />
+            <div className="self-start sm:self-auto">
+              <PageSizeSelect
+                value={pageSize}
+                onChange={(n) => {
+                  setPageSize(n);
+                  setPage(1);
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Participants Table */}
+      {/* Participants: Table on md+, Cards on mobile */}
       <AdminSectionCard>
         {loading ? (
           <div className="py-16 text-center">
             <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 py-4">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-blue-500"></div>
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-blue-500" />
               <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
             </div>
           </div>
         ) : rows.length === 0 ? (
-          <div className="py-16 text-center">
-            <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-8 py-6">
-              <IdCard className="h-12 w-12 text-slate-400" />
+          <div className="py-12 sm:py-16 text-center">
+            <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
+              <IdCard className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
               <div>
-                <div className="text-lg font-semibold text-slate-700 dark:text-slate-300">Kayıt bulunamadı</div>
+                <div className="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-300">Kayıt bulunamadı</div>
                 <div className="text-sm text-slate-500 dark:text-slate-400">Arama kriterlerinizi değiştirmeyi deneyin</div>
               </div>
             </div>
           </div>
         ) : (
-          <div className="overflow-x-auto rounded-2xl ring-1 ring-slate-200/60 bg-white/80 backdrop-blur-sm dark:ring-slate-700/60 dark:bg-slate-800/80">
-            <table className="min-w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-200/60 dark:border-slate-700/60">
-                  <Th>#</Th>
-                  <Th>Ad Soyad</Th>
-                  <Th>E-posta</Th>
-                  <Th>Telefon</Th>
-                  <Th>Yaş</Th>
-                  <Th>Görev</Th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((r, i) => {
-                  const n = startIndex + i + 1;
-                  return (
-                    <tr
-                      key={r.id}
-                      className="group border-b border-slate-200/40 dark:border-slate-700/40 transition-all duration-200 hover:bg-slate-50/80 dark:hover:bg-slate-700/80"
-                    >
-                      {/* # sütunu */}
-                      <Td className="relative font-semibold">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
-                            {n}
+          <>
+            {/* Mobile Card List */}
+            <ul className="md:hidden space-y-3">
+              {rows.map((r, i) => {
+                const n = startIndex + i + 1;
+                return <MobileRowCard key={r.id} r={r} index={n} />;
+              })}
+            </ul>
+
+            {/* Desktop Table */}
+            <div
+              className="hidden md:block overflow-x-auto rounded-2xl ring-1 ring-slate-200/60 bg-white/80 backdrop-blur-sm dark:ring-slate-700/60 dark:bg-slate-800/80"
+              style={{ WebkitOverflowScrolling: "touch" }}
+            >
+              <table className="min-w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200/60 dark:border-slate-700/60">
+                    <Th>#</Th>
+                    <Th>Ad Soyad</Th>
+                    <Th>E-posta</Th>
+                    <Th>Telefon</Th>
+                    <Th>Yaş</Th>
+                    <Th>Görev</Th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((r, i) => {
+                    const n = startIndex + i + 1;
+                    return (
+                      <tr
+                        key={r.id}
+                        className="group border-b border-slate-200/40 dark:border-slate-700/40 transition-all duration-200 hover:bg-slate-50/80 dark:hover:bg-slate-700/80"
+                      >
+                        <Td className="font-semibold">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                              {n}
+                            </div>
                           </div>
-                        </div>
-                      </Td>
-                      
-                      {/* Ad Soyad */}
-                      <Td className="font-semibold text-slate-900 dark:text-white">{r.name ?? "—"}</Td>
-                      
-                      {/* E-posta */}
-                      <Td>
-                        <div className="flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-slate-400" />
-                          <a 
-                            href={`mailto:${r.email}`} 
-                            className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
-                          >
-                            {r.email}
-                          </a>
-                        </div>
-                      </Td>
-                      
-                      {/* Telefon */}
-                      <Td>
-                        <div className="flex items-center gap-2">
-                          <Phone className="h-4 w-4 text-slate-400" />
-                          {r.phone ? (
-                            <a 
-                              href={`tel:${r.phone}`} 
-                              className="font-semibold text-slate-700 dark:text-slate-300 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200"
+                        </Td>
+
+                        <Td className="font-semibold text-slate-900 dark:text-white">
+                          {r.name ?? "—"}
+                        </Td>
+
+                        <Td>
+                          <div className="flex items-center gap-2 max-w-[280px]">
+                            <Mail className="h-4 w-4 text-slate-400 shrink-0" />
+                            <a
+                              href={`mailto:${r.email}`}
+                              className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 truncate"
+                              title={r.email}
                             >
-                              {r.phone}
+                              {r.email}
                             </a>
+                          </div>
+                        </Td>
+
+                        <Td>
+                          <div className="flex items-center gap-2 max-w-[200px]">
+                            <Phone className="h-4 w-4 text-slate-400 shrink-0" />
+                            {r.phone ? (
+                              <a
+                                href={`tel:${r.phone}`}
+                                className="font-semibold text-slate-700 dark:text-slate-300 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 truncate"
+                                title={r.phone}
+                              >
+                                {r.phone}
+                              </a>
+                            ) : (
+                              <span className="text-slate-400">—</span>
+                            )}
+                          </div>
+                        </Td>
+
+                        <Td>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4 text-slate-400" />
+                            <span className="font-semibold text-slate-700 dark:text-slate-300">
+                              {Number.isFinite(r.age as any) ? r.age : "—"}
+                            </span>
+                          </div>
+                        </Td>
+
+                        <Td>
+                          {r.profileRole ? (
+                            <span
+                              className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${ROLE_COLORS[r.profileRole]} px-3 py-1 text-xs font-semibold text-white shadow-sm`}
+                            >
+                              {ROLE_BADGE[r.profileRole]}
+                            </span>
                           ) : (
                             <span className="text-slate-400">—</span>
                           )}
-                        </div>
-                      </Td>
-                      
-                      {/* Yaş */}
-                      <Td>
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4 text-slate-400" />
-                          <span className="font-semibold text-slate-700 dark:text-slate-300">
-                            {Number.isFinite(r.age as any) ? r.age : "—"}
-                          </span>
-                        </div>
-                      </Td>
-                      
-                      {/* Görev */}
-                      <Td>
-                        {r.profileRole ? (
-                          <span className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${ROLE_COLORS[r.profileRole]} px-3 py-1 text-xs font-semibold text-white shadow-sm`}>
-                            {ROLE_BADGE[r.profileRole]}
-                          </span>
-                        ) : (
-                          <span className="text-slate-400">—</span>
-                        )}
-                      </Td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        </Td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
 
         {/* Pagination */}
-        <div className="mt-8 flex items-center justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-4 backdrop-blur-sm">
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
           <div className="text-sm text-slate-600 dark:text-slate-400">
-            Toplam <strong className="text-slate-900 dark:text-white">{total}</strong> katılımcı • Sayfa{" "}
+            Toplam{" "}
+            <strong className="text-slate-900 dark:text-white">{total}</strong>{" "}
+            katılımcı • Sayfa{" "}
             <strong className="text-slate-900 dark:text-white">{page}</strong> / {totalPages}
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
             >
               <ArrowLeft className="h-4 w-4" />
-              Önceki
+              <span className="hidden xs:inline">Önceki</span>
             </button>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
-              className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
             >
-              Sonraki
+              <span className="hidden xs:inline">Sonraki</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
@@ -347,10 +374,78 @@ export default function AdminParticipantsListPage() {
   );
 }
 
+/* ------- Helpers ------- */
+
 function Th({ children }: { children: React.ReactNode }) {
-  return <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{children}</th>;
+  return (
+    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+      {children}
+    </th>
+  );
 }
 
 function Td({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return <td className={["px-6 py-4 align-middle", className].join(" ")}>{children}</td>;
+}
+
+function MobileRowCard({ r, index }: { r: Row; index: number }) {
+  return (
+    <li className="rounded-2xl ring-1 ring-slate-200/70 dark:ring-slate-700/60 bg-white/90 dark:bg-slate-800/80 p-4 shadow-sm">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200">
+            {index}
+          </div>
+          <h3 className="text-base font-semibold text-slate-900 dark:text-white">
+            {r.name ?? "—"}
+          </h3>
+        </div>
+        {r.profileRole ? (
+          <span
+            className={`ml-2 inline-flex items-center gap-1 rounded-full bg-gradient-to-r ${ROLE_COLORS[r.profileRole]} px-3 py-1 text-xs font-semibold text-white`}
+          >
+            {ROLE_BADGE[r.profileRole]}
+          </span>
+        ) : null}
+      </div>
+
+      <div className="grid grid-cols-1 gap-2 text-sm">
+        {/* Email */}
+        <div className="flex items-center gap-2 min-w-0">
+          <Mail className="h-4 w-4 text-slate-400 shrink-0" />
+          <a
+            href={`mailto:${r.email}`}
+            className="text-slate-700 dark:text-slate-300 underline-offset-2 hover:underline truncate"
+            title={r.email}
+          >
+            {r.email}
+          </a>
+        </div>
+
+        {/* Phone */}
+        <div className="flex items-center gap-2 min-w-0">
+          <Phone className="h-4 w-4 text-slate-400 shrink-0" />
+          {r.phone ? (
+            <a
+              href={`tel:${r.phone}`}
+              className="text-slate-700 dark:text-slate-300 truncate"
+              title={r.phone}
+            >
+              {r.phone}
+            </a>
+          ) : (
+            <span className="text-slate-400">—</span>
+          )}
+        </div>
+
+        {/* Age */}
+        <div className="flex items-center gap-2">
+          <Calendar className="h-4 w-4 text-slate-400" />
+          <span className="text-slate-700 dark:text-slate-300">
+            {Number.isFinite(r.age as any) ? r.age : "—"}
+          </span>
+        </div>
+      </div>
+    </li>
+  );
 }

@@ -27,7 +27,6 @@ import {
   MessageSquare,
   Clock,
   CheckCircle,
-  AlertCircle,
   ArrowLeft,
   ArrowRight,
 } from "lucide-react";
@@ -191,7 +190,7 @@ export default function AdminMessagesPage() {
           q: teamQuery,
           page: "1",
           pageSize: "20",
-        })}`,
+        })}}`,
         { credentials: "include", cache: "no-store" }
       );
       const j = await r.json();
@@ -361,19 +360,23 @@ export default function AdminMessagesPage() {
         )
       );
       setAlert("Mesaj güncellendi.");
-       // Güvenliyenile: tek mesajı tekrar getirip merge et
-       try {
-       const r2 = await fetch(`/api/admin/messages/${id}`, { credentials: "include", cache: "no-store" });
-       const j2 = await r2.json().catch(() => ({}));
-       if (r2.ok) {
-       setOutbox((prev) => prev.map((m) => (m.id === id ? { ...m, subject: j2.subject, body: j2.body } : m)));
-       }
+      try {
+        const r2 = await fetch(`/api/admin/messages/${id}`, {
+          credentials: "include",
+          cache: "no-store",
+        });
+        const j2 = await r2.json().catch(() => ({}));
+        if (r2.ok) {
+          setOutbox((prev) =>
+            prev.map((m) =>
+              m.id === id ? { ...m, subject: j2.subject, body: j2.body } : m
+            )
+          );
+        }
       } catch {}
       await cancelEdit(id);
-      
     } catch (e: any) {
       if (e?.name === "AbortError") {
-        console.log("Request was aborted");
         setEditState((s) => {
           const { [id]: _, ...rest } = s;
           return rest;
@@ -437,7 +440,6 @@ export default function AdminMessagesPage() {
       const j = await r.json().catch(() => ({}));
       if (!r.ok) throw new Error(j?.message || "Gönderilemedi");
 
-      // temizle
       setSelectedUsers(new Set());
       setSelectedTeam(null);
       setSelectedTeamMembers(new Set());
@@ -456,37 +458,37 @@ export default function AdminMessagesPage() {
 
   /* ==== Render ==== */
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8 text-white shadow-2xl">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-50"></div>
-        <div className="relative flex items-center justify-between">
-          <div className="flex items-center gap-6">
+      <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 sm:p-8 text-white shadow-2xl">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-40 sm:opacity-50"></div>
+        <div className="relative flex flex-col gap-4 sm:gap-0 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4 sm:gap-6">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-2xl blur-lg opacity-75"></div>
-              <div className="relative bg-gradient-to-br from-indigo-500 to-purple-600 p-4 rounded-2xl shadow-lg">
-                <MessageSquare className="h-8 w-8 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-2xl blur-lg opacity-60 sm:opacity-75"></div>
+              <div className="relative bg-gradient-to-br from-indigo-500 to-purple-600 p-3 sm:p-4 rounded-2xl shadow-lg">
+                <MessageSquare className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
               </div>
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-1 sm:mb-2">
                 Mesajlar
               </h1>
-              <p className="text-slate-300 text-lg">
+              <p className="text-slate-300 text-base sm:text-lg">
                 Gelen, giden ve yeni mesaj oluşturma
               </p>
             </div>
           </div>
-          
-          {/* Search and Filter */}
+
+          {/* Search (compose dışı) */}
           {tab !== "compose" && (
-            <div className="flex items-center gap-3">
-              <div className="relative">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
+              <div className="relative flex-1 sm:flex-none">
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 focus-within:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm">
+                <div className="relative flex items-center gap-2 sm:gap-3 rounded-2xl border border-white/20 bg-white/10 px-3 py-2 sm:px-3 sm:py-3 backdrop-blur-sm">
                   <Search className="h-5 w-5 text-white/70" />
                   <input
-                    className="w-80 bg-transparent outline-none text-white placeholder-white/70"
+                    className="w-full sm:w-72 md:w-80 bg-transparent outline-none text-white placeholder-white/70 text-sm sm:text-base"
                     placeholder={
                       tab === "inbox"
                         ? "Konu/içerik/gönderen ara…"
@@ -497,6 +499,7 @@ export default function AdminMessagesPage() {
                       setQ(e.target.value);
                       setPage(1);
                     }}
+                    inputMode="search"
                   />
                 </div>
               </div>
@@ -506,7 +509,7 @@ export default function AdminMessagesPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap gap-2">
         <button
           onClick={() => {
             setTab("inbox");
@@ -514,7 +517,7 @@ export default function AdminMessagesPage() {
           }}
           className={btn(tab === "inbox")}
         >
-          <Inbox className="h-4 w-4" /> Gelen
+          <Inbox className="h-4 w-4" /> <span>Gelen</span>
         </button>
         <button
           onClick={() => {
@@ -523,27 +526,31 @@ export default function AdminMessagesPage() {
           }}
           className={btn(tab === "outbox")}
         >
-          <Mail className="h-4 w-4" /> Giden
+          <Mail className="h-4 w-4" /> <span>Giden</span>
         </button>
         <button onClick={() => setTab("compose")} className={btn(tab === "compose")}>
-          <Send className="h-4 w-4" /> Yeni
+          <Send className="h-4 w-4" /> <span>Yeni</span>
         </button>
       </div>
 
       {/* Alert */}
       {alert && (
-        <div className="flex items-center gap-3 rounded-2xl border border-green-500/30 bg-green-500/10 p-4 backdrop-blur-sm">
+        <div className="flex items-start sm:items-center gap-3 rounded-2xl border border-green-500/30 bg-green-500/10 p-3 sm:p-4 backdrop-blur-sm">
           <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
           <div>
-            <div className="font-semibold text-green-700 dark:text-green-400">Bilgi</div>
-            <div className="text-sm text-green-600 dark:text-green-300">{alert}</div>
+            <div className="font-semibold text-green-700 dark:text-green-400">
+              Bilgi
+            </div>
+            <div className="text-sm text-green-600 dark:text-green-300">
+              {alert}
+            </div>
           </div>
         </div>
       )}
 
       {/* Toolbar */}
       {tab !== "compose" && (
-        <div className="flex items-center justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-4 backdrop-blur-sm">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
           <div className="flex items-center gap-3">
             {tab === "inbox" && (
               <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -561,7 +568,8 @@ export default function AdminMessagesPage() {
             )}
           </div>
           <div className="text-sm text-slate-600 dark:text-slate-400">
-            Toplam: <strong className="text-slate-900 dark:text-white">{total}</strong>
+            Toplam:{" "}
+            <strong className="text-slate-900 dark:text-white">{total}</strong>
           </div>
         </div>
       )}
@@ -570,24 +578,11 @@ export default function AdminMessagesPage() {
       {tab === "inbox" && (
         <AdminSectionCard>
           {loading ? (
-            <div className="py-16 text-center">
-              <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 py-4">
-                <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
-                <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
-              </div>
-            </div>
+            <LoadingBox />
           ) : inbox.length === 0 ? (
-            <div className="py-16 text-center">
-              <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-8 py-6">
-                <Inbox className="h-12 w-12 text-slate-400" />
-                <div>
-                  <div className="text-lg font-semibold text-slate-700 dark:text-slate-300">Mesaj yok</div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">Henüz hiç mesaj alınmamış</div>
-                </div>
-              </div>
-            </div>
+            <EmptyBox icon={Inbox} title="Mesaj yok" desc="Henüz hiç mesaj alınmamış" />
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {inbox.map((m) => {
                 const open = !!expanded[m.id];
                 const unread = !m.readAt;
@@ -596,43 +591,51 @@ export default function AdminMessagesPage() {
                   <div
                     key={m.id}
                     className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10 ${
-                      unread 
-                        ? "border-indigo-300 bg-indigo-50/80 dark:border-indigo-600 dark:bg-indigo-950/20" 
+                      unread
+                        ? "border-indigo-300 bg-indigo-50/80 dark:border-indigo-600 dark:bg-indigo-950/20"
                         : "border-slate-200/60 bg-white/80 dark:border-slate-700/60 dark:bg-slate-800/80"
                     } backdrop-blur-sm`}
                   >
-                    <div
-                      role="button"
+                    <button
                       onClick={() => {
                         toggleExpand(m.id);
                         if (!open && unread) markRead(m.id);
                       }}
-                      className="relative flex w-full items-center justify-between p-6 text-left hover:bg-slate-50/80 dark:hover:bg-slate-700/80 transition-colors duration-200"
+                      className="relative flex w-full items-start sm:items-center justify-between gap-4 p-4 sm:p-6 text-left hover:bg-slate-50/80 dark:hover:bg-slate-700/80 transition-colors duration-200"
                     >
-                      <div className="flex items-center gap-4">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg">
+                      <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0">
+                        <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shrink-0">
                           {open ? (
                             <ChevronDown className="h-5 w-5 text-white" />
                           ) : (
                             <ChevronRight className="h-5 w-5 text-white" />
                           )}
                         </div>
-                        <div>
-                          <div className="flex items-center gap-3 mb-2">
-                            <h3 className={`text-lg font-bold ${unread ? "text-indigo-900 dark:text-indigo-100" : "text-slate-900 dark:text-white"}`}>
+                        <div className="min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                            <h3
+                              className={`text-base sm:text-lg font-bold truncate ${
+                                unread
+                                  ? "text-indigo-900 dark:text-indigo-100"
+                                  : "text-slate-900 dark:text-white"
+                              } max-w-[16rem] sm:max-w-none`}
+                              title={m.subject}
+                            >
                               {m.subject}
                             </h3>
                             {unread && (
-                              <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 px-3 py-1 text-sm font-semibold text-indigo-700 dark:text-indigo-300">
-                                <EyeOff className="h-4 w-4" />
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
+                                <EyeOff className="h-3.5 w-3.5" />
                                 Yeni
                               </span>
                             )}
                           </div>
-                          <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
-                            <div className="flex items-center gap-2">
-                              <User className="h-4 w-4" />
-                              <span>Gönderen: {m.sender.name ?? m.sender.email}</span>
+                          <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-1.5 sm:gap-4 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                            <div className="truncate">
+                              <span className="font-medium">Gönderen: </span>
+                              <span className="truncate">
+                                {m.sender.name ?? m.sender.email}
+                              </span>
                             </div>
                             <div className="flex items-center gap-2">
                               <Clock className="h-4 w-4" />
@@ -643,12 +646,14 @@ export default function AdminMessagesPage() {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </button>
 
                     {open && (
-                      <div className="px-6 pb-6">
-                        <div className="rounded-2xl bg-slate-50/80 dark:bg-slate-900/80 p-4">
-                          <p className="text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">{m.body}</p>
+                      <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+                        <div className="rounded-2xl bg-slate-50/80 dark:bg-slate-900/80 p-3 sm:p-4">
+                          <p className="text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">
+                            {m.body}
+                          </p>
                         </div>
                       </div>
                     )}
@@ -672,24 +677,11 @@ export default function AdminMessagesPage() {
       {tab === "outbox" && (
         <AdminSectionCard>
           {loading ? (
-            <div className="py-16 text-center">
-              <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 py-4">
-                <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
-                <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
-              </div>
-            </div>
+            <LoadingBox />
           ) : outbox.length === 0 ? (
-            <div className="py-16 text-center">
-              <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-8 py-6">
-                <Mail className="h-12 w-12 text-slate-400" />
-                <div>
-                  <div className="text-lg font-semibold text-slate-700 dark:text-slate-300">Mesaj yok</div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">Henüz hiç mesaj gönderilmemiş</div>
-                </div>
-              </div>
-            </div>
+            <EmptyBox icon={Mail} title="Mesaj yok" desc="Henüz hiç mesaj gönderilmemiş" />
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {outbox.map((m) => {
                 const open = !!expanded[m.id];
                 const draft = editDrafts[m.id] ?? {
@@ -698,8 +690,11 @@ export default function AdminMessagesPage() {
                 };
                 const subjectTrim = (draft.subject ?? "").trim();
                 const bodyTrim = (draft.body ?? "").trim();
-                const isValid = subjectTrim.length >= 3 && bodyTrim.length >= 1;
-                const isDirty = subjectTrim !== (m.subject ?? "") || bodyTrim !== (m.body ?? "");
+                const isValid =
+                  subjectTrim.length >= 3 && bodyTrim.length >= 1;
+                const isDirty =
+                  subjectTrim !== (m.subject ?? "") ||
+                  bodyTrim !== (m.body ?? "");
                 const isSaving = !!editState[m.id]?.saving;
                 const errorMsg = editState[m.id]?.msg;
 
@@ -708,36 +703,37 @@ export default function AdminMessagesPage() {
                     key={m.id}
                     className="group relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10 dark:border-slate-700/60 dark:bg-slate-800/80"
                   >
-                    <div className="p-6">
-                      <div className="flex items-center justify-between">
-                        <div
-                          role="button"
+                    <div className="p-4 sm:p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <button
                           onClick={() =>
                             setExpanded((s) => ({ ...s, [m.id]: !s[m.id] }))
                           }
-                          className="flex items-center gap-4 text-left hover:opacity-90 select-none cursor-pointer"
+                          className="flex items-start sm:items-center gap-3 sm:gap-4 text-left hover:opacity-90 select-none"
                         >
-                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
+                          <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg shrink-0">
                             {open ? (
                               <ChevronDown className="h-5 w-5 text-white" />
                             ) : (
                               <ChevronRight className="h-5 w-5 text-white" />
                             )}
                           </div>
-                          <div>
-                            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                          <div className="min-w-0">
+                            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-1 sm:mb-2 truncate max-w-[17rem] sm:max-w-none" title={m.subject}>
                               {m.subject}
                             </h3>
-                            <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
+                            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-1.5 sm:gap-4 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                               {m.team && (
                                 <div className="flex items-center gap-2">
                                   <Users className="h-4 w-4" />
                                   <span>Takım: {m.team.name}</span>
                                 </div>
                               )}
-                              <div className="flex items-center gap-2">
-                                <User className="h-4 w-4" />
-                                <span>Alıcılar: {m.recipients.map((r) => r.name ?? r.email).join(", ")}</span>
+                              <div className="min-w-0 truncate">
+                                <span className="font-medium">Alıcılar: </span>
+                                <span className="truncate">
+                                  {m.recipients.map((r) => r.name ?? r.email).join(", ")}
+                                </span>
                               </div>
                               <div className="flex items-center gap-2">
                                 <Clock className="h-4 w-4" />
@@ -747,8 +743,9 @@ export default function AdminMessagesPage() {
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="flex items-center gap-2">
+                        </button>
+
+                        <div className="flex flex-wrap items-center gap-2">
                           <button
                             type="button"
                             onClick={(e) => {
@@ -756,10 +753,10 @@ export default function AdminMessagesPage() {
                               openEditDraft(m);
                             }}
                             title="Düzenle"
-                            className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-300"
+                            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-300"
                           >
                             <Pencil className="h-4 w-4" />
-                            Düzenle
+                            <span className="hidden xs:inline">Düzenle</span>
                           </button>
                           <button
                             type="button"
@@ -767,17 +764,17 @@ export default function AdminMessagesPage() {
                               e.stopPropagation();
                               deleteOutbox(m.id);
                             }}
-                            className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+                            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
                           >
                             <Trash2 className="h-4 w-4" />
-                            Sil
+                            <span className="hidden xs:inline">Sil</span>
                           </button>
                         </div>
                       </div>
 
                       {open && (
                         <div
-                          className="mt-6 border-t border-slate-200/60 dark:border-slate-700/60 pt-6"
+                          className="mt-4 sm:mt-6 border-t border-slate-200/60 dark:border-slate-700/60 pt-4 sm:pt-6"
                           onClick={(e) => e.stopPropagation()}
                         >
                           {/* inline edit */}
@@ -788,7 +785,7 @@ export default function AdminMessagesPage() {
                               </label>
                               <div className="group relative">
                                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-                                <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                                <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
                                   <input
                                     className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
                                     value={draft.subject}
@@ -809,7 +806,7 @@ export default function AdminMessagesPage() {
                                 </div>
                               </div>
                             </div>
-                            
+
                             <div>
                               <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
                                 İçerik
@@ -818,7 +815,7 @@ export default function AdminMessagesPage() {
                                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
                                 <div className="relative rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
                                   <textarea
-                                    className="min-h-[120px] w-full bg-transparent outline-none p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-none"
+                                    className="min-h-[120px] w-full bg-transparent outline-none p-3 sm:p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-y"
                                     value={draft.body}
                                     onChange={(e) =>
                                       setEditDrafts((d) => {
@@ -837,49 +834,56 @@ export default function AdminMessagesPage() {
                                 </div>
                               </div>
                             </div>
-                            
-                            <div className="flex items-center justify-end gap-3">
-                              <div className="mr-auto text-sm text-slate-600 dark:text-slate-400">
+
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                              <div className="text-sm text-slate-600 dark:text-slate-400">
                                 {isSaving
-                                    ? "Kaydediliyor…"
-                                     : errorMsg ||
-                                     (!isDirty ? "Değişiklik yok" : (!isValid ? "Başlık ≥ 3, içerik ≥ 1 karakter olmalı" : ""))}
+                                  ? "Kaydediliyor…"
+                                  : errorMsg ||
+                                    (!isDirty
+                                      ? "Değişiklik yok"
+                                      : !isValid
+                                      ? "Başlık ≥ 3, içerik ≥ 1 karakter olmalı"
+                                      : "")}
                               </div>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  cancelEdit(m.id);
-                                }}
-                                className="rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
-                                disabled={false}
-                              >
-                                Vazgeç
-                              </button>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  saveEdit(m.id);
-                                }}
-                                disabled={isSaving || !isValid || !isDirty}
-                                className="group relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg hover:shadow-xl hover:shadow-purple-500/25"
-                              >
-                                <div className="relative">
-                                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                              <div className="flex items-center gap-2 sm:ml-auto">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    cancelEdit(m.id);
+                                  }}
+                                  className="rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
+                                  disabled={false}
+                                >
+                                  Vazgeç
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    saveEdit(m.id);
+                                  }}
+                                  disabled={isSaving || !isValid || !isDirty}
+                                  className="group relative inline-flex items-center gap-2 rounded-xl px-3 sm:px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg hover:shadow-xl hover:shadow-purple-500/25"
+                                >
                                   <CheckCircle className="h-4 w-4 relative z-10" />
-                                </div>
-                                <span className="relative z-10">
-                                  {isSaving ? "Kaydediliyor…" : "Kaydet"}
-                                </span>
-                              </button>
+                                  <span className="relative z-10">
+                                    {isSaving ? "Kaydediliyor…" : "Kaydet"}
+                                  </span>
+                                </button>
+                              </div>
                             </div>
                           </div>
 
                           {/* orijinal içerik */}
-                          <div className="mt-6 rounded-2xl bg-slate-50/80 dark:bg-slate-900/80 p-4">
-                            <div className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Gönderilen İçerik</div>
-                            <div className="text-sm text-slate-600 dark:text-slate-400 whitespace-pre-wrap">{m.body}</div>
+                          <div className="mt-4 sm:mt-6 rounded-2xl bg-slate-50/80 dark:bg-slate-900/80 p-3 sm:p-4">
+                            <div className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                              Gönderilen İçerik
+                            </div>
+                            <div className="text-sm text-slate-600 dark:text-slate-400 whitespace-pre-wrap">
+                              {m.body}
+                            </div>
                           </div>
                         </div>
                       )}
@@ -908,8 +912,8 @@ export default function AdminMessagesPage() {
         >
           <div className="space-y-6">
             {/* alıcı modu */}
-            <div className="flex items-center gap-6">
-              <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+              <label className="inline-flex items-center gap-2 sm:gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
                 <input
                   type="radio"
                   checked={mode === "users"}
@@ -917,9 +921,9 @@ export default function AdminMessagesPage() {
                   className="text-indigo-600 focus:ring-indigo-500"
                 />
                 <User className="h-5 w-5" />
-                Kullanıcılar
+                <span>Kullanıcılar</span>
               </label>
-              <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+              <label className="inline-flex items-center gap-2 sm:gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
                 <input
                   type="radio"
                   checked={mode === "team"}
@@ -927,7 +931,7 @@ export default function AdminMessagesPage() {
                   className="text-indigo-600 focus:ring-indigo-500"
                 />
                 <Users className="h-5 w-5" />
-                Takım
+                <span>Takım</span>
               </label>
             </div>
 
@@ -966,7 +970,7 @@ export default function AdminMessagesPage() {
                 </label>
                 <div className="group relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
                     <input
                       className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
                       value={subj}
@@ -975,7 +979,7 @@ export default function AdminMessagesPage() {
                   </div>
                 </div>
               </div>
-              
+
               <div>
                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
                   İçerik
@@ -984,7 +988,7 @@ export default function AdminMessagesPage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
                   <div className="relative rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
                     <textarea
-                      className="min-h-[120px] w-full bg-transparent outline-none p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-none"
+                      className="min-h-[120px] w-full bg-transparent outline-none p-3 sm:p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-y"
                       value={body}
                       onChange={(e) => setBody(e.target.value)}
                     />
@@ -993,14 +997,14 @@ export default function AdminMessagesPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 sm:justify-end">
               <button
                 type="button"
                 onClick={() => {
                   setSubj("");
                   setBody("");
                 }}
-                className="rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
+                className="rounded-xl px-3 sm:px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
               >
                 Temizle
               </button>
@@ -1008,12 +1012,9 @@ export default function AdminMessagesPage() {
                 type="button"
                 onClick={send}
                 disabled={sending}
-                className="group relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg hover:shadow-xl hover:shadow-purple-500/25"
+                className="group relative inline-flex items-center gap-2 rounded-2xl px-3 sm:px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg hover:shadow-xl hover:shadow-purple-500/25"
               >
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <Send className="h-4 w-4 relative z-10" />
-                </div>
+                <Send className="h-4 w-4 relative z-10" />
                 <span className="relative z-10">
                   {sending ? "Gönderiliyor…" : "Gönder"}
                 </span>
@@ -1045,14 +1046,45 @@ function UserPicker({
       <div className="relative">
         <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
         <input
-          className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none
-               ring-0 focus:ring-2 focus:ring-violet-500 transition"
+          className="w-full sm:w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none ring-0 focus:ring-2 focus:ring-violet-500 transition"
           placeholder="İsim/e-posta ara…"
           value={userQuery}
           onChange={(e) => setUserQuery(e.target.value)}
+          inputMode="search"
         />
       </div>
-      <div className="overflow-hidden rounded-xl ring-1 ring-foreground/10 bg-white/50 backdrop-blur dark:bg-white/10">
+
+      {/* Mobile Card List */}
+      <ul className="grid gap-2 md:hidden">
+        {users.map((u) => {
+          const checked = selectedUsers.has(u.id);
+          return (
+            <li
+              key={u.id}
+              className="rounded-xl ring-1 ring-foreground/10 bg-white/70 dark:bg-white/10 backdrop-blur p-3 flex items-start justify-between"
+            >
+              <div className="min-w-0">
+                <div className="font-semibold truncate" title={u.name ?? "—"}>
+                  {u.name ?? "—"}
+                </div>
+                <div className="text-xs opacity-70 truncate">{u.email}</div>
+                <div className="text-xs opacity-70">{u.phone ?? "—"}</div>
+              </div>
+              <button
+                type="button"
+                onClick={() => toggleUser(u.id)}
+                className="ml-3 inline-flex items-center justify-center rounded-md p-2 ring-1 ring-foreground/15 hover:bg-foreground/5"
+                aria-pressed={checked}
+              >
+                {checked ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+
+      {/* Desktop Table */}
+      <div className="overflow-hidden rounded-xl ring-1 ring-foreground/10 bg-white/50 backdrop-blur dark:bg-white/10 hidden md:block">
         <table className="min-w-full text-sm">
           <thead>
             <tr className="text-left">
@@ -1095,18 +1127,17 @@ function UserPicker({
                     </button>
                   </Td>
                   <Td className="font-semibold">{u.name ?? "—"}</Td>
-                  <Td>
+                  <Td className="max-w-[280px] truncate" title={u.email}>
                     <span className="hover:opacity-80">{u.email}</span>
                   </Td>
-                  <Td className="font-semibold">
-                    <span className="hover:opacity-80">{u.phone ?? "—"}</span>
-                  </Td>
+                  <Td className="font-semibold">{u.phone ?? "—"}</Td>
                 </tr>
               );
             })}
           </tbody>
         </table>
       </div>
+
       <div className="text-xs opacity-70">
         Seçili: <strong>{selectedUsers.size}</strong>
       </div>
@@ -1142,11 +1173,11 @@ function TeamPicker({
       <div className="relative">
         <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
         <input
-          className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none
-               ring-0 focus:ring-2 focus:ring-violet-500 transition"
+          className="w-full sm:w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none ring-0 focus:ring-2 focus:ring-violet-500 transition"
           placeholder="Takım ara…"
           value={teamQuery}
           onChange={(e) => setTeamQuery(e.target.value)}
+          inputMode="search"
         />
       </div>
 
@@ -1156,10 +1187,9 @@ function TeamPicker({
           return (
             <div
               key={t.id}
-              className="overflow-hidden rounded-xl ring-1 ring-foreground/10 bg-white/50 backdrop-blur dark:bg-white/10"
+              className="overflow-hidden rounded-xl ring-1 ring-foreground/10 bg-white/70 backdrop-blur dark:bg-white/10"
             >
-              <div
-                role="button"
+              <button
                 onClick={() => setSelectedTeam(open ? null : t)}
                 className="flex w-full items-center justify-between px-3 py-2 hover:bg-foreground/[0.04]"
               >
@@ -1172,7 +1202,7 @@ function TeamPicker({
                   <div className="font-semibold">{t.name}</div>
                   <span className="text-xs opacity-70">{t.members.length} üye</span>
                 </div>
-              </div>
+              </button>
 
               {open && (
                 <div className="space-y-2 border-t border-foreground/10 p-3">
@@ -1189,63 +1219,96 @@ function TeamPicker({
                   </label>
 
                   {!teamAll && (
-                    <div className="overflow-x-auto rounded-xl ring-1 ring-foreground/10">
-                      <table className="min-w-full text-sm">
-                        <thead>
-                          <tr className="text-left">
-                            <Th className="w-10"></Th>
-                            <Th>Ad Soyad</Th>
-                            <Th>E-posta</Th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {t.members.map((m) => {
-                            const checked = selectedTeamMembers.has(m.id);
-                            return (
-                              <tr
-                                key={m.id}
-                                className="cursor-pointer border-t border-foreground/10 hover:bg-foreground/[0.04]"
+                    <>
+                      {/* Mobile cards */}
+                      <ul className="grid gap-2 md:hidden">
+                        {t.members.map((m) => {
+                          const checked = selectedTeamMembers.has(m.id);
+                          return (
+                            <li
+                              key={m.id}
+                              className="rounded-xl ring-1 ring-foreground/10 bg-white/70 dark:bg-white/10 backdrop-blur p-3 flex items-start justify-between"
+                            >
+                              <div className="min-w-0">
+                                <div className="font-semibold truncate" title={m.name ?? "—"}>
+                                  {m.name ?? "—"}
+                                </div>
+                                <div className="text-xs opacity-70 truncate">{m.email}</div>
+                              </div>
+                              <button
+                                type="button"
                                 onClick={() => toggleTeamMember(m.id)}
+                                className="ml-3 inline-flex items-center justify-center rounded-md p-2 ring-1 ring-foreground/15 hover:bg-foreground/5"
+                                aria-pressed={checked}
                               >
-                                <Td
-                                  onClick={(
-                                    e: React.MouseEvent<HTMLTableCellElement>
-                                  ) => {
-                                    e.stopPropagation();
-                                    toggleTeamMember(m.id);
-                                  }}
+                                {checked ? (
+                                  <CheckSquare className="h-4 w-4" />
+                                ) : (
+                                  <Square className="h-4 w-4" />
+                                )}
+                              </button>
+                            </li>
+                          );
+                        })}
+                      </ul>
+
+                      {/* Desktop table */}
+                      <div className="overflow-x-auto rounded-xl ring-1 ring-foreground/10 hidden md:block">
+                        <table className="min-w-full text-sm">
+                          <thead>
+                            <tr className="text-left">
+                              <Th className="w-10"></Th>
+                              <Th>Ad Soyad</Th>
+                              <Th>E-posta</Th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {t.members.map((m) => {
+                              const checked = selectedTeamMembers.has(m.id);
+                              return (
+                                <tr
+                                  key={m.id}
+                                  className="cursor-pointer border-t border-foreground/10 hover:bg-foreground/[0.04]"
+                                  onClick={() => toggleTeamMember(m.id)}
                                 >
-                                  <button
-                                    type="button"
-                                    onClick={(e) => {
+                                  <Td
+                                    onClick={(
+                                      e: React.MouseEvent<HTMLTableCellElement>
+                                    ) => {
                                       e.stopPropagation();
                                       toggleTeamMember(m.id);
                                     }}
-                                    className="inline-flex items-center justify-center rounded-md p-1 ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
-                                    aria-pressed={checked}
-                                    aria-label={
-                                      checked
-                                        ? "Üye seçili"
-                                        : "Üyeyi seçime ekle"
-                                    }
                                   >
-                                    {checked ? (
-                                      <CheckSquare className="h-4 w-4" />
-                                    ) : (
-                                      <Square className="h-4 w-4" />
-                                    )}
-                                  </button>
-                                </Td>
-                                <Td className="font-semibold">{m.name ?? "—"}</Td>
-                                <Td>
-                                  <span className="hover:opacity-80">{m.email}</span>
-                                </Td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleTeamMember(m.id);
+                                      }}
+                                      className="inline-flex items-center justify-center rounded-md p-1 ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
+                                      aria-pressed={checked}
+                                      aria-label={
+                                        checked ? "Üye seçili" : "Üyeyi seçime ekle"
+                                      }
+                                    >
+                                      {checked ? (
+                                        <CheckSquare className="h-4 w-4" />
+                                      ) : (
+                                        <Square className="h-4 w-4" />
+                                      )}
+                                    </button>
+                                  </Td>
+                                  <Td className="font-semibold">{m.name ?? "—"}</Td>
+                                  <Td className="max-w-[320px] truncate" title={m.email}>
+                                    <span className="hover:opacity-80">{m.email}</span>
+                                  </Td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
                   )}
                 </div>
               )}
@@ -1317,28 +1380,64 @@ function Pager({
 }) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   return (
-    <div className="mt-4 flex items-center justify-between text-sm">
+    <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
       <div className="opacity-70">
-        Toplam <strong>{total}</strong> mesaj • Sayfa <strong>{page}</strong> /{" "}
-        {totalPages}
+        Toplam <strong>{total}</strong> mesaj • Sayfa <strong>{page}</strong> / {totalPages}
       </div>
       <div className="flex items-center gap-2">
         <button
           type="button"
           onClick={onPrev}
           disabled={page <= 1}
-          className="rounded-lg px-3 py-1 ring-1 ring-foreground/15 bg-transparent disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-lg px-3 py-2 ring-1 ring-foreground/15 bg-white/70 dark:bg-white/10 backdrop-blur disabled:opacity-50"
         >
-          Önceki
+          <ArrowLeft className="h-4 w-4" />
+          <span className="hidden xs:inline">Önceki</span>
         </button>
         <button
           type="button"
           onClick={onNext}
           disabled={page >= totalPages}
-          className="rounded-lg px-3 py-1 ring-1 ring-foreground/15 bg-transparent disabled:opacity-50"
+          className="inline-flex items-center gap-2 rounded-lg px-3 py-2 ring-1 ring-foreground/15 bg-white/70 dark:bg-white/10 backdrop-blur disabled:opacity-50"
         >
-          Sonraki
+          <span className="hidden xs:inline">Sonraki</span>
+          <ArrowRight className="h-4 w-4" />
         </button>
+      </div>
+    </div>
+  );
+}
+
+/* ==== Küçük yardımcı kutular ==== */
+function LoadingBox() {
+  return (
+    <div className="py-12 sm:py-16 text-center">
+      <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
+        <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
+        <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+      </div>
+    </div>
+  );
+}
+function EmptyBox({
+  icon: Icon,
+  title,
+  desc,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <div className="py-12 sm:py-16 text-center">
+      <div className="inline-flex flex-col items-center gap-3 sm:gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
+        <Icon className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
+        <div>
+          <div className="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-300">
+            {title}
+          </div>
+          <div className="text-sm text-slate-500 dark:text-slate-400">{desc}</div>
+        </div>
       </div>
     </div>
   );

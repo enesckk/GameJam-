@@ -16,13 +16,15 @@ export default function RoleSelect({
   onChange,
   className = "",
   label = "Rol",
-  showLabel = false,
+  showLabel = true,
+  placeholder = "Rol seçin",
 }: {
   value: Role;
   onChange: (r: Role) => void;
   className?: string;
   label?: string;
   showLabel?: boolean;
+  placeholder?: string;
 }) {
   const [open, setOpen] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -67,7 +69,9 @@ export default function RoleSelect({
           aria-controls={listId}
           className="flex w-full items-center justify-between px-3 py-2.5 text-left text-white"
         >
-          <span className="truncate text-sm">{current}</span>
+          <span className={`truncate text-sm ${!current ? "text-purple-200/60" : ""}`}>
+            {current || placeholder}
+          </span>
           <ChevronDown
             className={[
               "h-4 w-4 text-purple-200 transition-transform duration-200",

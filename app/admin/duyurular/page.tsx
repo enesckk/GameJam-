@@ -3,7 +3,21 @@
 import { useEffect, useMemo, useState } from "react";
 import AdminHeader from "../_components/admin-header";
 import AdminSectionCard from "@/app/admin/_components/admin-sectioncard";
-import { Search, PlusCircle, X, Pin, PinOff, Trash2, Pencil, Megaphone, Calendar, AlertCircle, CheckCircle, Save, ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  Search,
+  PlusCircle,
+  X,
+  Pin,
+  PinOff,
+  Trash2,
+  Pencil,
+  Megaphone,
+  Calendar,
+  AlertCircle,
+  Save,
+  ArrowLeft,
+  ArrowRight,
+} from "lucide-react";
 
 type A = { id: string; title: string; content: string; pinned: boolean; createdAt: string };
 
@@ -54,9 +68,7 @@ export default function AdminAnnouncementsPage() {
     } finally { setLoading(false); }
   }
 
-  async function reloadList() {
-    await load();
-  }
+  async function reloadList() { await load(); }
 
   // CREATE — inline form
   async function saveCreate() {
@@ -73,7 +85,6 @@ export default function AdminAnnouncementsPage() {
       });
       const j = await r.json();
       if (!r.ok) throw new Error(j?.message || "Kaydedilemedi");
-      // temizle
       setCTitle(""); setCContent(""); setCPinned(false);
       setShowCreate(false);
       await reloadList();
@@ -131,34 +142,34 @@ export default function AdminAnnouncementsPage() {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8 text-white shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6 sm:p-8 text-white shadow-2xl">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-50"></div>
-        <div className="relative flex items-center justify-between">
-          <div className="flex items-center gap-6">
+        <div className="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center gap-4 sm:gap-6">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-600 rounded-2xl blur-lg opacity-75"></div>
-              <div className="relative bg-gradient-to-br from-orange-500 to-red-600 p-4 rounded-2xl shadow-lg">
-                <Megaphone className="h-8 w-8 text-white" />
+              <div className="relative bg-gradient-to-br from-orange-500 to-red-600 p-3 sm:p-4 rounded-2xl shadow-lg">
+                <Megaphone className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
               </div>
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-1 sm:mb-2">
                 Duyurular
               </h1>
-              <p className="text-slate-300 text-lg">
+              <p className="text-slate-300 text-base sm:text-lg">
                 Duyuru oluştur, düzenle, sabitle veya sil
               </p>
             </div>
           </div>
-          
+
           {/* Search and Create */}
-          <div className="flex items-center gap-3">
-            <div className="relative">
+          <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
+            <div className="relative w-full sm:w-[min(24rem,90vw)]">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 focus-within:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm">
+              <div className="relative flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 px-3 py-2 sm:p-3 backdrop-blur-sm">
                 <Search className="h-5 w-5 text-white/70" />
                 <input
-                  className="w-80 bg-transparent outline-none text-white placeholder-white/70"
+                  className="w-full bg-transparent outline-none text-white placeholder-white/70"
                   placeholder="Başlık/İçerik ara…"
                   value={q}
                   onChange={(e)=>{ setQ(e.target.value); setPage(1); }}
@@ -169,7 +180,7 @@ export default function AdminAnnouncementsPage() {
             <button
               type="button"
               onClick={() => setShowCreate((s) => !s)}
-              className="group relative inline-flex items-center gap-2 rounded-2xl px-4 py-3 font-semibold text-white transition-all duration-300 active:scale-[0.98] bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 shadow-lg hover:shadow-xl"
+              className="group relative inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 shadow-lg hover:shadow-xl"
             >
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -184,7 +195,7 @@ export default function AdminAnnouncementsPage() {
       </div>
 
       {/* Stats */}
-      <div className="flex items-center justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-4 backdrop-blur-sm">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
         <div className="text-sm text-slate-600 dark:text-slate-400">
           Toplam <strong className="text-slate-900 dark:text-white">{total}</strong> duyuru
         </div>
@@ -200,7 +211,7 @@ export default function AdminAnnouncementsPage() {
               </label>
               <div className="group relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 px-3 py-2 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
                   <Megaphone className="h-5 w-5 text-slate-400 group-focus-within:text-orange-500 transition-colors duration-300" />
                   <input
                     className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
@@ -211,7 +222,7 @@ export default function AdminAnnouncementsPage() {
                 </div>
               </div>
             </div>
-            
+
             <div>
               <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
                 İçerik
@@ -220,7 +231,7 @@ export default function AdminAnnouncementsPage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
                   <textarea
-                    className="min-h-[120px] w-full bg-transparent outline-none p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-none"
+                    className="min-h-[120px] w-full bg-transparent outline-none p-3 sm:p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-y"
                     value={cContent}
                     onChange={(e)=>setCContent(e.target.value)}
                     placeholder="Duyuru içeriği…"
@@ -228,19 +239,17 @@ export default function AdminAnnouncementsPage() {
                 </div>
               </div>
             </div>
-            
+
             <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
               <div className="relative">
-                <input 
-                  type="checkbox" 
-                  checked={cPinned} 
+                <input
+                  type="checkbox"
+                  checked={cPinned}
                   onChange={(e)=>setCPinned(e.target.checked)}
                   className="sr-only"
                 />
                 <div className={`flex h-5 w-5 items-center justify-center rounded border-2 transition-all duration-200 ${
-                  cPinned 
-                    ? 'border-orange-500 bg-orange-500' 
-                    : 'border-slate-300 dark:border-slate-600'
+                  cPinned ? "border-orange-500 bg-orange-500" : "border-slate-300 dark:border-slate-600"
                 }`}>
                   {cPinned && <Pin className="h-3 w-3 text-white" />}
                 </div>
@@ -248,11 +257,11 @@ export default function AdminAnnouncementsPage() {
               Sabit (katılımcı panelinde en üstte)
             </label>
 
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-end sm:gap-3 pt-1">
               <button
                 type="button"
                 onClick={() => { setShowCreate(false); setCTitle(""); setCContent(""); setCPinned(false); }}
-                className="rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
+                className="w-full sm:w-auto rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
               >
                 Vazgeç
               </button>
@@ -260,7 +269,7 @@ export default function AdminAnnouncementsPage() {
                 type="button"
                 onClick={saveCreate}
                 disabled={creating}
-                className="group relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 shadow-lg hover:shadow-xl hover:shadow-orange-500/25"
+                className="w-full sm:w-auto group relative inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 shadow-lg hover:shadow-xl hover:shadow-orange-500/25"
               >
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -285,7 +294,7 @@ export default function AdminAnnouncementsPage() {
             </div>
           </div>
         )}
-        
+
         {!loading && items.length === 0 && (
           <div className="py-16 text-center">
             <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-8 py-6">
@@ -312,29 +321,31 @@ export default function AdminAnnouncementsPage() {
                 </div>
               )}
 
-              <div className="p-6">
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-bold text-slate-900 dark:text-white">{a.title}</h3>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-3">
+              <div className="p-4 sm:p-6">
+                <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">
+                      {a.title}
+                    </h3>
+                    <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-3">
                       <Calendar className="h-4 w-4" />
                       <span>Yayın: <strong>{fmt(a.createdAt)}</strong></span>
                     </div>
-                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{a.content}</p>
+                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed break-words">
+                      {a.content}
+                    </p>
                   </div>
 
                   {/* Eylemler */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-end">
                     <button
                       type="button"
                       onClick={() => quickTogglePinned(a)}
                       disabled={busy}
-                      className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 disabled:opacity-50 ${
-                        a.pinned 
-                          ? 'bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300' 
-                          : 'bg-orange-100 hover:bg-orange-200 text-orange-700 dark:bg-orange-900/30 dark:hover:bg-orange-900/50 dark:text-orange-300'
+                      className={`inline-flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 disabled:opacity-50 ${
+                        a.pinned
+                          ? "bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+                          : "bg-orange-100 hover:bg-orange-200 text-orange-700 dark:bg-orange-900/30 dark:hover:bg-orange-900/50 dark:text-orange-300"
                       }`}
                       title={a.pinned ? "Sabitlemeyi kaldır" : "Sabitle"}
                     >
@@ -345,7 +356,7 @@ export default function AdminAnnouncementsPage() {
                     <button
                       type="button"
                       onClick={() => openEdit(a)}
-                      className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-300"
+                      className="inline-flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-300"
                       title="Düzenle"
                     >
                       <Pencil className="h-4 w-4" />
@@ -356,7 +367,7 @@ export default function AdminAnnouncementsPage() {
                       type="button"
                       onClick={() => removeAnnouncement(a.id)}
                       disabled={busy}
-                      className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 disabled:opacity-50 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+                      className="inline-flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 disabled:opacity-50 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
                       title="Sil"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -370,7 +381,7 @@ export default function AdminAnnouncementsPage() {
         </div>
 
         {/* Sayfalama */}
-        <div className="mt-8 flex items-center justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-4 backdrop-blur-sm">
+        <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
           <div className="text-sm text-slate-600 dark:text-slate-400">
             Toplam <strong className="text-slate-900 dark:text-white">{total}</strong> duyuru • Sayfa{" "}
             <strong className="text-slate-900 dark:text-white">{page}</strong> / {totalPages}
@@ -380,7 +391,7 @@ export default function AdminAnnouncementsPage() {
               type="button"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
             >
               <ArrowLeft className="h-4 w-4" />
               Önceki
@@ -389,7 +400,7 @@ export default function AdminAnnouncementsPage() {
               type="button"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
-              className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
             >
               Sonraki
               <ArrowRight className="h-4 w-4" />
@@ -399,7 +410,7 @@ export default function AdminAnnouncementsPage() {
 
         {/* Messages */}
         {msg && (
-          <div className="mt-4 flex items-center gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 backdrop-blur-sm">
+          <div className="mt-4 flex items-start gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-3 sm:p-4 backdrop-blur-sm">
             <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
             <div>
               <div className="font-semibold text-red-700 dark:text-red-400">Hata</div>
@@ -411,17 +422,20 @@ export default function AdminAnnouncementsPage() {
 
       {/* Edit Modal */}
       {showEdit && (
-        <div className="fixed inset-0 z-[100] grid place-items-center bg-black/60 p-4 backdrop-blur-sm" onClick={()=>setShowEdit(null)}>
+        <div
+          className="fixed inset-0 z-[100] grid place-items-center bg-black/60 p-2 sm:p-4 backdrop-blur-sm"
+          onClick={()=>setShowEdit(null)}
+        >
           <div
-            className="w-full max-w-2xl rounded-3xl bg-white/95 dark:bg-slate-900/95 p-6 shadow-2xl backdrop-blur-xl border border-white/20 dark:border-slate-700/50"
+            className="w-full max-w-2xl rounded-3xl bg-white/95 dark:bg-slate-900/95 p-4 sm:p-6 shadow-2xl backdrop-blur-xl border border-white/20 dark:border-slate-700/50"
             onClick={(e)=>e.stopPropagation()}
           >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Duyuruyu Düzenle</h3>
-              <button 
-                type="button" 
-                className="rounded-xl p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200" 
-                onClick={()=>setShowEdit(null)} 
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Duyuruyu Düzenle</h3>
+              <button
+                type="button"
+                className="rounded-xl p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                onClick={()=>setShowEdit(null)}
                 aria-label="Kapat"
               >
                 <X className="h-5 w-5" />
@@ -435,7 +449,7 @@ export default function AdminAnnouncementsPage() {
                 </label>
                 <div className="group relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 px-3 py-2 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
                     <Megaphone className="h-5 w-5 text-slate-400 group-focus-within:text-orange-500 transition-colors duration-300" />
                     <input
                       className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
@@ -445,7 +459,7 @@ export default function AdminAnnouncementsPage() {
                   </div>
                 </div>
               </div>
-              
+
               <div>
                 <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
                   İçerik
@@ -454,26 +468,24 @@ export default function AdminAnnouncementsPage() {
                   <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
                   <div className="relative rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
                     <textarea
-                      className="min-h-[120px] w-full bg-transparent outline-none p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-none"
+                      className="min-h-[120px] w-full bg-transparent outline-none p-3 sm:p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-y"
                       value={eContent}
                       onChange={(e)=>setEContent(e.target.value)}
                     />
                   </div>
                 </div>
               </div>
-              
+
               <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
                 <div className="relative">
-                  <input 
-                    type="checkbox" 
-                    checked={ePinned} 
+                  <input
+                    type="checkbox"
+                    checked={ePinned}
                     onChange={(e)=>setEPinned(e.target.checked)}
                     className="sr-only"
                   />
                   <div className={`flex h-5 w-5 items-center justify-center rounded border-2 transition-all duration-200 ${
-                    ePinned 
-                      ? 'border-orange-500 bg-orange-500' 
-                      : 'border-slate-300 dark:border-slate-600'
+                    ePinned ? "border-orange-500 bg-orange-500" : "border-slate-300 dark:border-slate-600"
                   }`}>
                     {ePinned && <Pin className="h-3 w-3 text-white" />}
                   </div>
@@ -482,19 +494,19 @@ export default function AdminAnnouncementsPage() {
               </label>
             </div>
 
-            <div className="mt-6 flex items-center justify-end gap-3">
-              <button 
-                type="button" 
-                className="rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300" 
+            <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-end sm:gap-3">
+              <button
+                type="button"
+                className="w-full sm:w-auto rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
                 onClick={()=>setShowEdit(null)}
               >
                 Vazgeç
               </button>
-              <button 
-                type="button" 
-                onClick={saveEdit} 
-                disabled={busy} 
-                className="group relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 shadow-lg hover:shadow-xl hover:shadow-orange-500/25"
+              <button
+                type="button"
+                onClick={saveEdit}
+                disabled={busy}
+                className="w-full sm:w-auto group relative inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 shadow-lg hover:shadow-xl hover:shadow-orange-500/25"
               >
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
