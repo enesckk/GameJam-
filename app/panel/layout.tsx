@@ -76,18 +76,20 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       <aside
         className={[
           "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
-          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
-          "lg:relative lg:translate-x-0 lg:flex lg:flex-col lg:h-full",
-          "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-r border-slate-200/60 dark:border-slate-700/60",
+          open ? "translate-x-0" : "-translate-x-full",
+          "bg-background/35 backdrop-blur-xl supports-[backdrop-filter]:bg-background/20",
+          "lg:static lg:translate-x-0 lg:h-screen lg:overflow-y-auto no-scrollbar lg:overscroll-contain lg:pr-2",
         ].join(" ")}
       >
-        <div className="flex h-full min-h-0 flex-col overflow-hidden">
-          <PanelSidebar onNavigate={() => setOpen(false)} />
+        <div className="flex h-full min-h-0 flex-col p-3 overflow-hidden">
+          <div className="flex-1 overflow-y-auto no-scrollbar">
+            <PanelSidebar onNavigate={() => setOpen(false)} />
+          </div>
         </div>
       </aside>
 
       {/* Sağ taraf */}
-      <div className="relative z-10 flex min-h-0 flex-col lg:h-full">
+      <div className="relative z-10 flex min-h-0 flex-col">
         {/* Topbar */}
         <PanelTopbar
           onMenuClick={() => setOpen((s) => !s)}
