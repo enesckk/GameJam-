@@ -9,7 +9,6 @@ import SponsorsStrip from "@/components/home/sponsors-strip";
 import JuryPreview from "@/components/home/jury-preview";
 import SocialTask from "@/components/home/social-task";
 import BottomCTA from "@/components/home/bottom-cta";
-import VideoBG from "@/components/background/video-bg";
 import PageHeader from "../panel/_components/page-header";
 
 // Countdown Component
@@ -108,30 +107,65 @@ function TimeBox({ label, value }: { label: string; value: number }) {
   );
 }
 
-function Sep() { 
+function Sep() {
   return (
     <div className="w-px h-10 bg-gradient-to-b from-transparent via-blue-500/60 to-transparent opacity-70 animate-pulse"></div>
-  ); 
+  );
 }
 
 export default function HomePage() {
   // Game Jam başlangıç tarihi: 12 Ekim 2025 23:59 (TSİ)
-  const targetDate = new Date('2025-10-12T23:59:00+03:00');
+  const targetDate = new Date("2025-10-12T23:59:00+03:00");
 
   return (
     <>
       <Hero />
-      
-      {/* Ana İçerik Bölümü */}
-      <section className="relative">
-        <VideoBG
-          light={{ mp4: "/videos/bg-light.mp4"}}
-          dark={{  mp4: "/videos/bg-dark.mp4" }}
-          opacity={0.78}
-          overlay
+
+      {/* Ana İçerik Bölümü - VIDEO YERİNE KATMANLI ARKA PLAN */}
+      <section
+        className="
+          relative z-0 isolate w-full overflow-hidden
+          text-white dark:text-white
+          bg-gradient-to-b 
+          from-white via-gray-100 to-gray-200
+          dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+        "
+      >
+        {/* Katman A: büyük mesh */}
+        <div
+          aria-hidden
+          className="
+            pointer-events-none absolute -z-10 inset-[-20%] opacity-80
+            [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
+            motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
+          "
+          style={{ mixBlendMode: "screen" }}
         />
+        {/* Katman B: küçük mesh */}
+        <div
+          aria-hidden
+          className="
+            pointer-events-none absolute -z-10 inset-[-30%] opacity-70
+            [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
+            motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
+          "
+          style={{ mixBlendMode: "screen" }}
+        />
+        {/* Katman C: conic swirl */}
+        <div
+          aria-hidden
+          className="
+            pointer-events-none absolute -z-10 -inset-[25%] opacity-60
+            [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
+            motion-safe:animate-[swirl_22s_linear_infinite]
+            rounded-[9999px] blur-3xl
+          "
+          style={{ mixBlendMode: "screen" }}
+        />
+
+        {/* İçerik */}
         <div className="relative z-10">
-           {/* Countdown Bölümü */}
+          {/* Countdown Bölümü */}
           <section className="py-20">
             <div className="max-w-5xl mx-auto px-6 text-center">
               <div className="p-10 rounded-3xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-blue-500/30 backdrop-blur-md shadow-xl">
@@ -140,11 +174,11 @@ export default function HomePage() {
                   desc="Game Jam başlangıcına geri sayım"
                   variant="plain"
                 />
-                
+
                 <div className="mt-10 flex justify-center">
                   <Countdown targetDate={targetDate} />
                 </div>
-                
+
                 <div className="mt-8 p-4 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-500/20">
                   <p className="text-lg text-muted-foreground font-medium">
                     🗓️ 12 Ekim 2025 Pazar 23:59
@@ -156,10 +190,9 @@ export default function HomePage() {
               </div>
             </div>
           </section>
-          
+
           <IntroCards />
           <AwardsPreview />
-          
           <SchedulePreview />
           <SponsorsStrip />
           <JuryPreview />
