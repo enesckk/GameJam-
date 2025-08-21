@@ -165,10 +165,10 @@ export default function ProfilPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Profil" desc="Kişisel bilgilerinizi güncelleyin" variant="plain" />
-
+      
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-6">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-3">
@@ -189,7 +189,7 @@ export default function ProfilPage() {
       </div>
 
       {/* Form Section */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+      <div className="relative overflow-visible rounded-2xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
         <div className="grid gap-4 grid-cols-1">
           {/* Ad Soyad */}
           <div>
@@ -262,16 +262,16 @@ export default function ProfilPage() {
           {/* Rol */}
           <div>
             <label className="block text-sm font-medium text-purple-200 mb-2">Rol</label>
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
-              <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-yellow-500/50 focus-within:ring-2 focus-within:ring-yellow-500/20 transition-all duration-200">
-                <RoleSelect
-                  value={role}
-                  onChange={setRole}
-                  showLabel={false}
-                  placeholder="Rol seçin"
-                />
-              </div>
+           <div className="relative group overflow-visible">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300 pointer-events-none z-0" />
+            <div className="relative z-10 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-yellow-500/50 focus-within:ring-2 focus-within:ring-yellow-500/20 transition-all duration-200">
+            <RoleSelect
+            value={role}
+            onChange={setRole}
+            showLabel={false}
+            placeholder="Rol seçin"
+            />
+            </div>
             </div>
           </div>
 

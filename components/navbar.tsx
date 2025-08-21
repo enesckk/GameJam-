@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const nav = [
+  { href: "/page", label: "Anasayfa" },
   { href: "/hakkinda", label: "Hakkında" },
   { href: "/takvim", label: "Takvim" },
   { href: "/kurallar", label: "Kurallar" },

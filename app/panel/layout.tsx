@@ -11,7 +11,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   const { displayName } = useDisplayName();
   const pathname = usePathname();
 
-  // Drawer açıkken sadece body'yi kilitle
+  // Drawer açıkken body scroll kilidi (güvenli)
   useEffect(() => {
     const el = document.body;
     const prev = el.style.overflow;
@@ -39,13 +39,12 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   return (
     <div
       className="
-        lg:fixed lg:inset-0          /* mobilde fixed değil -> body scroll (PTR) */
-        min-h-dvh                    /* mobilde tam ekran minimum yükseklik */
+        fixed inset-0
         isolate lg:grid lg:grid-cols-[16rem_1fr]
         text-white dark:text-white
         bg-gradient-to-b from-white via-gray-100 to-gray-200
         dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
-        lg:overflow-hidden           /* overflow-hidden sadece lg+ */
+        overflow-hidden
       "
     >
       {/* Katman A: büyük mesh */}
@@ -73,36 +72,32 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         style={{ mixBlendMode: "screen" }}
       />
 
-      {/* Sidebar (tek scroller; scrollbar gizli) */}
+      {/* Sidebar (tek scroll noktası: aside) */}
       <aside
-        className={[
-          "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
-          open ? "translate-x-0" : "-translate-x-full",
-          "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
-          "border-r border-slate-200/60 dark:border-slate-700/60",
-          "overflow-y-auto overscroll-contain",
-          "[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden", // sadece sidebar'da gizle
-          "touch-pan-y [touch-action:pan-y] [-webkit-overflow-scrolling:touch]",
-          "lg:static lg:translate-x-0 lg:h-full",
-        ].join(" ")}
-      >
-        <div className="flex h-full min-h-0 flex-col">
-          <PanelSidebar onNavigate={() => setOpen(false)} />
-        </div>
-      </aside>
+  className={[
+    "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
+    open ? "translate-x-0" : "-translate-x-full",
+    "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
+    "border-r border-slate-200/60 dark:border-slate-700/60",
+    "overflow-y-auto overscroll-contain",
+    // ↓↓↓ yalnızca sidebar’da scrollbar’ı gizle
+    "[-ms-overflow-style:none]",     // IE/Edge
+    "[scrollbar-width:none]",        // Firefox
+    "[&::-webkit-scrollbar]:hidden", // WebKit (Chrome/Safari)
+    "lg:static lg:translate-x-0 lg:h-full",
+  ].join(" ")}
+>
+  <div className="flex h-full min-h-0 flex-col">
+    <PanelSidebar onNavigate={() => setOpen(false)} />
+  </div>
+</aside>
 
-      {/* Sağ sütun = TOPBAR + CONTENT */}
-      {/* Mobilde body scroller: overflow vermiyoruz.
-          Masaüstünde (lg+) iç scroller: overflow-y-auto + overscroll-contain */}
-      <div
-        className="
-          relative z-10 flex min-h-0 flex-col lg:col-start-2
-          overflow-visible lg:overflow-y-auto lg:overscroll-contain
-          min-h-[calc(100svh+1px)] lg:min-h-0
-          pb-[env(safe-area-inset-bottom)]
-        "
-      >
-        {/* Topbar (sticky; mobilde body'e, lg'de sağ sütun scroller'ına göre yapışır) */}
+      {/* Sağ sütun = TOPBAR + CONTENT (tek scroll container) */}
+      <div className="relative z-10 flex min-h-0 flex-col lg:col-start-2
+                 overflow-y-auto overscroll-contain
+                 h-dvh lg:h-auto
+                 touch-pan-y [touch-action:pan-y] [-webkit-overflow-scrolling:touch]">
+        {/* Topbar (sticky, aynı scroller içinde olduğu için tekerlek her yerde çalışır) */}
         <div className="sticky top-0 z-20">
           <PanelTopbar
             onMenuClick={() => setOpen((s) => !s)}
