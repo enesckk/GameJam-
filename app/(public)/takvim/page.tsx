@@ -1,5 +1,4 @@
 // app/(public)/takvim/page.tsx
-import VideoBG from "@/components/background/video-bg";
 import PageHeader from "../../panel/_components/page-header";
 
 const TIMELINE_DATA = [
@@ -78,41 +77,11 @@ const TIMELINE_DATA = [
 ];
 
 const IMPORTANT_DATES = [
-  {
-    title: "Kayıt Başlangıcı",
-    date: "15 Eylül 2025",
-    time: "09:00",
-    icon: "calendar-plus",
-    color: "blue"
-  },
-  {
-    title: "Kayıt Sonu",
-    date: "30 Eylül 2025",
-    time: "23:59",
-    icon: "calendar-times",
-    color: "red"
-  },
-  {
-    title: "Game Jam Başlangıcı",
-    date: "12 Ekim 2025",
-    time: "23:59",
-    icon: "play",
-    color: "green"
-  },
-  {
-    title: "Proje Teslimi",
-    date: "15 Ekim 2025",
-    time: "23:59",
-    icon: "stop",
-    color: "orange"
-  },
-  {
-    title: "Ödül Töreni",
-    date: "18 Ekim 2025",
-    time: "19:00",
-    icon: "trophy",
-    color: "yellow"
-  }
+  { title: "Kayıt Başlangıcı", date: "15 Eylül 2025", time: "09:00", icon: "calendar-plus", color: "blue" },
+  { title: "Kayıt Sonu", date: "30 Eylül 2025", time: "23:59", icon: "calendar-times", color: "red" },
+  { title: "Game Jam Başlangıcı", date: "12 Ekim 2025", time: "23:59", icon: "play", color: "green" },
+  { title: "Proje Teslimi", date: "15 Ekim 2025", time: "23:59", icon: "stop", color: "orange" },
+  { title: "Ödül Töreni", date: "18 Ekim 2025", time: "19:00", icon: "trophy", color: "yellow" }
 ];
 
 const DAILY_SCHEDULE = [
@@ -172,19 +141,44 @@ const getBgColorClasses = (color: string) => {
 
 export default function SchedulePage() {
   return (
-    <section className="relative min-h-screen">
-      {/* Arka plan video */}
-      <VideoBG
-        light={{
-          mp4: "/videos/bg-light.mp4",
-
-        }}
-        dark={{
-          mp4: "/videos/bg-dark.mp4",
-
-        }}
-        overlay
-        opacity={0.9}
+    <section
+      className="
+        relative isolate min-h-screen overflow-hidden
+        text-white dark:text-white
+        bg-gradient-to-b from-white via-gray-100 to-gray-200
+        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+      "
+    >
+      {/* Katman A: büyük mesh */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute -z-10 inset-[-20%] opacity-80
+          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
+          motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
+        "
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman B: küçük mesh */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute -z-10 inset-[-30%] opacity-70
+          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
+          motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
+        "
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman C: conic swirl */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute -z-10 -inset-[25%] opacity-60
+          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
+          motion-safe:animate-[swirl_22s_linear_infinite]
+          rounded-[9999px] blur-3xl
+        "
+        style={{ mixBlendMode: "screen" }}
       />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-16">
@@ -199,8 +193,8 @@ export default function SchedulePage() {
         </div>
 
         {/* Detaylı Timeline */}
-        <div 
-          className="gborder rounded-2xl backdrop-blur-md p-8"
+        <div
+          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
           style={{ backgroundColor: 'color-mix(in oklab, var(--foreground) 5%, transparent)' }}
         >
           <PageHeader
@@ -208,13 +202,12 @@ export default function SchedulePage() {
             desc="Game Jam sürecinin tüm aşamaları ve önemli tarihler"
             variant="plain"
           />
-          
+
           <div className="mt-16 space-y-8">
-            {/* Timeline Items */}
             <div className="relative">
               {/* Timeline Line */}
               <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-green-500"></div>
-              
+
               {/* Timeline Items */}
               <div className="space-y-12">
                 {TIMELINE_DATA.map((item, idx) => (
@@ -250,13 +243,14 @@ export default function SchedulePage() {
                   </div>
                 ))}
               </div>
+
             </div>
           </div>
         </div>
 
         {/* Önemli Tarihler */}
-        <div 
-          className="gborder rounded-2xl backdrop-blur-md p-8"
+        <div
+          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
           style={{ backgroundColor: 'color-mix(in oklab, var(--foreground) 5%, transparent)' }}
         >
           <PageHeader
@@ -264,7 +258,7 @@ export default function SchedulePage() {
             desc="Game Jam sürecinin kritik dönüm noktaları"
             variant="plain"
           />
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mt-12">
             {IMPORTANT_DATES.map((item, idx) => (
               <div key={idx} className={`p-6 rounded-xl bg-gradient-to-br ${getBgColorClasses(item.color)} backdrop-blur-sm text-center`}>
@@ -298,8 +292,8 @@ export default function SchedulePage() {
         </div>
 
         {/* Günlük Program */}
-        <div 
-          className="gborder rounded-2xl backdrop-blur-md p-8"
+        <div
+          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
           style={{ backgroundColor: 'color-mix(in oklab, var(--foreground) 5%, transparent)' }}
         >
           <PageHeader
@@ -307,7 +301,7 @@ export default function SchedulePage() {
             desc="48 saatlik Game Jam sürecinin detaylı programı"
             variant="plain"
           />
-          
+
           <div className="mt-12">
             <div className="grid md:grid-cols-3 gap-6">
               {DAILY_SCHEDULE.map((day, idx) => (
@@ -347,8 +341,8 @@ export default function SchedulePage() {
               Game Jam'e katılmak için son fırsat. 30 Eylül'e kadar kayıtlarınızı tamamlayın.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="/kayit" 
+              <a
+                href="/kayit"
                 className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all duration-200 font-semibold"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -356,8 +350,8 @@ export default function SchedulePage() {
                 </svg>
                 Kayıt Ol
               </a>
-              <a 
-                href="/kurallar" 
+              <a
+                href="/kurallar"
                 className="inline-flex items-center gap-2 px-8 py-3 bg-transparent border border-blue-500/30 hover:bg-blue-500/10 text-blue-600 rounded-lg transition-all duration-200 font-semibold"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">

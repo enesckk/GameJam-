@@ -33,7 +33,7 @@ export default function Hero() {
     bg-cover bg-center bg-no-repeat
   "
   style={{
-    backgroundImage: "url('/bg-background.png')",
+    backgroundImage: "url('/bg-hero.png')",
   }}
 >
   {/* İçerik */}

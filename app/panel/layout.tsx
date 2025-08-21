@@ -1,9 +1,9 @@
+// app/panel/layout.tsx  (senin yoluna göre)
 "use client";
 
 import { useEffect, useState } from "react";
 import PanelSidebar from "./_components/panel-sidebar";
 import PanelTopbar from "./_components/panel-topbar";
-import VideoBG from "@/components/background/video-bg";
 import { useDisplayName } from "@/lib/use-user";
 
 export default function PanelLayout({ children }: { children: React.ReactNode }) {
@@ -32,18 +32,46 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   }, []);
 
   return (
-    <div className="relative h-screen lg:grid lg:grid-cols-[16rem_1fr]">
-      {/* Arkaplan video */}
-      <div className="fixed inset-0 -z-10">
-        <VideoBG
-          position="fixed"
-          useIO={false}
-          overlay
-          opacity={0.9}
-          light={{ mp4: "/videos/bg-light.mp4", poster: "/images/light-bg.jpg" }}
-          dark={{ mp4: "/videos/bg-dark.mp4", poster: "/images/dark-bg.jpg" }}
-        />
-      </div>
+    <div
+      className="
+        relative isolate h-screen lg:grid lg:grid-cols-[16rem_1fr]
+        overflow-hidden
+        text-white dark:text-white
+        bg-gradient-to-b from-white via-gray-100 to-gray-200
+        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+      "
+    >
+      {/* Katman A: büyük mesh */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute -z-10 inset-[-20%] opacity-80
+          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
+          motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
+        "
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman B: küçük mesh */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute -z-10 inset-[-30%] opacity-70
+          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
+          motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
+        "
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman C: conic swirl */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute -z-10 -inset-[25%] opacity-60
+          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
+          motion-safe:animate-[swirl_22s_linear_infinite]
+          rounded-[9999px] blur-3xl
+        "
+        style={{ mixBlendMode: "screen" }}
+      />
 
       {/* Sidebar */}
       <aside
@@ -60,7 +88,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Sağ taraf */}
-      <div className="relative flex min-h-0 flex-col">
+      <div className="relative z-10 flex min-h-0 flex-col">
         {/* Topbar */}
         <PanelTopbar
           onMenuClick={() => setOpen((s) => !s)}
@@ -77,12 +105,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         )}
 
         {/* İçerik */}
-        <main
-          className="
-            flex-1 min-h-0 overflow-y-auto overscroll-contain 
-            p-3 sm:p-4 md:p-6
-          "
-        >
+        <main className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-3 sm:p-4 md:p-6">
           {children}
         </main>
       </div>

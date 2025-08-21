@@ -1,20 +1,46 @@
 // app/(public)/hakkinda/page.tsx
-import VideoBG from "@/components/background/video-bg";
 import PageHeader from "../../panel/_components/page-header";
 
 export default function AboutPage() {
   return (
-    <section className="relative min-h-screen">
-      {/* Arka plan video */}
-      <VideoBG
-        light={{
-          mp4: "/videos/bg-light.mp4",
-        }}
-        dark={{
-          mp4: "/videos/bg-dark.mp4",
-        }}
-        overlay
-        opacity={0.9}
+    <section
+      className="
+        relative isolate min-h-screen overflow-hidden
+        text-white dark:text-white
+        bg-gradient-to-b from-white via-gray-100 to-gray-200
+        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+      "
+    >
+      {/* Katman A: büyük mesh */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute -z-10 inset-[-20%] opacity-80
+          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
+          motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
+        "
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman B: küçük mesh */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute -z-10 inset-[-30%] opacity-70
+          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
+          motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
+        "
+        style={{ mixBlendMode: "screen" }}
+      />
+      {/* Katman C: conic swirl */}
+      <div
+        aria-hidden
+        className="
+          pointer-events-none absolute -z-10 -inset-[25%] opacity-60
+          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
+          motion-safe:animate-[swirl_22s_linear_infinite]
+          rounded-[9999px] blur-3xl
+        "
+        style={{ mixBlendMode: "screen" }}
       />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-16">
@@ -29,10 +55,10 @@ export default function AboutPage() {
         </div>
 
         {/* Ana İçerik */}
-        <div 
-          className="gborder rounded-2xl backdrop-blur-md p-8"
-          style={{ 
-            backgroundColor: 'color-mix(in oklab, var(--foreground) 5%, transparent)',
+        <div
+          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
+          style={{
+            backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)",
           }}
         >
           <PageHeader
@@ -116,9 +142,9 @@ export default function AboutPage() {
 
         {/* Misyon ve Vizyon */}
         <div className="grid md:grid-cols-2 gap-8">
-          <div 
-            className="gborder rounded-2xl backdrop-blur-md p-8"
-            style={{ backgroundColor: 'color-mix(in oklab, var(--foreground) 5%, transparent)' }}
+          <div
+            className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
+            style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
           >
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
@@ -132,28 +158,16 @@ export default function AboutPage() {
               Gaziantep'te oyun geliştirme ekosistemini güçlendirmek, genç yetenekleri desteklemek ve yerel oyun endüstrisinin gelişimine katkıda bulunmak.
             </p>
             <ul className="space-y-2 text-sm">
-              <li className="flex items-start gap-2">
-                <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                Oyun geliştirme kültürünü yaygınlaştırmak
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                Yerel yetenekleri keşfetmek ve desteklemek
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                Teknoloji ve yaratıcılığı birleştirmek
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>
-                Topluluk oluşturmak ve networking sağlamak
-              </li>
+              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>Oyun geliştirme kültürünü yaygınlaştırmak</li>
+              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>Yerel yetenekleri keşfetmek ve desteklemek</li>
+              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>Teknoloji ve yaratıcılığı birleştirmek</li>
+              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></span>Topluluk oluşturmak ve networking sağlamak</li>
             </ul>
           </div>
 
-          <div 
-            className="gborder rounded-2xl backdrop-blur-md p-8"
-            style={{ backgroundColor: 'color-mix(in oklab, var(--foreground) 5%, transparent)' }}
+          <div
+            className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
+            style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
           >
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
@@ -167,37 +181,25 @@ export default function AboutPage() {
               Gaziantep'i Türkiye'nin önde gelen oyun geliştirme merkezlerinden biri haline getirmek ve uluslararası arenada tanınan oyunlar üretmek.
             </p>
             <ul className="space-y-2 text-sm">
-              <li className="flex items-start gap-2">
-                <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
-                Uluslararası standartlarda oyunlar geliştirmek
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
-                Oyun geliştirme eğitimini desteklemek
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
-                Yerel oyun stüdyolarının kurulmasını teşvik etmek
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>
-                Dijital ekonomiye katkıda bulunmak
-              </li>
+              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>Uluslararası standartlarda oyunlar geliştirmek</li>
+              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>Oyun geliştirme eğitimini desteklemek</li>
+              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>Yerel oyun stüdyolarının kurulmasını teşvik etmek</li>
+              <li className="flex items-start gap-2"><span className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></span>Dijital ekonomiye katkıda bulunmak</li>
             </ul>
           </div>
         </div>
 
         {/* Organizasyon Ekibi */}
-        <div 
-          className="gborder rounded-2xl backdrop-blur-md p-8"
-          style={{ backgroundColor: 'color-mix(in oklab, var(--foreground) 5%, transparent)' }}
+        <div
+          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
+          style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
         >
           <PageHeader
             title="Organizasyon Ekibi"
             desc="Game Jam'i mümkün kılan değerli ekip üyelerimiz"
             variant="plain"
           />
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
             <div className="text-center p-6 rounded-xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20">
               <div className="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-4">
@@ -246,16 +248,12 @@ export default function AboutPage() {
         </div>
 
         {/* İstatistikler */}
-        <div 
-          className="gborder rounded-2xl backdrop-blur-md p-8"
-          style={{ backgroundColor: 'color-mix(in oklab, var(--foreground) 5%, transparent)' }}
+        <div
+          className="gborder rounded-2xl backdrop-blur-md p-8 border border-white/20 dark:border-white/10"
+          style={{ backgroundColor: "color-mix(in oklab, var(--foreground) 5%, transparent)" }}
         >
-          <PageHeader
-            title="Rakamlarla Game Jam"
-            desc="Etkinliğimizin etkileyici istatistikleri"
-            variant="plain"
-          />
-          
+          <PageHeader title="Rakamlarla Game Jam" desc="Etkinliğimizin etkileyici istatistikleri" variant="plain" />
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
             <div className="text-center p-6 rounded-xl bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20">
               <div className="text-3xl font-bold text-blue-600 mb-2">100+</div>
