@@ -31,41 +31,59 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   }, []);
 
   return (
-    <div className="relative isolate min-h-screen lg:grid lg:grid-cols-[16rem_1fr] text-white dark:text-white bg-gradient-to-b from-white via-gray-100 to-gray-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900">
+    <div
+      className="relative isolate h-dvh lg:grid lg:grid-cols-[16rem_1fr] text-white dark:text-white
+                 bg-gradient-to-b from-white via-gray-100 to-gray-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+                 overflow-hidden"
+    >
       {/* Katman A: büyük mesh */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -z-10 inset-[-20%] opacity-80 [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)] motion-safe:animate-[meshPan_18s_ease-in-out_infinite]"
+        className="pointer-events-none absolute -z-10 inset-[-20%] opacity-80
+                   [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
+                   motion-safe:animate-[meshPan_18s_ease-in-out_infinite]"
         style={{ mixBlendMode: "screen" }}
       />
       {/* Katman B: küçük mesh */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -z-10 inset-[-30%] opacity-70 [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)] motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]"
+        className="pointer-events-none absolute -z-10 inset-[-30%] opacity-70
+                   [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
+                   motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]"
         style={{ mixBlendMode: "screen" }}
       />
       {/* Katman C: conic swirl */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -z-10 -inset-[25%] opacity-60 [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))] motion-safe:animate-[swirl_22s_linear_infinite] rounded-[9999px] blur-3xl"
+        className="pointer-events-none absolute -z-10 -inset-[25%] opacity-60
+                   [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
+                   motion-safe:animate-[swirl_22s_linear_infinite] rounded-[9999px] blur-3xl"
         style={{ mixBlendMode: "screen" }}
       />
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 lg:z-auto bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-r border-slate-200/60 dark:border-slate-700/60 ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}>
-        <div className="h-full flex flex-col">
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out
+                    lg:static lg:translate-x-0 lg:z-auto
+                    bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900
+                    border-r border-slate-200/60 dark:border-slate-700/60
+                    ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+      >
+        <div className="h-full flex flex-col overflow-y-auto">
           <PanelSidebar onNavigate={() => setOpen(false)} />
         </div>
       </aside>
 
       {/* Sağ taraf */}
-      <div className="relative z-10 flex flex-col lg:col-start-2 min-h-screen">
-        {/* Topbar */}
-        <PanelTopbar
-          onMenuClick={() => setOpen((s) => !s)}
-          countdownTargetISO="2025-09-20T10:00:00+03:00"
-          countdownDoneText="Başladı!"
-        />
+      <div className="relative z-10 flex flex-col h-full lg:col-start-2">
+        {/* Topbar (sabit kalsın istiyorsan sticky) */}
+        <div className="sticky top-0 z-20">
+          <PanelTopbar
+            onMenuClick={() => setOpen((s) => !s)}
+            countdownTargetISO="2025-09-20T10:00:00+03:00"
+            countdownDoneText="Başladı!"
+          />
+        </div>
 
         {/* Mobilde sidebar overlay */}
         {open && (
@@ -76,7 +94,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         )}
 
         {/* İçerik */}
-        <main className="flex-1 p-3 sm:p-4 md:p-6">
+        <main className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6">
           {children}
         </main>
       </div>
