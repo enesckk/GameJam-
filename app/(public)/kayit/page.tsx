@@ -1,9 +1,8 @@
-// app/(public)/kayit/page.tsx  ← kendi yoluna göre isim değişebilir
 // app/(public)/kayit/page.tsx
 "use client";
 
 import { useState } from "react";
-import RoleSelect from "@/app/panel/_components/role-select"; // kendi yoluna göre ayarla
+import RoleSelect from "@/app/panel/_components/role-select"; // yolu ihtiyacına göre güncelle
 
 type RoleOption = "developer" | "designer" | "audio" | "pm";
 type ApplyType = "individual" | "team";
@@ -189,7 +188,7 @@ export default function KayitPage() {
     <div
       className="
         relative isolate min-h-screen
-        overflow-hidden
+        overflow-visible
         text-white dark:text-white
         bg-gradient-to-b from-white via-gray-100 to-gray-200
         dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
@@ -388,11 +387,13 @@ export default function KayitPage() {
             </div>
 
             {/* Lider Rol — RoleSelect */}
-            <RoleSelect
-              className="[&>label]:sr-only"
-              value={f.role}
-              onChange={(r) => onChange("role", r as RoleOption)}
-            />
+            <div className="relative overflow-visible">
+              <RoleSelect
+                className="[&>label]:sr-only"
+                value={f.role}
+                onChange={(r) => onChange("role", r as RoleOption)}
+              />
+            </div>
 
             {/* Takım üyeleri */}
             {f.type === "team" && (
@@ -443,11 +444,13 @@ export default function KayitPage() {
                       />
 
                       {/* Üye Rol — RoleSelect */}
-                      <RoleSelect
-                        className="[&>label]:sr-only"
-                        value={m.role}
-                        onChange={(r) => onMemberChange(i, { role: r as RoleOption })}
-                      />
+                      <div className="relative overflow-visible">
+                        <RoleSelect
+                          className="[&>label]:sr-only"
+                          value={m.role}
+                          onChange={(r) => onMemberChange(i, { role: r as RoleOption })}
+                        />
+                      </div>
 
                       <div className="flex items-center">
                         <button
@@ -484,44 +487,43 @@ export default function KayitPage() {
               </label>
 
               <details
-  id="kvkk-desc"
-  className="rounded-xl border border-white/25 dark:border-white/10 bg-white/5 p-3 open:bg-white/10 open:backdrop-blur-sm"
->
-  <summary className="cursor-pointer select-none text-sm text-emerald-700 hover:text-emerald-600 dark:text-emerald-200 dark:hover:text-emerald-100">
-    KVKK Aydınlatma Metni (aç/kapa)
-  </summary>
-  <div className="mt-2 space-y-3 text-xs text-gray-900 dark:text-gray-100">
-    <p>
-      <strong>Veri Sorumlusu:</strong> Şehitkamil Belediyesi  
-      <br />
-      Adres: Sanayi Mahallesi 60725 Nolu Cad. No:34, Şehitkamil / Gaziantep  
-      <br />
-      Telefon: 0342 323 27 27  
-      <br />
-      E-posta: <a href="mailto:belediye@sehitkamil.bel.tr" className="underline">belediye@sehitkamil.bel.tr</a>
-    </p>
-    <p>
-      <strong>İşlenen Kişisel Veriler:</strong> Ad Soyad, E-posta adresi, Telefon numarası, T.C. Kimlik Numarası, Yaş, Özgeçmiş (CV)
-    </p>
-    <p>
-      <strong>İşleme Amaçları:</strong> Katılımcı kaydının oluşturulması ve yönetilmesi, organizasyonun yürütülmesi ve iletişim sağlanması, ödül teslim süreçlerinin yürütülmesi, organizasyona ilişkin bilgilendirme ve duyuruların yapılması, işe alım fırsatlarının değerlendirilmesi.
-    </p>
-    <p>
-      <strong>Aktarım:</strong> Kişisel verileriniz yalnızca Şehitkamil Belediyesi ve GameJam moderatör ekibi tarafından işlenecek olup, üçüncü kişilerle paylaşılmayacaktır.
-    </p>
-    <p>
-      <strong>Yurt Dışına Aktarım:</strong> Kişisel verileriniz yurt dışına aktarılmamaktadır.
-    </p>
-    <p>
-      <strong>Saklama Süresi:</strong> Kişisel verileriniz, organizasyonun sona ermesinden itibaren 1 (bir) yıl süreyle saklanacak ve sürenin sonunda silinecek veya imha edilecektir.
-    </p>
-    <p>
-      <strong>Haklarınız (KVKK m.11):</strong> Verilerinize erişme, işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını öğrenme, yurt içinde aktarıldığı kişileri bilme, eksik/yanlış işlenmiş verilerin düzeltilmesini isteme, ilgili mevzuat çerçevesinde silinmesini veya yok edilmesini isteme, işlemenin yalnızca otomatik sistemlerle analiz edilmesine itiraz etme ve zarara uğramanız hâlinde tazmin talep etme haklarına sahipsiniz. Taleplerinizi{" "}
-      <a href="mailto:belediye@sehitkamil.bel.tr" className="underline">belediye@sehitkamil.bel.tr</a> adresine iletebilirsiniz.
-    </p>
-  </div>
-</details>
-
+                id="kvkk-desc"
+                className="rounded-xl border border-white/25 dark:border-white/10 bg-white/5 p-3 open:bg-white/10 open:backdrop-blur-sm"
+              >
+                <summary className="cursor-pointer select-none text-sm text-emerald-700 hover:text-emerald-600 dark:text-emerald-200 dark:hover:text-emerald-100">
+                  KVKK Aydınlatma Metni (aç/kapa)
+                </summary>
+                <div className="mt-2 space-y-3 text-xs text-gray-900 dark:text-gray-100">
+                  <p>
+                    <strong>Veri Sorumlusu:</strong> Şehitkamil Belediyesi
+                    <br />
+                    Adres: Sanayi Mahallesi 60725 Nolu Cad. No:34, Şehitkamil / Gaziantep
+                    <br />
+                    Telefon: 0342 323 27 27
+                    <br />
+                    E-posta: <a href="mailto:belediye@sehitkamil.bel.tr" className="underline">belediye@sehitkamil.bel.tr</a>
+                  </p>
+                  <p>
+                    <strong>İşlenen Kişisel Veriler:</strong> Ad Soyad, E-posta adresi, Telefon numarası, T.C. Kimlik Numarası, Yaş, Özgeçmiş (CV)
+                  </p>
+                  <p>
+                    <strong>İşleme Amaçları:</strong> Katılımcı kaydının oluşturulması ve yönetilmesi, organizasyonun yürütülmesi ve iletişim sağlanması, ödül teslim süreçlerinin yürütülmesi, organizasyona ilişkin bilgilendirme ve duyuruların yapılması, işe alım fırsatlarının değerlendirilmesi.
+                  </p>
+                  <p>
+                    <strong>Aktarım:</strong> Kişisel verileriniz yalnızca Şehitkamil Belediyesi ve GameJam moderatör ekibi tarafından işlenecek olup, üçüncü kişilerle paylaşılmayacaktır.
+                  </p>
+                  <p>
+                    <strong>Yurt Dışına Aktarım:</strong> Kişisel verileriniz yurt dışına aktarılmamaktadır.
+                  </p>
+                  <p>
+                    <strong>Saklama Süresi:</strong> Kişisel verileriniz, organizasyonun sona ermesinden itibaren 1 (bir) yıl süreyle saklanacak ve sürenin sonunda silinecek veya imha edilecektir.
+                  </p>
+                  <p>
+                    <strong>Haklarınız (KVKK m.11):</strong> Verilerinize erişme, işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını öğrenme, yurt içinde aktarıldığı kişileri bilme, eksik/yanlış işlenmiş verilerin düzeltilmesini isteme, ilgili mevzuat çerçevesinde silinmesini veya yok edilmesini isteme, işlemenin yalnızca otomatik sistemlerle analiz edilmesine itiraz etme ve zarara uğramanız hâlinde tazmin talep etme haklarına sahipsiniz. Taleplerinizi{" "}
+                    <a href="mailto:belediye@sehitkamil.bel.tr" className="underline">belediye@sehitkamil.bel.tr</a> adresine iletebilirsiniz.
+                  </p>
+                </div>
+              </details>
             </div>
 
             {/* Mesajlar */}

@@ -12,6 +12,9 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = {
   title: "Şehitkamil Game Jam — Oyna ve Kazan!",
   description: "Etkinlik takvimi, kayıt, duyurular ve paneller tek çatı altında.",
+  icons: {
+    icon: '/icon.png',           // 32x32
+  },
   // Temaya göre renk şeması (destekleyen browser'lar)
   other: {
     "color-scheme": "dark light",

@@ -109,7 +109,9 @@ function TypeSelect({
           aria-controls={listId}
           className="flex w-full items-center justify-between px-4 py-3 text-left text-white relative z-10"
         >
-          <span className="truncate">{current}</span>
+          <span className={`truncate ${!current ? "text-purple-200/60" : ""}`}>
+            {current || "Tür seçin"}
+          </span>
           <ChevronDown
             className={`h-4 w-4 text-purple-300 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           />
@@ -119,7 +121,7 @@ function TypeSelect({
           <div
             id={listId}
             role="listbox"
-            className="absolute z-[1000] mt-1 w-full rounded-xl shadow-2xl border-2 border-purple-500/30 bg-white/95 backdrop-blur-xl max-h-64 overflow-auto"
+            className="absolute z-[9999] mt-1 w-full rounded-xl shadow-2xl border-2 border-purple-500/30 bg-white/95 backdrop-blur-xl max-h-64 overflow-y-auto"
           >
             <div className="p-1">
               {TYPES.map((t) => {
@@ -130,7 +132,9 @@ function TypeSelect({
                     role="option"
                     aria-selected={active}
                     onClick={() => { onChange(t.value); setOpen(false); }}
-                    className={`flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-slate-800 hover:bg-purple-500/20 hover:text-purple-900 transition-colors ${active ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-900 font-semibold" : ""}`}
+                    className={`flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-slate-800 hover:bg-purple-500/20 hover:text-purple-900 transition-colors ${
+                      active ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-900 font-semibold" : ""
+                    }`}
                   >
                     <span>{t.label}</span>
                     {active && <Check className="h-4 w-4 text-purple-600" />}

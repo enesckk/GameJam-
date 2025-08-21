@@ -55,45 +55,40 @@ export default function Hero() {
             mobil uygulamasına entegre edilecek.
           </p>
 
-          {/* CTA’lar — yüksek kontrastlı */}
-          <div
-            className="
-              mt-8 inline-flex flex-wrap gap-3
-              rounded-2xl bg-black/35 dark:bg-black/40
-              backdrop-blur-md p-2 ring-1 ring-white/15
-            "
-          >
+          {/* CTA'lar — Modern ve Estetik */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4">
             <Link href="/kayit" aria-label="Kayıt Ol sayfasına git">
-              <Button
-                variant="neon"
-                className="
-                  px-5 py-2 text-base font-semibold
-                  !bg-emerald-600/95 hover:!bg-emerald-600
-                  !text-white
-                  ring-2 ring-white/30 hover:ring-white/40
-                  shadow-[0_8px_24px_rgba(0,0,0,0.35)]
-                  hover:scale-[1.02] transition-all
-                "
-              >
-                Kayıt Ol
-              </Button>
+              <div className="group relative">
+                {/* Gradient Background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300 opacity-75 group-hover:opacity-100"></div>
+                
+                {/* Button */}
+                <div className="relative bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 rounded-2xl px-8 py-4 text-white font-bold text-lg shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300 hover:scale-105 border border-emerald-400/30 hover:border-emerald-300/50">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    <span>Kayıt Ol</span>
+                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                  </div>
+                </div>
+              </div>
             </Link>
 
             <Link href="/takvim" aria-label="Etkinlik takvimini gör">
-              <Button
-                variant="neon"
-                className="
-                  px-5 py-2 text-base font-semibold
-                  !bg-white/95 hover:!bg-white
-                  !text-slate-900
-                  ring-2 ring-white/40
-                  shadow-[0_8px_24px_rgba(0,0,0,0.35)]
-                  hover:scale-[1.02] transition-all
-                  dark:!bg-white/90 dark:hover:!bg-white dark:!text-slate-900
-                "
-              >
-                Takvimi Gör
-              </Button>
+              <div className="group relative">
+                {/* Glassmorphism Background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/10 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300 backdrop-blur-sm"></div>
+                
+                {/* Button */}
+                <div className="relative bg-white/15 backdrop-blur-xl hover:bg-white/25 rounded-2xl px-8 py-4 text-white font-bold text-lg shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:scale-105 border border-white/30 hover:border-white/50">
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-2 h-2 bg-white rounded-full"></div>
+                    <span>Takvimi Gör</span>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </Link>
           </div>
         </div>
