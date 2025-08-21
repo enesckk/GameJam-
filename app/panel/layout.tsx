@@ -81,7 +81,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-r border-slate-200/60 dark:border-slate-700/60",
         ].join(" ")}
       >
-        <div className="flex h-full min-h-0 flex-col">
+        <div className="flex h-full min-h-0 flex-col overflow-hidden">
           <PanelSidebar onNavigate={() => setOpen(false)} />
         </div>
       </aside>
