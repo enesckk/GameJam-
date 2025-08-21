@@ -1,10 +1,9 @@
-// app/admin/duyurular/page.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
 import AdminHeader from "../_components/admin-header";
 import AdminSectionCard from "@/app/admin/_components/admin-sectioncard";
-import { Search, PlusCircle, X, Pin, PinOff, Trash2, Pencil } from "lucide-react";
+import { Search, PlusCircle, X, Pin, PinOff, Trash2, Pencil, Megaphone, Calendar, AlertCircle, CheckCircle, Save, ArrowLeft, ArrowRight } from "lucide-react";
 
 type A = { id: string; title: string; content: string; pinned: boolean; createdAt: string };
 
@@ -130,62 +129,130 @@ export default function AdminAnnouncementsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <AdminHeader title="Duyurular" variant="plain" desc="Duyuru oluştur, düzenle, sabitle veya sil" />
+    <div className="space-y-8">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8 text-white shadow-2xl">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-50"></div>
+        <div className="relative flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-600 rounded-2xl blur-lg opacity-75"></div>
+              <div className="relative bg-gradient-to-br from-orange-500 to-red-600 p-4 rounded-2xl shadow-lg">
+                <Megaphone className="h-8 w-8 text-white" />
+              </div>
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+                Duyurular
+              </h1>
+              <p className="text-slate-300 text-lg">
+                Duyuru oluştur, düzenle, sabitle veya sil
+              </p>
+            </div>
+          </div>
+          
+          {/* Search and Create */}
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 focus-within:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm">
+                <Search className="h-5 w-5 text-white/70" />
+                <input
+                  className="w-80 bg-transparent outline-none text-white placeholder-white/70"
+                  placeholder="Başlık/İçerik ara…"
+                  value={q}
+                  onChange={(e)=>{ setQ(e.target.value); setPage(1); }}
+                />
+              </div>
+            </div>
 
-      {/* Araç çubuğu */}
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="relative">
-          <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60" />
-          <input
-            className="w-80 rounded-xl bg-foreground/5 pl-8 pr-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
-            placeholder="Başlık/İçerik ara…"
-            value={q}
-            onChange={(e)=>{ setQ(e.target.value); setPage(1); }}
-          />
+            <button
+              type="button"
+              onClick={() => setShowCreate((s) => !s)}
+              className="group relative inline-flex items-center gap-2 rounded-2xl px-4 py-3 font-semibold text-white transition-all duration-300 active:scale-[0.98] bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 shadow-lg hover:shadow-xl"
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <PlusCircle className="h-5 w-5 relative z-10" />
+              </div>
+              <span className="relative z-10">
+                {showCreate ? "Formu Gizle" : "Yeni Duyuru"}
+              </span>
+            </button>
+          </div>
         </div>
-        <button
-          type="button"
-          onClick={() => setShowCreate((s) => !s)}
-          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
-        >
-          <PlusCircle className="h-4 w-4" /> {showCreate ? "Formu Gizle" : "Yeni Duyuru"}
-        </button>
-        <div className="ml-auto text-sm opacity-75">Toplam: <strong>{total}</strong></div>
+      </div>
+
+      {/* Stats */}
+      <div className="flex items-center justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-4 backdrop-blur-sm">
+        <div className="text-sm text-slate-600 dark:text-slate-400">
+          Toplam <strong className="text-slate-900 dark:text-white">{total}</strong> duyuru
+        </div>
       </div>
 
       {/* Inline Yeni Duyuru Formu */}
       {showCreate && (
         <AdminSectionCard title="Yeni Duyuru">
-          <div className="grid gap-3">
+          <div className="grid gap-4">
             <div>
-              <label className="text-sm">Başlık</label>
-              <input
-                className="w-full rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
-                value={cTitle}
-                onChange={(e)=>setCTitle(e.target.value)}
-                placeholder="Duyuru başlığı"
-              />
+              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                Başlık
+              </label>
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                  <Megaphone className="h-5 w-5 text-slate-400 group-focus-within:text-orange-500 transition-colors duration-300" />
+                  <input
+                    className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                    value={cTitle}
+                    onChange={(e)=>setCTitle(e.target.value)}
+                    placeholder="Duyuru başlığı"
+                  />
+                </div>
+              </div>
             </div>
+            
             <div>
-              <label className="text-sm">İçerik</label>
-              <textarea
-                className="min-h-[120px] w-full rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
-                value={cContent}
-                onChange={(e)=>setCContent(e.target.value)}
-                placeholder="Duyuru içeriği…"
-              />
+              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                İçerik
+              </label>
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                  <textarea
+                    className="min-h-[120px] w-full bg-transparent outline-none p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-none"
+                    value={cContent}
+                    onChange={(e)=>setCContent(e.target.value)}
+                    placeholder="Duyuru içeriği…"
+                  />
+                </div>
+              </div>
             </div>
-            <label className="inline-flex items-center gap-2 text-sm">
-              <input type="checkbox" checked={cPinned} onChange={(e)=>setCPinned(e.target.checked)} />
+            
+            <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+              <div className="relative">
+                <input 
+                  type="checkbox" 
+                  checked={cPinned} 
+                  onChange={(e)=>setCPinned(e.target.checked)}
+                  className="sr-only"
+                />
+                <div className={`flex h-5 w-5 items-center justify-center rounded border-2 transition-all duration-200 ${
+                  cPinned 
+                    ? 'border-orange-500 bg-orange-500' 
+                    : 'border-slate-300 dark:border-slate-600'
+                }`}>
+                  {cPinned && <Pin className="h-3 w-3 text-white" />}
+                </div>
+              </div>
               Sabit (katılımcı panelinde en üstte)
             </label>
 
-            <div className="flex items-center gap-2 pt-1">
+            <div className="flex items-center gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => { setShowCreate(false); setCTitle(""); setCContent(""); setCPinned(false); }}
-                className="rounded-lg px-3 py-2 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
+                className="rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
               >
                 Vazgeç
               </button>
@@ -193,9 +260,15 @@ export default function AdminAnnouncementsPage() {
                 type="button"
                 onClick={saveCreate}
                 disabled={creating}
-                className="rounded-lg px-3 py-2 text-sm text-[color:var(--background)] bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 disabled:opacity-60"
+                className="group relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 shadow-lg hover:shadow-xl hover:shadow-orange-500/25"
               >
-                {creating ? "Kaydediliyor…" : "Kaydet"}
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Save className="h-4 w-4 relative z-10" />
+                </div>
+                <span className="relative z-10">
+                  {creating ? "Kaydediliyor…" : "Kaydet"}
+                </span>
               </button>
             </div>
           </div>
@@ -204,140 +277,230 @@ export default function AdminAnnouncementsPage() {
 
       {/* Liste */}
       <AdminSectionCard>
-        {loading && <div className="py-12 text-center opacity-70">Yükleniyor…</div>}
-        {!loading && items.length === 0 && <div className="py-12 text-center opacity-70">Duyuru yok.</div>}
+        {loading && (
+          <div className="py-16 text-center">
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 py-4">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-orange-500"></div>
+              <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+            </div>
+          </div>
+        )}
+        
+        {!loading && items.length === 0 && (
+          <div className="py-16 text-center">
+            <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-8 py-6">
+              <Megaphone className="h-12 w-12 text-slate-400" />
+              <div>
+                <div className="text-lg font-semibold text-slate-700 dark:text-slate-300">Duyuru yok</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">Henüz hiç duyuru oluşturulmamış</div>
+              </div>
+            </div>
+          </div>
+        )}
 
-        <div className="grid gap-3">
+        <div className="space-y-4">
           {items.map((a) => (
             <div
               key={a.id}
-              className={[
-                "relative rounded-2xl p-4 ring-1 ring-foreground/10 bg-white/50 backdrop-blur dark:bg-white/10 transition",
-                "group multicolor-hover hover:multicolor-persist hover:scale-[1.01]",
-              ].join(" ")}
+              className="group relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10 dark:border-slate-700/60 dark:bg-slate-800/80"
             >
-              {/* renkli şerit: tıklama almasın */}
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inset-y-0 left-0 w-1 rounded-r-full bg-gradient-to-b from-fuchsia-600 via-violet-600 to-cyan-500 opacity-60 group-hover:opacity-100"
-              />
-
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-base font-semibold">{a.title}</h3>
-                    {a.pinned && <span className="rounded-full bg-foreground/10 px-2 py-0.5 text-[10px] font-bold">Sabit</span>}
-                  </div>
-                  <div className="mt-1 text-xs opacity-70">Yayın: <strong>{fmt(a.createdAt)}</strong></div>
+              {/* Pinned indicator */}
+              {a.pinned && (
+                <div className="absolute top-0 right-0 bg-gradient-to-br from-orange-500 to-red-600 text-white px-3 py-1 rounded-bl-2xl text-xs font-bold shadow-lg">
+                  <Pin className="h-3 w-3 inline mr-1" />
+                  Sabit
                 </div>
+              )}
 
-                {/* Eylemler */}
-                <div className="relative z-[1] flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => quickTogglePinned(a)}
-                    disabled={busy}
-                    className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5 disabled:opacity-50"
-                    title={a.pinned ? "Sabitlemeyi kaldır" : "Sabitle"}
-                  >
-                    {a.pinned ? <PinOff className="h-4 w-4" /> : <Pin className="h-4 w-4" />} {a.pinned ? "Kaldır" : "Sabitle"}
-                  </button>
+              <div className="p-6">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white">{a.title}</h3>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-3">
+                      <Calendar className="h-4 w-4" />
+                      <span>Yayın: <strong>{fmt(a.createdAt)}</strong></span>
+                    </div>
+                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">{a.content}</p>
+                  </div>
 
-                  <button
-                    type="button"
-                    onClick={() => openEdit(a)}
-                    className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
-                    title="Düzenle"
-                  >
-                    <Pencil className="h-4 w-4" /> Düzenle
-                  </button>
+                  {/* Eylemler */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => quickTogglePinned(a)}
+                      disabled={busy}
+                      className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 disabled:opacity-50 ${
+                        a.pinned 
+                          ? 'bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300' 
+                          : 'bg-orange-100 hover:bg-orange-200 text-orange-700 dark:bg-orange-900/30 dark:hover:bg-orange-900/50 dark:text-orange-300'
+                      }`}
+                      title={a.pinned ? "Sabitlemeyi kaldır" : "Sabitle"}
+                    >
+                      {a.pinned ? <PinOff className="h-4 w-4" /> : <Pin className="h-4 w-4" />}
+                      {a.pinned ? "Kaldır" : "Sabitle"}
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={() => removeAnnouncement(a.id)}
-                    disabled={busy}
-                    className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5 disabled:opacity-50"
-                    title="Sil"
-                  >
-                    <Trash2 className="h-4 w-4" /> Sil
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => openEdit(a)}
+                      className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-300"
+                      title="Düzenle"
+                    >
+                      <Pencil className="h-4 w-4" />
+                      Düzenle
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => removeAnnouncement(a.id)}
+                      disabled={busy}
+                      className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 disabled:opacity-50 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+                      title="Sil"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Sil
+                    </button>
+                  </div>
                 </div>
               </div>
-
-              <p className="mt-2 text-sm">{a.content}</p>
             </div>
           ))}
         </div>
 
         {/* Sayfalama */}
-        <div className="mt-4 flex items-center justify-between text-sm">
-          <div className="opacity-70">
-            Toplam <strong>{total}</strong> duyuru • Sayfa <strong>{page}</strong> / {totalPages}
+        <div className="mt-8 flex items-center justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-4 backdrop-blur-sm">
+          <div className="text-sm text-slate-600 dark:text-slate-400">
+            Toplam <strong className="text-slate-900 dark:text-white">{total}</strong> duyuru • Sayfa{" "}
+            <strong className="text-slate-900 dark:text-white">{page}</strong> / {totalPages}
           </div>
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="rounded-lg px-3 py-1 ring-1 ring-foreground/15 bg-transparent disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
             >
+              <ArrowLeft className="h-4 w-4" />
               Önceki
             </button>
             <button
               type="button"
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
-              className="rounded-lg px-3 py-1 ring-1 ring-foreground/15 bg-transparent disabled:opacity-50"
+              className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
             >
               Sonraki
+              <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </div>
 
-        {msg && <div className="mt-3 rounded-lg bg-foreground/10 px-3 py-2 text-sm">{msg}</div>}
+        {/* Messages */}
+        {msg && (
+          <div className="mt-4 flex items-center gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 backdrop-blur-sm">
+            <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
+            <div>
+              <div className="font-semibold text-red-700 dark:text-red-400">Hata</div>
+              <div className="text-sm text-red-600 dark:text-red-300">{msg}</div>
+            </div>
+          </div>
+        )}
       </AdminSectionCard>
 
-      {/* Edit Modal (istersen bunu da inline'a çevirebiliriz) */}
+      {/* Edit Modal */}
       {showEdit && (
-        <div className="fixed inset-0 z-[100] grid place-items-center bg-black/40 p-4" onClick={()=>setShowEdit(null)}>
+        <div className="fixed inset-0 z-[100] grid place-items-center bg-black/60 p-4 backdrop-blur-sm" onClick={()=>setShowEdit(null)}>
           <div
-            className="w-full max-w-lg rounded-2xl bg-white p-5 shadow-xl ring-1 ring-black/10 dark:bg-neutral-900 dark:text-white"
+            className="w-full max-w-2xl rounded-3xl bg-white/95 dark:bg-slate-900/95 p-6 shadow-2xl backdrop-blur-xl border border-white/20 dark:border-slate-700/50"
             onClick={(e)=>e.stopPropagation()}
           >
-            <div className="flex items-center justify-between">
-              <h3 className="text-base font-semibold">Duyuruyu Düzenle</h3>
-              <button type="button" className="rounded-md p-1 hover:bg-black/5 dark:hover:bg-white/10" onClick={()=>setShowEdit(null)} aria-label="Kapat">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Duyuruyu Düzenle</h3>
+              <button 
+                type="button" 
+                className="rounded-xl p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200" 
+                onClick={()=>setShowEdit(null)} 
+                aria-label="Kapat"
+              >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="mt-4 space-y-3">
+            <div className="space-y-4">
               <div>
-                <label className="text-sm">Başlık</label>
-                <input
-                  className="w-full rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
-                  value={eTitle}
-                  onChange={(e)=>setETitle(e.target.value)}
-                />
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                  Başlık
+                </label>
+                <div className="group relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                    <Megaphone className="h-5 w-5 text-slate-400 group-focus-within:text-orange-500 transition-colors duration-300" />
+                    <input
+                      className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                      value={eTitle}
+                      onChange={(e)=>setETitle(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
+              
               <div>
-                <label className="text-sm">İçerik</label>
-                <textarea
-                  className="min-h-[120px] w-full rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
-                  value={eContent}
-                  onChange={(e)=>setEContent(e.target.value)}
-                />
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                  İçerik
+                </label>
+                <div className="group relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                    <textarea
+                      className="min-h-[120px] w-full bg-transparent outline-none p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-none"
+                      value={eContent}
+                      onChange={(e)=>setEContent(e.target.value)}
+                    />
+                  </div>
+                </div>
               </div>
-              <label className="inline-flex items-center gap-2 text-sm">
-                <input type="checkbox" checked={ePinned} onChange={(e)=>setEPinned(e.target.checked)} />
+              
+              <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+                <div className="relative">
+                  <input 
+                    type="checkbox" 
+                    checked={ePinned} 
+                    onChange={(e)=>setEPinned(e.target.checked)}
+                    className="sr-only"
+                  />
+                  <div className={`flex h-5 w-5 items-center justify-center rounded border-2 transition-all duration-200 ${
+                    ePinned 
+                      ? 'border-orange-500 bg-orange-500' 
+                      : 'border-slate-300 dark:border-slate-600'
+                  }`}>
+                    {ePinned && <Pin className="h-3 w-3 text-white" />}
+                  </div>
+                </div>
                 Sabit
               </label>
             </div>
 
-            <div className="mt-5 flex items-center justify-end gap-2">
-              <button type="button" className="rounded-lg px-3 py-2 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5" onClick={()=>setShowEdit(null)}>Vazgeç</button>
-              <button type="button" onClick={saveEdit} disabled={busy} className="rounded-lg px-3 py-2 text-sm text-[color:var(--background)] bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 disabled:opacity-60">
-                Kaydet
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button 
+                type="button" 
+                className="rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300" 
+                onClick={()=>setShowEdit(null)}
+              >
+                Vazgeç
+              </button>
+              <button 
+                type="button" 
+                onClick={saveEdit} 
+                disabled={busy} 
+                className="group relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 shadow-lg hover:shadow-xl hover:shadow-orange-500/25"
+              >
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Save className="h-4 w-4 relative z-10" />
+                </div>
+                <span className="relative z-10">Kaydet</span>
               </button>
             </div>
           </div>

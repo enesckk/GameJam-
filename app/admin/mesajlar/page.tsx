@@ -1,4 +1,3 @@
-// app/admin/mesajlar/page.tsx
 "use client";
 
 import type React from "react";
@@ -25,6 +24,12 @@ import {
   Square,
   ChevronDown,
   ChevronRight,
+  MessageSquare,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  ArrowLeft,
+  ArrowRight,
 } from "lucide-react";
 
 /* ==== Tipler ==== */
@@ -451,14 +456,56 @@ export default function AdminMessagesPage() {
 
   /* ==== Render ==== */
   return (
-    <div className="space-y-6">
-      <AdminHeader
-        title="Mesajlar"
-        variant="plain"
-        desc="Gelen, giden ve yeni mesaj oluşturma"
-      />
+    <div className="space-y-8">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8 text-white shadow-2xl">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-50"></div>
+        <div className="relative flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 to-purple-600 rounded-2xl blur-lg opacity-75"></div>
+              <div className="relative bg-gradient-to-br from-indigo-500 to-purple-600 p-4 rounded-2xl shadow-lg">
+                <MessageSquare className="h-8 w-8 text-white" />
+              </div>
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+                Mesajlar
+              </h1>
+              <p className="text-slate-300 text-lg">
+                Gelen, giden ve yeni mesaj oluşturma
+              </p>
+            </div>
+          </div>
+          
+          {/* Search and Filter */}
+          {tab !== "compose" && (
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 focus-within:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm">
+                  <Search className="h-5 w-5 text-white/70" />
+                  <input
+                    className="w-80 bg-transparent outline-none text-white placeholder-white/70"
+                    placeholder={
+                      tab === "inbox"
+                        ? "Konu/içerik/gönderen ara…"
+                        : "Konu/içerik/alıcı ara…"
+                    }
+                    value={q}
+                    onChange={(e) => {
+                      setQ(e.target.value);
+                      setPage(1);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
 
-      {/* Sekmeler */}
+      {/* Tabs */}
       <div className="flex items-center gap-2">
         <button
           onClick={() => {
@@ -483,46 +530,38 @@ export default function AdminMessagesPage() {
         </button>
       </div>
 
+      {/* Alert */}
       {alert && (
-        <div className="rounded-lg bg-foreground/10 px-3 py-2 text-sm">{alert}</div>
+        <div className="flex items-center gap-3 rounded-2xl border border-green-500/30 bg-green-500/10 p-4 backdrop-blur-sm">
+          <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
+          <div>
+            <div className="font-semibold text-green-700 dark:text-green-400">Bilgi</div>
+            <div className="text-sm text-green-600 dark:text-green-300">{alert}</div>
+          </div>
+        </div>
       )}
 
-      {/* Araç çubuğu */}
+      {/* Toolbar */}
       {tab !== "compose" && (
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="relative">
-            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 
-               text-neutral-600 dark:text-neutral-300 z-10 pointer-events-none"  />
-            <input
-              className="w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none
-               ring-0 focus:ring-2 focus:ring-violet-500 transition"
-              placeholder={
-                tab === "inbox"
-                  ? "Konu/içerik/gönderen ara…"
-                  : "Konu/içerik/alıcı ara…"
-              }
-              value={q}
-              onChange={(e) => {
-                setQ(e.target.value);
-                setPage(1);
-              }}
-            />
+        <div className="flex items-center justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-4 backdrop-blur-sm">
+          <div className="flex items-center gap-3">
+            {tab === "inbox" && (
+              <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+                <input
+                  type="checkbox"
+                  checked={onlyUnread}
+                  onChange={(e) => {
+                    setOnlyUnread(e.target.checked);
+                    setPage(1);
+                  }}
+                  className="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                />
+                Yalnızca okunmamış
+              </label>
+            )}
           </div>
-          {tab === "inbox" && (
-            <label className="inline-flex items-center gap-2 text-sm">
-              <input
-                type="checkbox"
-                checked={onlyUnread}
-                onChange={(e) => {
-                  setOnlyUnread(e.target.checked);
-                  setPage(1);
-                }}
-              />
-              Yalnızca okunmamış
-            </label>
-          )}
-          <div className="ml-auto text-sm opacity-75">
-            Toplam: <strong>{total}</strong>
+          <div className="text-sm text-slate-600 dark:text-slate-400">
+            Toplam: <strong className="text-slate-900 dark:text-white">{total}</strong>
           </div>
         </div>
       )}
@@ -530,86 +569,94 @@ export default function AdminMessagesPage() {
       {/* === GELEN === */}
       {tab === "inbox" && (
         <AdminSectionCard>
-          {loading && (
-            <div className="py-10 text-center opacity-70">Yükleniyor…</div>
+          {loading ? (
+            <div className="py-16 text-center">
+              <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 py-4">
+                <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
+                <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+              </div>
+            </div>
+          ) : inbox.length === 0 ? (
+            <div className="py-16 text-center">
+              <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-8 py-6">
+                <Inbox className="h-12 w-12 text-slate-400" />
+                <div>
+                  <div className="text-lg font-semibold text-slate-700 dark:text-slate-300">Mesaj yok</div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400">Henüz hiç mesaj alınmamış</div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {inbox.map((m) => {
+                const open = !!expanded[m.id];
+                const unread = !m.readAt;
+
+                return (
+                  <div
+                    key={m.id}
+                    className={`group relative overflow-hidden rounded-2xl border transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10 ${
+                      unread 
+                        ? "border-indigo-300 bg-indigo-50/80 dark:border-indigo-600 dark:bg-indigo-950/20" 
+                        : "border-slate-200/60 bg-white/80 dark:border-slate-700/60 dark:bg-slate-800/80"
+                    } backdrop-blur-sm`}
+                  >
+                    <div
+                      role="button"
+                      onClick={() => {
+                        toggleExpand(m.id);
+                        if (!open && unread) markRead(m.id);
+                      }}
+                      className="relative flex w-full items-center justify-between p-6 text-left hover:bg-slate-50/80 dark:hover:bg-slate-700/80 transition-colors duration-200"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg">
+                          {open ? (
+                            <ChevronDown className="h-5 w-5 text-white" />
+                          ) : (
+                            <ChevronRight className="h-5 w-5 text-white" />
+                          )}
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className={`text-lg font-bold ${unread ? "text-indigo-900 dark:text-indigo-100" : "text-slate-900 dark:text-white"}`}>
+                              {m.subject}
+                            </h3>
+                            {unread && (
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 px-3 py-1 text-sm font-semibold text-indigo-700 dark:text-indigo-300">
+                                <EyeOff className="h-4 w-4" />
+                                Yeni
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
+                            <div className="flex items-center gap-2">
+                              <User className="h-4 w-4" />
+                              <span>Gönderen: {m.sender.name ?? m.sender.email}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Clock className="h-4 w-4" />
+                              <time dateTime={m.createdAt} title={m.createdAt}>
+                                {fmt(m.createdAt)}
+                              </time>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {open && (
+                      <div className="px-6 pb-6">
+                        <div className="rounded-2xl bg-slate-50/80 dark:bg-slate-900/80 p-4">
+                          <p className="text-slate-700 dark:text-slate-300 whitespace-pre-wrap leading-relaxed">{m.body}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           )}
-          {!loading && inbox.length === 0 && (
-            <div className="py-10 text-center opacity-70">Mesaj yok.</div>
-          )}
-
-          <div className="grid gap-3">
-           {inbox.map((m) => {
-  const open = !!expanded[m.id];
-  const unread = !m.readAt;
-
-  return (
-    <div
-      key={m.id}
-      className={[
-        "relative rounded-2xl ring-1 bg-white/50 backdrop-blur dark:bg-white/10 transition group multicolor-hover hover:multicolor-persist",
-        unread ? "ring-violet-500/40 ring-2 bg-violet-50 dark:bg-violet-950/20" : "ring-foreground/10"
-      ].join(" ")}
-    >
-      <span
-        aria-hidden
-        className={[
-          "pointer-events-none absolute inset-y-0 left-0 w-1 rounded-r-full z-0 transition-opacity",
-          unread
-            ? "bg-gradient-to-b from-fuchsia-600 via-violet-600 to-cyan-500 opacity-100"
-            : "bg-gradient-to-b from-fuchsia-600 via-violet-600 to-cyan-500 opacity-60 group-hover:opacity-100"
-        ].join(" ")}
-      />
-      <div
-        role="button"
-        onClick={() => {
-          toggleExpand(m.id);
-          if (!open && unread) markRead(m.id);
-        }}
-        className="relative z-10 flex w-full items-center justify-between px-4 py-3 text-left hover:bg-foreground/[0.04]"
-      >
-        <div className="flex items-center gap-3">
-          {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-
-          {/* durum noktası */}
-          {unread && <span className="h-2 w-2 rounded-full bg-violet-600 shadow-[0_0_0_2px_rgba(255,255,255,0.8)] dark:shadow-[0_0_0_2px_rgba(0,0,0,0.6)]" />}
-
-          {/* konu */}
-          <div className={["truncate", unread ? "font-extrabold" : "font-semibold"].join(" ")}>
-            {m.subject}
-          </div>
-
-          <span className="text-xs opacity-70">
-            Gönderen: {m.sender.name ?? m.sender.email}
-          </span>
-
-          {/* yeni rozeti */}
-          {unread && (
-            <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold
-                             bg-violet-600 text-white shadow-sm">
-              <EyeOff className="h-3 w-3" /> Yeni
-            </span>
-          )}
-        </div>
-
-        <time
-          dateTime={m.createdAt}
-          title={m.createdAt}
-          className={["text-sm opacity-90", unread ? "font-bold" : "font-medium"].join(" ")}
-        >
-          {fmt(m.createdAt)}
-        </time>
-      </div>
-
-      {open && (
-        <div className="px-4 pb-4 relative z-10">
-          <p className="text-sm whitespace-pre-wrap">{m.body}</p>
-        </div>
-      )}
-    </div>
-  );
-})}
-
-          </div>
 
           <Pager
             page={page}
@@ -624,176 +671,224 @@ export default function AdminMessagesPage() {
       {/* === GİDEN === */}
       {tab === "outbox" && (
         <AdminSectionCard>
-          {loading && (
-            <div className="py-10 text-center opacity-70">Yükleniyor…</div>
-          )}
-          {!loading && outbox.length === 0 && (
-            <div className="py-10 text-center opacity-70">Mesaj yok.</div>
-          )}
+          {loading ? (
+            <div className="py-16 text-center">
+              <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 py-4">
+                <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
+                <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+              </div>
+            </div>
+          ) : outbox.length === 0 ? (
+            <div className="py-16 text-center">
+              <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-8 py-6">
+                <Mail className="h-12 w-12 text-slate-400" />
+                <div>
+                  <div className="text-lg font-semibold text-slate-700 dark:text-slate-300">Mesaj yok</div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400">Henüz hiç mesaj gönderilmemiş</div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {outbox.map((m) => {
+                const open = !!expanded[m.id];
+                const draft = editDrafts[m.id] ?? {
+                  subject: m.subject,
+                  body: m.body,
+                };
+                const subjectTrim = (draft.subject ?? "").trim();
+                const bodyTrim = (draft.body ?? "").trim();
+                const isValid = subjectTrim.length >= 3 && bodyTrim.length >= 1;
+                const isDirty = subjectTrim !== (m.subject ?? "") || bodyTrim !== (m.body ?? "");
+                const isSaving = !!editState[m.id]?.saving;
+                const errorMsg = editState[m.id]?.msg;
 
-          <div className="grid gap-3">
-            {outbox.map((m) => {
-              const open = !!expanded[m.id];
-              const draft = editDrafts[m.id] ?? {
-                subject: m.subject,
-                body: m.body,
-              };
-              const subjectTrim = (draft.subject ?? "").trim();
-              const bodyTrim = (draft.body ?? "").trim();
-              const isValid = subjectTrim.length >= 3 && bodyTrim.length >= 1;
-              const isDirty = subjectTrim !== (m.subject ?? "") || bodyTrim !== (m.body ?? "");
-              const isSaving = !!editState[m.id]?.saving;
-              const errorMsg = editState[m.id]?.msg;
-
-              return (
-                <div
-                  key={m.id}
-                  className="relative rounded-2xl ring-1 ring-foreground/10 bg-white/50 backdrop-blur dark:bg-white/10 transition group multicolor-hover hover:multicolor-persist"
-                >
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-y-0 left-0 w-1 rounded-r-full bg-gradient-to-b from-fuchsia-600 via-violet-600 to-cyan-500 opacity-60 group-hover:opacity-100 z-0"
-                  />
-                  <div className="relative z-10 flex items-center justify-between px-4 py-3">
-                    <div
-                      role="button"
-                      onClick={() =>
-                        setExpanded((s) => ({ ...s, [m.id]: !s[m.id] }))
-                      }
-                      className="flex items-center gap-3 text-left hover:opacity-90 select-none"
-                    >
-                      {open ? (
-                        <ChevronDown className="h-4 w-4" />
-                      ) : (
-                        <ChevronRight className="h-4 w-4" />
-                      )}
-                      <div className="font-semibold">{m.subject}</div>
-                      {m.team && (
-                        <span className="text-xs opacity-70">
-                          Takım: {m.team.name}
-                        </span>
-                      )}
-                      <span className="text-xs opacity-70">
-                        Alıcılar:{" "}
-                        {m.recipients.map((r) => r.name ?? r.email).join(", ")}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openEditDraft(m);
-                        }}
-                        title="Düzenle"
-                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5 disabled:opacity-50"
-                      >
-                        <Pencil className="h-4 w-4" /> Düzenle
-                      </button>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteOutbox(m.id);
-                        }}
-                        className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
-                      >
-                        <Trash2 className="h-4 w-4" /> Sil
-                      </button>
-                      <div className="text-xs opacity-70">{fmt(m.createdAt)}</div>
-                    </div>
-                  </div>
-
-                  {open && (
-                    <div
-                      className="px-4 pb-4 relative z-10 pointer-events-auto"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {/* inline edit */}
-                      <div className="grid gap-2">
-                        <label className="text-xs">Konu</label>
-                        <input
-                          className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none
-           ring-0 focus:ring-2 focus:ring-violet-500"
-
-                          value={draft.subject}
-                          onChange={(e) =>
-                            setEditDrafts((d) => {
-                              const prev = d[m.id] ?? {
-                                subject: m.subject,
-                                body: m.body,
-                              };
-                              return {
-                                ...d,
-                                [m.id]: { ...prev, subject: e.target.value },
-                              };
-                            })
+                return (
+                  <div
+                    key={m.id}
+                    className="group relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10 dark:border-slate-700/60 dark:bg-slate-800/80"
+                  >
+                    <div className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div
+                          role="button"
+                          onClick={() =>
+                            setExpanded((s) => ({ ...s, [m.id]: !s[m.id] }))
                           }
-                          disabled={isSaving}
-                        />
-                        <label className="text-xs">İçerik</label>
-                        <textarea
-                          className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none
-           ring-0 focus:ring-2 focus:ring-violet-500"
-
-                          value={draft.body}
-                          onChange={(e) =>
-                            setEditDrafts((d) => {
-                              const prev = d[m.id] ?? {
-                                subject: m.subject,
-                                body: m.body,
-                              };
-                              return {
-                                ...d,
-                                [m.id]: { ...prev, body: e.target.value },
-                              };
-                            })
-                          }
-                          disabled={isSaving}
-                        />
-                        <div className="flex items-center justify-end gap-2">
-                          <div className="mr-auto text-xs opacity-75">
-                            {isSaving
-                                ? "Kaydediliyor…"
-                                 : errorMsg ||
-                                 (!isDirty ? "Değişiklik yok" : (!isValid ? "Başlık ≥ 3, içerik ≥ 1 karakter olmalı" : ""))}
+                          className="flex items-center gap-4 text-left hover:opacity-90 select-none cursor-pointer"
+                        >
+                          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
+                            {open ? (
+                              <ChevronDown className="h-5 w-5 text-white" />
+                            ) : (
+                              <ChevronRight className="h-5 w-5 text-white" />
+                            )}
                           </div>
+                          <div>
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                              {m.subject}
+                            </h3>
+                            <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
+                              {m.team && (
+                                <div className="flex items-center gap-2">
+                                  <Users className="h-4 w-4" />
+                                  <span>Takım: {m.team.name}</span>
+                                </div>
+                              )}
+                              <div className="flex items-center gap-2">
+                                <User className="h-4 w-4" />
+                                <span>Alıcılar: {m.recipients.map((r) => r.name ?? r.email).join(", ")}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Clock className="h-4 w-4" />
+                                <time dateTime={m.createdAt} title={m.createdAt}>
+                                  {fmt(m.createdAt)}
+                                </time>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
                           <button
                             type="button"
                             onClick={(e) => {
                               e.stopPropagation();
-                              cancelEdit(m.id);
+                              openEditDraft(m);
                             }}
-                            className="rounded-lg px-3 py-1 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
-                            disabled={false}
+                            title="Düzenle"
+                            className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-300"
                           >
-                            Vazgeç
+                            <Pencil className="h-4 w-4" />
+                            Düzenle
                           </button>
                           <button
                             type="button"
                             onClick={(e) => {
                               e.stopPropagation();
-                              saveEdit(m.id);
+                              deleteOutbox(m.id);
                             }}
-                            disabled={isSaving || !isValid || !isDirty}
-                            className="rounded-lg px-3 py-1 text-sm text-[color:var(--background)] bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 disabled:opacity-60"
+                            className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
                           >
-                            {isSaving ? "Kaydediliyor…" : "Kaydet"}
+                            <Trash2 className="h-4 w-4" />
+                            Sil
                           </button>
                         </div>
                       </div>
 
-                      {/* orijinal içerik */}
-                      <div className="mt-3 rounded-xl bg-foreground/5 p-3 text-xs opacity-80">
-                        <div className="mb-1 font-semibold">Gönderilen İçerik</div>
-                        <div className="whitespace-pre-wrap">{m.body}</div>
-                      </div>
+                      {open && (
+                        <div
+                          className="mt-6 border-t border-slate-200/60 dark:border-slate-700/60 pt-6"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {/* inline edit */}
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                                Konu
+                              </label>
+                              <div className="group relative">
+                                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
+                                <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                                  <input
+                                    className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                                    value={draft.subject}
+                                    onChange={(e) =>
+                                      setEditDrafts((d) => {
+                                        const prev = d[m.id] ?? {
+                                          subject: m.subject,
+                                          body: m.body,
+                                        };
+                                        return {
+                                          ...d,
+                                          [m.id]: { ...prev, subject: e.target.value },
+                                        };
+                                      })
+                                    }
+                                    disabled={isSaving}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div>
+                              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                                İçerik
+                              </label>
+                              <div className="group relative">
+                                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
+                                <div className="relative rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                                  <textarea
+                                    className="min-h-[120px] w-full bg-transparent outline-none p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-none"
+                                    value={draft.body}
+                                    onChange={(e) =>
+                                      setEditDrafts((d) => {
+                                        const prev = d[m.id] ?? {
+                                          subject: m.subject,
+                                          body: m.body,
+                                        };
+                                        return {
+                                          ...d,
+                                          [m.id]: { ...prev, body: e.target.value },
+                                        };
+                                      })
+                                    }
+                                    disabled={isSaving}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center justify-end gap-3">
+                              <div className="mr-auto text-sm text-slate-600 dark:text-slate-400">
+                                {isSaving
+                                    ? "Kaydediliyor…"
+                                     : errorMsg ||
+                                     (!isDirty ? "Değişiklik yok" : (!isValid ? "Başlık ≥ 3, içerik ≥ 1 karakter olmalı" : ""))}
+                              </div>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  cancelEdit(m.id);
+                                }}
+                                className="rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
+                                disabled={false}
+                              >
+                                Vazgeç
+                              </button>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  saveEdit(m.id);
+                                }}
+                                disabled={isSaving || !isValid || !isDirty}
+                                className="group relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg hover:shadow-xl hover:shadow-purple-500/25"
+                              >
+                                <div className="relative">
+                                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                  <CheckCircle className="h-4 w-4 relative z-10" />
+                                </div>
+                                <span className="relative z-10">
+                                  {isSaving ? "Kaydediliyor…" : "Kaydet"}
+                                </span>
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* orijinal içerik */}
+                          <div className="mt-6 rounded-2xl bg-slate-50/80 dark:bg-slate-900/80 p-4">
+                            <div className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Gönderilen İçerik</div>
+                            <div className="text-sm text-slate-600 dark:text-slate-400 whitespace-pre-wrap">{m.body}</div>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
           <Pager
             page={page}
@@ -811,24 +906,28 @@ export default function AdminMessagesPage() {
           title="Yeni Mesaj"
           subtitle="Kullanıcı(lar)a veya bir takımın tüm/özel üyelerine gönderin."
         >
-          <div className="grid gap-4">
+          <div className="space-y-6">
             {/* alıcı modu */}
-            <div className="flex items-center gap-3">
-              <label className="inline-flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-6">
+              <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
                 <input
                   type="radio"
                   checked={mode === "users"}
                   onChange={() => setMode("users")}
+                  className="text-indigo-600 focus:ring-indigo-500"
                 />
-                <User className="h-4 w-4" /> Kullanıcılar
+                <User className="h-5 w-5" />
+                Kullanıcılar
               </label>
-              <label className="inline-flex items-center gap-2 text-sm">
+              <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
                 <input
                   type="radio"
                   checked={mode === "team"}
                   onChange={() => setMode("team")}
+                  className="text-indigo-600 focus:ring-indigo-500"
                 />
-                <Users className="h-4 w-4" /> Takım
+                <Users className="h-5 w-5" />
+                Takım
               </label>
             </div>
 
@@ -860,33 +959,48 @@ export default function AdminMessagesPage() {
             )}
 
             {/* konu & içerik */}
-            <div className="grid gap-2">
-              <label className="text-sm">Konu</label>
-              <input
-                className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none
-           ring-0 focus:ring-2 focus:ring-violet-500"
-
-                value={subj}
-                onChange={(e) => setSubj(e.target.value)}
-              />
-              <label className="text-sm">İçerik</label>
-              <textarea
-                className="rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md px-3 py-2 text-sm outline-none
-           ring-0 focus:ring-2 focus:ring-violet-500"
-
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-              />
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                  Konu
+                </label>
+                <div className="group relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                    <input
+                      className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                      value={subj}
+                      onChange={(e) => setSubj(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                  İçerik
+                </label>
+                <div className="group relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                    <textarea
+                      className="min-h-[120px] w-full bg-transparent outline-none p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-none"
+                      value={body}
+                      onChange={(e) => setBody(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="flex items-center justify-end gap-2">
+            <div className="flex items-center justify-end gap-3">
               <button
                 type="button"
                 onClick={() => {
                   setSubj("");
                   setBody("");
                 }}
-                className="rounded-lg px-3 py-2 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
+                className="rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
               >
                 Temizle
               </button>
@@ -894,9 +1008,15 @@ export default function AdminMessagesPage() {
                 type="button"
                 onClick={send}
                 disabled={sending}
-                className="rounded-lg px-3 py-2 text-sm text-[color:var(--background)] bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 disabled:opacity-60"
+                className="group relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 shadow-lg hover:shadow-xl hover:shadow-purple-500/25"
               >
-                {sending ? "Gönderiliyor…" : "Gönder"}
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Send className="h-4 w-4 relative z-10" />
+                </div>
+                <span className="relative z-10">
+                  {sending ? "Gönderiliyor…" : "Gönder"}
+                </span>
               </button>
             </div>
           </div>

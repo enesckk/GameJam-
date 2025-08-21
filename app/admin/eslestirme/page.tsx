@@ -1,10 +1,9 @@
-// app/admin/eslestirme/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import AdminHeader from "../_components/admin-header";
 import AdminSectionCard from "@/app/admin/_components/admin-sectioncard";
-import { Search, Users, CheckSquare, Square, ChevronDown, ChevronRight, X, PlusCircle, Trash2 } from "lucide-react";
+import { Search, Users, CheckSquare, Square, ChevronDown, ChevronRight, X, PlusCircle, Trash2, Link2, UserPlus, UserMinus, AlertTriangle, CheckCircle } from "lucide-react";
 
 type RoleLite = "developer" | "designer" | "audio" | "pm" | null;
 
@@ -17,13 +16,20 @@ type TeamLite = {
   id: string;
   name: string;
   membersCount: number;
-  submissionsCount: number;     // ← eklendi
+  submissionsCount: number;
   capacityLeft: number;
   members: Member[];
 };
 
 const ROLE_BADGE: Record<Exclude<RoleLite, null>, string> = {
   developer: "Geliştirici", designer: "Tasarımcı", audio: "Ses / Müzik", pm: "PM",
+};
+
+const ROLE_COLORS = {
+  developer: "from-blue-500 to-cyan-500",
+  designer: "from-purple-500 to-pink-500",
+  audio: "from-orange-500 to-red-500",
+  pm: "from-green-500 to-emerald-500",
 };
 
 export default function MatchingPage() {
@@ -143,41 +149,111 @@ export default function MatchingPage() {
   const selectedCount = selected.size;
 
   return (
-    <div className="space-y-6">
-      <AdminHeader title="Takım Eşleşmeleri" variant="plain"
-        desc={counts ? `Boşta: ${counts.unmatched} • Kontenjanlı takım: ${counts.teamsWithSlots} • Boş kontenjan: ${counts.totalSlots}` : ""} />
+    <div className="space-y-8">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8 text-white shadow-2xl">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-50"></div>
+        <div className="relative flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl blur-lg opacity-75"></div>
+              <div className="relative bg-gradient-to-br from-green-500 to-emerald-600 p-4 rounded-2xl shadow-lg">
+                <Link2 className="h-8 w-8 text-white" />
+              </div>
+            </div>
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+                Takım Eşleşmeleri
+              </h1>
+              <p className="text-slate-300 text-lg">
+                {counts ? `Boşta: ${counts.unmatched} • Kontenjanlı takım: ${counts.teamsWithSlots} • Boş kontenjan: ${counts.totalSlots}` : ""}
+              </p>
+            </div>
+          </div>
+          
+          {/* Search and Actions */}
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-2xl blur-sm opacity-0 focus-within:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur-sm">
+                <Search className="h-5 w-5 text-white/70" />
+                <input
+                  className="w-80 bg-transparent outline-none text-white placeholder-white/70"
+                  placeholder="İsim, e-posta veya telefon ara…"
+                  value={q}
+                  onChange={(e)=>setQ(e.target.value)}
+                />
+              </div>
+            </div>
 
-      {/* Araç çubuğu */}
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="relative">
-          <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 opacity-60" />
-          <input
-            className="w-80 rounded-xl bg-foreground/5 pl-8 pr-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
-            placeholder="İsim, e-posta veya telefon ara…"
-            value={q}
-            onChange={(e)=>setQ(e.target.value)}
-          />
+            <button 
+              onClick={()=>setModalOpen(true)} 
+              className="group relative inline-flex items-center gap-2 rounded-2xl px-4 py-3 font-semibold text-white transition-all duration-300 active:scale-[0.98] bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 shadow-lg hover:shadow-xl"
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <PlusCircle className="h-5 w-5 relative z-10" />
+              </div>
+              <span className="relative z-10">Yeni Takım</span>
+            </button>
+          </div>
         </div>
-        <button onClick={selectAllPage} className="rounded-xl px-3 py-2 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5">Hepsini Seç</button>
-        <button onClick={clearSelection} className="rounded-xl px-3 py-2 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5">Temizle</button>
-        <div className="ml-auto text-sm opacity-80">Seçili: <strong>{selectedCount}</strong></div>
-        <button onClick={()=>setModalOpen(true)} className="rounded-xl px-3 py-2 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5 inline-flex items-center gap-2">
-          <PlusCircle className="h-4 w-4" /> Yeni Takım
-        </button>
+      </div>
+
+      {/* Stats and Actions */}
+      <div className="flex items-center justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-4 backdrop-blur-sm">
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={selectAllPage} 
+            className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+          >
+            <CheckSquare className="h-4 w-4" />
+            Hepsini Seç
+          </button>
+          <button 
+            onClick={clearSelection} 
+            className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+          >
+            <Square className="h-4 w-4" />
+            Temizle
+          </button>
+        </div>
+        <div className="text-sm text-slate-600 dark:text-slate-400">
+          Seçili: <strong className="text-slate-900 dark:text-white">{selectedCount}</strong>
+        </div>
       </div>
 
       {/* Boşta katılımcılar */}
       <AdminSectionCard title="Boşta Katılımcılar" subtitle="Takıma atanmamış">
         {loading ? (
-          <div className="py-10 text-center opacity-70">Yükleniyor…</div>
+          <div className="py-16 text-center">
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 py-4">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-green-500"></div>
+              <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+            </div>
+          </div>
         ) : unmatched.length === 0 ? (
-          <div className="py-10 text-center opacity-70">Boşta katılımcı yok.</div>
+          <div className="py-16 text-center">
+            <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-8 py-6">
+              <Users className="h-12 w-12 text-slate-400" />
+              <div>
+                <div className="text-lg font-semibold text-slate-700 dark:text-slate-300">Boşta katılımcı yok</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">Tüm katılımcılar takımlara atanmış</div>
+              </div>
+            </div>
+          </div>
         ) : (
-          <div className="overflow-x-auto rounded-xl ring-1 ring-foreground/10 bg-white/50 backdrop-blur dark:bg-white/10">
+          <div className="overflow-x-auto rounded-2xl ring-1 ring-slate-200/60 bg-white/80 backdrop-blur-sm dark:ring-slate-700/60 dark:bg-slate-800/80">
             <table className="min-w-full text-sm">
               <thead>
-                <tr className="text-left">
-                  <Th className="w-10"></Th><Th>#</Th><Th>Ad Soyad</Th><Th>E-posta</Th><Th>Telefon</Th><Th>Yaş</Th><Th>Görev</Th>
+                <tr className="border-b border-slate-200/60 dark:border-slate-700/60">
+                  <Th className="w-12"></Th>
+                  <Th>#</Th>
+                  <Th>Ad Soyad</Th>
+                  <Th>E-posta</Th>
+                  <Th>Telefon</Th>
+                  <Th>Yaş</Th>
+                  <Th>Görev</Th>
                 </tr>
               </thead>
               <tbody>
@@ -186,21 +262,39 @@ export default function MatchingPage() {
                   return (
                     <tr key={u.id}
                         onClick={() => toggleRow(u.id)}
-                        className="group border-t border-foreground/10 cursor-pointer hover:bg-foreground/[0.04] multicolor-hover hover:multicolor-persist">
+                        className="group border-b border-slate-200/40 dark:border-slate-700/40 cursor-pointer transition-all duration-200 hover:bg-slate-50/80 dark:hover:bg-slate-700/80">
                       <Td onClick={(e)=>e.stopPropagation()}>
                         <button type="button"
                           onClick={(e)=>{ e.stopPropagation(); toggleRow(u.id); }}
-                          className="inline-flex items-center justify-center rounded-md p-1 ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
+                          className={`inline-flex items-center justify-center rounded-lg p-1.5 transition-all duration-200 ${
+                            checked 
+                              ? 'bg-green-500 text-white shadow-lg' 
+                              : 'bg-slate-100 dark:bg-slate-700 text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-600'
+                          }`}
                           title={checked ? "Seçimi kaldır" : "Seç"}>
                           {checked ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
                         </button>
                       </Td>
-                      <Td className="font-semibold">{i + 1}.</Td>
-                      <Td className="font-semibold">{u.name ?? "—"}</Td>
-                      <Td><span className="hover:opacity-80">{u.email}</span></Td>
-                      <Td className="font-semibold"><span className="hover:opacity-80">{u.phone ?? "—"}</span></Td>
-                      <Td className="font-semibold">{Number.isFinite(u.age as any) ? u.age : "—"}</Td>
-                      <Td className="font-semibold">{u.profileRole ? ROLE_BADGE[u.profileRole] : "—"}</Td>
+                      <Td className="font-semibold">
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                          {i + 1}
+                        </div>
+                      </Td>
+                      <Td className="font-semibold text-slate-900 dark:text-white">{u.name ?? "—"}</Td>
+                      <Td className="text-slate-700 dark:text-slate-300">{u.email}</Td>
+                      <Td className="font-semibold text-slate-700 dark:text-slate-300">{u.phone ?? "—"}</Td>
+                      <Td className="font-semibold text-slate-700 dark:text-slate-300">
+                        {Number.isFinite(u.age as any) ? u.age : "—"}
+                      </Td>
+                      <Td>
+                        {u.profileRole ? (
+                          <span className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${ROLE_COLORS[u.profileRole]} px-3 py-1 text-xs font-semibold text-white shadow-sm`}>
+                            {ROLE_BADGE[u.profileRole]}
+                          </span>
+                        ) : (
+                          <span className="text-slate-400">—</span>
+                        )}
+                      </Td>
                     </tr>
                   );
                 })}
@@ -210,116 +304,209 @@ export default function MatchingPage() {
         )}
       </AdminSectionCard>
 
-      {/* Var olan takımlar: açılır/kapanır + üye çıkar + takımı sil */}
+      {/* Var olan takımlar */}
       <AdminSectionCard title="Var Olan Takımlar" subtitle="Detayları açın; seçili kişileri ekleyin, üyeleri çıkarın veya takımı silin.">
         {loading ? (
-          <div className="py-10 text-center opacity-70">Yükleniyor…</div>
+          <div className="py-16 text-center">
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 py-4">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-green-500"></div>
+              <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+            </div>
+          </div>
         ) : teams.length === 0 ? (
-          <div className="py-10 text-center opacity-70">Takım yok.</div>
+          <div className="py-16 text-center">
+            <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-8 py-6">
+              <Link2 className="h-12 w-12 text-slate-400" />
+              <div>
+                <div className="text-lg font-semibold text-slate-700 dark:text-slate-300">Takım yok</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">Henüz hiç takım oluşturulmamış</div>
+              </div>
+            </div>
+          </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {teams.map((t) => {
               const open = !!expanded[t.id];
-              const disableDelete = t.submissionsCount > 0; // teslimi varsa silme
+              const disableDelete = t.submissionsCount > 0;
               return (
-                <div key={t.id} className="rounded-2xl ring-1 ring-foreground/10 bg-white/50 backdrop-blur dark:bg-white/10 overflow-hidden">
-                  <div className="flex items-center justify-between px-4 py-3">
-                    <button onClick={()=>toggleExpand(t.id)} className="flex items-center gap-3 text-left hover:opacity-90" type="button">
-                      {open ? <ChevronDown className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
-                      <div className="text-base font-semibold">{t.name}</div>
-                      <span className="inline-flex items-center gap-1 rounded-full bg-foreground/10 px-2 py-0.5 text-xs font-semibold">
-                        <Users className="h-3.5 w-3.5" /> {t.membersCount}/4
-                      </span>
-                      <span className="text-xs opacity-70">Boş Kontenjan: <strong>{t.capacityLeft}</strong></span>
-                    </button>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={()=>assignToTeam(t)}
-                        disabled={busy || selectedCount === 0 || t.capacityLeft === 0}
-                        className="rounded-lg px-3 py-1 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5 disabled:opacity-50"
-                        type="button">
-                        Seçilileri Ekle
-                      </button>
-                      <button
-                        onClick={()=>setConfirmDeleteTeam(t)}
-                        disabled={disableDelete || busy}
-                        className="inline-flex items-center gap-2 rounded-lg px-3 py-1 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5 disabled:opacity-50"
-                        title={disableDelete ? "Teslimi olan takım silinemez" : "Takımı Sil"}
-                        type="button">
-                        <Trash2 className="h-4 w-4" /> Sil
-                      </button>
-                    </div>
-                  </div>
-
-                  {open && (
-                    <div className="overflow-x-auto border-t border-foreground/10">
-                      <table className="min-w-full text-sm">
-                        <thead>
-                          <tr className="text-left">
-                            <Th>#</Th><Th>Ad Soyad</Th><Th>E-posta</Th><Th>Telefon</Th><Th>Yaş</Th><Th>Görev</Th><Th className="w-24">İşlem</Th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {t.members.length === 0 && (
-                            <tr><td colSpan={7} className="px-4 py-6 text-center opacity-70">Üye yok.</td></tr>
+                <div key={t.id} className="group relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                  <div className="p-6">
+                    <div className="flex items-center justify-between">
+                      <button onClick={()=>toggleExpand(t.id)} className="flex items-center gap-4 text-left hover:opacity-90 transition-opacity duration-200" type="button">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg">
+                          {open ? (
+                            <ChevronDown className="h-5 w-5 text-white" />
+                          ) : (
+                            <ChevronRight className="h-5 w-5 text-white" />
                           )}
-                          {t.members.map((m, i) => (
-                            <tr key={m.id} className="border-t border-foreground/10">
-                              <Td className="font-semibold">{i + 1}.</Td>
-                              <Td className="font-semibold">{m.name ?? "—"}</Td>
-                              <Td><span className="hover:opacity-80">{m.email}</span></Td>
-                              <Td className="font-semibold"><span className="hover:opacity-80">{m.phone ?? "—"}</span></Td>
-                              <Td className="font-semibold">{Number.isFinite(m.age as any) ? m.age : "—"}</Td>
-                              <Td className="font-semibold">{m.profileRole ? ROLE_BADGE[m.profileRole] : "—"}</Td>
-                              <Td>
-                                <button
-                                  onClick={()=>removeMember(m.id)}
-                                  disabled={busy}
-                                  className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5 disabled:opacity-50"
-                                  title="Takımdan çıkar"
-                                  type="button">
-                                  <Trash2 className="h-4 w-4" /> Çıkar
-                                </button>
-                              </Td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                        </div>
+                        <div>
+                          <div className="text-lg font-bold text-slate-900 dark:text-white">{t.name}</div>
+                          <div className="flex items-center gap-3 mt-1">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-sm font-semibold text-green-700 dark:text-green-300">
+                              <Users className="h-4 w-4" />
+                              {t.membersCount}/4
+                            </span>
+                            <span className="text-sm text-slate-500 dark:text-slate-400">
+                              Boş Kontenjan: <strong className="text-slate-700 dark:text-slate-300">{t.capacityLeft}</strong>
+                            </span>
+                          </div>
+                        </div>
+                      </button>
+
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={()=>assignToTeam(t)}
+                          disabled={busy || selectedCount === 0 || t.capacityLeft === 0}
+                          className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-green-100 hover:bg-green-200 text-green-700 dark:bg-green-900/30 dark:hover:bg-green-900/50 dark:text-green-300"
+                          type="button">
+                          <UserPlus className="h-4 w-4" />
+                          Seçilileri Ekle
+                        </button>
+                        <button
+                          onClick={()=>setConfirmDeleteTeam(t)}
+                          disabled={disableDelete || busy}
+                          className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+                          title={disableDelete ? "Teslimi olan takım silinemez" : "Takımı Sil"}
+                          type="button">
+                          <Trash2 className="h-4 w-4" />
+                          Sil
+                        </button>
+                      </div>
                     </div>
-                  )}
+
+                    {open && (
+                      <div className="mt-6 border-t border-slate-200/60 dark:border-slate-700/60 pt-6">
+                        <div className="overflow-x-auto rounded-2xl ring-1 ring-slate-200/60 bg-slate-50/80 dark:ring-slate-700/60 dark:bg-slate-900/80">
+                          <table className="min-w-full text-sm">
+                            <thead>
+                              <tr className="border-b border-slate-200/60 dark:border-slate-700/60">
+                                <Th>#</Th>
+                                <Th>Ad Soyad</Th>
+                                <Th>E-posta</Th>
+                                <Th>Telefon</Th>
+                                <Th>Yaş</Th>
+                                <Th>Görev</Th>
+                                <Th className="w-24">İşlem</Th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {t.members.length === 0 && (
+                                <tr>
+                                  <td colSpan={7} className="px-6 py-8 text-center">
+                                    <div className="inline-flex flex-col items-center gap-2 text-slate-500 dark:text-slate-400">
+                                      <Users className="h-8 w-8" />
+                                      <span className="text-sm font-medium">Üye yok</span>
+                                    </div>
+                                  </td>
+                                </tr>
+                              )}
+                              {t.members.map((m, i) => (
+                                <tr key={m.id} className="border-b border-slate-200/40 dark:border-slate-700/40">
+                                  <Td className="font-semibold">
+                                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                                      {i + 1}
+                                    </div>
+                                  </Td>
+                                  <Td className="font-semibold text-slate-900 dark:text-white">{m.name ?? "—"}</Td>
+                                  <Td className="text-slate-700 dark:text-slate-300">{m.email}</Td>
+                                  <Td className="font-semibold text-slate-700 dark:text-slate-300">{m.phone ?? "—"}</Td>
+                                  <Td className="font-semibold text-slate-700 dark:text-slate-300">
+                                    {Number.isFinite(m.age as any) ? m.age : "—"}
+                                  </Td>
+                                  <Td>
+                                    {m.profileRole ? (
+                                      <span className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${ROLE_COLORS[m.profileRole]} px-3 py-1 text-xs font-semibold text-white shadow-sm`}>
+                                        {ROLE_BADGE[m.profileRole]}
+                                      </span>
+                                    ) : (
+                                      <span className="text-slate-400">—</span>
+                                    )}
+                                  </Td>
+                                  <Td>
+                                    <button
+                                      onClick={()=>removeMember(m.id)}
+                                      disabled={busy}
+                                      className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 disabled:opacity-50 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+                                      title="Takımdan çıkar"
+                                      type="button">
+                                      <UserMinus className="h-4 w-4" />
+                                      Çıkar
+                                    </button>
+                                  </Td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}
           </div>
         )}
 
-        {message && <div className="mt-3 rounded-lg bg-foreground/10 px-3 py-2 text-sm">{message}</div>}
+        {/* Messages */}
+        {message && (
+          <div className="mt-6 flex items-center gap-3 rounded-2xl border border-green-500/30 bg-green-500/10 p-4 backdrop-blur-sm">
+            <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
+            <div>
+              <div className="font-semibold text-green-700 dark:text-green-400">Başarılı</div>
+              <div className="text-sm text-green-600 dark:text-green-300">{message}</div>
+            </div>
+          </div>
+        )}
       </AdminSectionCard>
 
       {/* Yeni Takım Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-[100] grid place-items-center bg-black/40 p-4" onClick={()=>setModalOpen(false)}>
-          <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl ring-1 ring-black/10 dark:bg-neutral-900 dark:text-white" onClick={(e)=>e.stopPropagation()}>
-            <div className="flex items-center justify-between">
-              <h3 className="text-base font-semibold">Yeni Takım Oluştur</h3>
-              <button className="rounded-md p-1 hover:bg-black/5 dark:hover:bg-white/10" onClick={()=>setModalOpen(false)} aria-label="Kapat">
+        <div className="fixed inset-0 z-[100] grid place-items-center bg-black/60 p-4 backdrop-blur-sm" onClick={()=>setModalOpen(false)}>
+          <div className="w-full max-w-md rounded-3xl bg-white/95 dark:bg-slate-900/95 p-6 shadow-2xl backdrop-blur-xl border border-white/20 dark:border-slate-700/50" onClick={(e)=>e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Yeni Takım Oluştur</h3>
+              <button className="rounded-xl p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200" onClick={()=>setModalOpen(false)} aria-label="Kapat">
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <div className="mt-4 space-y-3">
-              <label className="text-sm">Takım Adı</label>
-              <input
-                className="w-full rounded-xl bg-foreground/5 px-3 py-2 text-sm outline-none ring-1 ring-foreground/10"
-                placeholder="Örn. Piksel Pekerleri"
-                value={newTeamName}
-                onChange={(e)=>setNewTeamName(e.target.value)}
-              />
-              <p className="text-xs opacity-70">Seçili katılımcılardan en fazla <strong>4</strong> kişi eklenecek. (Seçili: <strong>{selectedCount}</strong>)</p>
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                  Takım Adı
+                </label>
+                <div className="group relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-green-300 group-focus-within:shadow-lg group-focus-within:shadow-green-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                    <Link2 className="h-5 w-5 text-slate-400 group-focus-within:text-green-500 transition-colors duration-300" />
+                    <input
+                      className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                      placeholder="Örn. Piksel Pekerleri"
+                      value={newTeamName}
+                      onChange={(e)=>setNewTeamName(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-slate-600 dark:text-slate-400">
+                Seçili katılımcılardan en fazla <strong>4</strong> kişi eklenecek. (Seçili: <strong>{selectedCount}</strong>)
+              </p>
             </div>
-            <div className="mt-5 flex items-center justify-end gap-2">
-              <button className="rounded-lg px-3 py-2 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5" onClick={()=>setModalOpen(false)}>Vazgeç</button>
-              <button onClick={createTeam} disabled={busy} className="rounded-lg px-3 py-2 text-sm text-[color:var(--background)] bg-gradient-to-r from-fuchsia-600 via-violet-600 to-cyan-500 disabled:opacity-60">Oluştur</button>
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button className="rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300" onClick={()=>setModalOpen(false)}>
+                Vazgeç
+              </button>
+              <button 
+                onClick={createTeam} 
+                disabled={busy} 
+                className="group relative inline-flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-white transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 shadow-lg hover:shadow-xl hover:shadow-green-500/25"
+              >
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <PlusCircle className="h-4 w-4 relative z-10" />
+                </div>
+                <span className="relative z-10">Oluştur</span>
+              </button>
             </div>
           </div>
         </div>
@@ -327,27 +514,42 @@ export default function MatchingPage() {
 
       {/* Takım Sil Onayı Modal */}
       {confirmDeleteTeam && (
-        <div className="fixed inset-0 z-[100] grid place-items-center bg-black/40 p-4" onClick={()=>setConfirmDeleteTeam(null)}>
-          <div className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl ring-1 ring-black/10 dark:bg-neutral-900 dark:text-white" onClick={(e)=>e.stopPropagation()}>
-            <div className="flex items-center justify-between">
-              <h3 className="text-base font-semibold">Takımı Sil</h3>
-              <button className="rounded-md p-1 hover:bg-black/5 dark:hover:bg-white/10" onClick={()=>setConfirmDeleteTeam(null)} aria-label="Kapat">
+        <div className="fixed inset-0 z-[100] grid place-items-center bg-black/60 p-4 backdrop-blur-sm" onClick={()=>setConfirmDeleteTeam(null)}>
+          <div className="w-full max-w-md rounded-3xl bg-white/95 dark:bg-slate-900/95 p-6 shadow-2xl backdrop-blur-xl border border-white/20 dark:border-slate-700/50" onClick={(e)=>e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Takımı Sil</h3>
+              <button className="rounded-xl p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200" onClick={()=>setConfirmDeleteTeam(null)} aria-label="Kapat">
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <p className="mt-3 text-sm">
-              <strong>{confirmDeleteTeam.name}</strong> takımını silmek üzeresiniz.
-              Üyeler boşa alınacak. {confirmDeleteTeam.submissionsCount > 0 && (
-                <span className="text-red-600 dark:text-red-300">Bu takımın teslimleri var, silinemez.</span>
-              )}
-            </p>
-            <div className="mt-5 flex items-center justify-end gap-2">
-              <button className="rounded-lg px-3 py-2 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5" onClick={()=>setConfirmDeleteTeam(null)}>Vazgeç</button>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3 p-4 rounded-2xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                <AlertTriangle className="h-6 w-6 text-red-500" />
+                <div>
+                  <div className="font-semibold text-red-700 dark:text-red-400">
+                    <strong>{confirmDeleteTeam.name}</strong> takımını silmek üzeresiniz.
+                  </div>
+                  <div className="text-sm text-red-600 dark:text-red-300">
+                    Üyeler boşa alınacak.
+                  </div>
+                  {confirmDeleteTeam.submissionsCount > 0 && (
+                    <div className="text-sm text-red-600 dark:text-red-300 font-semibold mt-1">
+                      Bu takımın teslimleri var, silinemez.
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button className="rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300" onClick={()=>setConfirmDeleteTeam(null)}>
+                Vazgeç
+              </button>
               <button
                 onClick={deleteTeamConfirmed}
                 disabled={busy || (confirmDeleteTeam.submissionsCount > 0)}
-                className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5 disabled:opacity-50">
-                <Trash2 className="h-4 w-4" /> Sil
+                className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300">
+                <Trash2 className="h-4 w-4" />
+                Sil
               </button>
             </div>
           </div>
@@ -358,8 +560,9 @@ export default function MatchingPage() {
 }
 
 function Th({ children, className = "" }: { children?: React.ReactNode; className?: string }) {
-  return <th className={["px-4 py-3 text-xs font-semibold uppercase tracking-wide opacity-70", className].join(" ")}>{children}</th>;
+  return <th className={["px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400", className].join(" ")}>{children}</th>;
 }
+
 function Td({ children, className = "", onClick }: { children: React.ReactNode; className?: string; onClick?: React.MouseEventHandler<HTMLTableCellElement> }) {
-  return <td onClick={onClick} className={["px-4 py-3 align-middle", className].join(" ")}>{children}</td>;
+  return <td onClick={onClick} className={["px-6 py-4 align-middle", className].join(" ")}>{children}</td>;
 }

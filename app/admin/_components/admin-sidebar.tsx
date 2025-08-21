@@ -22,7 +22,7 @@ export default function AdminSidebar({ onNavigate }: { onNavigate?: () => void }
 
   return (
     <nav className="w-full h-full flex flex-col bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-r border-slate-200/60 dark:border-slate-700/60">
-      {/* Header */}
+      {/* Header - Fixed */}
       <div className="flex-shrink-0 px-4 pt-6 pb-4">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl blur-xl"></div>
@@ -44,7 +44,7 @@ export default function AdminSidebar({ onNavigate }: { onNavigate?: () => void }
         </div>
       </div>
 
-      {/* Navigation Links - Scrollable Area */}
+      {/* Navigation Links - Scrollable */}
       <div className="flex-1 overflow-y-auto px-3 py-2">
         <div className="space-y-2">
           {links.map(({ href, label, icon: Icon }) => {
@@ -97,7 +97,7 @@ export default function AdminSidebar({ onNavigate }: { onNavigate?: () => void }
         </div>
       </div>
       
-      {/* Footer */}
+      {/* Footer - Fixed */}
       <div className="flex-shrink-0 px-3 pb-6">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-slate-200/50 via-white/50 to-slate-200/50 dark:from-slate-700/50 dark:via-slate-800/50 dark:to-slate-700/50 rounded-2xl blur-sm"></div>

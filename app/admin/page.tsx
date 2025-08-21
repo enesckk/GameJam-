@@ -125,7 +125,6 @@ export default function AdminHome() {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8 text-white shadow-2xl">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-50"></div>
         <div className="relative">
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
@@ -135,7 +134,6 @@ export default function AdminHome() {
             Yönetim panelinden katılımcıları, takımları, duyuruları ve teslimleri buradan yönetebilirsiniz.
           </p>
         </div>
-      </div>
 
       {err && (
         <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4 backdrop-blur-sm">
