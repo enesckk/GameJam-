@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import PageHeader from "../_components/page-header";
-import SectionCard from "../_components/section-card";
 import RoleSelect from "../_components/role-select";
-import { Copy, RefreshCw, Trash2, Save, Check, ChevronDown, Users, Crown, UserPlus, Settings, Link } from "lucide-react";
+import {
+  Copy, RefreshCw, Trash2, Save, Check, ChevronDown, Users, Crown, UserPlus, Settings, Link
+} from "lucide-react";
 
 type Role = "developer" | "designer" | "audio" | "pm";
 type Member = {
@@ -39,26 +41,29 @@ function isPlaceholderTeam(t: Team | null) {
 function roleLabel(r: Role) {
   switch (r) {
     case "developer": return "Yazılımcı";
-    case "designer":  return "Tasarımcı";
-    case "audio":     return "Ses/Müzik";
-    case "pm":        return "İçerik/PM";
+    case "designer": return "Tasarımcı";
+    case "audio": return "Ses/Müzik";
+    case "pm": return "İçerik/PM";
   }
 }
 
 function statusLabel(s: Member["status"]) {
   switch (s) {
-    case "invited":      return "Davet Gönderildi";
-    case "admin_added":  return "Admin Atadı";
+    case "invited": return "Davet Gönderildi";
+    case "admin_added": return "Admin Atadı";
     case "form_applied": return "Form Kaydı";
     case "active":
-    default:             return "Aktif";
+    default: return "Aktif";
   }
 }
 
+/** -------------------------------
+ *  TypeSelect (PORTALLI + FLIP)
+ *  ------------------------------- */
 type TeamType = "individual" | "team";
 const TYPES: { value: TeamType; label: string }[] = [
   { value: "individual", label: "Bireysel" },
-  { value: "team",       label: "Takım" },
+  { value: "team", label: "Takım" },
 ];
 
 function TypeSelect({
@@ -73,13 +78,32 @@ function TypeSelect({
   label?: string;
 }) {
   const [open, setOpen] = useState(false);
-  const boxRef = useRef<HTMLDivElement>(null);
-  const listId = "type-listbox";
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const popRef = useRef<HTMLDivElement>(null);
+  const [portalEl, setPortalEl] = useState<HTMLElement | null>(null);
+  const [pos, setPos] = useState<{
+    top: number; left: number; width: number; placement: "top" | "bottom"; maxH: number;
+  } | null>(null);
 
+  // create portal root
+  useEffect(() => {
+    const el = document.createElement("div");
+    el.setAttribute("data-type-select-portal", "true");
+    document.body.appendChild(el);
+    setPortalEl(el);
+    return () => {
+      document.body.removeChild(el);
+    };
+  }, []);
+
+  // outside click + ESC
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      if (!boxRef.current) return;
-      if (!boxRef.current.contains(e.target as Node)) setOpen(false);
+      if (!open) return;
+      const t = e.target as Node;
+      if (popRef.current?.contains(t)) return;
+      if (triggerRef.current?.contains(t)) return;
+      setOpen(false);
     };
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     document.addEventListener("click", onClick);
@@ -88,20 +112,51 @@ function TypeSelect({
       document.removeEventListener("click", onClick);
       document.removeEventListener("keydown", onKey);
     };
-  }, []);
+  }, [open]);
+
+  // position + flip
+  const reposition = () => {
+    const btn = triggerRef.current;
+    if (!btn) return;
+    const r = btn.getBoundingClientRect();
+    const sx = window.scrollX || document.documentElement.scrollLeft || 0;
+    const sy = window.scrollY || document.documentElement.scrollTop || 0;
+    const below = window.innerHeight - r.bottom;
+    const above = r.top;
+    const placement: "top" | "bottom" = (below >= 200 || below >= above) ? "bottom" : "top";
+    const leftRaw = r.left + sx;
+    const leftMax = sx + window.innerWidth - r.width - 8;
+    const left = Math.min(leftRaw, leftMax);
+    const maxH = Math.max(160, (placement === "bottom" ? below : above) - 8);
+    const top = placement === "bottom" ? r.bottom + sy + 4 : r.top + sy - 4;
+    setPos({ top, left, width: r.width, placement, maxH });
+  };
+
+  useLayoutEffect(() => {
+    if (!open) return;
+    reposition();
+    const f = () => reposition();
+    window.addEventListener("resize", f);
+    window.addEventListener("scroll", f, true);
+    return () => {
+      window.removeEventListener("resize", f);
+      window.removeEventListener("scroll", f, true);
+    };
+  }, [open]);
 
   const current = TYPES.find(t => t.value === value)?.label ?? "";
+  const listId = "type-listbox";
 
   return (
     <div className={className}>
       <label className="text-sm font-medium text-purple-200 mb-2">{label}</label>
 
       <div
-        ref={boxRef}
         className="group relative overflow-visible rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200"
         data-open={open ? "true" : "false"}
       >
         <button
+          ref={triggerRef}
           type="button"
           onClick={() => setOpen(s => !s)}
           aria-haspopup="listbox"
@@ -116,39 +171,52 @@ function TypeSelect({
             className={`h-4 w-4 text-purple-300 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           />
         </button>
-
-        {open && (
-          <div
-            id={listId}
-            role="listbox"
-            className="absolute z-[9999] mt-1 w-full rounded-xl shadow-2xl border-2 border-purple-500/30 bg-white/95 backdrop-blur-xl max-h-64 overflow-y-auto"
-          >
-            <div className="p-1">
-              {TYPES.map((t) => {
-                const active = t.value === value;
-                return (
-                  <div
-                    key={t.value}
-                    role="option"
-                    aria-selected={active}
-                    onClick={() => { onChange(t.value); setOpen(false); }}
-                    className={`flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-slate-800 hover:bg-purple-500/20 hover:text-purple-900 transition-colors ${
-                      active ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-900 font-semibold" : ""
-                    }`}
-                  >
-                    <span>{t.label}</span>
-                    {active && <Check className="h-4 w-4 text-purple-600" />}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
       </div>
+
+      {open && portalEl && pos && createPortal(
+        <div
+          ref={popRef}
+          id={listId}
+          role="listbox"
+          className="fixed z-[99999] rounded-xl shadow-2xl border-2 border-purple-500/30 bg-white/95 backdrop-blur-xl overflow-y-auto"
+          style={{
+            top: pos.top,
+            left: pos.left,
+            width: pos.width,
+            maxHeight: pos.maxH,
+            transform: pos.placement === "top" ? "translateY(-100%)" : "none",
+            boxShadow: "0 20px 25px -5px rgba(0,0,0,0.3), 0 10px 10px -5px rgba(0,0,0,0.2)",
+          }}
+        >
+          <div className="p-1">
+            {TYPES.map((t) => {
+              const active = t.value === value;
+              return (
+                <div
+                  key={t.value}
+                  role="option"
+                  aria-selected={active}
+                  onClick={() => { onChange(t.value); setOpen(false); }}
+                  className={`flex cursor-pointer items-center justify-between rounded-lg px-3 py-2 text-slate-800 hover:bg-purple-500/20 hover:text-purple-900 transition-colors ${
+                    active ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-900 font-semibold" : ""
+                  }`}
+                >
+                  <span>{t.label}</span>
+                  {active && <Check className="h-4 w-4 text-purple-600" />}
+                </div>
+              );
+            })}
+          </div>
+        </div>,
+        portalEl
+      )}
     </div>
   );
 }
 
+/** -------------------------------
+ *  TeamPage
+ *  ------------------------------- */
 export default function TeamPage() {
   const [team, setTeam] = useState<Team | null>(null);
   const [loading, setLoading] = useState(false);
@@ -188,9 +256,7 @@ export default function TeamPage() {
         if (mounted) setLoading(false);
       }
     })();
-    return () => {
-      mounted = false;
-    };
+    return () => { mounted = false; };
   }, []);
 
   const canAdd = useMemo(() => {
@@ -310,7 +376,7 @@ export default function TeamPage() {
       <PageHeader title="Takım" desc="Takım üyelerinizi yönetin" variant="plain" />
 
       {/* Hero Section */}
-      <div className="relative overflow-visible rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-6 sm:p-8">
+      <div className="relative overflow-visible rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-6 sm:p-8 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse pointer-events-none z-0"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-4 mb-4">
@@ -322,9 +388,8 @@ export default function TeamPage() {
               <p className="text-sm sm:text-base text-purple-200/80">Üyelerinizi yönetin ve davetler gönderin</p>
             </div>
           </div>
-          
           <p className="text-sm sm:text-base leading-relaxed text-purple-100 max-w-2xl">
-            Takımınızı oluşturun, üye ekleyin ve davetler gönderin. Bireysel veya takım olarak 
+            Takımınızı oluşturun, üye ekleyin ve davetler gönderin. Bireysel veya takım olarak
             katılabilir, en fazla 4 kişilik ekipler kurabilirsiniz.
           </p>
         </div>
@@ -371,7 +436,7 @@ export default function TeamPage() {
             </div>
           </div>
 
-          {/* Tür seçimi */}
+          {/* Tür seçimi (PORTALLI) */}
           <TypeSelect
             value={team.type}
             onChange={(v) => saveTeamBasics({ type: v })}
@@ -387,10 +452,10 @@ export default function TeamPage() {
                   <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg flex items-center justify-center">
                     <Link className="h-5 w-5 text-white" />
                   </div>
-                  <input 
-                    className="flex-1 bg-transparent outline-none px-3 py-3 text-white text-sm" 
-                    value={team.inviteCode || ""} 
-                    readOnly 
+                  <input
+                    className="flex-1 bg-transparent outline-none px-3 py-3 text-white text-sm"
+                    value={team.inviteCode || ""}
+                    readOnly
                   />
                 </div>
               </div>
@@ -434,9 +499,7 @@ export default function TeamPage() {
             <div key={m.id} className="group relative overflow-visible rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 hover:scale-[1.02] transition-all duration-300">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                  m.isLeader 
-                    ? "bg-gradient-to-br from-yellow-500 to-orange-600" 
-                    : "bg-gradient-to-br from-purple-500 to-pink-600"
+                  m.isLeader ? "bg-gradient-to-br from-yellow-500 to-orange-600" : "bg-gradient-to-br from-purple-500 to-pink-600"
                 }`}>
                   {m.isLeader ? (
                     <Crown className="h-6 w-6 text-white" />
@@ -446,7 +509,7 @@ export default function TeamPage() {
                     </span>
                   )}
                 </div>
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
                     <h4 className="font-bold text-white truncate">
@@ -498,55 +561,55 @@ export default function TeamPage() {
               </div>
               <h4 className="font-bold text-white">Üye Ekle</h4>
             </div>
-            
+
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-6">
               <div className="sm:col-span-2">
                 <div className="relative overflow-visible">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg pointer-events-none z-0"></div>
                   <div className="relative z-10 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
-                    <input 
-                      className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-purple-200/60" 
-                      value={mName} 
-                      onChange={(e) => setMName(e.target.value)} 
-                      placeholder="Üye Ad Soyad" 
+                    <input
+                      className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-purple-200/60"
+                      value={mName}
+                      onChange={(e) => setMName(e.target.value)}
+                      placeholder="Üye Ad Soyad"
                     />
                   </div>
                 </div>
               </div>
-              
+
               <div className="relative overflow-visible">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl blur-lg pointer-events-none z-0"></div>
                 <div className="relative z-10 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-blue-500/50 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all duration-200 p-1">
-                  <input 
-                    className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-blue-200/60" 
-                    value={mEmail} 
-                    onChange={(e) => setMEmail(e.target.value)} 
-                    placeholder="uye@mail.com" 
+                  <input
+                    className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-blue-200/60"
+                    value={mEmail}
+                    onChange={(e) => setMEmail(e.target.value)}
+                    placeholder="uye@mail.com"
                   />
                 </div>
               </div>
-              
+
               <div className="relative overflow-visible">
                 <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl blur-lg pointer-events-none z-0"></div>
                 <div className="relative z-10 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-green-500/50 focus-within:ring-2 focus-within:ring-green-500/20 transition-all duration-200 p-1">
-                  <input 
-                    className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-green-200/60" 
-                    value={mPhone} 
-                    onChange={(e) => setMPhone(e.target.value)} 
-                    placeholder="+90 5xx xxx xx xx" 
+                  <input
+                    className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-green-200/60"
+                    value={mPhone}
+                    onChange={(e) => setMPhone(e.target.value)}
+                    placeholder="+90 5xx xxx xx xx"
                   />
                 </div>
               </div>
-              
+
               <div className="relative overflow-visible">
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl blur-lg pointer-events-none z-0"></div>
                 <div className="relative z-10 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-yellow-500/50 focus-within:ring-2 focus-within:ring-yellow-500/20 transition-all duration-200 p-1">
-                  <input 
-                    className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-yellow-200/60" 
-                    value={mAge} 
-                    onChange={(e) => setMAge(e.target.value)} 
-                    placeholder="Yaş (14+)" 
-                    inputMode="numeric" 
+                  <input
+                    className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-yellow-200/60"
+                    value={mAge}
+                    onChange={(e) => setMAge(e.target.value)}
+                    placeholder="Yaş (14+)"
+                    inputMode="numeric"
                   />
                 </div>
               </div>
@@ -583,6 +646,7 @@ export default function TeamPage() {
                     </div>
                     <button
                       onClick={async () => {
+                        if (!inviteLink) return;
                         await navigator.clipboard.writeText(inviteLink);
                         setMsg("Davet linki kopyalandı.");
                       }}

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Check, ChevronDown } from "lucide-react";
 import { createPortal } from "react-dom";
+import { Check, ChevronDown } from "lucide-react";
 
 type Role = "developer" | "designer" | "audio" | "pm";
 const ROLES: { value: Role; label: string }[] = [
@@ -29,32 +29,28 @@ export default function RoleSelect({
 }) {
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const boxRef = useRef<HTMLDivElement>(null);
+  const popRef = useRef<HTMLDivElement>(null);
 
-  // Portal root
+  // portal root
   const [portalEl, setPortalEl] = useState<HTMLElement | null>(null);
   useEffect(() => {
     const el = document.createElement("div");
     el.setAttribute("data-role-select-portal", "true");
     document.body.appendChild(el);
     setPortalEl(el);
-    return () => {
-      document.body.removeChild(el);
-    };
+    return () => { document.body.removeChild(el); };
   }, []);
 
-  // Dışarı tık & ESC
+  // dış tık + ESC
   useEffect(() => {
     function onClick(e: MouseEvent) {
       if (!open) return;
       const t = e.target as Node;
-      if (boxRef.current?.contains(t)) return;
+      if (popRef.current?.contains(t)) return;
       if (triggerRef.current?.contains(t)) return;
       setOpen(false);
     }
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
-    }
+    function onKey(e: KeyboardEvent) { if (e.key === "Escape") setOpen(false); }
     document.addEventListener("click", onClick);
     document.addEventListener("keydown", onKey);
     return () => {
@@ -63,37 +59,52 @@ export default function RoleSelect({
     };
   }, [open]);
 
-  // Dropdown konumunu hesapla
-  const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
+  // konum + flip + maxHeight
+  const [pos, setPos] = useState<{
+    top: number; left: number; width: number; placement: "top" | "bottom"; maxH: number;
+  } | null>(null);
+
   const reposition = () => {
     const btn = triggerRef.current;
     if (!btn) return;
     const r = btn.getBoundingClientRect();
-    setPos({
-      top: r.bottom + window.scrollY + 4, // 4px offset
-      left: r.left + window.scrollX,
-      width: r.width,
-    });
+    const sx = window.scrollX || document.documentElement.scrollLeft || 0;
+    const sy = window.scrollY || document.documentElement.scrollTop || 0;
+
+    const below = window.innerHeight - r.bottom;
+    const above = r.top;
+    const placement: "top" | "bottom" = (below >= 200 || below >= above) ? "bottom" : "top";
+
+    const leftRaw = r.left + sx;
+    const leftMax = sx + window.innerWidth - r.width - 8;
+    const left = Math.min(leftRaw, leftMax);
+
+    const maxH = Math.max(160, (placement === "bottom" ? below : above) - 8);
+    const top = placement === "bottom" ? r.bottom + sy + 4 : r.top + sy - 4;
+
+    setPos({ top, left, width: r.width, placement, maxH });
   };
 
   useLayoutEffect(() => {
-    if (open) {
-      reposition();
-      window.addEventListener("resize", reposition);
-      window.addEventListener("scroll", reposition, true);
-      return () => {
-        window.removeEventListener("resize", reposition);
-        window.removeEventListener("scroll", reposition, true);
-      };
-    }
+    if (!open) return;
+    reposition();
+    const f = () => reposition();
+    window.addEventListener("resize", f);
+    window.addEventListener("scroll", f, true);
+    return () => {
+      window.removeEventListener("resize", f);
+      window.removeEventListener("scroll", f, true);
+    };
   }, [open]);
 
-  const current = ROLES.find((r) => r.value === value)?.label ?? "";
+  const current = ROLES.find(r => r.value === value)?.label ?? "";
   const listId = "role-listbox";
 
   return (
     <div className={className}>
-      {showLabel && <label className="block text-sm font-medium text-purple-200 mb-2">{label}</label>}
+      {showLabel && (
+        <label className="block text-sm font-medium text-purple-200 mb-2">{label}</label>
+      )}
 
       <div
         className={[
@@ -107,7 +118,7 @@ export default function RoleSelect({
         <button
           ref={triggerRef}
           type="button"
-          onClick={() => setOpen((s) => !s)}
+          onClick={() => setOpen(s => !s)}
           aria-haspopup="listbox"
           aria-expanded={open}
           aria-controls={listId}
@@ -125,57 +136,47 @@ export default function RoleSelect({
         </button>
       </div>
 
-      {/* PORTAL: dropdown body altında render edilir */}
-      {open && portalEl && pos &&
-        createPortal(
-          <div
-            ref={boxRef}
-            id={listId}
-            role="listbox"
-            className={[
-              "rounded-xl shadow-2xl border-2",
-              "bg-white/95 backdrop-blur-xl border-purple-500/30",
-              "max-h-64 overflow-y-auto",
-              "z-[99999] fixed", // body altında sabit konum
-            ].join(" ")}
-            style={{
-              top: pos.top,
-              left: pos.left,
-              width: pos.width,
-              boxShadow:
-                "0 20px 25px -5px rgba(0,0,0,0.3), 0 10px 10px -5px rgba(0,0,0,0.2)",
-            }}
-          >
-            <div className="p-1">
-              {ROLES.map((r) => {
-                const active = r.value === value;
-                return (
-                  <div
-                    key={r.value}
-                    role="option"
-                    aria-selected={active}
-                    onClick={() => {
-                      onChange(r.value);
-                      setOpen(false);
-                    }}
-                    className={[
-                      "flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-200",
-                      "text-slate-800 font-medium",
-                      "hover:bg-purple-500/20 hover:text-purple-900",
-                      active
-                        ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-900 font-semibold"
-                        : "",
-                    ].join(" ")}
-                  >
-                    <span>{r.label}</span>
-                    {active && <Check className="h-4 w-4 text-purple-600" />}
-                  </div>
-                );
-              })}
-            </div>
-          </div>,
-          portalEl
-        )}
+      {/* PORTAL */}
+      {open && portalEl && pos && createPortal(
+        <div
+          ref={popRef}
+          id={listId}
+          role="listbox"
+          className="fixed z-[99999] rounded-xl shadow-2xl border-2 bg-white/95 backdrop-blur-xl border-purple-500/30 overflow-y-auto"
+          style={{
+            top: pos.top,
+            left: pos.left,
+            width: pos.width,
+            maxHeight: pos.maxH,
+            transform: pos.placement === "top" ? "translateY(-100%)" : "none",
+            boxShadow: "0 20px 25px -5px rgba(0,0,0,0.3), 0 10px 10px -5px rgba(0,0,0,0.2)",
+          }}
+        >
+          <div className="p-1">
+            {ROLES.map((r) => {
+              const active = r.value === value;
+              return (
+                <div
+                  key={r.value}
+                  role="option"
+                  aria-selected={active}
+                  onClick={() => { onChange(r.value); setOpen(false); }}
+                  className={[
+                    "flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-200",
+                    "text-slate-800 font-medium",
+                    "hover:bg-purple-500/20 hover:text-purple-900",
+                    active ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-900 font-semibold" : "",
+                  ].join(" ")}
+                >
+                  <span>{r.label}</span>
+                  {active && <Check className="h-4 w-4 text-purple-600" />}
+                </div>
+              );
+            })}
+          </div>
+        </div>,
+        portalEl
+      )}
     </div>
   );
 }
