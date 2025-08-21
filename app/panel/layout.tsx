@@ -98,6 +98,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         className="
           relative z-10 flex min-h-0 flex-col lg:col-start-2
           overflow-visible lg:overflow-y-auto lg:overscroll-contain
+          min-h-[calc(100svh+1px)] lg:min-h-0
+          pb-[env(safe-area-inset-bottom)]
         "
       >
         {/* Topbar (sticky; mobilde body'e, lg'de sağ sütun scroller'ına göre yapışır) */}

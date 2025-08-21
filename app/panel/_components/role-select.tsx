@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 
 type Role = "developer" | "designer" | "audio" | "pm";
@@ -53,14 +53,12 @@ export default function RoleSelect({
         ref={boxRef}
         className={[
           "group relative rounded-xl transition-all duration-200",
-          // Takım sayfasındaki diğer input'larla uyumlu stil
           "bg-white/20 backdrop-blur-sm border border-white/20",
           "hover:bg-white/30 hover:border-white/30",
           "focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20",
         ].join(" ")}
         data-open={open ? "true" : "false"}
       >
-        {/* KAPALI HAL */}
         <button
           type="button"
           onClick={() => setOpen(s => !s)}
@@ -80,7 +78,7 @@ export default function RoleSelect({
           />
         </button>
 
-        {/* AÇILIR PANEL: Daha net ve tam görünür */}
+        {/* Dropdown Panel - Üst üste binmeyi önlemek için */}
         {open && (
           <div
             id={listId}
@@ -88,7 +86,8 @@ export default function RoleSelect({
             className={[
               "absolute z-[9999] mt-1 w-full rounded-xl shadow-2xl border-2",
               "bg-white/95 backdrop-blur-xl border-purple-500/30",
-              "max-h-48 overflow-y-auto",
+              // Takım sayfası için daha fazla alan ve scroll
+              "max-h-64 overflow-y-auto",
             ].join(" ")}
             style={{
               boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2)"
@@ -105,7 +104,6 @@ export default function RoleSelect({
                     onClick={() => { onChange(r.value); setOpen(false); }}
                     className={[
                       "flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-200",
-                      // Daha net renkler ve kontrast
                       "text-slate-800 font-medium",
                       "hover:bg-purple-500/20 hover:text-purple-900",
                       active ? "bg-gradient-to-r from-purple-500/30 to-pink-500/30 text-purple-900 font-semibold" : "",

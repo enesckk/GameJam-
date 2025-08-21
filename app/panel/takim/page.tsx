@@ -307,6 +307,8 @@ export default function TeamPage() {
 
   return (
     <div className="space-y-6">
+      <PageHeader title="Takım" desc="Takım üyelerinizi yönetin" variant="plain" />
+
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-6 sm:p-8">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
@@ -549,13 +551,14 @@ export default function TeamPage() {
                 </div>
               </div>
 
-              <RoleSelect
-              className="lg:col-span-1"
-              value={mRole}
-              onChange={setMRole}
-              showLabel={false} // Takım sayfasında label gizle
-               placeholder="Rol seçin"
-              />
+              <div className="lg:col-span-1">
+                <RoleSelect
+                  value={mRole}
+                  onChange={setMRole}
+                  showLabel={false}
+                  placeholder="Rol seçin"
+                />
+              </div>
 
               <div className="sm:col-span-2 lg:col-span-6">
                 <button
