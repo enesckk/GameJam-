@@ -553,6 +553,7 @@ export default function TeamPage() {
                 className="lg:col-span-1"
                 value={mRole}
                 onChange={setMRole}
+                showLabel={false}
               />
 
               <div className="sm:col-span-2 lg:col-span-6">

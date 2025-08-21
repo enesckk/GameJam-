@@ -16,11 +16,13 @@ export default function RoleSelect({
   onChange,
   className = "",
   label = "Rol",
+  showLabel = false,
 }: {
   value: Role;
   onChange: (r: Role) => void;
   className?: string;
   label?: string;
+  showLabel?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
@@ -41,18 +43,18 @@ export default function RoleSelect({
 
   return (
     <div className={className}>
-      <label className="text-sm text-[var(--foreground)]">{label}</label>
+      {showLabel && (
+        <label className="block text-sm font-medium text-purple-200 mb-2">{label}</label>
+      )}
 
       <div
         ref={boxRef}
         className={[
-          "group relative mt-1 rounded-xl input-frame",
-          // Kapalı hâlde hafif belirgin, şeffaf
-          "ring-1 ring-[color:color-mix(in_oklab,var(--foreground)_12%,transparent)]",
-          "bg-[color:color-mix(in_oklab,var(--foreground)_6%,transparent)]",
-          "hover:bg-[color:color-mix(in_oklab,var(--foreground)_9%,transparent)]",
-          "focus-within:ring-transparent",
-          "transition",
+          "group relative rounded-xl transition-all duration-200",
+          // Takım sayfasındaki diğer input'larla uyumlu stil
+          "bg-white/20 backdrop-blur-sm border border-white/20",
+          "hover:bg-white/30 hover:border-white/30",
+          "focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20",
         ].join(" ")}
         data-open={open ? "true" : "false"}
       >
@@ -63,26 +65,26 @@ export default function RoleSelect({
           aria-haspopup="listbox"
           aria-expanded={open}
           aria-controls={listId}
-          className="flex w-full items-center justify-between px-3 py-2 text-left text-[var(--foreground)]"
+          className="flex w-full items-center justify-between px-3 py-2.5 text-left text-white"
         >
-          <span className="truncate">{current}</span>
+          <span className="truncate text-sm">{current}</span>
           <ChevronDown
             className={[
-              "h-4 w-4 opacity-70 transition-transform group-hover:opacity-100",
+              "h-4 w-4 text-purple-200 transition-transform duration-200",
               open ? "rotate-180" : "",
             ].join(" ")}
           />
         </button>
 
-        {/* AÇILIR PANEL: cam + blur */}
+        {/* AÇILIR PANEL: Takım sayfasındaki diğer elementlerle uyumlu */}
         {open && (
           <div
             id={listId}
             role="listbox"
             className={[
               "absolute z-50 mt-1 w-full rounded-xl shadow-xl border",
-              "border-[color:color-mix(in_oklab,var(--foreground)_18%,transparent)]",
-              "glass-panel", // ⬅️ cam + blur (CSS'te)
+              "bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10",
+              "backdrop-blur-xl border-purple-500/20",
             ].join(" ")}
           >
             <div className="p-1">
@@ -95,16 +97,15 @@ export default function RoleSelect({
                     aria-selected={active}
                     onClick={() => { onChange(r.value); setOpen(false); }}
                     className={[
-                      "flex cursor-pointer items-center justify-between rounded-lg px-2 py-2",
-                      // Tema uyumlu, kontrastlı metin
-                      "text-[var(--foreground)]",
-                      // Hover ve aktif tonları
-                      "hover:bg-[color:color-mix(in_oklab,var(--foreground)_10%,transparent)]",
-                      active ? "bg-[color:color-mix(in_oklab,var(--foreground)_12%,transparent)] font-semibold" : "",
+                      "flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-all duration-200",
+                      // Takım sayfasındaki diğer elementlerle uyumlu renkler
+                      "text-purple-100",
+                      "hover:bg-white/10 hover:text-white",
+                      active ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white font-semibold" : "",
                     ].join(" ")}
                   >
                     <span>{r.label}</span>
-                    {active && <Check className="h-4 w-4" />}
+                    {active && <Check className="h-4 w-4 text-purple-200" />}
                   </div>
                 );
               })}

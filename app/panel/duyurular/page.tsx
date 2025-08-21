@@ -94,6 +94,27 @@ export default function AnnouncementsPage() {
 
   return (
     <div className="space-y-6">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-4 sm:p-6 lg:p-8">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 sm:gap-4 mb-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <Megaphone className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-1">Duyurular</h2>
+              <p className="text-sm sm:text-base text-purple-200/80">Önemli bilgiler ve güncellemeler</p>
+            </div>
+          </div>
+          
+          <p className="text-sm sm:text-base leading-relaxed text-purple-100 max-w-2xl">
+            Etkinlik hakkında önemli duyurular, güncellemeler ve bilgilendirmeler burada yayınlanır. 
+            Sabitlenmiş duyurular en üstte görünür ve öncelikli olarak takip edilmelidir.
+          </p>
+        </div>
+      </div>
+
       <SectionCard>
         {loading && (
           <div className="flex items-center justify-center py-12">

@@ -31,14 +31,14 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
     <nav
       className="
         w-full h-full min-h-0
-        flex flex-col
+        grid grid-rows-[auto_1fr_auto]   /* header | links | footer */
         bg-gradient-to-b from-slate-50 via-white to-slate-50
         dark:from-slate-900 dark:via-slate-800 dark:to-slate-900
         border-r border-slate-200/60 dark:border-slate-700/60
       "
     >
-      {/* Header */}
-      <div className="flex-shrink-0 px-3 sm:px-4 pt-4 sm:pt-6 pb-3 sm:pb-4">
+      {/* Header (row 1) */}
+      <div className="px-3 sm:px-4 pt-4 sm:pt-6 pb-3 sm:pb-4">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl blur-xl" />
           <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-white/20 dark:border-slate-700/50 shadow-lg">
@@ -59,8 +59,8 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
         </div>
       </div>
 
-      {/* Navigation Links (artık overflow burada YOK) */}
-      <div className="min-h-0 flex-1 px-2 sm:px-3 py-2">
+      {/* Links (row 2) */}
+      <div className="min-h-0 px-2 sm:px-3 py-2">
         <div className="space-y-1 sm:space-y-2">
           {links.map(({ href, label, icon: Icon, color }) => {
             const active = pathname === href || pathname?.startsWith(href + "/");
@@ -111,16 +111,16 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
         </div>
       </div>
 
-      {/* Footer */}
-      {/* Footer — sabit altta, animasyonsuz */}
-      <div className="mt-auto sticky bottom-0 px-2 sm:px-3 pb-4 sm:pb-6">
+      {/* Footer (row 3) — sabit altta ve scroll'da görünür */}
+      <div className="sticky bottom-0 z-10 px-2 sm:px-3 pb-4 sm:pb-6">
         <div className="relative">
-          {/* üstten yumuşak ayrım için hafif örtü */}
+          {/* üstten yumuşak ayrım */}
           <div className="pointer-events-none absolute -top-3 left-0 right-0 h-3 bg-gradient-to-b from-slate-200/40 via-white/20 to-transparent dark:from-slate-800/40 dark:via-slate-900/20 rounded-t-2xl" />
           <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-white/20 dark:border-slate-700/50 shadow-lg">
             <div className="flex items-center justify-between">
               <div className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate">Game Jam v1.0</div>
-              <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full animate-pulse flex-shrink-0" />
+              {/* animasyon kaldırıldı */}
+              <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex-shrink-0" />
             </div>
             <div className="text-xs text-slate-400 dark:text-slate-500 mt-1 truncate">Sistem Aktif</div>
           </div>

@@ -79,7 +79,9 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           open ? "translate-x-0" : "-translate-x-full",
           "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
           "border-r border-slate-200/60 dark:border-slate-700/60",
-          "overflow-y-auto overscroll-contain",            // <— scroll burada
+          "overflow-y-auto overscroll-contain",
+          // scrollbar gizleme (Firefox/Edge/Chromium/WebKit)
+          "[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
           "lg:static lg:translate-x-0 lg:h-full",
         ].join(" ")}
       >
@@ -88,12 +90,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      {/* Sağ sütun = TOPBAR + CONTENT (tek scroll container) */}
-      <div className="relative z-10 flex min-h-0 flex-col lg:col-start-2
-                 overflow-y-auto overscroll-contain
-                 h-dvh lg:h-auto
-                 touch-pan-y [touch-action:pan-y] [-webkit-overflow-scrolling:touch]">
-        {/* Topbar (sticky, aynı scroller içinde olduğu için tekerlek her yerde çalışır) */}
+      {/* Sağ sütun = Topbar + Content (tek scroller) */}
+      <div className="relative z-10 flex min-h-0 flex-col lg:col-start-2 overflow-y-auto overscroll-contain">
         <div className="sticky top-0 z-20">
           <PanelTopbar
             onMenuClick={() => setOpen((s) => !s)}
@@ -102,15 +100,8 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           />
         </div>
 
-        {/* Mobilde sidebar overlay */}
-        {open && (
-          <div
-            className="fixed inset-0 z-40 bg-black/50 lg:hidden"
-            onClick={() => setOpen(false)}
-          />
-        )}
+        {open && <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={() => setOpen(false)} />}
 
-        {/* İçerik */}
         <main className="min-h-0 flex-1 p-3 sm:p-4 md:p-6">
           {children}
         </main>
