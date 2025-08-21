@@ -133,24 +133,22 @@ export default function RulesPage() {
   };
 
   return (
-    <div className="space-y-8">
-      
-
+    <div className="space-y-6">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-4 sm:p-6 lg:p-8">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
         <div className="relative z-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <Shield className="h-6 w-6 text-white" />
+          <div className="flex items-center gap-3 sm:gap-4 mb-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white mb-1">Etkinlik Kuralları</h2>
-              <p className="text-purple-200/80">Adil ve güvenli bir ortam için</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-1">Etkinlik Kuralları</h2>
+              <p className="text-sm sm:text-base text-purple-200/80">Adil ve güvenli bir ortam için</p>
             </div>
           </div>
           
-          <p className="text-base leading-relaxed text-purple-100 max-w-2xl">
+          <p className="text-sm sm:text-base leading-relaxed text-purple-100 max-w-2xl">
             Şehitkamil Game Jam'in başarılı bir şekilde gerçekleşmesi için tüm katılımcıların 
             uyması gereken kurallar ve yönergeler. Bu kurallar adil, güvenli ve yaratıcı bir 
             ortam sağlamak için hazırlanmıştır.
@@ -162,21 +160,21 @@ export default function RulesPage() {
         {/* Sol: içerik */}
         <div className="space-y-6">
           {/* Header Card */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
-            <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-                  <Clock className="h-5 w-5 text-white" />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                  <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div>
-                  <div className="text-sm text-purple-200/80">Son güncelleme</div>
-                  <div className="font-semibold text-white">{updatedAt}</div>
+                  <div className="text-xs sm:text-sm text-purple-200/80">Son güncelleme</div>
+                  <div className="text-sm sm:text-base font-semibold text-white">{updatedAt}</div>
                 </div>
               </div>
               
               <button
                 onClick={() => window.print()}
-                className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200"
+                className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 w-full sm:w-auto"
                 title="Yazdır / PDF"
               >
                 <Printer className="h-4 w-4" />
@@ -194,30 +192,30 @@ export default function RulesPage() {
               data-sec-id={sec.id}
               className="scroll-mt-24"
             >
-              <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6 hover:scale-[1.01] transition-all duration-300">
+              <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6 hover:scale-[1.01] transition-all duration-300">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 <div className="relative z-10">
                   {/* Section Header */}
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
-                      <span className="text-white font-bold text-lg">{index + 1}</span>
+                  <div className="flex items-center gap-3 mb-4 sm:mb-6">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+                      <span className="text-white font-bold text-base sm:text-lg">{index + 1}</span>
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">{sec.title}</h3>
-                      <div className="text-sm text-purple-200/80">Kural {index + 1}</div>
+                      <h3 className="text-lg sm:text-xl font-bold text-white">{sec.title}</h3>
+                      <div className="text-xs sm:text-sm text-purple-200/80">Kural {index + 1}</div>
                     </div>
                   </div>
 
                   {/* Rules List */}
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {sec.items.map((item, i) => (
-                      <div key={i} className="group/item relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 p-4 hover:scale-[1.02] transition-all duration-200">
-                        <div className="flex items-start gap-3">
-                          <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div key={i} className="group/item relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 p-3 sm:p-4 hover:scale-[1.02] transition-all duration-200">
+                        <div className="flex items-start gap-2 sm:gap-3">
+                          <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
                             <span className="text-white text-xs font-bold">{i + 1}</span>
                           </div>
-                          <div className="text-sm leading-relaxed text-purple-100">
+                          <div className="text-xs sm:text-sm leading-relaxed text-purple-100">
                             {item}
                           </div>
                         </div>
@@ -230,12 +228,12 @@ export default function RulesPage() {
           ))}
 
           {/* Footer Card */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-teal-500/10 backdrop-blur-xl border border-green-500/20 p-6">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-teal-500/10 backdrop-blur-xl border border-green-500/20 p-4 sm:p-6">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                <CheckCircle className="h-5 w-5 text-white" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               </div>
-              <div className="text-sm text-green-200/80">
+              <div className="text-xs sm:text-sm text-green-200/80">
                 <p className="mb-2">
                   * Kurallar güncellenirse duyurulacaktır. En güncel sürüm bu sayfada geçerlidir.
                 </p>
@@ -248,15 +246,15 @@ export default function RulesPage() {
         </div>
 
         {/* Sağ: İçindekiler */}
-        <aside className="hidden lg:block sticky top-20 self-start">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-                <BookOpen className="h-5 w-5 text-white" />
+        <aside className="lg:block sticky top-20 self-start">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6">
+            <div className="flex items-center gap-3 mb-4 sm:mb-6">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+                <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white">İçindekiler</h3>
-                <div className="text-sm text-purple-200/80">{sections.length} bölüm</div>
+                <h3 className="text-base sm:text-lg font-bold text-white">İçindekiler</h3>
+                <div className="text-xs sm:text-sm text-purple-200/80">{sections.length} bölüm</div>
               </div>
             </div>
             
@@ -271,23 +269,23 @@ export default function RulesPage() {
                   } border backdrop-blur-sm`}>
                     <button
                       onClick={(e) => { e.currentTarget.blur(); goTo(s.id); }}
-                      className="block w-full text-left px-4 py-3 text-sm outline-none transition-all duration-200"
+                      className="block w-full text-left px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm outline-none transition-all duration-200"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold ${
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-xs font-bold ${
                           active 
                             ? "bg-gradient-to-br from-purple-500 to-pink-600 text-white" 
                             : "bg-white/20 text-purple-200"
                         }`}>
                           {index + 1}
                         </div>
-                        <span className={`font-medium ${
+                        <span className={`font-medium truncate ${
                           active ? "text-white" : "text-purple-200 hover:text-white"
                         }`}>
                           {s.title}
                         </span>
                         {active && (
-                          <ArrowRight className="h-4 w-4 text-purple-300 ml-auto" />
+                          <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-purple-300 ml-auto flex-shrink-0" />
                         )}
                       </div>
                     </button>

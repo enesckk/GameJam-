@@ -130,22 +130,22 @@ export default function UserMessagesPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-4 sm:p-6 lg:p-8">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
         <div className="relative z-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <MessageSquare className="h-6 w-6 text-white" />
+          <div className="flex items-center gap-3 sm:gap-4 mb-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white mb-1">Mesajlar</h1>
-              <p className="text-purple-200/80">Organizasyon ekibi ile iletişim</p>
+              <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">Mesajlar</h1>
+              <p className="text-sm sm:text-base text-purple-200/80">Organizasyon ekibi ile iletişim</p>
             </div>
           </div>
           
-          <p className="text-base leading-relaxed text-purple-100 max-w-2xl">
+          <p className="text-sm sm:text-base leading-relaxed text-purple-100 max-w-2xl">
             Sorularınız, önerileriniz veya teknik destek ihtiyacınız için organizasyon ekibi ile 
             iletişime geçebilirsiniz. Mesajlarınız en kısa sürede yanıtlanacaktır.
           </p>
@@ -153,7 +153,7 @@ export default function UserMessagesPage() {
       </div>
 
       {/* Sekmeler */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
         {[
           { id: "inbox", label: "Gelen Kutusu", icon: Inbox, color: "from-blue-500 to-cyan-500" },
           { id: "outbox", label: "Giden Kutusu", icon: Mail, color: "from-green-500 to-emerald-500" },
@@ -165,21 +165,21 @@ export default function UserMessagesPage() {
               if (item.id !== "compose") setPage(1);
               setTab(item.id as any);
             }} 
-            className={`group relative overflow-hidden rounded-2xl px-6 py-3 transition-all duration-300 ${
+            className={`group relative overflow-hidden rounded-2xl px-4 sm:px-6 py-3 transition-all duration-300 ${
               tab === item.id 
                 ? "bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/30 shadow-lg" 
                 : "bg-gradient-to-br from-white/10 to-white/5 border-white/20 hover:from-white/20 hover:to-white/10"
             } backdrop-blur-xl border`}
           >
-            <div className="flex items-center gap-3">
-              <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center ${
                 tab === item.id 
                   ? "bg-gradient-to-br from-purple-500 to-pink-600" 
                   : `bg-gradient-to-br ${item.color}`
               }`}>
-                <item.icon className="h-4 w-4 text-white" />
+                <item.icon className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
               </div>
-              <span className={`font-medium ${
+              <span className={`text-sm sm:text-base font-medium ${
                 tab === item.id ? "text-white" : "text-purple-200 hover:text-white"
               }`}>
                 {item.label}
@@ -201,10 +201,10 @@ export default function UserMessagesPage() {
 
       {/* Search and Filters */}
       {tab !== "compose" && (
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
-          <div className="flex flex-wrap items-center gap-4">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
             {/* Search */}
-            <div className="relative flex-1 min-w-80">
+            <div className="relative flex-1 min-w-0">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-300 z-10" />
               <input
                 className="w-full rounded-xl bg-white/20 backdrop-blur-sm pl-10 pr-4 py-3 text-sm outline-none border border-white/20 focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200"
@@ -215,7 +215,7 @@ export default function UserMessagesPage() {
             </div>
 
             {/* Filters */}
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
               {tab === "inbox" && (
                 <label className="flex items-center gap-2 text-sm text-purple-200">
                   <input
@@ -271,37 +271,37 @@ export default function UserMessagesPage() {
                       : "bg-gradient-to-r from-purple-500/5 via-pink-500/5 to-blue-500/5"
                   }`}></div>
                   
-                  <div className="relative z-10 p-6">
+                  <div className="relative z-10 p-4 sm:p-6">
                     <div
                       role="button"
                       tabIndex={0}
                       onClick={() => { toggleExpand(m.id); if (!open && unread) markRead(m.id); }}
                       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleExpand(m.id); if (!open && unread) markRead(m.id); }}}
-                      className="flex items-center justify-between cursor-pointer"
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 cursor-pointer"
                     >
-                      <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-3">
-                          {open ? <ChevronDown className="h-5 w-5 text-purple-300" /> : <ChevronRight className="h-5 w-5 text-purple-300" />}
+                      <div className="flex items-start sm:items-center gap-3 sm:gap-4">
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          {open ? <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-purple-300" /> : <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 text-purple-300" />}
                           
                           {unread && (
-                            <div className="w-3 h-3 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full shadow-lg"></div>
+                            <div className="w-2 h-2 sm:w-3 sm:h-3 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full shadow-lg"></div>
                           )}
                         </div>
                         
-                        <div className="flex flex-col gap-1">
-                          <div className="flex items-center gap-3">
-                            <h3 className="font-bold text-white">{m.subject}</h3>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-1">
+                            <h3 className="font-bold text-white truncate">{m.subject}</h3>
                             {unread && (
-                              <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-purple-500 to-pink-600 text-white px-2 py-1 text-xs font-bold">
+                              <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-purple-500 to-pink-600 text-white px-2 py-1 text-xs font-bold w-fit">
                                 <EyeOff className="h-3 w-3" /> Yeni
                               </span>
                             )}
                           </div>
                           
-                          <div className="flex items-center gap-3 text-sm text-purple-200/80">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-xs sm:text-sm text-purple-200/80">
                             <div className="flex items-center gap-1">
                               <User className="h-3 w-3" />
-                              <span>{m.sender.name ?? m.sender.email}</span>
+                              <span className="truncate">{m.sender.name ?? m.sender.email}</span>
                             </div>
                             <div className="flex items-center gap-1">
                               <Clock className="h-3 w-3" />
@@ -314,10 +314,10 @@ export default function UserMessagesPage() {
                       <button
                         type="button"
                         onClick={(e) => { e.stopPropagation(); deleteInbox(m.id); }}
-                        className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-500/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium"
+                        className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-500/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium w-full sm:w-auto"
                       >
                         <Trash2 className="h-4 w-4" />
-                        <span className="hidden sm:inline">Sil</span>
+                        <span>Sil</span>
                       </button>
                     </div>
                     
@@ -373,33 +373,33 @@ export default function UserMessagesPage() {
                 <div key={m.id} className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-500/10 via-emerald-500/5 to-teal-500/10 backdrop-blur-xl border border-green-500/20 hover:scale-[1.02] transition-all duration-300">
                   <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-emerald-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   
-                  <div className="relative z-10 p-6">
-                    <div className="flex items-center justify-between">
+                  <div className="relative z-10 p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                       <div
                         role="button"
                         tabIndex={0}
                         onClick={() => toggleExpand(m.id)}
                         onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleExpand(m.id); }}}
-                        className="flex items-center gap-4 cursor-pointer"
+                        className="flex items-start sm:items-center gap-3 sm:gap-4 cursor-pointer flex-1 min-w-0"
                       >
-                        <div className="flex items-center gap-3">
-                          {open ? <ChevronDown className="h-5 w-5 text-green-300" /> : <ChevronRight className="h-5 w-5 text-green-300" />}
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          {open ? <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5 text-green-300" /> : <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 text-green-300" />}
                         </div>
                         
-                        <div className="flex flex-col gap-1">
-                          <div className="flex items-center gap-3">
-                            <h3 className="font-bold text-white">{m.subject}</h3>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-1">
+                            <h3 className="font-bold text-white truncate">{m.subject}</h3>
                             {anyRead && (
-                              <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-2 py-1 text-xs font-bold">
+                              <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-green-500 to-emerald-600 text-white px-2 py-1 text-xs font-bold w-fit">
                                 <CheckCircle className="h-3 w-3" /> Okundu
                               </span>
                             )}
                           </div>
                           
-                          <div className="flex items-center gap-3 text-sm text-green-200/80">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-xs sm:text-sm text-green-200/80">
                             <div className="flex items-center gap-1">
                               <User className="h-3 w-3" />
-                              <span>Alıcılar: {m.recipients.map((r) => r.name ?? r.email).join(", ")}</span>
+                              <span className="truncate">Alıcılar: {m.recipients.map((r) => r.name ?? r.email).join(", ")}</span>
                             </div>
                             <div className="flex items-center gap-1">
                               <Clock className="h-3 w-3" />
@@ -412,10 +412,10 @@ export default function UserMessagesPage() {
                       <button
                         type="button"
                         onClick={() => deleteOutbox(m.id)}
-                        className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-500/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium"
+                        className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-500/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium w-full sm:w-auto"
                       >
                         <Trash2 className="h-4 w-4" />
-                        <span className="hidden sm:inline">Sil</span>
+                        <span>Sil</span>
                       </button>
                     </div>
                     
@@ -443,10 +443,10 @@ export default function UserMessagesPage() {
       )}
 
       {tab === "compose" && (
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-8">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6 lg:p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-              <Plus className="h-5 w-5 text-white" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+              <Plus className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
             </div>
             <div>
               <h3 className="text-lg font-bold text-white">Yeni Mesaj</h3>
@@ -475,11 +475,11 @@ export default function UserMessagesPage() {
               />
             </div>
             
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={() => { setSubj(""); setBody(""); }}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-gray-500/20 to-gray-600/20 hover:from-gray-500/30 hover:to-gray-600/30 border border-gray-500/30 hover:border-gray-500/50 transition-all duration-200 text-sm font-medium"
+                className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-gray-500/20 to-gray-600/20 hover:from-gray-500/30 hover:to-gray-600/30 border border-gray-500/30 hover:border-gray-500/50 transition-all duration-200 text-sm font-medium w-full sm:w-auto"
               >
                 <Trash2 className="h-4 w-4" />
                 Temizle
@@ -489,7 +489,7 @@ export default function UserMessagesPage() {
                 type="button"
                 onClick={send}
                 disabled={sending || !subj.trim() || !body.trim()}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed transition-all duration-200 text-sm font-medium shadow-lg"
+                className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed transition-all duration-200 text-sm font-medium shadow-lg w-full sm:w-auto"
               >
                 <Send className="h-4 w-4" />
                 {sending ? "Gönderiliyor..." : "Gönder"}
@@ -507,8 +507,8 @@ function Pager({
 }: { page: number; total: number; pageSize: number; onPrev: () => void; onNext: () => void; }) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   return (
-    <div className="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20">
-      <div className="text-sm text-purple-200">
+    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 rounded-2xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20">
+      <div className="text-sm text-purple-200 text-center sm:text-left">
         Toplam <strong className="text-white">{total}</strong> mesaj • Sayfa <strong className="text-white">{page}</strong> / {totalPages}
       </div>
       <div className="flex items-center gap-2">
@@ -516,7 +516,7 @@ function Pager({
           type="button"
           onClick={onPrev}
           disabled={page <= 1}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex-1 sm:flex-none"
         >
           <ArrowLeft className="h-4 w-4" />
           Önceki
@@ -525,7 +525,7 @@ function Pager({
           type="button"
           onClick={onNext}
           disabled={page >= totalPages}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed flex-1 sm:flex-none"
         >
           Sonraki
           <ArrowRight className="h-4 w-4" />

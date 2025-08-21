@@ -94,7 +94,6 @@ export default function AnnouncementsPage() {
 
   return (
     <div className="space-y-6">
-
       <SectionCard>
         {loading && (
           <div className="flex items-center justify-center py-12">
@@ -116,12 +115,12 @@ export default function AnnouncementsPage() {
 
         {/* Sabitlenen Duyurular */}
         {pinned.length > 0 && (
-          <div className="mb-8">
+          <div className="mb-6 sm:mb-8">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center">
-                <Pin className="h-4 w-4 text-white" />
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-lg flex items-center justify-center">
+                <Pin className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
               </div>
-              <h2 className="text-lg font-bold text-white">Önemli Duyurular</h2>
+              <h2 className="text-base sm:text-lg font-bold text-white">Önemli Duyurular</h2>
             </div>
             
             <div className="space-y-4">
@@ -131,15 +130,15 @@ export default function AnnouncementsPage() {
                 const showHTML = isOpen && isLikelyHTML(raw);
 
                 return (
-                  <article key={a.id} className="group relative overflow-hidden rounded-3xl p-6 bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-red-500/10 backdrop-blur-xl border border-yellow-500/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+                  <article key={a.id} className="group relative overflow-hidden rounded-3xl p-4 sm:p-6 bg-gradient-to-br from-yellow-500/10 via-orange-500/5 to-red-500/10 backdrop-blur-xl border border-yellow-500/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
                     {/* Animated background */}
                     <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 via-orange-500/5 to-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     
                     <div className="relative z-10">
                       {/* Header */}
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4">
+                        <div className="flex items-center gap-2 sm:gap-3">
+                          <div className="flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30">
                             <Pin className="h-3 w-3 text-yellow-400" />
                             <span className="text-xs font-semibold text-yellow-200">Sabitlenmiş</span>
                           </div>
@@ -151,7 +150,7 @@ export default function AnnouncementsPage() {
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-xl md:text-2xl font-bold text-white mb-3 leading-tight">
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3 leading-tight">
                         {a.title}
                       </h3>
 
@@ -168,7 +167,7 @@ export default function AnnouncementsPage() {
                       )}
 
                       {/* Footer */}
-                      <div className="mt-6 flex items-center justify-between">
+                      <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div className="flex items-center gap-2 text-xs text-purple-200/80">
                           <User className="h-3 w-3" />
                           <span>{a.author?.name ?? "Organizasyon Ekibi"}</span>
@@ -176,7 +175,7 @@ export default function AnnouncementsPage() {
                         
                         <button
                           onClick={() => setOpenId(isOpen ? null : a.id)}
-                          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium"
+                          className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium w-full sm:w-auto"
                         >
                           {isOpen ? (
                             <>
@@ -203,10 +202,10 @@ export default function AnnouncementsPage() {
         <div className="space-y-4">
           {pinned.length > 0 && (
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <Bell className="h-4 w-4 text-white" />
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                <Bell className="h-3 w-3 sm:h-4 sm:w-4 text-white" />
               </div>
-              <h2 className="text-lg font-bold text-white">Tüm Duyurular</h2>
+              <h2 className="text-base sm:text-lg font-bold text-white">Tüm Duyurular</h2>
             </div>
           )}
           
@@ -216,7 +215,7 @@ export default function AnnouncementsPage() {
             const showHTML = isOpen && isLikelyHTML(raw);
 
             return (
-              <article key={a.id} className="group relative overflow-hidden rounded-3xl p-6 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.01]">
+              <article key={a.id} className="group relative overflow-hidden rounded-3xl p-4 sm:p-6 bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.01]">
                 {/* Animated background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
@@ -230,7 +229,7 @@ export default function AnnouncementsPage() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-lg md:text-xl font-bold text-white mb-3 leading-tight">
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 leading-tight">
                     {a.title}
                   </h3>
 
@@ -247,7 +246,7 @@ export default function AnnouncementsPage() {
                   )}
 
                   {/* Footer */}
-                  <div className="mt-6 flex items-center justify-between">
+                  <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-2 text-xs text-purple-200/80">
                       <User className="h-3 w-3" />
                       <span>{a.author?.name ?? "Organizasyon Ekibi"}</span>
@@ -255,7 +254,7 @@ export default function AnnouncementsPage() {
                     
                     <button
                       onClick={() => setOpenId(isOpen ? null : a.id)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium"
+                      className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium w-full sm:w-auto"
                     >
                       {isOpen ? (
                         <>

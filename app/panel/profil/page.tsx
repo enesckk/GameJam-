@@ -164,22 +164,24 @@ export default function ProfilPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
+      <PageHeader title="Profil" desc="Kişisel bilgilerinizi güncelleyin" variant="plain" />
+
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-6">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
         <div className="relative z-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <User className="h-6 w-6 text-white" />
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+              <User className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white mb-1">Profil Bilgileri</h2>
-              <p className="text-purple-200/80">Kişisel bilgilerinizi güncelleyin</p>
+              <h2 className="text-xl font-bold text-white mb-1">Profil Bilgileri</h2>
+              <p className="text-sm text-purple-200/80">Kişisel bilgilerinizi güncelleyin</p>
             </div>
           </div>
           
-          <p className="text-base leading-relaxed text-purple-100 max-w-2xl">
+          <p className="text-sm leading-relaxed text-purple-100">
             Profil bilgilerinizi güncelleyerek takım arkadaşlarınızın sizi daha iyi tanımasını sağlayın. 
             Rol seçiminiz takım eşleştirmelerinde önemli rol oynayacaktır.
           </p>
@@ -187,10 +189,10 @@ export default function ProfilPage() {
       </div>
 
       {/* Form Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-8">
-        <div className="grid gap-6 md:grid-cols-2">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+        <div className="grid gap-4 grid-cols-1">
           {/* Ad Soyad */}
-          <div className="md:col-span-2">
+          <div>
             <label className="block text-sm font-medium text-purple-200 mb-2">Ad Soyad</label>
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
@@ -258,7 +260,7 @@ export default function ProfilPage() {
           </div>
 
           {/* Rol */}
-          <div className="md:col-span-2">
+          <div>
             <label className="block text-sm font-medium text-purple-200 mb-2">Rol</label>
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
@@ -273,7 +275,7 @@ export default function ProfilPage() {
           </div>
 
           {/* Yeni Şifre */}
-          <div className="md:col-span-2">
+          <div>
             <label className="block text-sm font-medium text-purple-200 mb-2">Yeni Şifre (opsiyonel)</label>
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-pink-500/20 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
@@ -333,10 +335,10 @@ export default function ProfilPage() {
           <button
             onClick={save}
             disabled={!valid || loading}
-            className="group relative inline-flex items-center gap-3 rounded-xl px-8 py-4 font-semibold text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 hover:scale-105 shadow-lg hover:shadow-xl"
+            className="group relative inline-flex items-center gap-3 rounded-xl px-6 py-3 font-semibold text-white transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 hover:scale-105 shadow-lg hover:shadow-xl w-full sm:w-auto"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
-            <div className="relative flex items-center gap-3">
+            <div className="relative flex items-center gap-3 justify-center">
               <Save className="h-5 w-5" />
               {loading ? "Kaydediliyor..." : "Kaydet"}
             </div>

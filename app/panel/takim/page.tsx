@@ -306,10 +306,9 @@ export default function TeamPage() {
   const others = team.members.filter((m) => !m.isLeader);
 
   return (
-    <div className="space-y-8">
-
+    <div className="space-y-6">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-6 sm:p-8">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
         <div className="relative z-10">
           <div className="flex items-center gap-4 mb-4">
@@ -317,12 +316,12 @@ export default function TeamPage() {
               <Users className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white mb-1">Takım Yönetimi</h2>
-              <p className="text-purple-200/80">Üyelerinizi yönetin ve davetler gönderin</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-1">Takım Yönetimi</h2>
+              <p className="text-sm sm:text-base text-purple-200/80">Üyelerinizi yönetin ve davetler gönderin</p>
             </div>
           </div>
           
-          <p className="text-base leading-relaxed text-purple-100 max-w-2xl">
+          <p className="text-sm sm:text-base leading-relaxed text-purple-100 max-w-2xl">
             Takımınızı oluşturun, üye ekleyin ve davetler gönderin. Bireysel veya takım olarak 
             katılabilir, en fazla 4 kişilik ekipler kurabilirsiniz.
           </p>
@@ -330,7 +329,7 @@ export default function TeamPage() {
       </div>
 
       {/* Takım Bilgileri */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
             <Settings className="h-5 w-5 text-white" />
@@ -345,7 +344,7 @@ export default function TeamPage() {
           {/* Takım adı */}
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-purple-200 mb-2">Takım Adı</label>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <div className="relative flex-1">
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
                 <div className="relative flex items-center gap-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
@@ -362,7 +361,7 @@ export default function TeamPage() {
               </div>
               <button
                 onClick={() => saveTeamName((team.teamName ?? "").trim())}
-                className="flex items-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 transition-all duration-200 text-white font-medium shadow-lg"
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 transition-all duration-200 text-white font-medium shadow-lg"
               >
                 <Save className="h-4 w-4" />
                 Kaydet
@@ -379,7 +378,7 @@ export default function TeamPage() {
           {/* Takım Kodu */}
           <div>
             <label className="block text-sm font-medium text-purple-200 mb-2">Takım Kodu</label>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
               <div className="relative flex-1">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 rounded-xl blur-lg"></div>
                 <div className="relative flex items-center gap-3 rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 p-1">
@@ -387,34 +386,36 @@ export default function TeamPage() {
                     <Link className="h-5 w-5 text-white" />
                   </div>
                   <input 
-                    className="flex-1 bg-transparent outline-none px-3 py-3 text-white" 
+                    className="flex-1 bg-transparent outline-none px-3 py-3 text-white text-sm" 
                     value={team.inviteCode || ""} 
                     readOnly 
                   />
                 </div>
               </div>
-              <button
-                onClick={async () => {
-                  await navigator.clipboard.writeText(team.inviteCode || "");
-                  setMsg("Kopyalandı");
-                }}
-                className="flex items-center gap-2 px-3 py-3 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 border border-blue-500/30 hover:border-blue-500/50 transition-all duration-200 text-white"
-              >
-                <Copy className="h-4 w-4" />
-              </button>
-              <button
-                onClick={regenCode}
-                className="flex items-center gap-2 px-3 py-3 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 border border-green-500/30 hover:border-green-500/50 transition-all duration-200 text-white"
-              >
-                <RefreshCw className="h-4 w-4" />
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={async () => {
+                    await navigator.clipboard.writeText(team.inviteCode || "");
+                    setMsg("Kopyalandı");
+                  }}
+                  className="flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 border border-blue-500/30 hover:border-blue-500/50 transition-all duration-200 text-white"
+                >
+                  <Copy className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={regenCode}
+                  className="flex items-center justify-center gap-2 px-3 py-3 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 border border-green-500/30 hover:border-green-500/50 transition-all duration-200 text-white"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Üyeler */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
             <Users className="h-5 w-5 text-white" />
@@ -429,7 +430,7 @@ export default function TeamPage() {
         <div className="space-y-4">
           {[leader, ...others].filter(Boolean).map((m) => m && (
             <div key={m.id} className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 hover:scale-[1.02] transition-all duration-300">
-              <div className="flex items-center gap-4 p-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
                   m.isLeader 
                     ? "bg-gradient-to-br from-yellow-500 to-orange-600" 
@@ -444,29 +445,29 @@ export default function TeamPage() {
                   )}
                 </div>
                 
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h4 className="font-bold text-white">
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-1">
+                    <h4 className="font-bold text-white truncate">
                       {m.isLeader ? "👑 " : ""}{m.name}
                     </h4>
                     {m.isLeader && (
-                      <span className="px-2 py-1 rounded-full bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-200 text-xs font-medium">
+                      <span className="px-2 py-1 rounded-full bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-200 text-xs font-medium w-fit">
                         Lider
                       </span>
                     )}
                   </div>
                   <div className="text-sm text-purple-200/80 space-y-1">
-                    <div>{m.email}</div>
+                    <div className="truncate">{m.email}</div>
                     <div>{m.phone} • Yaş: {m.age} • {roleLabel(m.role)}</div>
                     <div>{m.isLeader ? "Aktif" : statusLabel(m.status)}</div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 w-full sm:w-auto">
                   {!m.isLeader && (
                     <button
                       onClick={() => removeMember(m.email)}
-                      className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-500/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium"
+                      className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-500/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium flex-1 sm:flex-none"
                     >
                       <Trash2 className="h-4 w-4" />
                       Çıkar
@@ -475,7 +476,7 @@ export default function TeamPage() {
                   {m.isLeader && team.type === "team" && team.members.length > 1 && (
                     <button
                       onClick={toIndividual}
-                      className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/30 hover:border-amber-500/50 transition-all duration-200 text-sm font-medium"
+                      className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/30 hover:border-amber-500/50 transition-all duration-200 text-sm font-medium flex-1 sm:flex-none"
                     >
                       Bireysel Ol
                     </button>
@@ -496,8 +497,8 @@ export default function TeamPage() {
               <h4 className="font-bold text-white">Üye Ekle</h4>
             </div>
             
-            <div className="grid gap-4 md:grid-cols-6">
-              <div className="md:col-span-2">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-6">
+              <div className="sm:col-span-2">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl blur-lg"></div>
                   <div className="relative rounded-xl bg-white/20 backdrop-blur-sm border border-white/20 focus-within:border-purple-500/50 focus-within:ring-2 focus-within:ring-purple-500/20 transition-all duration-200 p-1">
@@ -549,36 +550,36 @@ export default function TeamPage() {
               </div>
 
               <RoleSelect
-                className="md:col-span-1"
+                className="lg:col-span-1"
                 value={mRole}
                 onChange={setMRole}
               />
 
-              <div className="md:col-span-6">
+              <div className="sm:col-span-2 lg:col-span-6">
                 <button
                   onClick={addMember}
                   disabled={!canAdd || loading}
-                  className="group relative inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold text-white transition-all duration-200 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  className="group relative inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-semibold text-white transition-all duration-200 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 w-full sm:w-auto"
                 >
                   <UserPlus className="h-4 w-4" />
                   {loading ? "Ekleniyor..." : "Üye Ekle"}
                 </button>
 
                 {inviteLink && (
-                  <div className="mt-4 flex items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20">
-                    <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                  <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 p-4 rounded-2xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20">
+                    <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center flex-shrink-0">
                       <Link className="h-4 w-4 text-white" />
                     </div>
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <div className="text-sm text-green-200 mb-1">Davet bağlantısı (demo):</div>
-                      <code className="text-xs text-green-100 bg-green-500/20 px-2 py-1 rounded">{inviteLink}</code>
+                      <code className="text-xs text-green-100 bg-green-500/20 px-2 py-1 rounded break-all">{inviteLink}</code>
                     </div>
                     <button
                       onClick={async () => {
                         await navigator.clipboard.writeText(inviteLink);
                         setMsg("Davet linki kopyalandı.");
                       }}
-                      className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 border border-green-500/30 hover:border-green-500/50 transition-all duration-200 text-sm font-medium"
+                      className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 border border-green-500/30 hover:border-green-500/50 transition-all duration-200 text-sm font-medium w-full sm:w-auto"
                     >
                       <Copy className="h-4 w-4" />
                       Kopyala

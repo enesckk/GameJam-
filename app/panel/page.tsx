@@ -71,26 +71,26 @@ export default function PanelPage() {
   }, []);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-4 sm:p-6 lg:p-8">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
         <div className="relative z-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <Gamepad2 className="h-6 w-6 text-white" />
+          <div className="flex items-center gap-3 sm:gap-4 mb-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <Gamepad2 className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">
-                Merhaba {displayName ?? "Kullanıcı"}, hoş geldiniz! 👋
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1">
+                Merhaba {displayName ?? "Kullanıcı"}, hoş geldiniz! ��
               </h1>
-              <p className="text-purple-200/80">
+              <p className="text-sm sm:text-base text-purple-200/80">
                 Profilinizi, takımınızı, duyuruları ve oyun teslimini buradan yönetebilirsiniz.
               </p>
             </div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
               <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
                 <Users className="h-4 w-4 text-white" />
@@ -111,7 +111,7 @@ export default function PanelPage() {
               </div>
             </div>
             
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 sm:col-span-2 lg:col-span-1">
               <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
                 <Clock className="h-4 w-4 text-white" />
               </div>
@@ -127,10 +127,10 @@ export default function PanelPage() {
       </div>
 
       {/* Kısayollar */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-            <Sparkles className="h-5 w-5 text-white" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
           </div>
           <div>
             <h2 className="text-lg font-bold text-white">Hızlı Erişim</h2>
@@ -138,29 +138,29 @@ export default function PanelPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {quickLinks.map(({ href, label, icon: Icon, color, desc }) => (
             <Link
               key={href}
               href={href}
               className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 hover:scale-105 transition-all duration-300"
             >
-              <div className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 bg-gradient-to-br ${color} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className="h-6 w-6 text-white" />
+              <div className="p-4 sm:p-6">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${color} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                   </div>
                   
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-bold text-white mb-1 group-hover:text-purple-200 transition-colors">
+                    <h3 className="text-base sm:text-lg font-bold text-white mb-1 group-hover:text-purple-200 transition-colors">
                       {label}
                     </h3>
-                    <p className="text-sm text-purple-200/80 mb-3">
+                    <p className="text-xs sm:text-sm text-purple-200/80 mb-3">
                       {desc}
                     </p>
                     <div className="flex items-center gap-2 text-purple-300 group-hover:text-purple-200 transition-colors">
-                      <span className="text-sm font-medium">Aç</span>
-                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      <span className="text-xs sm:text-sm font-medium">Aç</span>
+                      <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
                 </div>
@@ -171,10 +171,10 @@ export default function PanelPage() {
       </div>
 
       {/* Durum Özeti */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-            <Trophy className="h-5 w-5 text-white" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+            <Trophy className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
           </div>
           <div>
             <h2 className="text-lg font-bold text-white">Durum Özeti</h2>
@@ -182,20 +182,20 @@ export default function PanelPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {/* Takım */}
           <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm border border-purple-500/30 hover:scale-105 transition-all duration-300">
-            <div className="p-4">
+            <div className="p-3 sm:p-4">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-                  <Users className="h-5 w-5 text-white" />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+                  <Users className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div>
                   <div className="text-sm font-medium text-white">Takım</div>
                   <div className="text-xs text-purple-200/80">Üye sayısı</div>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-white mb-2">
+              <div className="text-xl sm:text-2xl font-bold text-white mb-2">
                 {teamCount}/{teamLimit}
               </div>
               <div className="w-full bg-white/20 rounded-full h-2">
@@ -209,22 +209,22 @@ export default function PanelPage() {
 
           {/* Yeni Mesaj */}
           <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm border border-blue-500/30 hover:scale-105 transition-all duration-300">
-            <div className="p-4">
+            <div className="p-3 sm:p-4">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center">
-                  <MessageSquare className="h-5 w-5 text-white" />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl flex items-center justify-center">
+                  <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div>
                   <div className="text-sm font-medium text-white">Yeni Mesaj</div>
                   <div className="text-xs text-blue-200/80">Okunmamış</div>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-white mb-2">
+              <div className="text-xl sm:text-2xl font-bold text-white mb-2">
                 {unreadMessages}
               </div>
               {unreadMessages > 0 && (
-                <div className="flex items-center gap-2 text-blue-200 text-sm">
-                  <AlertCircle className="h-4 w-4" />
+                <div className="flex items-center gap-2 text-blue-200 text-xs sm:text-sm">
+                  <AlertCircle className="h-3 w-3 sm:h-4 sm:w-4" />
                   <span>Yeni mesajlarınız var</span>
                 </div>
               )}
@@ -233,41 +233,41 @@ export default function PanelPage() {
 
           {/* Teslime Kalan */}
           <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 backdrop-blur-sm border border-green-500/30 hover:scale-105 transition-all duration-300">
-            <div className="p-4">
+            <div className="p-3 sm:p-4">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
-                  <Clock className="h-5 w-5 text-white" />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                  <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div>
                   <div className="text-sm font-medium text-white">Teslime Kalan</div>
                   <div className="text-xs text-green-200/80">Gün sayısı</div>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-white mb-2">
+              <div className="text-xl sm:text-2xl font-bold text-white mb-2">
                 {typeof daysLeft === "number" ? `${daysLeft}` : "—"}
               </div>
-              <div className="text-sm text-green-200">
+              <div className="text-xs sm:text-sm text-green-200">
                 {typeof daysLeft === "number" ? "gün kaldı" : "Tarih belirsiz"}
               </div>
             </div>
           </div>
 
           {/* Genel Durum */}
-          <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-sm border border-orange-500/30 hover:scale-105 transition-all duration-300">
-            <div className="p-4">
+          <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 backdrop-blur-sm border border-orange-500/30 hover:scale-105 transition-all duration-300 sm:col-span-2 lg:col-span-1">
+            <div className="p-3 sm:p-4">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center">
-                  <CheckCircle className="h-5 w-5 text-white" />
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center">
+                  <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div>
                   <div className="text-sm font-medium text-white">Genel Durum</div>
                   <div className="text-xs text-orange-200/80">Hazırlık</div>
                 </div>
               </div>
-              <div className="text-2xl font-bold text-white mb-2">
+              <div className="text-xl sm:text-2xl font-bold text-white mb-2">
                 {teamCount > 0 ? "Hazır" : "Beklemede"}
               </div>
-              <div className="text-sm text-orange-200">
+              <div className="text-xs sm:text-sm text-orange-200">
                 {teamCount > 0 ? "Takım kuruldu" : "Takım kurulması gerekiyor"}
               </div>
             </div>
@@ -276,20 +276,20 @@ export default function PanelPage() {
       </div>
 
       {/* Hatırlatma */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-500/10 to-orange-500/10 backdrop-blur-xl border border-yellow-500/30 p-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center">
-            <AlertCircle className="h-6 w-6 text-white" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-500/10 to-orange-500/10 backdrop-blur-xl border border-yellow-500/30 p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
+            <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <h3 className="text-lg font-bold text-white mb-1">Teslim Hatırlatması</h3>
-            <p className="text-yellow-200/90 mb-3">
+            <p className="text-sm sm:text-base text-yellow-200/90 mb-3">
               Son teslim: <strong>12 Ekim 2025 • 23:59</strong> (örnek). 
               Dosyalarınızı zamanında yüklemeyi unutmayın!
             </p>
             <Link 
               href="/panel/teslim" 
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30 border border-yellow-500/30 hover:border-yellow-500/50 transition-all duration-200 text-sm font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30 border border-yellow-500/30 hover:border-yellow-500/50 transition-all duration-200 text-sm font-medium w-full sm:w-auto justify-center"
             >
               <Upload className="h-4 w-4" />
               Teslim Sayfasına Git
@@ -300,12 +300,12 @@ export default function PanelPage() {
       </div>
 
       {/* Motivasyon Mesajı */}
-      <div className="text-center p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
+      <div className="text-center p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20">
         <div className="flex items-center justify-center gap-2 mb-2">
-          <Sparkles className="h-5 w-5 text-purple-400" />
+          <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-purple-400" />
           <span className="text-sm font-medium text-purple-200">Başarılar!</span>
         </div>
-        <p className="text-sm text-purple-200/80">
+        <p className="text-xs sm:text-sm text-purple-200/80">
           Harika bir oyun geliştirmek için her şey hazır. Yaratıcılığınızı gösterin ve eğlenin! 🎮✨
         </p>
       </div>

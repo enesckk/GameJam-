@@ -227,23 +227,23 @@ export default function TeslimPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-4 sm:p-6 lg:p-8">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
         <div className="relative z-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <Upload className="h-6 w-6 text-white" />
+          <div className="flex items-center gap-3 sm:gap-4 mb-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <Upload className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white mb-1">Oyun Teslimi</h2>
-              <p className="text-purple-200/80">Projenizi yükleyin ve jüriye sunun</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-1">Oyun Teslimi</h2>
+              <p className="text-sm sm:text-base text-purple-200/80">Projenizi yükleyin ve jüriye sunun</p>
             </div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30">
               <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
                 <Gamepad2 className="h-4 w-4 text-white" />
@@ -264,7 +264,7 @@ export default function TeslimPage() {
               </div>
             </div>
             
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30">
+            <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 sm:col-span-2 lg:col-span-1">
               <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
                 <Tag className="h-4 w-4 text-white" />
               </div>
@@ -278,10 +278,10 @@ export default function TeslimPage() {
       </div>
 
       {/* Yeni Teslim Oluştur */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-            <Plus className="h-5 w-5 text-white" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+            <Plus className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
           </div>
           <div>
             <h3 className="text-lg font-bold text-white">Yeni Teslim</h3>
@@ -289,7 +289,7 @@ export default function TeslimPage() {
           </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-purple-200 mb-2">Başlık</label>
             <div className="relative">
@@ -412,7 +412,7 @@ export default function TeslimPage() {
 
           {/* Etiketler */}
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-purple-200 mb-2 flex items-center gap-2">
+            <label className=" text-sm font-medium text-purple-200 mb-2 flex items-center gap-2">
               <Tag className="h-4 w-4" />
               Etiketler
             </label>
@@ -455,7 +455,7 @@ export default function TeslimPage() {
             <button
               onClick={createSubmission}
               disabled={!formOk || creating}
-              className="group relative inline-flex items-center gap-3 rounded-xl px-6 py-3 font-semibold text-white transition-all duration-200 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="group relative inline-flex items-center justify-center gap-3 rounded-xl px-6 py-3 font-semibold text-white transition-all duration-200 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 hover:scale-105 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 w-full sm:w-auto"
             >
               {creating ? <Loader2 className="h-5 w-5 animate-spin" /> : <Plus className="h-5 w-5" />}
               {creating ? "Oluşturuluyor..." : "Teslimi Oluştur"}
@@ -465,10 +465,10 @@ export default function TeslimPage() {
       </div>
 
       {/* Mevcut Teslimler */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-            <FileText className="h-5 w-5 text-white" />
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+            <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
           </div>
           <div>
             <h3 className="text-lg font-bold text-white">Teslimlerim</h3>
@@ -500,8 +500,8 @@ export default function TeslimPage() {
                   className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 hover:scale-[1.02] transition-all duration-300"
                 >
                   {!isEditing ? (
-                    <div className="p-6">
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+                    <div className="p-4 sm:p-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
                         <div>
                           <h3 className="text-lg font-bold text-white mb-1">{it.title}</h3>
                           <div className="text-sm text-purple-200/80">
@@ -512,14 +512,14 @@ export default function TeslimPage() {
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => startEdit(it)}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 border border-blue-500/30 hover:border-blue-500/50 transition-all duration-200 text-sm font-medium"
+                            className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 border border-blue-500/30 hover:border-blue-500/50 transition-all duration-200 text-sm font-medium w-full sm:w-auto"
                           >
                             <Edit3 className="h-4 w-4" />
                             Düzenle
                           </button>
                           <button
                             onClick={() => removeSubmission(it.id)}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-500/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium"
+                            className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-red-500/20 to-red-600/20 hover:from-red-500/30 hover:to-red-600/30 border border-red-500/30 hover:border-red-500/50 transition-all duration-200 text-sm font-medium w-full sm:w-auto"
                           >
                             <Trash2 className="h-4 w-4" />
                             Sil
@@ -531,7 +531,7 @@ export default function TeslimPage() {
                         <p className="text-sm text-purple-200/90 mb-4 leading-relaxed">{it.description}</p>
                       )}
 
-                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mb-4">
+                      <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-4">
                         {it.itchUrl && <LinkRow label="Itch.io" href={it.itchUrl} icon={<Gamepad2 className="h-4 w-4" />} />}
                         {it.githubUrl && <LinkRow label="GitHub" href={it.githubUrl} icon={<Code className="h-4 w-4" />} />}
                         {it.buildUrl && <LinkRow label="Build" href={it.buildUrl} icon={<FileText className="h-4 w-4" />} />}
@@ -561,7 +561,7 @@ export default function TeslimPage() {
                       )}
                     </div>
                   ) : (
-                    <div className="p-6 space-y-4">
+                    <div className="p-4 sm:p-6 space-y-4">
                       <div className="grid gap-4 md:grid-cols-2">
                         <div className="md:col-span-2">
                           <label className="block text-sm font-medium text-purple-200 mb-2">Başlık</label>
@@ -663,7 +663,7 @@ export default function TeslimPage() {
 
                         {/* Etiketler (replace) */}
                         <div className="md:col-span-2">
-                          <label className="block text-sm font-medium text-purple-200 mb-2 flex items-center gap-2">
+                          <label className=" text-sm font-medium text-purple-200 mb-2 flex items-center gap-2">
                             <Tag className="h-4 w-4" />
                             Etiketler
                           </label>
@@ -711,18 +711,18 @@ export default function TeslimPage() {
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-3">
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                         <button
                           onClick={saveEdit}
                           disabled={savingEdit}
-                          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 transition-all duration-200 text-white font-semibold shadow-lg"
+                          className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 transition-all duration-200 text-white font-semibold shadow-lg w-full sm:w-auto"
                         >
                           {savingEdit ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
                           {savingEdit ? "Kaydediliyor..." : "Kaydet"}
                         </button>
                         <button
                           onClick={cancelEdit}
-                          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-gray-500/20 to-gray-600/20 hover:from-gray-500/30 hover:to-gray-600/30 border border-gray-500/30 hover:border-gray-500/50 transition-all duration-200 text-sm font-medium"
+                          className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-gray-500/20 to-gray-600/20 hover:from-gray-500/30 hover:to-gray-600/30 border border-gray-500/30 hover:border-gray-500/50 transition-all duration-200 text-sm font-medium w-full sm:w-auto"
                         >
                           İptal
                         </button>
@@ -773,7 +773,7 @@ function LinkRow({ label, href, icon }: { label: string; href: string; icon: Rea
         <div className="w-10 h-10 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg flex items-center justify-center border border-purple-500/30">
           {icon}
         </div>
-        <div className="flex-1">
+        <div className="flex-1 min-w-0">
           <div className="text-sm font-medium text-white group-hover:text-purple-200 transition-colors">
             {label}
           </div>
@@ -781,7 +781,7 @@ function LinkRow({ label, href, icon }: { label: string; href: string; icon: Rea
             {href}
           </div>
         </div>
-        <ExternalLink className="h-4 w-4 text-purple-300 group-hover:text-purple-200 transition-colors" />
+        <ExternalLink className="h-4 w-4 text-purple-300 group-hover:text-purple-200 transition-colors flex-shrink-0" />
       </div>
     </a>
   );

@@ -30,19 +30,19 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
   return (
     <nav className="w-full h-full flex flex-col bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-r border-slate-200/60 dark:border-slate-700/60">
       {/* Header */}
-      <div className="flex-shrink-0 px-4 pt-6 pb-4">
+      <div className="flex-shrink-0 px-3 sm:px-4 pt-4 sm:pt-6 pb-3 sm:pb-4">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl blur-xl"></div>
-          <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-4 border border-white/20 dark:border-slate-700/50 shadow-lg">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                <Gamepad2 className="h-5 w-5 text-white" />
+          <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-white/20 dark:border-slate-700/50 shadow-lg">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                <Gamepad2 className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               </div>
-              <div>
-                <div className="text-lg font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent">
+              <div className="min-w-0 flex-1">
+                <div className="text-sm sm:text-lg font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent truncate">
                   Katılımcı Paneli
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                <div className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate">
                   Game Jam Merkezi
                 </div>
               </div>
@@ -52,8 +52,8 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
       </div>
 
       {/* Navigation Links */}
-      <div className="flex-1 overflow-y-auto px-3 py-2">
-        <div className="space-y-2">
+      <div className="flex-1 overflow-y-auto px-2 sm:px-3 py-2">
+        <div className="space-y-1 sm:space-y-2">
           {links.map(({ href, label, icon: Icon, color }) => {
             const active = pathname === href || pathname?.startsWith(href + "/");
 
@@ -63,7 +63,7 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
                 href={href}
                 onClick={onNavigate}
                 className={[
-                  "group relative flex items-center gap-3 px-4 py-3.5 rounded-2xl transition-all duration-500 ease-out",
+                  "group relative flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl transition-all duration-300 ease-out",
                   "border border-transparent",
                   active 
                     ? `bg-gradient-to-r ${color} bg-opacity-10 border-opacity-50 shadow-lg shadow-opacity-10` 
@@ -73,23 +73,23 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
               >
                 {/* Active indicator */}
                 {active && (
-                  <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b ${color} rounded-r-full`}></div>
+                  <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 sm:h-8 bg-gradient-to-b ${color} rounded-r-full`}></div>
                 )}
                 
                 <div className={[
-                  "flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-500 relative overflow-hidden",
+                  "flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl transition-all duration-300 relative overflow-hidden flex-shrink-0",
                   active 
                     ? `bg-gradient-to-br ${color} text-white shadow-lg shadow-opacity-25` 
                     : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 group-hover:bg-gradient-to-br group-hover:from-slate-100 group-hover:to-slate-200 dark:group-hover:from-slate-700 dark:group-hover:to-slate-600 group-hover:text-slate-700 dark:group-hover:text-slate-300"
                 ].join(" ")}>
-                  <Icon className="h-5 w-5 relative z-10" />
+                  <Icon className="h-4 w-4 sm:h-5 sm:w-5 relative z-10" />
                   {active && (
                     <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
                   )}
                 </div>
                 
                 <span className={[
-                  "text-sm font-medium transition-all duration-300 relative",
+                  "text-xs sm:text-sm font-medium transition-all duration-300 relative truncate",
                   active 
                     ? "text-slate-900 dark:text-white font-semibold" 
                     : "text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100"
@@ -106,17 +106,17 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
       </div>
       
       {/* Footer */}
-      <div className="flex-shrink-0 px-3 pb-6">
+      <div className="flex-shrink-0 px-2 sm:px-3 pb-4 sm:pb-6">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-slate-200/50 via-white/50 to-slate-200/50 dark:from-slate-700/50 dark:via-slate-800/50 dark:to-slate-700/50 rounded-2xl blur-sm"></div>
-          <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-4 border border-white/20 dark:border-slate-700/50 shadow-lg">
+          <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-white/20 dark:border-slate-700/50 shadow-lg">
             <div className="flex items-center justify-between">
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate">
                 Game Jam v1.0
               </div>
-              <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full animate-pulse"></div>
+              <div className="w-2 h-2 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full animate-pulse flex-shrink-0"></div>
             </div>
-            <div className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+            <div className="text-xs text-slate-400 dark:text-slate-500 mt-1 truncate">
               Sistem Aktif
             </div>
           </div>

@@ -48,24 +48,24 @@ export default function SponsorsPage() {
   ];
 
   return (
-    <div className="space-y-8">
-      
+    <div className="space-y-6">
+      <PageHeader title="Sponsorlar" desc="Değerli destekçilerimiz" variant="plain" />
 
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-8">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/20 via-pink-500/15 to-blue-500/20 backdrop-blur-xl border border-purple-500/30 p-6">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 animate-pulse"></div>
         <div className="relative z-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <Building2 className="h-6 w-6 text-white" />
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+              <Building2 className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white mb-1">Sponsorlarımız</h2>
-              <p className="text-purple-200/80">Değerli destekçilerimiz</p>
+              <h2 className="text-xl font-bold text-white mb-1">Sponsorlarımız</h2>
+              <p className="text-sm text-purple-200/80">Değerli destekçilerimiz</p>
             </div>
           </div>
           
-          <p className="text-base leading-relaxed text-purple-100 max-w-2xl">
+          <p className="text-sm leading-relaxed text-purple-100">
             Şehitkamil Game Jam'in başarılı bir şekilde gerçekleşmesinde büyük katkısı olan 
             sponsorlarımıza teşekkür ederiz. Onların desteği sayesinde katılımcılarımıza 
             değerli ödüller ve fırsatlar sunabiliyoruz.
@@ -96,20 +96,20 @@ export default function SponsorsPage() {
       />
 
       {/* İstatistikler */}
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-3 grid-cols-1 sm:grid-cols-3">
         {[
           { icon: Building2, title: "Toplam Sponsor", value: HOST.length + MAIN.length + EQUIPMENT.length, color: "from-blue-500 to-cyan-500" },
           { icon: Award, title: "Ana Sponsor", value: MAIN.length, color: "from-purple-500 to-pink-500" },
           { icon: Heart, title: "Destek", value: "Sınırsız", color: "from-red-500 to-pink-500" },
         ].map((item, index) => (
-          <div key={index} className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-6 hover:scale-105 transition-all duration-300">
-            <div className="flex flex-col items-center text-center gap-3">
-              <div className={`w-12 h-12 bg-gradient-to-br ${item.color} rounded-2xl flex items-center justify-center shadow-lg`}>
-                <item.icon className="h-6 w-6 text-white" />
+          <div key={index} className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 hover:scale-105 transition-all duration-300">
+            <div className="flex flex-col items-center text-center gap-2">
+              <div className={`w-10 h-10 bg-gradient-to-br ${item.color} rounded-xl flex items-center justify-center shadow-lg`}>
+                <item.icon className="h-5 w-5 text-white" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{item.value}</div>
-                <div className="text-sm text-purple-200/80">{item.title}</div>
+                <div className="text-lg font-bold text-white">{item.value}</div>
+                <div className="text-xs text-purple-200/80">{item.title}</div>
               </div>
             </div>
           </div>
@@ -117,12 +117,12 @@ export default function SponsorsPage() {
       </div>
 
       {/* Footer */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-500/10 via-gray-600/5 to-gray-700/10 backdrop-blur-xl border border-gray-500/20 p-6">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-500/10 via-gray-600/5 to-gray-700/10 backdrop-blur-xl border border-gray-500/20 p-4">
         <div className="flex items-start gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-gray-500 to-gray-600 rounded-xl flex items-center justify-center flex-shrink-0">
-            <Star className="h-4 w-4 text-white" />
+          <div className="w-6 h-6 bg-gradient-to-br from-gray-500 to-gray-600 rounded-lg flex items-center justify-center flex-shrink-0">
+            <Star className="h-3 w-3 text-white" />
           </div>
-          <div className="text-sm text-gray-200/80">
+          <div className="text-xs text-gray-200/80">
             <p>
               * Liste PDF'teki bilgiye göre manuel güncellenir. Logo dosyalarını <code className="bg-gray-600/30 px-1 rounded">/public/sponsors/</code> altına koyun
               ve gerekirse web adreslerini ekleyin.
@@ -146,18 +146,18 @@ function SectionBlock({
   color: string;
 }) {
   return (
-    <section className="space-y-6">
+    <section className="space-y-4">
       <div className="flex items-center gap-3">
-        <div className={`w-10 h-10 bg-gradient-to-br ${color} rounded-xl flex items-center justify-center`}>
-          <Icon className="h-5 w-5 text-white" />
+        <div className={`w-8 h-8 bg-gradient-to-br ${color} rounded-lg flex items-center justify-center`}>
+          <Icon className="h-4 w-4 text-white" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-white">{title}</h2>
-          <p className="text-sm text-purple-200/80">{items.length} sponsor</p>
+          <h2 className="text-lg font-bold text-white">{title}</h2>
+          <p className="text-xs text-purple-200/80">{items.length} sponsor</p>
         </div>
       </div>
       
-      <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
+      <div className="grid gap-4 grid-cols-1">
         {items.map((s, i) => (
           <SponsorCard key={i} data={s} />
         ))}
@@ -179,11 +179,11 @@ function SponsorCard({ data }: { data: Sponsor }) {
   );
 
   return (
-    <div className={`group relative overflow-hidden rounded-3xl ${
+    <div className={`group relative overflow-hidden rounded-2xl ${
       data.highlight 
         ? "bg-gradient-to-br from-yellow-500/20 via-orange-500/15 to-red-500/20 border-yellow-500/30" 
         : "bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 border-purple-500/20"
-    } backdrop-blur-xl border p-6 hover:scale-105 transition-all duration-300 hover:shadow-xl`}>
+    } backdrop-blur-xl border p-4 hover:scale-105 transition-all duration-300 hover:shadow-xl`}>
       
       {/* Animated background */}
       <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${
@@ -194,7 +194,7 @@ function SponsorCard({ data }: { data: Sponsor }) {
       
       {/* Badge */}
       {data.badge && (
-        <div className={`absolute right-4 top-4 z-10 rounded-full px-3 py-1.5 text-xs font-bold tracking-wide ${
+        <div className={`absolute right-3 top-3 z-10 rounded-full px-2 py-1 text-xs font-bold tracking-wide ${
           data.highlight 
             ? "bg-gradient-to-r from-yellow-500 to-orange-600 text-white shadow-lg" 
             : "bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg"
@@ -204,10 +204,10 @@ function SponsorCard({ data }: { data: Sponsor }) {
       )}
 
       <div className="relative z-10">
-        <div className="flex items-center gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
           {/* Logo */}
-          <div className="relative shrink-0">
-            <div className={`w-24 h-24 md:w-28 md:h-28 rounded-3xl overflow-hidden ring-2 ${
+          <div className="relative shrink-0 self-center sm:self-start">
+            <div className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden ring-2 ${
               data.highlight 
                 ? "ring-yellow-500/30 bg-gradient-to-br from-yellow-500/20 to-orange-500/20" 
                 : "ring-purple-500/30 bg-gradient-to-br from-purple-500/20 to-pink-500/20"
@@ -216,7 +216,7 @@ function SponsorCard({ data }: { data: Sponsor }) {
                 <img
                   src={data.logo}
                   alt={data.name}
-                  className="h-full w-full object-contain p-4 transition duration-300 ease-out group-hover:scale-110 group-hover:saturate-150 group-hover:brightness-110 group-hover:contrast-110"
+                  className="h-full w-full object-contain p-3 transition duration-300 ease-out group-hover:scale-110 group-hover:saturate-150 group-hover:brightness-110 group-hover:contrast-110"
                   loading="lazy"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -224,20 +224,20 @@ function SponsorCard({ data }: { data: Sponsor }) {
                 />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-2xl font-bold text-white">{initials}</span>
+                  <span className="text-xl font-bold text-white">{initials}</span>
                 </div>
               )}
             </div>
           </div>
 
           {/* Info */}
-          <div className="min-w-0 flex-1">
-            <h3 className="text-lg md:text-xl font-bold text-white mb-2 truncate">
+          <div className="min-w-0 flex-1 text-center sm:text-left">
+            <h3 className="text-lg font-bold text-white mb-2">
               {data.name}
             </h3>
             
             {data.note && (
-              <p className="text-sm text-purple-100/80 mb-4 leading-relaxed">
+              <p className="text-sm text-purple-100/80 mb-3 leading-relaxed">
                 {data.note}
               </p>
             )}
@@ -247,7 +247,7 @@ function SponsorCard({ data }: { data: Sponsor }) {
                 href={data.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium"
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-200 text-sm font-medium"
               >
                 <ExternalLink className="h-4 w-4" />
                 Siteyi Ziyaret Et
