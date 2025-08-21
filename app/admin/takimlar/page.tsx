@@ -69,14 +69,13 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className={[
-            "absolute right-0 z-[9999] mt-2 w-40 overflow-hidden rounded-2xl",
-            "ring-1 ring-slate-200/60 shadow-xl border border-white/20 dark:border-slate-700/50",
-            "backdrop-blur-xl bg-white/95 dark:bg-slate-800/95",
-          ].join(" ")}
+          className="fixed z-[99999] bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700"
           style={{
-            top: '100%',
-            marginTop: '0.5rem',
+            position: 'fixed',
+            top: ref.current?.getBoundingClientRect().bottom ? ref.current.getBoundingClientRect().bottom + 8 : 0,
+            left: ref.current?.getBoundingClientRect().right ? ref.current.getBoundingClientRect().right - 160 : 0,
+            width: '160px',
+            zIndex: 99999,
           }}
         >
           <ul className="py-2">
@@ -103,7 +102,6 @@ function PageSizeSelect({
     </div>
   );
 }
-
 export default function AdminTeamsPage() {
   const [q, setQ] = useState("");
   const [page, setPage] = useState(1);
