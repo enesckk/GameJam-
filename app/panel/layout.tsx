@@ -82,8 +82,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           "lg:static lg:translate-x-0 lg:h-full lg:overflow-y-auto no-scrollbar lg:overscroll-contain",
         ].join(" ")}
       >
-        <div className="flex h-full min-h-0 flex-col">
-          <PanelSidebar onNavigate={() => setOpen(false)} />
+        <div className="flex h-full min-h-0 flex-col overflow-hidden">
+          <div className="flex-1 overflow-y-auto no-scrollbar">
+            <PanelSidebar onNavigate={() => setOpen(false)} />
+          </div>
         </div>
       </aside>
 
@@ -103,7 +105,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           />
         )}
 
-        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4 no-scrollbar">
+        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
           {children}
         </main>
       </div>
