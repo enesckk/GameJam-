@@ -76,36 +76,37 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       {/* Sidebar (mobil çekmece + masaüstü sabit) */}
       <aside
         className={[
-          "fixed inset-y-0 left-0 z-50 w-64 transition-transform",
-          open ? "translate-x-0" : "-translate-x-full",
-          "bg-background/35 backdrop-blur-xl supports-[backdrop-filter]:bg-background/20",
-          "lg:static lg:translate-x-0 lg:h-full lg:overflow-y-auto no-scrollbar lg:overscroll-contain",
+          "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
+          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+          "lg:relative lg:translate-x-0 lg:flex lg:flex-col",
+          "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-r border-slate-200/60 dark:border-slate-700/60",
         ].join(" ")}
       >
         <div className="flex h-full min-h-0 flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto no-scrollbar overscroll-contain">
+          <div className="flex-1 overflow-y-auto overscroll-contain">
             <PanelSidebar onNavigate={() => setOpen(false)} />
           </div>
         </div>
       </aside>
 
-      {/* İçerik sütunu */}
-      <div className="relative z-10 flex min-h-0 flex-col">
+      {/* Ana içerik alanı */}
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <PanelTopbar
-          onMenuClick={() => setOpen((s) => !s)}
+          onMenuClick={() => setOpen(true)}
           countdownTargetISO="2025-09-20T10:00:00+03:00"
           countdownDoneText="Başladı!"
         />
-
-        {/* Mobilde sidebar açıkken karartma */}
+        
+        {/* Mobilde sidebar overlay */}
         {open && (
           <div
-            className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+            className="fixed inset-0 z-40 bg-black/50 lg:hidden"
             onClick={() => setOpen(false)}
           />
         )}
 
-        <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-4">
+        {/* İçerik */}
+        <main className="flex-1 overflow-y-auto overscroll-contain p-4 md:p-6">
           {children}
         </main>
       </div>
