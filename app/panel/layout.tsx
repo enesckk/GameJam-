@@ -59,7 +59,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Sağ taraf */}
-      <div className="relative z-10 flex flex-col lg:col-start-2">
+      <div className="relative z-10 flex flex-col lg:col-start-2 min-h-screen">
         {/* Topbar */}
         <PanelTopbar
           onMenuClick={() => setOpen((s) => !s)}
