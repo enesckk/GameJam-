@@ -31,64 +31,35 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
   }, []);
 
   return (
-    <div
-      className="
-        relative isolate h-screen lg:grid lg:grid-cols-[16rem_1fr]
-        overflow-hidden
-        text-white dark:text-white
-        bg-gradient-to-b from-white via-gray-100 to-gray-200
-        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
-      "
-    >
+    <div className="relative isolate h-screen lg:grid lg:grid-cols-[16rem_1fr] overflow-hidden text-white dark:text-white bg-gradient-to-b from-white via-gray-100 to-gray-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-900">
       {/* Katman A: büyük mesh */}
       <div
         aria-hidden
-        className="
-          pointer-events-none absolute -z-10 inset-[-20%] opacity-80
-          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
-          motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
-        "
+        className="pointer-events-none absolute -z-10 inset-[-20%] opacity-80 [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)] motion-safe:animate-[meshPan_18s_ease-in-out_infinite]"
         style={{ mixBlendMode: "screen" }}
       />
       {/* Katman B: küçük mesh */}
       <div
         aria-hidden
-        className="
-          pointer-events-none absolute -z-10 inset-[-30%] opacity-70
-          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
-          motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
-        "
+        className="pointer-events-none absolute -z-10 inset-[-30%] opacity-70 [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)] motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]"
         style={{ mixBlendMode: "screen" }}
       />
       {/* Katman C: conic swirl */}
       <div
         aria-hidden
-        className="
-          pointer-events-none absolute -z-10 -inset-[25%] opacity-60
-          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
-          motion-safe:animate-[swirl_22s_linear_infinite]
-          rounded-[9999px] blur-3xl
-        "
+        className="pointer-events-none absolute -z-10 -inset-[25%] opacity-60 [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))] motion-safe:animate-[swirl_22s_linear_infinite] rounded-[9999px] blur-3xl"
         style={{ mixBlendMode: "screen" }}
       />
 
       {/* Sidebar */}
-      <aside
-        className={[
-          "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out",
-          open ? "translate-x-0" : "-translate-x-full",
-          "lg:static lg:translate-x-0 lg:z-auto",
-          "bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900",
-          "border-r border-slate-200/60 dark:border-slate-700/60",
-        ].join(" ")}
-      >
-        <div className="flex h-full min-h-0 flex-col">
+      <aside className="fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 lg:z-auto bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border-r border-slate-200/60 dark:border-slate-700/60">
+        <div className="h-full flex flex-col">
           <PanelSidebar onNavigate={() => setOpen(false)} />
         </div>
       </aside>
 
       {/* Sağ taraf */}
-      <div className="relative z-10 flex min-h-0 flex-col lg:col-start-2">
+      <div className="relative z-10 flex flex-col lg:col-start-2 min-h-0">
         {/* Topbar */}
         <PanelTopbar
           onMenuClick={() => setOpen((s) => !s)}
