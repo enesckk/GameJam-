@@ -83,7 +83,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         ].join(" ")}
       >
         <div className="flex h-full min-h-0 flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto no-scrollbar">
+          <div className="flex-1 overflow-y-auto no-scrollbar overscroll-contain">
             <PanelSidebar onNavigate={() => setOpen(false)} />
           </div>
         </div>
