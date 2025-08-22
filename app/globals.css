@@ -359,10 +359,11 @@
 }
 
 /* =========================
-   PERF-LITE (Genel hızlandırma)
+   PERF-LITE (Sadece ağır arka planları kıs)
+   Kenarlık ve yazı efektleri olduğu gibi kalsın
    ========================= */
 
-/* Sistem "reduce motion" istiyorsa otomatik fren */
+/* Motion azalt tercihine saygı (değişmeden kalsın) */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;
@@ -371,43 +372,65 @@
   }
 }
 
-/* Perf-Lite modu: html.perf-lite class'ı aktifken hafif tema */
-html.perf-lite {
-  --perf-transition-ms: 120ms;
-}
+/* Perf-lite: geçişleri biraz kıs; ama efektleri kapatma */
+html.perf-lite { --perf-transition-ms: 140ms; }
 html.perf-lite *, html.perf-lite *::before, html.perf-lite *::after {
   transition-duration: var(--perf-transition-ms) !important;
 }
 
-/* Ağır blur/backdrop-blur kapat */
+/* ——— AĞIR OLANLARI KAPAT/ AZALT ——— */
+
+/* 1) Backdrop blur çok maliyetli: tamamen kapat */
 html.perf-lite [class*="backdrop-blur"] {
   -webkit-backdrop-filter: none !important;
   backdrop-filter: none !important;
 }
-html.perf-lite [class*="blur-"] {
+
+/* 2) Dev BLUR’ları kapat (arka plan parıltıları vs.); metin efektlerine DOKUNMAZ */
+html.perf-lite .blur-3xl,
+html.perf-lite .blur-2xl,
+html.perf-lite .blur-xl,
+html.perf-lite .blur-lg {
   filter: none !important;
 }
 
-/* Büyük gölgeleri hafiflet */
-html.perf-lite [class*="shadow"] {
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08) !important;
+/* 3) Çok büyük gölgeleri hafiflet (küçük gölgeler kalsın) */
+html.perf-lite .shadow-2xl,
+html.perf-lite .shadow-3xl,
+html.perf-lite .shadow-4xl {
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.12) !important;
 }
 
-/* Animasyonları global kapat (mesh/swirl gibi özel adlar dahil) */
-html.perf-lite * {
+/* 4) Sadece “mesh / swirl” gibi geniş arka plan animasyonlarını durdur.
+      Bu katmanlara class="mesh-bg" eklediysen devreye girer. */
+html.perf-lite .mesh-bg {
   animation: none !important;
-}
-html.perf-lite [class*="animate-[meshPan"],
-html.perf-lite [class*="animate-[meshPanAlt"],
-html.perf-lite [class*="animate-[swirl"] {
-  animation: none !important;
+  opacity: .40 !important;   /* biraz kıs */
+  filter: none !important;
 }
 
-/* Offscreen öğeleri ucuzlat (tüm sitede faydalı) */
-main > * {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 600px;
+/* ——— KALSIN DEDİKLERİN (dokunma) ——— */
+
+/* Gradient kenarlık ve çerçeve efektleri aynen kalsın */
+html.perf-lite .gborder::before,
+html.perf-lite .gborder-hover::before,
+html.perf-lite .multicolor-hover::after,
+html.perf-lite .input-frame::after,
+html.perf-lite .multicolor-persist::after {
+  opacity: 1 !important;     /* gizlenmesin */
 }
 
-/* GPU ipucu: istersen kritik kapsayıcılara .anim-gpu ekleyebilirsin */
+/* Link alt çizgisi animasyonu kalsın */
+html.perf-lite .link-underline::after {
+  width: auto;                /* davranışı koru */
+  transition-duration: var(--perf-transition-ms) !important;
+}
+
+/* Neon başlık yazı efekti KALSIN (text-shadow’a dokunmuyoruz) */
+/* (Özel bir override’a gerek yok; sadece önceki bloklarda text-shadow’ı kapatma!) */
+
+/* Offscreen render kazancı: kalsın */
+main > * { content-visibility: auto; contain-intrinsic-size: 1px 600px; }
+
+/* İsteğe bağlı: kritik kapsayıcılara ekleyebilirsin */
 .anim-gpu { transform: translateZ(0); will-change: transform, opacity; }
