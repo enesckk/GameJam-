@@ -1,13 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo, useCallback, memo } from "react";
-import dynamic from "next/dynamic";
-import { useVirtualizer } from "@tanstack/react-virtual";
-import {
-  Search, ChevronDown, IdCard, Mail, Phone,
-  ArrowLeft, ArrowRight, Filter, Calendar
-} from "lucide-react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import AdminSectionCard from "@/app/admin/_components/admin-sectioncard";
+import {
+  Search,
+  ChevronDown,
+  IdCard,
+  Mail,
+  Phone,
+  Calendar,
+  ArrowLeft,
+  ArrowRight,
+  Filter,
+  UserCheck,
+} from "lucide-react";
 
 type Row = {
   id: string;
@@ -25,15 +31,14 @@ const ROLE_BADGE: Record<NonNullable<Row["profileRole"]>, string> = {
   pm: "PM",
 };
 
-const ROLE_COLORS: Record<NonNullable<Row["profileRole"]>, string> = {
+const ROLE_COLORS = {
   developer: "from-blue-500 to-cyan-500",
   designer: "from-purple-500 to-pink-500",
   audio: "from-orange-500 to-red-500",
   pm: "from-green-500 to-emerald-500",
 };
 
-/* ---------- Page Size Select (memo) ---------- */
-const PageSizeSelect = memo(function PageSizeSelect({
+function PageSizeSelect({
   value,
   onChange,
   options = [10, 20, 50, 100],
@@ -53,11 +58,6 @@ const PageSizeSelect = memo(function PageSizeSelect({
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
-
-  const handlePick = useCallback((n: number) => {
-    onChange(n);
-    setOpen(false);
-  }, [onChange]);
 
   return (
     <div className="relative" ref={ref}>
@@ -89,7 +89,10 @@ const PageSizeSelect = memo(function PageSizeSelect({
               <li key={n}>
                 <button
                   type="button"
-                  onClick={() => handlePick(n)}
+                  onClick={() => {
+                    onChange(n);
+                    setOpen(false);
+                  }}
                   className={[
                     "w-full text-left px-4 py-2.5 text-sm font-medium transition-all duration-200",
                     "hover:bg-indigo-500/10 hover:text-indigo-700 dark:hover:text-indigo-300",
@@ -105,67 +108,8 @@ const PageSizeSelect = memo(function PageSizeSelect({
       )}
     </div>
   );
-});
+}
 
-/* ---------- Cells (memo) ---------- */
-const Th = memo(function Th({ children }: { children: React.ReactNode }) {
-  return (
-    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-      {children}
-    </th>
-  );
-});
-const Td = memo(function Td({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <td className={["px-6 py-4 align-middle", className].join(" ")}>{children}</td>;
-});
-
-/* ---------- Mobile Card (memo) ---------- */
-const MobileRowCard = memo(function MobileRowCard({ r, index }: { r: Row; index: number }) {
-  return (
-    <li className="rounded-2xl ring-1 ring-slate-200/70 dark:ring-slate-700/60 bg-white/90 dark:bg-slate-800/80 p-4 shadow-sm">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200">
-            {index}
-          </div>
-          <h3 className="text-base font-semibold text-slate-900 dark:text-white">
-            {r.name ?? "—"}
-          </h3>
-        </div>
-        {r.profileRole ? (
-          <span className={`ml-2 inline-flex items-center gap-1 rounded-full bg-gradient-to-r ${ROLE_COLORS[r.profileRole]} px-3 py-1 text-xs font-semibold text-white`}>
-            {ROLE_BADGE[r.profileRole]}
-          </span>
-        ) : null}
-      </div>
-
-      <div className="grid grid-cols-1 gap-2 text-sm">
-        <div className="flex items-center gap-2 min-w-0">
-          <Mail className="h-4 w-4 text-slate-400 shrink-0" />
-          <a href={`mailto:${r.email}`} className="text-slate-700 dark:text-slate-300 underline-offset-2 hover:underline truncate" title={r.email}>
-            {r.email}
-          </a>
-        </div>
-        <div className="flex items-center gap-2 min-w-0">
-          <Phone className="h-4 w-4 text-slate-400 shrink-0" />
-          {r.phone ? (
-            <a href={`tel:${r.phone}`} className="text-slate-700 dark:text-slate-300 truncate" title={r.phone}>
-              {r.phone}
-            </a>
-          ) : (<span className="text-slate-400">—</span>)}
-        </div>
-        <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-slate-400" />
-          <span className="text-slate-700 dark:text-slate-300">
-            {Number.isFinite(r.age as any) ? r.age : "—"}
-          </span>
-        </div>
-      </div>
-    </li>
-  );
-});
-
-/* ---------- Page ---------- */
 export default function AdminParticipantsListPage() {
   const [q, setQ] = useState("");
   const [page, setPage] = useState(1);
@@ -174,11 +118,7 @@ export default function AdminParticipantsListPage() {
   const [loading, setLoading] = useState(false);
   const [rows, setRows] = useState<Row[]>([]);
   const [total, setTotal] = useState(0);
-
-  const totalPages = useMemo(
-    () => Math.max(1, Math.ceil(total / pageSize)),
-    [total, pageSize]
-  );
+  const totalPages = useMemo(() => Math.max(1, Math.ceil(total / pageSize)), [total, pageSize]);
 
   // debounce search
   const [dq, setDq] = useState(q);
@@ -187,44 +127,34 @@ export default function AdminParticipantsListPage() {
     return () => clearTimeout(t);
   }, [q]);
 
-  // Abortable fetch (yarışları engelle)
+  async function load() {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      if (dq) params.set("q", dq);
+      params.set("page", String(page));
+      params.set("pageSize", String(pageSize));
+
+      const r = await fetch(`/api/admin/users?${params.toString()}`, {
+        credentials: "include",
+        cache: "no-store",
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j?.message || "Liste alınamadı.");
+      setRows(j.items ?? []);
+      setTotal(j.total ?? 0);
+    } catch (e) {
+      console.error(e);
+      setRows([]);
+      setTotal(0);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
-    let alive = true;
-    const ac = new AbortController();
-
-    (async () => {
-      setLoading(true);
-      try {
-        const params = new URLSearchParams();
-        if (dq) params.set("q", dq);
-        params.set("page", String(page));
-        params.set("pageSize", String(pageSize));
-
-        const r = await fetch(`/api/admin/users?${params.toString()}`, {
-          credentials: "include",
-          cache: "no-store",
-          signal: ac.signal,
-        });
-        const j = await r.json();
-        if (!r.ok) throw new Error(j?.message || "Liste alınamadı.");
-        if (!alive) return;
-        setRows(j.items ?? []);
-        setTotal(j.total ?? 0);
-      } catch (e: any) {
-        if (e?.name !== "AbortError") {
-          console.error(e);
-          setRows([]);
-          setTotal(0);
-        }
-      } finally {
-        if (alive) setLoading(false);
-      }
-    })();
-
-    return () => {
-      alive = false;
-      ac.abort();
-    };
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dq, page, pageSize]);
 
   useEffect(() => {
@@ -233,35 +163,18 @@ export default function AdminParticipantsListPage() {
 
   const startIndex = (page - 1) * pageSize;
 
-  /* --------- Virtualization setups --------- */
-  // Mobile list
-  const mobileParentRef = useRef<HTMLUListElement>(null);
-  const mobileRowVirtualizer = useVirtualizer({
-    count: rows.length,
-    getScrollElement: () => mobileParentRef.current,
-    estimateSize: () => 120, // kart yüksekliği tahmini
-    overscan: 6,
-  });
-
-  // Desktop table body
-  const tableParentRef = useRef<HTMLDivElement>(null);
-  const tableRowVirtualizer = useVirtualizer({
-    count: rows.length,
-    getScrollElement: () => tableParentRef.current,
-    estimateSize: () => 56, // satır yüksekliği tahmini
-    overscan: 8,
-  });
-
   return (
-    <div className="space-y-6 sm:space-y-8" style={{ contentVisibility: "auto", contain: "paint layout" }}>
-      {/* Hero Section (hafifletildi) */}
+    <div className="space-y-6 sm:space-y-8">
+      {/* Hero Section */}
       <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 sm:p-8 text-white shadow-2xl">
-        {/* statik pattern; blur ve ağır overlay yok */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-40 sm:opacity-50" />
         <div className="relative flex flex-col gap-4 sm:gap-0 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4 sm:gap-6">
             <div className="relative">
-              <div className="relative bg-gradient-to-br from-blue-500 to-cyan-600 p-3 sm:p-4 rounded-2xl shadow-lg" />
-              <IdCard className="absolute inset-0 m-auto h-7 w-7 sm:h-8 sm:w-8 text-white pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-cyan-600 rounded-2xl blur-lg opacity-60 sm:opacity-75" />
+              <div className="relative bg-gradient-to-br from-blue-500 to-cyan-600 p-3 sm:p-4 rounded-2xl shadow-lg">
+                <IdCard className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
+              </div>
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-1 sm:mb-2">
@@ -273,27 +186,39 @@ export default function AdminParticipantsListPage() {
             </div>
           </div>
 
-          {/* Search & Page size */}
+          {/* Search and Filter */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
             <div className="relative flex-1 sm:flex-none">
-              <div className="relative flex items-center gap-2 sm:gap-3 rounded-2xl border border-white/20 bg-white/10 px-3 py-2 sm:px-3 sm:py-3">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl blur-sm opacity-0 focus-within:opacity-100 transition-opacity duration-300" />
+              <div className="relative flex items-center gap-2 sm:gap-3 rounded-2xl border border-white/20 bg-white/10 px-3 py-2 sm:px-3 sm:py-3 backdrop-blur-sm">
                 <Search className="h-5 w-5 text-white/70" />
                 <input
                   className="w-full sm:w-72 md:w-80 bg-transparent outline-none text-white placeholder-white/70 text-sm sm:text-base"
                   placeholder="İsim, e-posta veya telefon ara…"
                   value={q}
-                  onChange={(e) => { setQ(e.target.value); setPage(1); }}
+                  onChange={(e) => {
+                    setQ(e.target.value);
+                    setPage(1);
+                  }}
                   inputMode="search"
                 />
               </div>
             </div>
+
             <div className="self-start sm:self-auto">
-              <PageSizeSelect value={pageSize} onChange={(n) => { setPageSize(n); setPage(1); }} />
+              <PageSizeSelect
+                value={pageSize}
+                onChange={(n) => {
+                  setPageSize(n);
+                  setPage(1);
+                }}
+              />
             </div>
           </div>
         </div>
       </div>
 
+      {/* Participants: Table on md+, Cards on mobile */}
       <AdminSectionCard>
         {loading ? (
           <div className="py-16 text-center">
@@ -314,77 +239,80 @@ export default function AdminParticipantsListPage() {
           </div>
         ) : (
           <>
-            {/* Mobile (virtualized list) */}
-            <div className="md:hidden">
-              <ul
-                ref={mobileParentRef}
-                className="space-y-0 overflow-auto max-h-[65vh] rounded-2xl ring-1 ring-slate-200/60 dark:ring-slate-700/60 bg-white/70 dark:bg-slate-800/60"
-                style={{ WebkitOverflowScrolling: "touch", contain: "paint layout" }}
-              >
-                <div style={{ height: mobileRowVirtualizer.getTotalSize() }} />
-                {mobileRowVirtualizer.getVirtualItems().map((vi) => {
-                  const r = rows[vi.index];
-                  const n = startIndex + vi.index + 1;
-                  return (
-                    <div
-                      key={r.id}
-                      className="absolute left-0 right-0"
-                      style={{ transform: `translateY(${vi.start}px)` }}
-                    >
-                      <MobileRowCard r={r} index={n} />
-                    </div>
-                  );
-                })}
-              </ul>
-            </div>
+            {/* Mobile Card List */}
+            <ul className="md:hidden space-y-3">
+              {rows.map((r, i) => {
+                const n = startIndex + i + 1;
+                return <MobileRowCard key={r.id} r={r} index={n} />;
+              })}
+            </ul>
 
-            {/* Desktop (virtualized table) */}
+            {/* Desktop Table */}
             <div
-              ref={tableParentRef}
-              className="hidden md:block overflow-auto rounded-2xl ring-1 ring-slate-200/60 bg-white/80 backdrop-blur-[2px] dark:ring-slate-700/60 dark:bg-slate-800/80 max-h-[65vh]"
-              style={{ WebkitOverflowScrolling: "touch", contain: "paint layout" }}
+              className="hidden md:block overflow-x-auto rounded-2xl ring-1 ring-slate-200/60 bg-white/80 backdrop-blur-sm dark:ring-slate-700/60 dark:bg-slate-800/80"
+              style={{ WebkitOverflowScrolling: "touch" }}
             >
-              <table className="min-w-full text-sm relative">
-                <thead className="sticky top-0 bg-white/90 dark:bg-slate-800/90 backdrop-blur">
+              <table className="min-w-full text-sm">
+                <thead>
                   <tr className="border-b border-slate-200/60 dark:border-slate-700/60">
-                    <Th>#</Th><Th>Ad Soyad</Th><Th>E-posta</Th><Th>Telefon</Th><Th>Yaş</Th><Th>Görev</Th>
+                    <Th>#</Th>
+                    <Th>Ad Soyad</Th>
+                    <Th>E-posta</Th>
+                    <Th>Telefon</Th>
+                    <Th>Yaş</Th>
+                    <Th>Görev</Th>
                   </tr>
                 </thead>
-
-                <tbody style={{ height: tableRowVirtualizer.getTotalSize(), position: "relative" }}>
-                  {tableRowVirtualizer.getVirtualItems().map((vi) => {
-                    const r = rows[vi.index];
-                    const n = startIndex + vi.index + 1;
+                <tbody>
+                  {rows.map((r, i) => {
+                    const n = startIndex + i + 1;
                     return (
                       <tr
                         key={r.id}
-                        className="group border-b border-slate-200/40 dark:border-slate-700/40 transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-700/80 absolute left-0 right-0"
-                        style={{ transform: `translateY(${vi.start}px)` }}
+                        className="group border-b border-slate-200/40 dark:border-slate-700/40 transition-all duration-200 hover:bg-slate-50/80 dark:hover:bg-slate-700/80"
                       >
                         <Td className="font-semibold">
                           <div className="flex items-center gap-3">
-                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">{n}</div>
+                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                              {n}
+                            </div>
                           </div>
                         </Td>
-                        <Td className="font-semibold text-slate-900 dark:text-white">{r.name ?? "—"}</Td>
+
+                        <Td className="font-semibold text-slate-900 dark:text-white">
+                          {r.name ?? "—"}
+                        </Td>
+
                         <Td>
                           <div className="flex items-center gap-2 max-w-[280px]">
                             <Mail className="h-4 w-4 text-slate-400 shrink-0" />
-                            <a href={`mailto:${r.email}`} className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors truncate" title={r.email}>
+                            <a
+                              href={`mailto:${r.email}`}
+                              className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 truncate"
+                              title={r.email}
+                            >
                               {r.email}
                             </a>
                           </div>
                         </Td>
+
                         <Td>
                           <div className="flex items-center gap-2 max-w-[200px]">
                             <Phone className="h-4 w-4 text-slate-400 shrink-0" />
                             {r.phone ? (
-                              <a href={`tel:${r.phone}`} className="font-semibold text-slate-700 dark:text-slate-300 hover:text-green-600 dark:hover:text-green-400 transition-colors truncate" title={r.phone}>
+                              <a
+                                href={`tel:${r.phone}`}
+                                className="font-semibold text-slate-700 dark:text-slate-300 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 truncate"
+                                title={r.phone}
+                              >
                                 {r.phone}
                               </a>
-                            ) : (<span className="text-slate-400">—</span>)}
+                            ) : (
+                              <span className="text-slate-400">—</span>
+                            )}
                           </div>
                         </Td>
+
                         <Td>
                           <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4 text-slate-400" />
@@ -393,12 +321,17 @@ export default function AdminParticipantsListPage() {
                             </span>
                           </div>
                         </Td>
+
                         <Td>
                           {r.profileRole ? (
-                            <span className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${ROLE_COLORS[r.profileRole]} px-3 py-1 text-xs font-semibold text-white shadow-sm`}>
+                            <span
+                              className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${ROLE_COLORS[r.profileRole]} px-3 py-1 text-xs font-semibold text-white shadow-sm`}
+                            >
                               {ROLE_BADGE[r.profileRole]}
                             </span>
-                          ) : (<span className="text-slate-400">—</span>)}
+                          ) : (
+                            <span className="text-slate-400">—</span>
+                          )}
                         </Td>
                       </tr>
                     );
@@ -410,16 +343,18 @@ export default function AdminParticipantsListPage() {
         )}
 
         {/* Pagination */}
-        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4">
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
           <div className="text-sm text-slate-600 dark:text-slate-400">
-            Toplam <strong className="text-slate-900 dark:text-white">{total}</strong> katılımcı •
-            Sayfa <strong className="text-slate-900 dark:text-white">{page}</strong> / {totalPages}
+            Toplam{" "}
+            <strong className="text-slate-900 dark:text-white">{total}</strong>{" "}
+            katılımcı • Sayfa{" "}
+            <strong className="text-slate-900 dark:text-white">{page}</strong> / {totalPages}
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
             >
               <ArrowLeft className="h-4 w-4" />
               <span className="hidden xs:inline">Önceki</span>
@@ -427,7 +362,7 @@ export default function AdminParticipantsListPage() {
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
             >
               <span className="hidden xs:inline">Sonraki</span>
               <ArrowRight className="h-4 w-4" />
@@ -436,5 +371,81 @@ export default function AdminParticipantsListPage() {
         </div>
       </AdminSectionCard>
     </div>
+  );
+}
+
+/* ------- Helpers ------- */
+
+function Th({ children }: { children: React.ReactNode }) {
+  return (
+    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+      {children}
+    </th>
+  );
+}
+
+function Td({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <td className={["px-6 py-4 align-middle", className].join(" ")}>{children}</td>;
+}
+
+function MobileRowCard({ r, index }: { r: Row; index: number }) {
+  return (
+    <li className="rounded-2xl ring-1 ring-slate-200/70 dark:ring-slate-700/60 bg-white/90 dark:bg-slate-800/80 p-4 shadow-sm">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200">
+            {index}
+          </div>
+          <h3 className="text-base font-semibold text-slate-900 dark:text-white">
+            {r.name ?? "—"}
+          </h3>
+        </div>
+        {r.profileRole ? (
+          <span
+            className={`ml-2 inline-flex items-center gap-1 rounded-full bg-gradient-to-r ${ROLE_COLORS[r.profileRole]} px-3 py-1 text-xs font-semibold text-white`}
+          >
+            {ROLE_BADGE[r.profileRole]}
+          </span>
+        ) : null}
+      </div>
+
+      <div className="grid grid-cols-1 gap-2 text-sm">
+        {/* Email */}
+        <div className="flex items-center gap-2 min-w-0">
+          <Mail className="h-4 w-4 text-slate-400 shrink-0" />
+          <a
+            href={`mailto:${r.email}`}
+            className="text-slate-700 dark:text-slate-300 underline-offset-2 hover:underline truncate"
+            title={r.email}
+          >
+            {r.email}
+          </a>
+        </div>
+
+        {/* Phone */}
+        <div className="flex items-center gap-2 min-w-0">
+          <Phone className="h-4 w-4 text-slate-400 shrink-0" />
+          {r.phone ? (
+            <a
+              href={`tel:${r.phone}`}
+              className="text-slate-700 dark:text-slate-300 truncate"
+              title={r.phone}
+            >
+              {r.phone}
+            </a>
+          ) : (
+            <span className="text-slate-400">—</span>
+          )}
+        </div>
+
+        {/* Age */}
+        <div className="flex items-center gap-2">
+          <Calendar className="h-4 w-4 text-slate-400" />
+          <span className="text-slate-700 dark:text-slate-300">
+            {Number.isFinite(r.age as any) ? r.age : "—"}
+          </span>
+        </div>
+      </div>
+    </li>
   );
 }
