@@ -359,10 +359,10 @@
 }
 
 /* =========================
-   PERF-LITE (SOFT)
+   PERF-LITE (Genel hızlandırma)
    ========================= */
 
-/* Motion azalt tercihini yine saygı duyuyoruz */
+/* Sistem "reduce motion" istiyorsa otomatik fren */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;
@@ -371,51 +371,43 @@
   }
 }
 
-/* Perf-lite açıkken geçişleri kıs, ama KAPATMA */
+/* Perf-Lite modu: html.perf-lite class'ı aktifken hafif tema */
 html.perf-lite {
-  --perf-transition-ms: 140ms;
+  --perf-transition-ms: 120ms;
 }
 html.perf-lite *, html.perf-lite *::before, html.perf-lite *::after {
   transition-duration: var(--perf-transition-ms) !important;
 }
 
-/* Ağır blur/backdrop-blur sınıflarını YUMUŞAT (tam kapatma yok) */
-html.perf-lite .blur-3xl,
-html.perf-lite .blur-2xl,
-html.perf-lite .blur-xl { filter: blur(4px) !important; }  /* dev blur -> orta blur */
-html.perf-lite .backdrop-blur-3xl,
-html.perf-lite .backdrop-blur-2xl,
-html.perf-lite .backdrop-blur-xl {
-  -webkit-backdrop-filter: saturate(120%) blur(6px) !important;
-  backdrop-filter: saturate(120%) blur(6px) !important;
+/* Ağır blur/backdrop-blur kapat */
+html.perf-lite [class*="backdrop-blur"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html.perf-lite [class*="blur-"] {
+  filter: none !important;
 }
 
-/* Geniş gölgeleri hafiflet (ama görünür kalsın) */
+/* Büyük gölgeleri hafiflet */
 html.perf-lite [class*="shadow"] {
-  box-shadow: 0 4px 16px rgb(0 0 0 / 0.12) !important;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08) !important;
 }
 
-/* Gradient kenarlık/altçizgi efektlerini KORU (opacity/görünürlük dokunma) */
-html.perf-lite .gborder::before,
-html.perf-lite .gborder-hover::before,
-html.perf-lite .multicolor-hover::after,
-html.perf-lite .input-frame::after {
-  opacity: 1 !important;
-}
-
-/* Sadece ağır arka plan animasyonlarını durdur (mesh/swirl).
-   Not: Bu seçicinin çalışması için o katmanlara .mesh-bg sınıfı ekleyeceğiz. */
-html.perf-lite .mesh-bg {
+/* Animasyonları global kapat (mesh/swirl gibi özel adlar dahil) */
+html.perf-lite * {
   animation: none !important;
-  opacity: .45 !important;     /* biraz kıs */
-  filter: none !important;      /* ekstra blur yok */
+}
+html.perf-lite [class*="animate-[meshPan"],
+html.perf-lite [class*="animate-[meshPanAlt"],
+html.perf-lite [class*="animate-[swirl"] {
+  animation: none !important;
 }
 
-/* Offscreen render kazancı: kalsın */
+/* Offscreen öğeleri ucuzlat (tüm sitede faydalı) */
 main > * {
   content-visibility: auto;
   contain-intrinsic-size: 1px 600px;
 }
 
-/* GPU ipucu (ihtiyaçta kullan) */
+/* GPU ipucu: istersen kritik kapsayıcılara .anim-gpu ekleyebilirsin */
 .anim-gpu { transform: translateZ(0); will-change: transform, opacity; }
