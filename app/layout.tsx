@@ -1,4 +1,4 @@
-// app/(public)/layout.tsx
+
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="tr"
       suppressHydrationWarning
       className="
-        h-full scroll-smooth
+        h-full scroll-smooth perf-lite
         [--safe-top:env(safe-area-inset-top)]
         [--safe-right:env(safe-area-inset-right)]
         [--safe-bottom:env(safe-area-inset-bottom)]

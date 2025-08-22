@@ -357,3 +357,58 @@
 .dot-glow {
   box-shadow: 0 0 0.5rem rgba(255,255,255,.35), 0 0 1.25rem rgba(168,85,247,.25);
 }
+
+
+/* =========================
+   PERF-LITE (Genel hızlandırma)
+   ========================= */
+
+/* Sistem "reduce motion" istiyorsa otomatik fren */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Perf-Lite modu: html.perf-lite class'ı aktifken hafif tema */
+html.perf-lite {
+  --perf-transition-ms: 120ms;
+}
+html.perf-lite *, html.perf-lite *::before, html.perf-lite *::after {
+  transition-duration: var(--perf-transition-ms) !important;
+}
+
+/* Ağır blur/backdrop-blur kapat */
+html.perf-lite [class*="backdrop-blur"] {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html.perf-lite [class*="blur-"] {
+  filter: none !important;
+}
+
+/* Büyük gölgeleri hafiflet */
+html.perf-lite [class*="shadow"] {
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08) !important;
+}
+
+/* Animasyonları global kapat (mesh/swirl gibi özel adlar dahil) */
+html.perf-lite * {
+  animation: none !important;
+}
+html.perf-lite [class*="animate-[meshPan"],
+html.perf-lite [class*="animate-[meshPanAlt"],
+html.perf-lite [class*="animate-[swirl"] {
+  animation: none !important;
+}
+
+/* Offscreen öğeleri ucuzlat (tüm sitede faydalı) */
+main > * {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
+}
+
+/* GPU ipucu: istersen kritik kapsayıcılara .anim-gpu ekleyebilirsin */
+.anim-gpu { transform: translateZ(0); will-change: transform, opacity; }
