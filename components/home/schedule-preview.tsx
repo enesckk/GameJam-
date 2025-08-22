@@ -25,7 +25,7 @@ export default function SchedulePreview({
           Takvim
         </div>
 
-        <Link href="/(public)/takvim" aria-label="Tüm takvimi görüntüle">
+        <Link href="/takvim" aria-label="Tüm takvimi görüntüle">
           <Button
             variant="neon"
             className="px-5 py-2 text-base font-semibold transition-all hover:scale-105 hover:shadow-[0_0_15px_#ff00ff]"
