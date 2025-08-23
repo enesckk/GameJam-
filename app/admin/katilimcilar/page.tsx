@@ -48,6 +48,7 @@ function PageSizeSelect({
   options?: number[];
 }) {
   const [open, setOpen] = useState(false);
+  const [position, setPosition] = useState<'top' | 'bottom'>('bottom');
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -59,11 +60,27 @@ function PageSizeSelect({
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
 
+  const handleToggle = () => {
+    if (!open && ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      const dropdownHeight = options.length * 40 + 20; // yaklaşık yükseklik
+      
+      if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
+        setPosition('top');
+      } else {
+        setPosition('bottom');
+      }
+    }
+    setOpen((s) => !s);
+  };
+
   return (
     <div className="relative" ref={ref}>
       <button
         type="button"
-        onClick={() => setOpen((s) => !s)}
+        onClick={handleToggle}
         className={[
           "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300",
           "ring-1 ring-slate-700/60 focus:ring-2 focus:ring-indigo-500/20",
@@ -81,7 +98,11 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className="absolute bottom-full right-0 mb-2 w-40 z-[9999] rounded-2xl shadow-2xl border border-slate-700 bg-slate-800"
+          className={`absolute ${
+            position === 'top' 
+              ? 'bottom-full right-0 mb-2' 
+              : 'top-full right-0 mt-2'
+          } w-40 z-[9999] rounded-2xl shadow-2xl border border-slate-700 bg-slate-800`}
           role="menu"
         >
           <ul className="py-2">
