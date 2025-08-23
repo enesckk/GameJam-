@@ -68,8 +68,8 @@ function PageSizeSelect({
         className={[
           "inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300",
           "ring-1 ring-slate-200/60 focus:ring-2 focus:ring-indigo-500/20",
-          "backdrop-blur-md bg-white/80 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80",
-          "border border-white/20 dark:border-slate-700/50 shadow-sm hover:shadow-md",
+          "backdrop-blur-md bg-slate-800/80 hover:bg-slate-700/80",
+          "border border-slate-700/50 shadow-sm hover:shadow-md",
         ].join(" ")}
         aria-haspopup="menu"
         aria-expanded={open}
@@ -82,7 +82,7 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className="absolute top-full right-0 mt-2 w-40 z-50 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700"
+          className="absolute top-full right-0 mt-2 w-40 z-50 bg-slate-800 rounded-2xl shadow-2xl border border-slate-700"
           role="menu"
         >
           <ul className="py-2">
@@ -96,7 +96,7 @@ function PageSizeSelect({
                   }}
                   className={[
                     "w-full text-left px-4 py-2.5 text-sm font-medium transition-all duration-200",
-                    "hover:bg-indigo-500/10 hover:text-indigo-700 dark:hover:text-indigo-300",
+                    "hover:bg-indigo-500/10 hover:text-indigo-300",
                   ].join(" ")}
                   role="menuitem"
                 >
@@ -229,7 +229,7 @@ export default function AdminTeamsPage() {
       <AdminSectionCard>
         {loading && (
           <div className="py-12 sm:py-16 text-center">
-            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
               <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
               <span className="text-slate-600  font-medium">Yükleniyor…</span>
             </div>
@@ -238,7 +238,7 @@ export default function AdminTeamsPage() {
 
         {!loading && rows.length === 0 && (
           <div className="py-12 sm:py-16 text-center">
-            <div className="inline-flex flex-col items-center gap-3 sm:gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
+            <div className="inline-flex flex-col items-center gap-3 sm:gap-4 rounded-2xl bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
               <Users className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
               <div>
                 <div className="text-base sm:text-lg font-semibold text-slate-700 ">
@@ -259,12 +259,12 @@ export default function AdminTeamsPage() {
               return (
                 <div
                   key={t.id}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10 dark:border-slate-700/60 dark:bg-slate-800/80"
+                  className="group relative overflow-hidden rounded-2xl border border-slate-700/60 bg-slate-800/80 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10"
                 >
                   {/* Header */}
                   <button
                     onClick={() => toggle(t.id)}
-                    className="flex w-full items-start sm:items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 text-left transition-colors duration-200 hover:bg-slate-50/80 dark:hover:bg-slate-700/80"
+                    className="flex w-full items-start sm:items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 text-left transition-colors duration-200 hover:bg-slate-700/80"
                   >
                     <div className="flex items-start sm:items-center gap-3 sm:gap-4">
                       <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shrink-0">
@@ -275,11 +275,11 @@ export default function AdminTeamsPage() {
                         )}
                       </div>
                       <div>
-                        <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                        <div className="text-base sm:text-lg font-bold text-white">
                           {t.name}
                         </div>
                         <div className="mt-1 flex flex-wrap items-center gap-2">
-                          <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 px-2.5 py-0.5 text-xs font-semibold text-indigo-700 dark:text-indigo-300">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-indigo-900/30 px-2.5 py-0.5 text-xs font-semibold text-indigo-300">
                             <Users className="h-4 w-4" />
                             {t.membersCount} üye
                           </span>
@@ -293,11 +293,11 @@ export default function AdminTeamsPage() {
 
                   {/* Members */}
                   {open && (
-                    <div className="border-t border-slate-200/60 dark:border-slate-700/60 bg-slate-50/60 dark:bg-slate-900/40">
+                    <div className="border-t border-slate-700/60 bg-slate-900/40">
                       {/* Mobile: cards */}
                       <ul className="grid gap-2 p-3 sm:hidden">
                         {t.members.length === 0 && (
-                          <li className="rounded-xl bg-white/70 dark:bg-slate-800/70 p-4 text-center">
+                          <li className="rounded-xl bg-slate-800/70 p-4 text-center">
                             <div className="inline-flex flex-col items-center gap-2 text-slate-500 ">
                               <UserCheck className="h-7 w-7" />
                               <span className="text-sm font-medium">Üye yok</span>
@@ -307,13 +307,13 @@ export default function AdminTeamsPage() {
                         {t.members.map((m, i) => (
                           <li
                             key={m.id}
-                            className="rounded-xl ring-1 ring-slate-200/70 dark:ring-slate-700/60 bg-white/90 dark:bg-slate-800/80 p-3 flex items-start gap-3"
+                            className="rounded-xl ring-1 ring-slate-700/60 bg-slate-800/80 p-3 flex items-start gap-3"
                           >
-                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600  shrink-0">
+                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-300 shrink-0">
                               {i + 1}
                             </div>
                             <div className="min-w-0 flex-1 space-y-1">
-                              <div className="font-semibold text-slate-900 dark:text-white truncate">
+                              <div className="font-semibold text-white truncate">
                                 {m.name ?? "—"}
                               </div>
                               <div className="flex items-center gap-2 text-sm text-slate-700  min-w-0">
@@ -350,7 +350,7 @@ export default function AdminTeamsPage() {
                       <div className="hidden sm:block overflow-x-auto">
                         <table className="min-w-full">
                           <thead>
-                            <tr className="border-b border-slate-200/60 dark:border-slate-700/60">
+                            <tr className="border-b border-slate-700/60">
                               <Th>#</Th>
                               <Th>Ad Soyad</Th>
                               <Th>E‑posta</Th>
@@ -373,14 +373,14 @@ export default function AdminTeamsPage() {
                             {t.members.map((m, i) => (
                               <tr
                                 key={m.id}
-                                className="group border-b border-slate-200/40 dark:border-slate-700/40 transition-all duration-200 hover:bg-white/60 dark:hover:bg-slate-800/60"
+                                className="group border-b border-slate-700/40 transition-all duration-200 hover:bg-slate-800/60"
                               >
                                 <Td className="font-semibold">
-                                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 ">
+                                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-300">
                                     {i + 1}
                                   </div>
                                 </Td>
-                                <Td className="font-semibold text-slate-900 dark:text-white">
+                                <Td className="font-semibold text-white">
                                   {m.name ?? "—"}
                                 </Td>
                                 <Td>
@@ -432,17 +432,17 @@ export default function AdminTeamsPage() {
         )}
 
         {/* Pagination */}
-        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
           <div className="text-sm text-slate-600 ">
             Toplam{" "}
-            <strong className="text-slate-900 dark:text-white">{totalTeams}</strong> takım • Sayfa{" "}
-            <strong className="text-slate-900 dark:text-white">{page}</strong> / {totalPages}
+            <strong className="text-white">{totalTeams}</strong> takım • Sayfa{" "}
+            <strong className="text-white">{page}</strong> / {totalPages}
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-slate-700/80 hover:bg-slate-700 border border-slate-600/60 shadow-sm hover:shadow-md"
             >
               <ArrowLeft className="h-4 w-4" />
               <span className="hidden xs:inline">Önceki</span>
@@ -450,7 +450,7 @@ export default function AdminTeamsPage() {
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-slate-700/80 hover:bg-slate-700 border border-slate-600/60 shadow-sm hover:shadow-md"
             >
               <span className="hidden xs:inline">Sonraki</span>
               <ArrowRight className="h-4 w-4" />

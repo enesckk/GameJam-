@@ -300,18 +300,18 @@ export default function MatchingPage() {
       </div>
 
       {/* Stats and Actions */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <button
             onClick={selectAllPage}
-            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 bg-slate-700/80 hover:bg-slate-700 border border-slate-600/60 shadow-sm hover:shadow-md"
           >
             <CheckSquare className="h-4 w-4" />
             Hepsini Seç
           </button>
           <button
             onClick={clearSelection}
-            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 bg-slate-700/80 hover:bg-slate-700 border border-slate-600/60 shadow-sm hover:shadow-md"
           >
             <Square className="h-4 w-4" />
             Temizle
@@ -319,7 +319,7 @@ export default function MatchingPage() {
         </div>
         <div className="text-sm text-slate-600 ">
           Seçili:{" "}
-          <strong className="text-slate-900 dark:text-white">
+          <strong className="text-white">
             {selectedCount}
           </strong>
         </div>
@@ -332,7 +332,7 @@ export default function MatchingPage() {
       >
         {loading ? (
           <div className="py-12 sm:py-16 text-center">
-            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
               <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-green-500" />
               <span className="text-slate-600  font-medium">
                 Yükleniyor…
@@ -355,12 +355,12 @@ export default function MatchingPage() {
                   <button
                     key={u.id}
                     onClick={() => toggleRow(u.id)}
-                    className="text-left rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-white/80 dark:bg-slate-800/80 p-4 active:scale-[0.99] transition"
+                    className="text-left rounded-2xl border border-slate-700/60 bg-slate-800/80 p-4 active:scale-[0.99] transition"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-300">
                             {i + 1}
                           </span>
                           <div className="font-semibold truncate">
@@ -394,7 +394,7 @@ export default function MatchingPage() {
                         className={`mt-0.5 inline-flex items-center justify-center rounded-lg p-1.5 ${
                           checked
                             ? "bg-green-500 text-white shadow"
-                            : "bg-slate-100 dark:bg-slate-700 text-slate-400"
+                            : "bg-slate-700 text-slate-400"
                         }`}
                         aria-label={checked ? "Seçimi kaldır" : "Seç"}
                       >
@@ -411,10 +411,10 @@ export default function MatchingPage() {
             </div>
 
             {/* Desktop table */}
-            <div className="hidden sm:block overflow-x-auto rounded-2xl ring-1 ring-slate-200/60 bg-white/80 backdrop-blur-sm dark:ring-slate-700/60 dark:bg-slate-800/80">
+            <div className="hidden sm:block overflow-x-auto rounded-2xl ring-1 ring-slate-700/60 bg-slate-800/80 backdrop-blur-sm">
               <table className="min-w-full text-sm">
                 <thead>
-                  <tr className="border-b border-slate-200/60 dark:border-slate-700/60">
+                  <tr className="border-b border-slate-700/60">
                     <Th className="w-12"></Th>
                     <Th>#</Th>
                     <Th>Ad Soyad</Th>
@@ -431,7 +431,7 @@ export default function MatchingPage() {
                       <tr
                         key={u.id}
                         onClick={() => toggleRow(u.id)}
-                        className="group border-b border-slate-200/40 dark:border-slate-700/40 cursor-pointer transition-all duration-200 hover:bg-slate-50/80 dark:hover:bg-slate-700/80"
+                        className="group border-b border-slate-700/40 cursor-pointer transition-all duration-200 hover:bg-slate-700/80"
                       >
                         <Td
                           onClick={(e) => e.stopPropagation()}
@@ -446,7 +446,7 @@ export default function MatchingPage() {
                             className={`inline-flex items-center justify-center rounded-lg p-1.5 transition-all duration-200 ${
                               checked
                                 ? "bg-green-500 text-white shadow-lg"
-                                : "bg-slate-100 dark:bg-slate-700 text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-600"
+                                : "bg-slate-700 text-slate-400 hover:bg-slate-600"
                             }`}
                             title={checked ? "Seçimi kaldır" : "Seç"}
                           >
@@ -458,11 +458,11 @@ export default function MatchingPage() {
                           </button>
                         </Td>
                         <Td className="font-semibold">
-                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-300">
                             {i + 1}
                           </div>
                         </Td>
-                        <Td className="font-semibold text-slate-900 ">
+                        <Td className="font-semibold text-white">
                           {u.name ?? "—"}
                         </Td>
                         <Td className="text-slate-700 ">
@@ -502,7 +502,7 @@ export default function MatchingPage() {
       >
         {loading ? (
           <div className="py-12 sm:py-16 text-center">
-            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
               <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-green-500" />
               <span className="text-slate-600  font-medium">
                 Yükleniyor…
@@ -523,7 +523,7 @@ export default function MatchingPage() {
               return (
                 <div
                   key={t.id}
-                  className="group relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10 dark:border-slate-700/60 dark:bg-slate-800/80"
+                  className="group relative overflow-hidden rounded-2xl border border-slate-700/60 bg-slate-800/80 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10"
                 >
                   <div className="p-4 sm:p-6">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -540,11 +540,11 @@ export default function MatchingPage() {
                           )}
                         </div>
                         <div>
-                          <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                          <div className="text-base sm:text-lg font-bold text-white">
                             {t.name}
                           </div>
                           <div className="mt-1 flex flex-wrap items-center gap-2 sm:gap-3">
-                            <span className="inline-flex items-center gap-1.5 rounded-full bg-green-100 dark:bg-green-900/30 px-2.5 py-0.5 sm:px-3 sm:py-1 text-xs sm:text-sm font-semibold text-green-700 dark:text-green-300">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-green-900/30 px-2.5 py-0.5 sm:px-3 sm:py-1 text-xs sm:text-sm font-semibold text-green-300">
                               <Users className="h-4 w-4" />
                               {t.membersCount}/4
                             </span>
@@ -564,7 +564,7 @@ export default function MatchingPage() {
                           disabled={
                             busy || selectedCount === 0 || t.capacityLeft === 0
                           }
-                          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-green-100 hover:bg-green-200 text-green-700 dark:bg-green-900/30 dark:hover:bg-green-900/50 dark:text-green-300"
+                          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-green-900/30 hover:bg-green-900/50 text-green-300"
                           type="button"
                         >
                           <UserPlus className="h-4 w-4" />
@@ -574,7 +574,7 @@ export default function MatchingPage() {
                         <button
                           onClick={() => setConfirmDeleteTeam(t)}
                           disabled={disableDelete || busy}
-                          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+                          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-red-900/30 hover:bg-red-900/50 text-red-300"
                           title={
                             disableDelete ? "Teslimi olan takım silinemez" : "Takımı Sil"
                           }
@@ -587,7 +587,7 @@ export default function MatchingPage() {
                     </div>
 
                     {open && (
-                      <div className="mt-5 sm:mt-6 border-t border-slate-200/60 dark:border-slate-700/60 pt-5 sm:pt-6">
+                      <div className="mt-5 sm:mt-6 border-t border-slate-700/60 pt-5 sm:pt-6">
                         {/* Mobile members cards */}
                         <div className="grid gap-3 sm:hidden">
                           {t.members.length === 0 && (
@@ -596,12 +596,12 @@ export default function MatchingPage() {
                           {t.members.map((m, i) => (
                             <div
                               key={m.id}
-                              className="rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-slate-50/80 dark:bg-slate-900/80 p-4"
+                              className="rounded-2xl border border-slate-700/60 bg-slate-900/80 p-4"
                             >
                               <div className="flex items-start justify-between gap-3">
                                 <div className="min-w-0">
                                   <div className="flex items-center gap-2">
-                                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 ">
+                                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-300">
                                       {i + 1}
                                     </span>
                                     <div className="font-semibold truncate">
@@ -647,10 +647,10 @@ export default function MatchingPage() {
                         </div>
 
                         {/* Desktop table */}
-                        <div className="hidden sm:block overflow-x-auto rounded-2xl ring-1 ring-slate-200/60 bg-slate-50/80 dark:ring-slate-700/60 dark:bg-slate-900/80">
+                        <div className="hidden sm:block overflow-x-auto rounded-2xl ring-1 ring-slate-700/60 bg-slate-900/80">
                           <table className="min-w-full text-sm">
                             <thead>
-                              <tr className="border-b border-slate-200/60 dark:border-slate-700/60">
+                              <tr className="border-b border-slate-700/60">
                                 <Th>#</Th>
                                 <Th>Ad Soyad</Th>
                                 <Th>E-posta</Th>
@@ -676,14 +676,14 @@ export default function MatchingPage() {
                               {t.members.map((m, i) => (
                                 <tr
                                   key={m.id}
-                                  className="border-b border-slate-200/40 dark:border-slate-700/40"
+                                  className="border-b border-slate-700/40"
                                 >
                                   <Td className="font-semibold">
-                                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 ">
+                                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-300">
                                       {i + 1}
                                     </div>
                                   </Td>
-                                  <Td className="font-semibold text-slate-900 dark:text-white">
+                                  <Td className="font-semibold text-white">
                                     {m.name ?? "—"}
                                   </Td>
                                   <Td className="text-slate-700 ">
@@ -710,7 +710,7 @@ export default function MatchingPage() {
                                     <button
                                       onClick={() => removeMember(m.id)}
                                       disabled={busy}
-                                      className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 disabled:opacity-50 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+                                      className="inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 disabled:opacity-50 bg-red-900/30 hover:bg-red-900/50 text-red-300"
                                       title="Takımdan çıkar"
                                       type="button"
                                     >
@@ -737,10 +737,10 @@ export default function MatchingPage() {
           <div className="mt-4 sm:mt-6 flex items-start sm:items-center gap-3 rounded-2xl border border-green-500/30 bg-green-500/10 p-3 sm:p-4 backdrop-blur-sm">
             <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5 sm:mt-0" />
             <div>
-              <div className="font-semibold text-green-700 dark:text-green-400">
+              <div className="font-semibold text-green-400">
                 Başarılı
               </div>
-              <div className="text-sm text-green-600 dark:text-green-300">
+                              <div className="text-sm text-green-300">
                 {message}
               </div>
             </div>
@@ -759,11 +759,11 @@ export default function MatchingPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+              <h3 className="text-lg sm:text-xl font-bold text-white">
                 Yeni Takım Oluştur
               </h3>
               <button
-                className="rounded-xl p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                className="rounded-xl p-2 hover:bg-slate-800 transition-colors duration-200"
                 onClick={() => setModalOpen(false)}
                 aria-label="Kapat"
               >
@@ -772,15 +772,15 @@ export default function MatchingPage() {
             </div>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-semibold text-slate-700  mb-2 block">
+                <label className="text-sm font-semibold text-slate-300 mb-2 block">
                   Takım Adı
                 </label>
                 <div className="group relative">
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300" />
-                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-green-300 group-focus-within:shadow-lg group-focus-within:shadow-green-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-700/60 bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-green-300 group-focus-within:shadow-lg group-focus-within:shadow-green-500/10">
                     <Link2 className="h-5 w-5 text-slate-400 group-focus-within:text-green-500 transition-colors duration-300" />
                     <input
-                      className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                      className="flex-1 bg-transparent outline-none text-white placeholder-slate-500"
                       placeholder="Örn. Piksel Pekerleri"
                       value={newTeamName}
                       onChange={(e) => setNewTeamName(e.target.value)}
@@ -795,7 +795,7 @@ export default function MatchingPage() {
             </div>
             <div className="mt-4 sm:mt-6 flex items-center justify-end gap-2 sm:gap-3">
               <button
-                className="rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
+                className="rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 bg-slate-700 hover:bg-slate-600 text-slate-300"
                 onClick={() => setModalOpen(false)}
               >
                 Vazgeç
@@ -827,11 +827,11 @@ export default function MatchingPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4 sm:mb-6">
-              <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
+              <h3 className="text-lg sm:text-xl font-bold text-white">
                 Takımı Sil
               </h3>
               <button
-                className="rounded-xl p-2 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                className="rounded-xl p-2 hover:bg-slate-800 transition-colors duration-200"
                 onClick={() => setConfirmDeleteTeam(null)}
                 aria-label="Kapat"
               >
@@ -839,18 +839,18 @@ export default function MatchingPage() {
               </button>
             </div>
             <div className="space-y-4">
-              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-2xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+              <div className="flex items-start gap-3 p-3 sm:p-4 rounded-2xl bg-red-900/20 border border-red-800">
                 <AlertTriangle className="h-5 w-5 sm:h-6 sm:w-6 text-red-500 mt-0.5 sm:mt-0" />
                 <div>
-                  <div className="font-semibold text-red-700 dark:text-red-400">
+                  <div className="font-semibold text-red-400">
                     <strong>{confirmDeleteTeam.name}</strong> takımını silmek
                     üzeresiniz.
                   </div>
-                  <div className="text-xs sm:text-sm text-red-600 dark:text-red-300">
+                  <div className="text-xs sm:text-sm text-red-300">
                     Üyeler boşa alınacak.
                   </div>
                   {confirmDeleteTeam.submissionsCount > 0 && (
-                    <div className="text-xs sm:text-sm text-red-600 dark:text-red-300 font-semibold mt-1">
+                    <div className="text-xs sm:text-sm text-red-300 font-semibold mt-1">
                       Bu takımın teslimleri var, silinemez.
                     </div>
                   )}
@@ -859,7 +859,7 @@ export default function MatchingPage() {
             </div>
             <div className="mt-4 sm:mt-6 flex items-center justify-end gap-2 sm:gap-3">
               <button
-                className="rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 "
+                className="rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 bg-slate-700 hover:bg-slate-600 text-slate-300"
                 onClick={() => setConfirmDeleteTeam(null)}
               >
                 Vazgeç
@@ -867,7 +867,7 @@ export default function MatchingPage() {
               <button
                 onClick={deleteTeamConfirmed}
                 disabled={busy || confirmDeleteTeam.submissionsCount > 0}
-                className="inline-flex items-center gap-2 rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+                className="inline-flex items-center gap-2 rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-red-900/30 hover:bg-red-900/50 text-red-300"
               >
                 <Trash2 className="h-4 w-4" />
                 Sil
@@ -892,7 +892,7 @@ function EmptyState({
 }) {
   return (
     <div className="py-12 sm:py-16 text-center">
-      <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
+      <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
         <Icon className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
         <div>
           <div className="text-base sm:text-lg font-semibold text-slate-700 ">
@@ -909,7 +909,7 @@ function EmptyState({
 
 function EmptyRow({ text }: { text: string }) {
   return (
-    <div className="rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-slate-50/80 dark:bg-slate-900/80 p-4 text-sm text-slate-600  text-center">
+    <div className="rounded-2xl border border-slate-700/60 bg-slate-900/80 p-4 text-sm text-slate-300 text-center">
       {text}
     </div>
   );

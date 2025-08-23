@@ -701,7 +701,7 @@ export default function AdminMessagesPage() {
                 return (
                   <div
                     key={m.id}
-                    className="group relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10 dark:border-slate-700/60 dark:bg-slate-800/80"
+                    className="group relative overflow-hidden rounded-2xl border border-slate-700/60 bg-slate-800/80 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-slate-500/10"
                   >
                     <div className="p-4 sm:p-6">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
@@ -719,7 +719,7 @@ export default function AdminMessagesPage() {
                             )}
                           </div>
                           <div className="min-w-0">
-                            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-1 sm:mb-2 truncate max-w-[17rem] sm:max-w-none" title={m.subject}>
+                            <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2 truncate max-w-[17rem] sm:max-w-none" title={m.subject}>
                               {m.subject}
                             </h3>
                             <div className="flex flex-col sm:flex-row sm:flex-wrap gap-1.5 sm:gap-4 text-xs sm:text-sm text-slate-600 ">
@@ -753,7 +753,7 @@ export default function AdminMessagesPage() {
                               openEditDraft(m);
                             }}
                             title="Düzenle"
-                            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-blue-100 hover:bg-blue-200 text-blue-700 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-300"
+                            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-blue-900/30 hover:bg-blue-900/50 text-blue-300"
                           >
                             <Pencil className="h-4 w-4" />
                             <span className="hidden xs:inline">Düzenle</span>
@@ -764,7 +764,7 @@ export default function AdminMessagesPage() {
                               e.stopPropagation();
                               deleteOutbox(m.id);
                             }}
-                            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-red-100 hover:bg-red-200 text-red-700 dark:bg-red-900/30 dark:hover:bg-red-900/50 dark:text-red-300"
+                            className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-red-900/30 hover:bg-red-900/50 text-red-300"
                           >
                             <Trash2 className="h-4 w-4" />
                             <span className="hidden xs:inline">Sil</span>
@@ -774,20 +774,20 @@ export default function AdminMessagesPage() {
 
                       {open && (
                         <div
-                          className="mt-4 sm:mt-6 border-t border-slate-200/60 dark:border-slate-700/60 pt-4 sm:pt-6"
+                          className="mt-4 sm:mt-6 border-t border-slate-700/60 pt-4 sm:pt-6"
                           onClick={(e) => e.stopPropagation()}
                         >
                           {/* inline edit */}
                           <div className="space-y-4">
                             <div>
-                              <label className="text-sm font-semibold text-slate-700  mb-2 block">
+                              <label className="text-sm font-semibold text-slate-300 mb-2 block">
                                 Konu
                               </label>
                               <div className="group relative">
                                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-                                <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                                <div className="relative flex items-center gap-3 rounded-2xl border border-slate-700/60 bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10">
                                   <input
-                                    className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                                    className="flex-1 bg-transparent outline-none text-white placeholder-slate-500"
                                     value={draft.subject}
                                     onChange={(e) =>
                                       setEditDrafts((d) => {
@@ -808,14 +808,14 @@ export default function AdminMessagesPage() {
                             </div>
 
                             <div>
-                              <label className="text-sm font-semibold text-slate-700 mb-2 block">
+                              <label className="text-sm font-semibold text-slate-300 mb-2 block">
                                 İçerik
                               </label>
                               <div className="group relative">
                                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-                                <div className="relative rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                                <div className="relative rounded-2xl border border-slate-700/60 bg-slate-800/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10">
                                   <textarea
-                                    className="min-h-[120px] w-full bg-transparent outline-none p-3 sm:p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-y"
+                                    className="min-h-[120px] w-full bg-transparent outline-none p-3 sm:p-4 text-white placeholder-slate-500 resize-y"
                                     value={draft.body}
                                     onChange={(e) =>
                                       setEditDrafts((d) => {
@@ -853,7 +853,7 @@ export default function AdminMessagesPage() {
                                     e.stopPropagation();
                                     cancelEdit(m.id);
                                   }}
-                                  className="rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
+                                  className="rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-slate-700 hover:bg-slate-600 text-slate-300"
                                   disabled={false}
                                 >
                                   Vazgeç
@@ -877,11 +877,11 @@ export default function AdminMessagesPage() {
                           </div>
 
                           {/* orijinal içerik */}
-                          <div className="mt-4 sm:mt-6 rounded-2xl bg-slate-50/80 dark:bg-slate-900/80 p-3 sm:p-4">
-                            <div className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">
+                          <div className="mt-4 sm:mt-6 rounded-2xl bg-slate-900/80 p-3 sm:p-4">
+                            <div className="mb-2 text-sm font-semibold text-slate-300">
                               Gönderilen İçerik
                             </div>
-                            <div className="text-sm text-slate-600 dark:text-slate-400 whitespace-pre-wrap">
+                            <div className="text-sm text-slate-400 whitespace-pre-wrap">
                               {m.body}
                             </div>
                           </div>
@@ -913,7 +913,7 @@ export default function AdminMessagesPage() {
           <div className="space-y-6">
             {/* alıcı modu */}
             <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-              <label className="inline-flex items-center gap-2 sm:gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+              <label className="inline-flex items-center gap-2 sm:gap-3 text-sm font-medium text-slate-300">
                 <input
                   type="radio"
                   checked={mode === "users"}
@@ -923,7 +923,7 @@ export default function AdminMessagesPage() {
                 <User className="h-5 w-5" />
                 <span>Kullanıcılar</span>
               </label>
-              <label className="inline-flex items-center gap-2 sm:gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+              <label className="inline-flex items-center gap-2 sm:gap-3 text-sm font-medium text-slate-300">
                 <input
                   type="radio"
                   checked={mode === "team"}
@@ -965,14 +965,14 @@ export default function AdminMessagesPage() {
             {/* konu & içerik */}
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                <label className="text-sm font-semibold text-slate-300 mb-2 block">
                   Konu
                 </label>
                 <div className="group relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                  <div className="relative flex items-center gap-3 rounded-2xl border border-slate-700/60 bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10">
                     <input
-                      className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                      className="flex-1 bg-transparent outline-none text-white placeholder-slate-500"
                       value={subj}
                       onChange={(e) => setSubj(e.target.value)}
                     />
@@ -981,14 +981,14 @@ export default function AdminMessagesPage() {
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                <label className="text-sm font-semibold text-slate-300 mb-2 block">
                   İçerik
                 </label>
                 <div className="group relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+                  <div className="relative rounded-2xl border border-slate-700/60 bg-slate-800/80 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10">
                     <textarea
-                      className="min-h-[120px] w-full bg-transparent outline-none p-3 sm:p-4 text-slate-900 dark:text-white placeholder-slate-500 resize-y"
+                      className="min-h-[120px] w-full bg-transparent outline-none p-3 sm:p-4 text-white placeholder-slate-500 resize-y"
                       value={body}
                       onChange={(e) => setBody(e.target.value)}
                     />
@@ -1004,7 +1004,7 @@ export default function AdminMessagesPage() {
                   setSubj("");
                   setBody("");
                 }}
-                className="rounded-xl px-3 sm:px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
+                className="rounded-xl px-3 sm:px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-700 hover:bg-slate-600 text-slate-300"
               >
                 Temizle
               </button>
@@ -1412,9 +1412,9 @@ function Pager({
 function LoadingBox() {
   return (
     <div className="py-12 sm:py-16 text-center">
-      <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
+      <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
         <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
-        <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+        <span className="text-slate-400 font-medium">Yükleniyor…</span>
       </div>
     </div>
   );
@@ -1430,13 +1430,13 @@ function EmptyBox({
 }) {
   return (
     <div className="py-12 sm:py-16 text-center">
-      <div className="inline-flex flex-col items-center gap-3 sm:gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
+      <div className="inline-flex flex-col items-center gap-3 sm:gap-4 rounded-2xl bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
         <Icon className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
         <div>
-          <div className="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-300">
+          <div className="text-base sm:text-lg font-semibold text-slate-300">
             {title}
           </div>
-          <div className="text-sm text-slate-500 dark:text-slate-400">{desc}</div>
+          <div className="text-sm text-slate-400">{desc}</div>
         </div>
       </div>
     </div>

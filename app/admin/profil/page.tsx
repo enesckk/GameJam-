@@ -122,7 +122,7 @@ export default function AdminProfilePage() {
               <div className="relative flex items-center gap-3 rounded-2xl border border-slate-700/60 bg-slate-800/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10">
                 <User className="h-5 w-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors duration-300" />
                 <input
-                  className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                  className="flex-1 bg-transparent outline-none text-white placeholder-slate-500"
                   value={fullName}
                   onChange={(e)=>setFullName(e.target.value)}
                   placeholder="Ad Soyad"
@@ -134,15 +134,15 @@ export default function AdminProfilePage() {
 
           {/* E-posta */}
           <div>
-            <label className="text-sm font-semibold text-slate-700  mb-2 block">
+            <label className="text-sm font-semibold text-slate-300 mb-2 block">
               E-posta
             </label>
             <div className="group relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-blue-300 group-focus-within:shadow-lg group-focus-within:shadow-blue-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+              <div className="relative flex items-center gap-3 rounded-2xl border border-slate-700/60 bg-slate-800/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-blue-300 group-focus-within:shadow-lg group-focus-within:shadow-blue-500/10">
                 <Mail className="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors duration-300" />
                 <input
-                  className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                  className="flex-1 bg-transparent outline-none text-white placeholder-slate-500"
                   value={email}
                   onChange={(e)=>setEmail(e.target.value)}
                   placeholder="ornek@mail.com"
@@ -154,15 +154,15 @@ export default function AdminProfilePage() {
 
           {/* Telefon */}
           <div>
-            <label className="text-sm font-semibold text-slate-700  mb-2 block">
+            <label className="text-sm font-semibold text-slate-300 mb-2 block">
               Telefon
             </label>
             <div className="group relative">
               <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-green-300 group-focus-within:shadow-lg group-focus-within:shadow-green-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+              <div className="relative flex items-center gap-3 rounded-2xl border border-slate-700/60 bg-slate-800/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-green-300 group-focus-within:shadow-lg group-focus-within:shadow-green-500/10">
                 <Phone className="h-5 w-5 text-slate-400 group-focus-within:text-green-500 transition-colors duration-300" />
                 <input
-                  className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                  className="flex-1 bg-transparent outline-none text-white placeholder-slate-500"
                   value={phone}
                   onChange={(e)=>setPhone(e.target.value)}
                   placeholder="+90 5xx xxx xx xx"
@@ -174,13 +174,13 @@ export default function AdminProfilePage() {
 
           {/* Rol */}
           <div>
-            <label className="text-sm font-semibold text-slate-700  mb-2 block">
+            <label className="text-sm font-semibold text-slate-300 mb-2 block">
               Rol
             </label>
-            <div className="flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-slate-50/80 p-4 backdrop-blur-sm dark:border-slate-700/60 dark:bg-slate-800/80">
+            <div className="flex items-center gap-3 rounded-2xl border border-slate-700/60 bg-slate-800/80 p-4 backdrop-blur-sm">
               <Shield className="h-5 w-5 text-slate-400" />
               <input
-                className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white"
+                className="flex-1 bg-transparent outline-none text-white"
                 value={role}
                 disabled
               />
@@ -189,15 +189,15 @@ export default function AdminProfilePage() {
 
           {/* Yeni Şifre */}
           <div className="md:col-span-2">
-            <label className="text-sm font-semibold text-slate-700  mb-2 block">
+            <label className="text-sm font-semibold text-slate-300 mb-2 block">
               Yeni Şifre (opsiyonel)
             </label>
             <div className="group relative">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+              <div className="relative flex items-center gap-3 rounded-2xl border border-slate-700/60 bg-slate-800/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-orange-300 group-focus-within:shadow-lg group-focus-within:shadow-orange-500/10">
                 <Lock className="h-5 w-5 text-slate-400 group-focus-within:text-orange-500 transition-colors duration-300" />
                 <input
-                  className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
+                  className="flex-1 bg-transparent outline-none text-white placeholder-slate-500"
                   type="password"
                   value={newPass}
                   onChange={(e)=>setNewPass(e.target.value)}
@@ -215,8 +215,8 @@ export default function AdminProfilePage() {
             <div className="flex items-center gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 backdrop-blur-sm">
               <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
               <div>
-                <div className="font-semibold text-red-700 dark:text-red-400">Hata</div>
-                <div className="text-sm text-red-600 dark:text-red-300">{err}</div>
+                <div className="font-semibold text-red-400">Hata</div>
+                <div className="text-sm text-red-300">{err}</div>
               </div>
             </div>
           )}
@@ -224,8 +224,8 @@ export default function AdminProfilePage() {
             <div className="flex items-center gap-3 rounded-2xl border border-green-500/30 bg-green-500/10 p-4 backdrop-blur-sm">
               <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
               <div>
-                <div className="font-semibold text-green-700 dark:text-green-400">Başarılı</div>
-                <div className="text-sm text-green-600 dark:text-green-300">{ok}</div>
+                <div className="font-semibold text-green-400">Başarılı</div>
+                <div className="text-sm text-green-300">{ok}</div>
               </div>
             </div>
           )}
