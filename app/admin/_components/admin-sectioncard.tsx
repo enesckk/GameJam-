@@ -15,16 +15,16 @@ export default function AdminSectionCard({
     <section
       className="
         rounded-xl p-4 md:p-5
-        bg-white dark:bg-slate-800
-        border border-slate-200 dark:border-slate-700
+        bg-slate-800
+        border border-slate-700
         shadow-sm
       "
     >
       {(title || subtitle) && (
         <header className="mb-3">
-          {title && <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h2>}
+          {title && <h2 className="text-lg font-semibold text-white">{title}</h2>}
           {subtitle && (
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+            <p className="mt-1 text-sm text-slate-400">
               {subtitle}
             </p>
           )}

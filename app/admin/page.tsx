@@ -175,7 +175,7 @@ export default function AdminHome() {
             <Link
               key={href}
               href={href}
-              className="group relative overflow-hidden rounded-xl p-6 text-center transition-shadow duration-200 hover:shadow-md"
+              className="group relative overflow-hidden rounded-xl p-6 text-center bg-slate-800/50 border border-slate-700 transition-shadow duration-200 hover:shadow-md"
             >
               <div className="relative">
                 <div className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br ${color} shadow-sm transition-transform duration-200 group-hover:scale-105`}>

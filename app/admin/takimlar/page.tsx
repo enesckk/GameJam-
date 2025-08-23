@@ -231,7 +231,7 @@ export default function AdminTeamsPage() {
           <div className="py-12 sm:py-16 text-center">
             <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
               <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
-              <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+              <span className="text-slate-600  font-medium">Yükleniyor…</span>
             </div>
           </div>
         )}
@@ -241,10 +241,10 @@ export default function AdminTeamsPage() {
             <div className="inline-flex flex-col items-center gap-3 sm:gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
               <Users className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
               <div>
-                <div className="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-300">
+                <div className="text-base sm:text-lg font-semibold text-slate-700 ">
                   Takım bulunamadı
                 </div>
-                <div className="text-sm text-slate-500 dark:text-slate-400">
+                <div className="text-sm text-slate-500 ">
                   Arama kriterlerinizi değiştirmeyi deneyin
                 </div>
               </div>
@@ -283,7 +283,7 @@ export default function AdminTeamsPage() {
                             <Users className="h-4 w-4" />
                             {t.membersCount} üye
                           </span>
-                          <span className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                          <span className="text-xs sm:text-sm text-slate-500 ">
                             #{idx + 1 + (page - 1) * pageSize}
                           </span>
                         </div>
@@ -298,7 +298,7 @@ export default function AdminTeamsPage() {
                       <ul className="grid gap-2 p-3 sm:hidden">
                         {t.members.length === 0 && (
                           <li className="rounded-xl bg-white/70 dark:bg-slate-800/70 p-4 text-center">
-                            <div className="inline-flex flex-col items-center gap-2 text-slate-500 dark:text-slate-400">
+                            <div className="inline-flex flex-col items-center gap-2 text-slate-500 ">
                               <UserCheck className="h-7 w-7" />
                               <span className="text-sm font-medium">Üye yok</span>
                             </div>
@@ -309,24 +309,24 @@ export default function AdminTeamsPage() {
                             key={m.id}
                             className="rounded-xl ring-1 ring-slate-200/70 dark:ring-slate-700/60 bg-white/90 dark:bg-slate-800/80 p-3 flex items-start gap-3"
                           >
-                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-300 shrink-0">
+                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600  shrink-0">
                               {i + 1}
                             </div>
                             <div className="min-w-0 flex-1 space-y-1">
                               <div className="font-semibold text-slate-900 dark:text-white truncate">
                                 {m.name ?? "—"}
                               </div>
-                              <div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 min-w-0">
+                              <div className="flex items-center gap-2 text-sm text-slate-700  min-w-0">
                                 <Mail className="h-4 w-4 text-slate-400 shrink-0" />
                                 <span className="truncate" title={m.email}>
                                   {m.email}
                                 </span>
                               </div>
-                              <div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+                              <div className="flex items-center gap-2 text-sm text-slate-700 ">
                                 <Phone className="h-4 w-4 text-slate-400" />
                                 <span className="truncate">{m.phone ?? "—"}</span>
                               </div>
-                              <div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+                              <div className="flex items-center gap-2 text-sm text-slate-700 ">
                                 <Calendar className="h-4 w-4 text-slate-400" />
                                 <span>{Number.isFinite(m.age as any) ? m.age : "—"}</span>
                               </div>
@@ -363,7 +363,7 @@ export default function AdminTeamsPage() {
                             {t.members.length === 0 && (
                               <tr>
                                 <td colSpan={6} className="px-6 py-8 text-center">
-                                  <div className="inline-flex flex-col items-center gap-2 text-slate-500 dark:text-slate-400">
+                                  <div className="inline-flex flex-col items-center gap-2 text-slate-500 ">
                                     <UserCheck className="h-8 w-8" />
                                     <span className="text-sm font-medium">Üye yok</span>
                                   </div>
@@ -376,7 +376,7 @@ export default function AdminTeamsPage() {
                                 className="group border-b border-slate-200/40 dark:border-slate-700/40 transition-all duration-200 hover:bg-white/60 dark:hover:bg-slate-800/60"
                               >
                                 <Td className="font-semibold">
-                                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                                  <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 ">
                                     {i + 1}
                                   </div>
                                 </Td>
@@ -386,7 +386,7 @@ export default function AdminTeamsPage() {
                                 <Td>
                                   <div className="flex items-center gap-2 max-w-[320px]">
                                     <Mail className="h-4 w-4 text-slate-400 shrink-0" />
-                                    <span className="text-slate-700 dark:text-slate-300 truncate" title={m.email}>
+                                    <span className="text-slate-700  truncate" title={m.email}>
                                       {m.email}
                                     </span>
                                   </div>
@@ -394,7 +394,7 @@ export default function AdminTeamsPage() {
                                 <Td>
                                   <div className="flex items-center gap-2 max-w-[220px]">
                                     <Phone className="h-4 w-4 text-slate-400 shrink-0" />
-                                    <span className="font-semibold text-slate-700 dark:text-slate-300 truncate" title={m.phone ?? "—"}>
+                                    <span className="font-semibold text-slate-700  truncate" title={m.phone ?? "—"}>
                                       {m.phone ?? "—"}
                                     </span>
                                   </div>
@@ -402,7 +402,7 @@ export default function AdminTeamsPage() {
                                 <Td>
                                   <div className="flex items-center gap-2">
                                     <Calendar className="h-4 w-4 text-slate-400" />
-                                    <span className="font-semibold text-slate-700 dark:text-slate-300">
+                                    <span className="font-semibold text-slate-700 ">
                                       {Number.isFinite(m.age as any) ? m.age : "—"}
                                     </span>
                                   </div>
@@ -433,7 +433,7 @@ export default function AdminTeamsPage() {
 
         {/* Pagination */}
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="text-sm text-slate-600 dark:text-slate-400">
+          <div className="text-sm text-slate-600 ">
             Toplam{" "}
             <strong className="text-slate-900 dark:text-white">{totalTeams}</strong> takım • Sayfa{" "}
             <strong className="text-slate-900 dark:text-white">{page}</strong> / {totalPages}
@@ -464,7 +464,7 @@ export default function AdminTeamsPage() {
 
 function Th({ children }: { children: React.ReactNode }) {
   return (
-    <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+    <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-semibold uppercase tracking-wide text-slate-500 ">
       {children}
     </th>
   );

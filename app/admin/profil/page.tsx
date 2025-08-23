@@ -114,12 +114,12 @@ export default function AdminProfilePage() {
         <div className="grid gap-6 md:grid-cols-2">
           {/* Ad Soyad */}
           <div className="md:col-span-2">
-            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+            <label className="text-sm font-semibold text-slate-300 mb-2 block">
               Ad Soyad
             </label>
             <div className="group relative">
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>
-              <div className="relative flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-white/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
+              <div className="relative flex items-center gap-3 rounded-2xl border border-slate-700/60 bg-slate-800/80 p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-indigo-300 group-focus-within:shadow-lg group-focus-within:shadow-indigo-500/10">
                 <User className="h-5 w-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors duration-300" />
                 <input
                   className="flex-1 bg-transparent outline-none text-slate-900 dark:text-white placeholder-slate-500"
@@ -134,7 +134,7 @@ export default function AdminProfilePage() {
 
           {/* E-posta */}
           <div>
-            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+            <label className="text-sm font-semibold text-slate-700  mb-2 block">
               E-posta
             </label>
             <div className="group relative">
@@ -154,7 +154,7 @@ export default function AdminProfilePage() {
 
           {/* Telefon */}
           <div>
-            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+            <label className="text-sm font-semibold text-slate-700  mb-2 block">
               Telefon
             </label>
             <div className="group relative">
@@ -174,7 +174,7 @@ export default function AdminProfilePage() {
 
           {/* Rol */}
           <div>
-            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+            <label className="text-sm font-semibold text-slate-700  mb-2 block">
               Rol
             </label>
             <div className="flex items-center gap-3 rounded-2xl border border-slate-200/60 bg-slate-50/80 p-4 backdrop-blur-sm dark:border-slate-700/60 dark:bg-slate-800/80">
@@ -189,7 +189,7 @@ export default function AdminProfilePage() {
 
           {/* Yeni Şifre */}
           <div className="md:col-span-2">
-            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+            <label className="text-sm font-semibold text-slate-700  mb-2 block">
               Yeni Şifre (opsiyonel)
             </label>
             <div className="group relative">

@@ -317,7 +317,7 @@ export default function MatchingPage() {
             Temizle
           </button>
         </div>
-        <div className="text-sm text-slate-600 dark:text-slate-400">
+        <div className="text-sm text-slate-600 ">
           Seçili:{" "}
           <strong className="text-slate-900 dark:text-white">
             {selectedCount}
@@ -334,7 +334,7 @@ export default function MatchingPage() {
           <div className="py-12 sm:py-16 text-center">
             <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
               <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-green-500" />
-              <span className="text-slate-600 dark:text-slate-400 font-medium">
+              <span className="text-slate-600  font-medium">
                 Yükleniyor…
               </span>
             </div>
@@ -367,10 +367,10 @@ export default function MatchingPage() {
                             {u.name ?? "—"}
                           </div>
                         </div>
-                        <div className="mt-1 text-xs text-slate-600 dark:text-slate-300 break-all">
+                        <div className="mt-1 text-xs text-slate-600  break-all">
                           {u.email}
                         </div>
-                        <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
+                        <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-600 ">
                           <span className="font-semibold">
                             {u.phone ?? "—"}
                           </span>
@@ -462,16 +462,16 @@ export default function MatchingPage() {
                             {i + 1}
                           </div>
                         </Td>
-                        <Td className="font-semibold text-slate-900 dark:text-white">
+                        <Td className="font-semibold text-slate-900 ">
                           {u.name ?? "—"}
                         </Td>
-                        <Td className="text-slate-700 dark:text-slate-300">
+                        <Td className="text-slate-700 ">
                           {u.email}
                         </Td>
-                        <Td className="font-semibold text-slate-700 dark:text-slate-300">
+                        <Td className="font-semibold text-slate-700 ">
                           {u.phone ?? "—"}
                         </Td>
-                        <Td className="font-semibold text-slate-700 dark:text-slate-300">
+                        <Td className="font-semibold text-slate-700 ">
                           {Number.isFinite(u.age as any) ? u.age : "—"}
                         </Td>
                         <Td>
@@ -504,7 +504,7 @@ export default function MatchingPage() {
           <div className="py-12 sm:py-16 text-center">
             <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
               <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-green-500" />
-              <span className="text-slate-600 dark:text-slate-400 font-medium">
+              <span className="text-slate-600  font-medium">
                 Yükleniyor…
               </span>
             </div>
@@ -548,9 +548,9 @@ export default function MatchingPage() {
                               <Users className="h-4 w-4" />
                               {t.membersCount}/4
                             </span>
-                            <span className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                            <span className="text-xs sm:text-sm text-slate-500 ">
                               Boş Kontenjan:{" "}
-                              <strong className="text-slate-700 dark:text-slate-300">
+                              <strong className="text-slate-700 ">
                                 {t.capacityLeft}
                               </strong>
                             </span>
@@ -601,17 +601,17 @@ export default function MatchingPage() {
                               <div className="flex items-start justify-between gap-3">
                                 <div className="min-w-0">
                                   <div className="flex items-center gap-2">
-                                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                                    <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 ">
                                       {i + 1}
                                     </span>
                                     <div className="font-semibold truncate">
                                       {m.name ?? "—"}
                                     </div>
                                   </div>
-                                  <div className="mt-1 text-xs text-slate-600 dark:text-slate-300 break-all">
+                                  <div className="mt-1 text-xs text-slate-600  break-all">
                                     {m.email}
                                   </div>
-                                  <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
+                                  <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-600 ">
                                     <span className="font-semibold">
                                       {m.phone ?? "—"}
                                     </span>
@@ -664,7 +664,7 @@ export default function MatchingPage() {
                               {t.members.length === 0 && (
                                 <tr>
                                   <td colSpan={7} className="px-6 py-8 text-center">
-                                    <div className="inline-flex flex-col items-center gap-2 text-slate-500 dark:text-slate-400">
+                                    <div className="inline-flex flex-col items-center gap-2 text-slate-500 ">
                                       <Users className="h-8 w-8" />
                                       <span className="text-sm font-medium">
                                         Üye yok
@@ -679,20 +679,20 @@ export default function MatchingPage() {
                                   className="border-b border-slate-200/40 dark:border-slate-700/40"
                                 >
                                   <Td className="font-semibold">
-                                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 ">
                                       {i + 1}
                                     </div>
                                   </Td>
                                   <Td className="font-semibold text-slate-900 dark:text-white">
                                     {m.name ?? "—"}
                                   </Td>
-                                  <Td className="text-slate-700 dark:text-slate-300">
+                                  <Td className="text-slate-700 ">
                                     {m.email}
                                   </Td>
-                                  <Td className="font-semibold text-slate-700 dark:text-slate-300">
+                                  <Td className="font-semibold text-slate-700 ">
                                     {m.phone ?? "—"}
                                   </Td>
-                                  <Td className="font-semibold text-slate-700 dark:text-slate-300">
+                                  <Td className="font-semibold text-slate-700 ">
                                     {Number.isFinite(m.age as any) ? m.age : "—"}
                                   </Td>
                                   <Td>
@@ -772,7 +772,7 @@ export default function MatchingPage() {
             </div>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+                <label className="text-sm font-semibold text-slate-700  mb-2 block">
                   Takım Adı
                 </label>
                 <div className="group relative">
@@ -788,7 +788,7 @@ export default function MatchingPage() {
                   </div>
                 </div>
               </div>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+              <p className="text-xs sm:text-sm text-slate-600">
                 Seçili katılımcılardan en fazla <strong>4</strong> kişi eklenecek.
                 (Seçili: <strong>{selectedCount}</strong>)
               </p>
@@ -859,7 +859,7 @@ export default function MatchingPage() {
             </div>
             <div className="mt-4 sm:mt-6 flex items-center justify-end gap-2 sm:gap-3">
               <button
-                className="rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
+                className="rounded-xl px-3 py-2 sm:px-4 sm:py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 "
                 onClick={() => setConfirmDeleteTeam(null)}
               >
                 Vazgeç
@@ -895,10 +895,10 @@ function EmptyState({
       <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
         <Icon className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
         <div>
-          <div className="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-300">
+          <div className="text-base sm:text-lg font-semibold text-slate-700 ">
             {title}
           </div>
-          <div className="text-sm text-slate-500 dark:text-slate-400">
+          <div className="text-sm text-slate-500 ">
             {desc}
           </div>
         </div>
@@ -909,7 +909,7 @@ function EmptyState({
 
 function EmptyRow({ text }: { text: string }) {
   return (
-    <div className="rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-slate-50/80 dark:bg-slate-900/80 p-4 text-sm text-slate-600 dark:text-slate-400 text-center">
+    <div className="rounded-2xl border border-slate-200/60 dark:border-slate-700/60 bg-slate-50/80 dark:bg-slate-900/80 p-4 text-sm text-slate-600  text-center">
       {text}
     </div>
   );
@@ -925,7 +925,7 @@ function Th({
   return (
     <th
       className={[
-        "px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400",
+        "px-4 sm:px-6 py-3 sm:py-4 text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-slate-500 ",
         className,
       ].join(" ")}
     >

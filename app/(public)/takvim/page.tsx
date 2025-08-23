@@ -182,7 +182,7 @@ export default function SchedulePage() {
             </h1>
             <div className="absolute inset-0 bg-gradient-to-r from-green-600/20 via-blue-600/20 to-purple-600/20 blur-3xl -z-10"></div>
           </div>
-          <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 max-w-4xl mx-auto font-medium leading-relaxed">
+          <p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto font-medium leading-relaxed">
             Game Jam sürecinin tüm aşamaları ve önemli tarihler
           </p>
         </div>

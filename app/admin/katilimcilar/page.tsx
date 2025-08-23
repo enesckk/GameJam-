@@ -66,9 +66,9 @@ function PageSizeSelect({
         onClick={() => setOpen((s) => !s)}
         className={[
           "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300",
-          "ring-1 ring-slate-200/60 focus:ring-2 focus:ring-indigo-500/20",
-          "backdrop-blur-md bg-white/80 dark:bg-slate-800/80 hover:bg-white/90 dark:hover:bg-slate-700/80",
-          "border border-white/20 dark:border-slate-700/50 shadow-sm hover:shadow-md",
+          "ring-1 ring-slate-700/60 focus:ring-2 focus:ring-indigo-500/20",
+          "backdrop-blur-md bg-slate-800/80 hover:bg-slate-700/80",
+          "border border-slate-700/50 shadow-sm hover:shadow-md",
         ].join(" ")}
         aria-haspopup="menu"
         aria-expanded={open}
@@ -81,7 +81,7 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className="absolute top-full right-0 mt-2 w-40 z-[60] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
+          className="absolute top-full right-0 mt-2 w-40 z-[60] rounded-2xl shadow-2xl border border-slate-700 bg-slate-800"
           role="menu"
         >
           <ul className="py-2">
@@ -95,7 +95,7 @@ function PageSizeSelect({
                   }}
                   className={[
                     "w-full text-left px-4 py-2.5 text-sm font-medium transition-all duration-200",
-                    "hover:bg-indigo-500/10 hover:text-indigo-700 dark:hover:text-indigo-300",
+                    "hover:bg-indigo-500/10 hover:text-indigo-300",
                   ].join(" ")}
                   role="menuitem"
                 >
@@ -190,7 +190,7 @@ export default function AdminParticipantsListPage() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
             <div className="relative flex-1 sm:flex-none">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl blur-sm opacity-0 focus-within:opacity-100 transition-opacity duration-300" />
-              <div className="relative flex items-center gap-2 sm:gap-3 rounded-2xl border border-white/20 bg-white/10 px-3 py-2 sm:px-3 sm:py-3 backdrop-blur-sm">
+              <div className="relative flex items-center gap-2 sm:gap-3 rounded-2xl border border-white/20 bg-slate-800/50 px-3 py-2 sm:px-3 sm:py-3 backdrop-blur-sm">
                 <Search className="h-5 w-5 text-white/70" />
                 <input
                   className="w-full sm:w-72 md:w-80 bg-transparent outline-none text-white placeholder-white/70 text-sm sm:text-base"
@@ -222,18 +222,18 @@ export default function AdminParticipantsListPage() {
       <AdminSectionCard>
         {loading ? (
           <div className="py-16 text-center">
-            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 py-4">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-blue-500" />
-              <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+            <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-800 px-6 py-4">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-400 border-t-blue-500" />
+              <span className="text-slate-400 font-medium">Yükleniyor…</span>
             </div>
           </div>
         ) : rows.length === 0 ? (
           <div className="py-12 sm:py-16 text-center">
-            <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
+            <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
               <IdCard className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
               <div>
-                <div className="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-300">Kayıt bulunamadı</div>
-                <div className="text-sm text-slate-500 dark:text-slate-400">Arama kriterlerinizi değiştirmeyi deneyin</div>
+                <div className="text-base sm:text-lg font-semibold text-slate-300">Kayıt bulunamadı</div>
+                <div className="text-sm text-slate-400">Arama kriterlerinizi değiştirmeyi deneyin</div>
               </div>
             </div>
           </div>
@@ -249,12 +249,12 @@ export default function AdminParticipantsListPage() {
 
             {/* Desktop Table */}
             <div
-              className="hidden md:block overflow-x-auto rounded-2xl ring-1 ring-slate-200/60 bg-white/80 backdrop-blur-sm dark:ring-slate-700/60 dark:bg-slate-800/80"
+              className="hidden md:block overflow-x-auto rounded-2xl ring-1 ring-slate-700/60 bg-slate-800/80 backdrop-blur-sm"
               style={{ WebkitOverflowScrolling: "touch" }}
             >
               <table className="min-w-full text-sm">
                 <thead>
-                  <tr className="border-b border-slate-200/60 dark:border-slate-700/60">
+                  <tr className="border-b border-slate-700/60">
                     <Th>#</Th>
                     <Th>Ad Soyad</Th>
                     <Th>E-posta</Th>
@@ -269,17 +269,17 @@ export default function AdminParticipantsListPage() {
                     return (
                       <tr
                         key={r.id}
-                        className="group border-b border-slate-200/40 dark:border-slate-700/40 transition-all duration-200 hover:bg-slate-50/80 dark:hover:bg-slate-700/80"
+                        className="group border-b border-slate-700/40 transition-all duration-200 hover:bg-slate-700/80"
                       >
                         <Td className="font-semibold">
                           <div className="flex items-center gap-3">
-                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-400">
                               {n}
                             </div>
                           </div>
                         </Td>
 
-                        <Td className="font-semibold text-slate-900 dark:text-white">
+                        <Td className="font-semibold text-white">
                           {r.name ?? "—"}
                         </Td>
 
@@ -288,7 +288,7 @@ export default function AdminParticipantsListPage() {
                             <Mail className="h-4 w-4 text-slate-400 shrink-0" />
                             <a
                               href={`mailto:${r.email}`}
-                              className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 truncate"
+                              className="text-slate-300 hover:text-blue-400 transition-colors duration-200 truncate"
                               title={r.email}
                             >
                               {r.email}
@@ -302,7 +302,7 @@ export default function AdminParticipantsListPage() {
                             {r.phone ? (
                               <a
                                 href={`tel:${r.phone}`}
-                                className="font-semibold text-slate-700 dark:text-slate-300 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 truncate"
+                                className="font-semibold text-slate-300 hover:text-green-400 transition-colors duration-200 truncate"
                                 title={r.phone}
                               >
                                 {r.phone}
@@ -316,7 +316,7 @@ export default function AdminParticipantsListPage() {
                         <Td>
                           <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4 text-slate-400" />
-                            <span className="font-semibold text-slate-700 dark:text-slate-300">
+                            <span className="font-semibold text-slate-300">
                               {Number.isFinite(r.age as any) ? r.age : "—"}
                             </span>
                           </div>
@@ -343,18 +343,18 @@ export default function AdminParticipantsListPage() {
         )}
 
         {/* Pagination */}
-        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="text-sm text-slate-600 dark:text-slate-400">
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
+          <div className="text-sm text-slate-400">
             Toplam{" "}
-            <strong className="text-slate-900 dark:text-white">{total}</strong>{" "}
+            <strong className="text-white">{total}</strong>{" "}
             katılımcı • Sayfa{" "}
-            <strong className="text-slate-900 dark:text-white">{page}</strong> / {totalPages}
+            <strong className="text-white">{page}</strong> / {totalPages}
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-slate-700/80 hover:bg-slate-700 border border-slate-600/60 shadow-sm hover:shadow-md"
             >
               <ArrowLeft className="h-4 w-4" />
               <span className="hidden xs:inline">Önceki</span>
@@ -362,7 +362,7 @@ export default function AdminParticipantsListPage() {
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-white/80 hover:bg-white dark:bg-slate-700/80 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-600/60 shadow-sm hover:shadow-md"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-slate-700/80 hover:bg-slate-700 border border-slate-600/60 shadow-sm hover:shadow-md"
             >
               <span className="hidden xs:inline">Sonraki</span>
               <ArrowRight className="h-4 w-4" />
@@ -378,7 +378,7 @@ export default function AdminParticipantsListPage() {
 
 function Th({ children }: { children: React.ReactNode }) {
   return (
-    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-400">
       {children}
     </th>
   );
@@ -390,13 +390,13 @@ function Td({ children, className = "" }: { children: React.ReactNode; className
 
 function MobileRowCard({ r, index }: { r: Row; index: number }) {
   return (
-    <li className="rounded-2xl ring-1 ring-slate-200/70 dark:ring-slate-700/60 bg-white/90 dark:bg-slate-800/80 p-4 shadow-sm">
+    <li className="rounded-2xl ring-1 ring-slate-700/60 bg-slate-800/80 p-4 shadow-sm">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200">
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-200">
             {index}
           </div>
-          <h3 className="text-base font-semibold text-slate-900 dark:text-white">
+          <h3 className="text-base font-semibold text-white">
             {r.name ?? "—"}
           </h3>
         </div>
@@ -415,7 +415,7 @@ function MobileRowCard({ r, index }: { r: Row; index: number }) {
           <Mail className="h-4 w-4 text-slate-400 shrink-0" />
           <a
             href={`mailto:${r.email}`}
-            className="text-slate-700 dark:text-slate-300 underline-offset-2 hover:underline truncate"
+            className="text-slate-300 underline-offset-2 hover:underline truncate"
             title={r.email}
           >
             {r.email}
@@ -428,7 +428,7 @@ function MobileRowCard({ r, index }: { r: Row; index: number }) {
           {r.phone ? (
             <a
               href={`tel:${r.phone}`}
-              className="text-slate-700 dark:text-slate-300 truncate"
+              className="text-slate-300 truncate"
               title={r.phone}
             >
               {r.phone}
@@ -441,7 +441,7 @@ function MobileRowCard({ r, index }: { r: Row; index: number }) {
         {/* Age */}
         <div className="flex items-center gap-2">
           <Calendar className="h-4 w-4 text-slate-400" />
-          <span className="text-slate-700 dark:text-slate-300">
+          <span className="text-slate-300">
             {Number.isFinite(r.age as any) ? r.age : "—"}
           </span>
         </div>

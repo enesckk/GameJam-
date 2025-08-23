@@ -183,7 +183,7 @@ export default function AdminSubmissionsTeamsPage() {
           <div className="py-12 sm:py-16 text-center">
             <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
               <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-teal-500"></div>
-              <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+              <span className="text-slate-600  font-medium">Yükleniyor…</span>
             </div>
           </div>
         ) : rows.length === 0 ? (
@@ -191,10 +191,10 @@ export default function AdminSubmissionsTeamsPage() {
             <div className="inline-flex flex-col items-center gap-3 sm:gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
               <Inbox className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
               <div>
-                <div className="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-300">
+                <div className="text-base sm:text-lg font-semibold text-slate-700 ">
                   Teslim yapan takım bulunamadı
                 </div>
-                <div className="text-sm text-slate-500 dark:text-slate-400">
+                <div className="text-sm text-slate-500 ">
                   Arama kriterlerinizi değiştirmeyi deneyin
                 </div>
               </div>
@@ -234,14 +234,14 @@ export default function AdminSubmissionsTeamsPage() {
                             <Users className="h-4 w-4" />
                             {t.membersCount} üye
                           </span>
-                          <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                          <span className="text-xs sm:text-sm text-slate-600 ">
                             Teslim:{" "}
                             <strong className="text-slate-900 dark:text-white">
                               {t.submissionsCount}
                             </strong>
                           </span>
                           {latest && (
-                            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+                            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-600 ">
                               <Calendar className="h-4 w-4" />
                               <span>
                                 Son:{" "}
@@ -255,7 +255,7 @@ export default function AdminSubmissionsTeamsPage() {
                         </div>
                       </div>
                     </div>
-                    <div className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                    <div className="text-xs sm:text-sm text-slate-500 ">
                       #{idx + 1 + (page - 1) * pageSize}
                     </div>
                   </button>
@@ -278,7 +278,7 @@ export default function AdminSubmissionsTeamsPage() {
                                 {latest.title || "—"}
                               </div>
                               {latest.description && (
-                                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                                <p className="text-slate-700  leading-relaxed">
                                   {latest.description}
                                 </p>
                               )}
@@ -303,7 +303,7 @@ export default function AdminSubmissionsTeamsPage() {
                                   href={latest.githubUrl}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-700/30 dark:hover:bg-slate-700/50 dark:text-slate-300"
+                                  className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-700/30 dark:hover:bg-slate-700/50 "
                                 >
                                   <Code className="h-4 w-4" />
                                   GitHub
@@ -344,7 +344,7 @@ export default function AdminSubmissionsTeamsPage() {
                                   {latest.tags.map((tt) => (
                                     <span
                                       key={tt.tag.id}
-                                      className="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 text-xs font-semibold text-slate-700 dark:text-slate-300"
+                                      className="rounded-full bg-slate-100 dark:bg-slate-700 px-3 py-1 text-xs font-semibold text-slate-700 "
                                     >
                                       {tt.tag.name}
                                     </span>
@@ -369,7 +369,7 @@ export default function AdminSubmissionsTeamsPage() {
                         <ul className="grid gap-2 sm:hidden">
                           {t.members.length === 0 && (
                             <li className="rounded-xl bg-white/80 dark:bg-slate-800/80 p-4 text-center">
-                              <div className="inline-flex flex-col items-center gap-2 text-slate-500 dark:text-slate-400">
+                              <div className="inline-flex flex-col items-center gap-2 text-slate-500 ">
                                 <Users className="h-7 w-7" />
                                 <span className="text-sm font-medium">Üye yok</span>
                               </div>
@@ -380,24 +380,24 @@ export default function AdminSubmissionsTeamsPage() {
                               key={m.id}
                               className="rounded-xl ring-1 ring-slate-200/70 dark:ring-slate-700/60 bg-white/90 dark:bg-slate-800/80 p-3 flex items-start gap-3"
                             >
-                              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-300 shrink-0">
+                              <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600  shrink-0">
                                 {i + 1}
                               </div>
                               <div className="min-w-0 flex-1 space-y-1">
                                 <div className="font-semibold text-slate-900 dark:text-white truncate">
                                   {m.name ?? "—"}
                                 </div>
-                                <div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300 min-w-0">
+                                <div className="flex items-center gap-2 text-sm text-slate-700  min-w-0">
                                   <Mail className="h-4 w-4 text-slate-400 shrink-0" />
                                   <span className="truncate" title={m.email}>
                                     {m.email}
                                   </span>
                                 </div>
-                                <div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                <div className="flex items-center gap-2 text-sm text-slate-700 ">
                                   <Phone className="h-4 w-4 text-slate-400" />
                                   <span className="truncate">{m.phone ?? "—"}</span>
                                 </div>
-                                <div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+                                <div className="flex items-center gap-2 text-sm text-slate-700 ">
                                   <Calendar className="h-4 w-4 text-slate-400" />
                                   <span>
                                     {Number.isFinite(m.age as any) ? m.age : "—"}
@@ -436,7 +436,7 @@ export default function AdminSubmissionsTeamsPage() {
                               {t.members.length === 0 && (
                                 <tr>
                                   <td colSpan={6} className="px-6 py-8 text-center">
-                                    <div className="inline-flex flex-col items-center gap-2 text-slate-500 dark:text-slate-400">
+                                    <div className="inline-flex flex-col items-center gap-2 text-slate-500 ">
                                       <Users className="h-8 w-8" />
                                       <span className="text-sm font-medium">Üye yok</span>
                                     </div>
@@ -449,7 +449,7 @@ export default function AdminSubmissionsTeamsPage() {
                                   className="border-b border-slate-200/40 dark:border-slate-700/40 hover:bg-white/60 dark:hover:bg-slate-800/60 transition-colors"
                                 >
                                   <Td className="font-semibold">
-                                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 dark:text-slate-400">
+                                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-xs font-bold text-slate-600 ">
                                       {i + 1}
                                     </div>
                                   </Td>
@@ -466,7 +466,7 @@ export default function AdminSubmissionsTeamsPage() {
                                       {m.phone ?? "—"}
                                     </div>
                                   </Td>
-                                  <Td className="font-semibold text-slate-700 dark:text-slate-300">
+                                  <Td className="font-semibold text-slate-700 ">
                                     {Number.isFinite(m.age as any) ? m.age : "—"}
                                   </Td>
                                   <Td>
@@ -506,13 +506,13 @@ export default function AdminSubmissionsTeamsPage() {
                                   <div className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white">
                                     {i === 0 ? "En Güncel" : `#${i + 1}`} • {s.title || "—"}
                                   </div>
-                                  <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+                                  <div className="flex items-center gap-1.5 text-xs text-slate-500 ">
                                     <Calendar className="h-3 w-3" />
                                     {fmt(s.createdAt)}
                                   </div>
                                 </div>
                                 {s.note && (
-                                  <div className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 rounded-lg p-2">
+                                  <div className="text-xs sm:text-sm text-slate-600  bg-slate-100 dark:bg-slate-700 rounded-lg p-2">
                                     Not: {s.note}
                                   </div>
                                 )}
@@ -531,7 +531,7 @@ export default function AdminSubmissionsTeamsPage() {
 
         {/* Pagination */}
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="text-sm text-slate-600 dark:text-slate-400">
+          <div className="text-sm text-slate-600 ">
             Toplam{" "}
             <strong className="text-slate-900 dark:text-white">{totalTeams}</strong> takım • Sayfa{" "}
             <strong className="text-slate-900 dark:text-white">{page}</strong> / {totalPages}
@@ -562,7 +562,7 @@ export default function AdminSubmissionsTeamsPage() {
 
 function Th({ children }: { children: React.ReactNode }) {
   return (
-    <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+    <th className="px-4 sm:px-6 py-3 sm:py-4 text-xs font-semibold uppercase tracking-wide text-slate-500 ">
       {children}
     </th>
   );

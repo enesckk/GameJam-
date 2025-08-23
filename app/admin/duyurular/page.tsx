@@ -196,7 +196,7 @@ export default function AdminAnnouncementsPage() {
 
       {/* Stats */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
-        <div className="text-sm text-slate-600 dark:text-slate-400">
+        <div className="text-sm text-slate-600 ">
           Toplam <strong className="text-slate-900 dark:text-white">{total}</strong> duyuru
         </div>
       </div>
@@ -206,7 +206,7 @@ export default function AdminAnnouncementsPage() {
         <AdminSectionCard title="Yeni Duyuru">
           <div className="grid gap-4">
             <div>
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+              <label className="text-sm font-semibold text-slate-700  mb-2 block">
                 Başlık
               </label>
               <div className="group relative">
@@ -224,7 +224,7 @@ export default function AdminAnnouncementsPage() {
             </div>
 
             <div>
-              <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 block">
+              <label className="text-sm font-semibold text-slate-700  mb-2 block">
                 İçerik
               </label>
               <div className="group relative">
@@ -240,7 +240,7 @@ export default function AdminAnnouncementsPage() {
               </div>
             </div>
 
-            <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+            <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 ">
               <div className="relative">
                 <input
                   type="checkbox"
@@ -261,7 +261,7 @@ export default function AdminAnnouncementsPage() {
               <button
                 type="button"
                 onClick={() => { setShowCreate(false); setCTitle(""); setCContent(""); setCPinned(false); }}
-                className="w-full sm:w-auto rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
+                className="w-full sm:w-auto rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 "
               >
                 Vazgeç
               </button>
@@ -290,7 +290,7 @@ export default function AdminAnnouncementsPage() {
           <div className="py-16 text-center">
             <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-100 dark:bg-slate-800 px-6 py-4">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-orange-500"></div>
-              <span className="text-slate-600 dark:text-slate-400 font-medium">Yükleniyor…</span>
+              <span className="text-slate-600  font-medium">Yükleniyor…</span>
             </div>
           </div>
         )}
@@ -300,8 +300,8 @@ export default function AdminAnnouncementsPage() {
             <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-100 dark:bg-slate-800 px-8 py-6">
               <Megaphone className="h-12 w-12 text-slate-400" />
               <div>
-                <div className="text-lg font-semibold text-slate-700 dark:text-slate-300">Duyuru yok</div>
-                <div className="text-sm text-slate-500 dark:text-slate-400">Henüz hiç duyuru oluşturulmamış</div>
+                <div className="text-lg font-semibold text-slate-700 ">Duyuru yok</div>
+                <div className="text-sm text-slate-500 ">Henüz hiç duyuru oluşturulmamış</div>
               </div>
             </div>
           </div>
@@ -327,11 +327,11 @@ export default function AdminAnnouncementsPage() {
                     <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">
                       {a.title}
                     </h3>
-                    <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-3">
+                    <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500  mb-3">
                       <Calendar className="h-4 w-4" />
                       <span>Yayın: <strong>{fmt(a.createdAt)}</strong></span>
                     </div>
-                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed break-words">
+                    <p className="text-slate-700  leading-relaxed break-words">
                       {a.content}
                     </p>
                   </div>
@@ -382,7 +382,7 @@ export default function AdminAnnouncementsPage() {
 
         {/* Sayfalama */}
         <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-slate-100/80 dark:bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="text-sm text-slate-600 dark:text-slate-400">
+          <div className="text-sm text-slate-600 ">
             Toplam <strong className="text-slate-900 dark:text-white">{total}</strong> duyuru • Sayfa{" "}
             <strong className="text-slate-900 dark:text-white">{page}</strong> / {totalPages}
           </div>
@@ -476,7 +476,7 @@ export default function AdminAnnouncementsPage() {
                 </div>
               </div>
 
-              <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+              <label className="inline-flex items-center gap-3 text-sm font-medium text-slate-700 ">
                 <div className="relative">
                   <input
                     type="checkbox"
@@ -497,7 +497,7 @@ export default function AdminAnnouncementsPage() {
             <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-end sm:gap-3">
               <button
                 type="button"
-                className="w-full sm:w-auto rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300"
+                className="w-full sm:w-auto rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 "
                 onClick={()=>setShowEdit(null)}
               >
                 Vazgeç
