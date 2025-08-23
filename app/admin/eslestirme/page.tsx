@@ -465,13 +465,13 @@ export default function MatchingPage() {
                         <Td className="font-semibold text-white">
                           {u.name ?? "—"}
                         </Td>
-                        <Td className="text-slate-700 ">
+                        <Td className="text-white">
                           {u.email}
                         </Td>
-                        <Td className="font-semibold text-slate-700 ">
+                        <Td className="font-semibold text-white">
                           {u.phone ?? "—"}
                         </Td>
-                        <Td className="font-semibold text-slate-700 ">
+                        <Td className="font-semibold text-white">
                           {Number.isFinite(u.age as any) ? u.age : "—"}
                         </Td>
                         <Td>
@@ -608,10 +608,10 @@ export default function MatchingPage() {
                                       {m.name ?? "—"}
                                     </div>
                                   </div>
-                                  <div className="mt-1 text-xs text-slate-600  break-all">
+                                  <div className="mt-1 text-xs text-white break-all">
                                     {m.email}
                                   </div>
-                                  <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-600 ">
+                                  <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-white">
                                     <span className="font-semibold">
                                       {m.phone ?? "—"}
                                     </span>
@@ -686,13 +686,13 @@ export default function MatchingPage() {
                                   <Td className="font-semibold text-white">
                                     {m.name ?? "—"}
                                   </Td>
-                                  <Td className="text-slate-700 ">
+                                  <Td className="text-white">
                                     {m.email}
                                   </Td>
-                                  <Td className="font-semibold text-slate-700 ">
+                                  <Td className="font-semibold text-white">
                                     {m.phone ?? "—"}
                                   </Td>
-                                  <Td className="font-semibold text-slate-700 ">
+                                  <Td className="font-semibold text-white">
                                     {Number.isFinite(m.age as any) ? m.age : "—"}
                                   </Td>
                                   <Td>

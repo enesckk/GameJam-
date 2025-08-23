@@ -387,17 +387,17 @@ export default function AdminSubmissionsTeamsPage() {
                                 <div className="font-semibold text-white truncate">
                                   {m.name ?? "—"}
                                 </div>
-                                <div className="flex items-center gap-2 text-sm text-slate-700  min-w-0">
+                                <div className="flex items-center gap-2 text-sm text-white min-w-0">
                                   <Mail className="h-4 w-4 text-slate-400 shrink-0" />
                                   <span className="truncate" title={m.email}>
                                     {m.email}
                                   </span>
                                 </div>
-                                <div className="flex items-center gap-2 text-sm text-slate-700 ">
+                                <div className="flex items-center gap-2 text-sm text-white">
                                   <Phone className="h-4 w-4 text-slate-400" />
                                   <span className="truncate">{m.phone ?? "—"}</span>
                                 </div>
-                                <div className="flex items-center gap-2 text-sm text-slate-700 ">
+                                <div className="flex items-center gap-2 text-sm text-white">
                                   <Calendar className="h-4 w-4 text-slate-400" />
                                   <span>
                                     {Number.isFinite(m.age as any) ? m.age : "—"}
@@ -466,7 +466,7 @@ export default function AdminSubmissionsTeamsPage() {
                                       {m.phone ?? "—"}
                                     </div>
                                   </Td>
-                                  <Td className="font-semibold text-slate-700 ">
+                                  <Td className="font-semibold text-white">
                                     {Number.isFinite(m.age as any) ? m.age : "—"}
                                   </Td>
                                   <Td>

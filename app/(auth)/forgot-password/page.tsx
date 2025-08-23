@@ -63,7 +63,7 @@ function ForgotPasswordContent() {
       />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4">
-        <Card className="w-full max-w-md rounded-xl border border-slate-700 bg-slate-800/80 p-8 shadow-lg">
+        <Card className="w-full max-w-md rounded-xl border border-slate-700 bg-slate-800/95 p-8 shadow-xl backdrop-blur-sm">
           <h1 className="mb-6 text-center text-3xl font-bold text-white">
             Şifremi Unuttum
           </h1>
