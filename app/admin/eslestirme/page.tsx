@@ -317,7 +317,7 @@ export default function MatchingPage() {
             Temizle
           </button>
         </div>
-        <div className="text-sm text-slate-600 ">
+        <div className="text-sm text-slate-300">
           Seçili:{" "}
           <strong className="text-white">
             {selectedCount}
@@ -367,10 +367,10 @@ export default function MatchingPage() {
                             {u.name ?? "—"}
                           </div>
                         </div>
-                        <div className="mt-1 text-xs text-slate-600  break-all">
+                        <div className="mt-1 text-xs text-slate-300 break-all">
                           {u.email}
                         </div>
-                        <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-600 ">
+                        <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-300">
                           <span className="font-semibold">
                             {u.phone ?? "—"}
                           </span>

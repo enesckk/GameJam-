@@ -231,7 +231,7 @@ export default function AdminTeamsPage() {
           <div className="py-12 sm:py-16 text-center">
             <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
               <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-indigo-500"></div>
-              <span className="text-slate-600  font-medium">Yükleniyor…</span>
+              <span className="text-slate-300 font-medium">Yükleniyor…</span>
             </div>
           </div>
         )}
@@ -433,7 +433,7 @@ export default function AdminTeamsPage() {
 
         {/* Pagination */}
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="text-sm text-slate-600 ">
+          <div className="text-sm text-slate-300">
             Toplam{" "}
             <strong className="text-white">{totalTeams}</strong> takım • Sayfa{" "}
             <strong className="text-white">{page}</strong> / {totalPages}

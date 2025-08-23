@@ -722,7 +722,7 @@ export default function AdminMessagesPage() {
                             <h3 className="text-base sm:text-lg font-bold text-white mb-1 sm:mb-2 truncate max-w-[17rem] sm:max-w-none" title={m.subject}>
                               {m.subject}
                             </h3>
-                            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-1.5 sm:gap-4 text-xs sm:text-sm text-slate-600 ">
+                            <div className="flex flex-col sm:flex-row sm:flex-wrap gap-1.5 sm:gap-4 text-xs sm:text-sm text-slate-300">
                               {m.team && (
                                 <div className="flex items-center gap-2">
                                   <Users className="h-4 w-4" />
@@ -836,7 +836,7 @@ export default function AdminMessagesPage() {
                             </div>
 
                             <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
-                              <div className="text-sm text-slate-600 ">
+                              <div className="text-sm text-slate-300">
                                 {isSaving
                                   ? "Kaydediliyor…"
                                   : errorMsg ||

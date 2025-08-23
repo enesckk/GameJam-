@@ -196,7 +196,7 @@ export default function AdminAnnouncementsPage() {
 
       {/* Stats */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
-        <div className="text-sm text-slate-600 ">
+        <div className="text-sm text-slate-300">
           Toplam <strong className="text-white">{total}</strong> duyuru
         </div>
       </div>
@@ -290,7 +290,7 @@ export default function AdminAnnouncementsPage() {
           <div className="py-16 text-center">
             <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-800 px-6 py-4">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-orange-500"></div>
-              <span className="text-slate-600  font-medium">Yükleniyor…</span>
+              <span className="text-slate-300 font-medium">Yükleniyor…</span>
             </div>
           </div>
         )}
@@ -301,7 +301,7 @@ export default function AdminAnnouncementsPage() {
               <Megaphone className="h-12 w-12 text-slate-400" />
               <div>
                 <div className="text-lg font-semibold text-slate-700 ">Duyuru yok</div>
-                <div className="text-sm text-slate-500 ">Henüz hiç duyuru oluşturulmamış</div>
+                <div className="text-sm text-slate-300">Henüz hiç duyuru oluşturulmamış</div>
               </div>
             </div>
           </div>
@@ -327,7 +327,7 @@ export default function AdminAnnouncementsPage() {
                     <h3 className="text-base sm:text-lg font-bold text-white mb-2">
                       {a.title}
                     </h3>
-                    <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500  mb-3">
+                                            <div className="flex flex-wrap items-center gap-2 text-sm text-slate-300 mb-3">
                       <Calendar className="h-4 w-4" />
                       <span>Yayın: <strong>{fmt(a.createdAt)}</strong></span>
                     </div>
@@ -382,10 +382,10 @@ export default function AdminAnnouncementsPage() {
 
         {/* Sayfalama */}
         <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="text-sm text-slate-600 ">
-            Toplam <strong className="text-white">{total}</strong> duyuru • Sayfa{" "}
-            <strong className="text-white">{page}</strong> / {totalPages}
-          </div>
+                      <div className="text-sm text-slate-300">
+              Toplam <strong className="text-white">{total}</strong> duyuru • Sayfa{" "}
+              <strong className="text-white">{page}</strong> / {totalPages}
+            </div>
           <div className="flex items-center gap-2">
             <button
               type="button"

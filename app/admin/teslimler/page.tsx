@@ -183,7 +183,7 @@ export default function AdminSubmissionsTeamsPage() {
           <div className="py-12 sm:py-16 text-center">
             <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-800 px-5 sm:px-6 py-3 sm:py-4">
               <div className="h-5 w-5 sm:h-6 sm:w-6 animate-spin rounded-full border-2 border-slate-300 border-t-teal-500"></div>
-              <span className="text-slate-600  font-medium">Yükleniyor…</span>
+              <span className="text-slate-300 font-medium">Yükleniyor…</span>
             </div>
           </div>
         ) : rows.length === 0 ? (
@@ -234,14 +234,14 @@ export default function AdminSubmissionsTeamsPage() {
                             <Users className="h-4 w-4" />
                             {t.membersCount} üye
                           </span>
-                          <span className="text-xs sm:text-sm text-slate-600 ">
+                          <span className="text-xs sm:text-sm text-slate-300">
                             Teslim:{" "}
                             <strong className="text-white">
                               {t.submissionsCount}
                             </strong>
                           </span>
                           {latest && (
-                            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-600 ">
+                            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-slate-300">
                               <Calendar className="h-4 w-4" />
                               <span>
                                 Son:{" "}
@@ -531,7 +531,7 @@ export default function AdminSubmissionsTeamsPage() {
 
         {/* Pagination */}
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="text-sm text-slate-600 ">
+          <div className="text-sm text-slate-300">
             Toplam{" "}
             <strong className="text-white">{totalTeams}</strong> takım • Sayfa{" "}
             <strong className="text-white">{page}</strong> / {totalPages}
