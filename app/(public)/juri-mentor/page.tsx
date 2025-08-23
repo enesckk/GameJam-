@@ -78,7 +78,7 @@ export default function JuryMentorsPage() {
             </h1>
             <div className="absolute inset-0 bg-gradient-to-r from-pink-600/20 via-purple-600/20 to-cyan-600/20 blur-3xl -z-10"></div>
           </div>
-          <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 max-w-4xl mx-auto font-medium leading-relaxed">
+          <p className="text-xl md:text-2xl text-white max-w-4xl mx-auto font-medium leading-relaxed">
             Game Jam boyunca bize eşlik edecek jüri üyeleri ve mentörler
           </p>
         </div>
@@ -143,10 +143,10 @@ export default function JuryMentorsPage() {
                   </div>
 
                   {/* Metinler */}
-                  <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 text-center mb-3 group-hover:text-white transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-white text-center mb-3 group-hover:text-white transition-colors duration-300">
                     {member.name}
                   </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 text-center mb-4 leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
+                  <p className="text-sm text-slate-200 text-center mb-4 leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
                     {member.role}
                   </p>
 
@@ -229,10 +229,10 @@ export default function JuryMentorsPage() {
                   </div>
 
                   {/* Metinler */}
-                  <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200 text-center mb-3 group-hover:text-white transition-colors duration-300">
+                  <h3 className="text-xl font-bold text-white text-center mb-3 group-hover:text-white transition-colors duration-300">
                     {member.name}
                   </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 text-center mb-4 leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
+                  <p className="text-sm text-slate-200 text-center mb-4 leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
                     {member.role}
                   </p>
 
@@ -271,7 +271,7 @@ export default function JuryMentorsPage() {
               <h2 className="text-4xl font-black mb-6 bg-gradient-to-r from-pink-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
                 Uzmanlarla Tanışın!
               </h2>
-              <p className="text-xl text-slate-700 dark:text-slate-300 mb-8 leading-relaxed">
+              <p className="text-xl text-white mb-8 leading-relaxed">
                 Deneyimli jüri üyeleri ve mentörlerimizle birlikte Game Jam'de yerinizi alın.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">

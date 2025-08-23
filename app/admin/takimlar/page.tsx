@@ -83,7 +83,7 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className="absolute top-full right-0 mt-2 w-40 z-[9999] bg-slate-800 rounded-2xl shadow-2xl border border-slate-700"
+          className="absolute bottom-full right-0 mb-2 w-40 z-[9999] bg-slate-800 rounded-2xl shadow-2xl border border-slate-700"
           role="menu"
         >
           <ul className="py-2">
