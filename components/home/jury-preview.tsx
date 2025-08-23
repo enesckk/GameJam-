@@ -71,12 +71,14 @@ export default function JuryPreview() {
             {/* Metinler */}
             <div className="min-w-0">
               <div
-                className="font-semibold transition-colors duration-300 group-hover:text-neon-pink text-white"
+                className="font-semibold transition-colors duration-300 group-hover:text-neon-pink"
+                style={{ color: '#ffffff' }}
               >
                 {p.name}
               </div>
               <div
-                className="text-sm text-gray-300"
+                className="text-sm"
+                style={{ color: '#d1d5db' }}
               >
                 {p.title}
               </div>

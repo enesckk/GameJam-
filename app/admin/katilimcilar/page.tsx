@@ -81,7 +81,7 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className="absolute top-full right-0 mt-2 w-40 z-[60] rounded-2xl shadow-2xl border border-slate-700 bg-slate-800"
+          className="absolute top-full right-0 mt-2 w-40 z-[9999] rounded-2xl shadow-2xl border border-slate-700 bg-slate-800"
           role="menu"
         >
           <ul className="py-2">
@@ -96,6 +96,7 @@ function PageSizeSelect({
                   className={[
                     "w-full text-left px-4 py-2.5 text-sm font-medium transition-all duration-200",
                     "hover:bg-indigo-500/10 hover:text-indigo-300",
+                    "text-white",
                   ].join(" ")}
                   role="menuitem"
                 >

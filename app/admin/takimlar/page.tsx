@@ -67,9 +67,10 @@ function PageSizeSelect({
         onClick={() => setOpen((s) => !s)}
         className={[
           "inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300",
-          "ring-1 ring-slate-200/60 focus:ring-2 focus:ring-indigo-500/20",
+          "ring-1 ring-slate-700/60 focus:ring-2 focus:ring-indigo-500/20",
           "backdrop-blur-md bg-slate-800/80 hover:bg-slate-700/80",
           "border border-slate-700/50 shadow-sm hover:shadow-md",
+          "text-white",
         ].join(" ")}
         aria-haspopup="menu"
         aria-expanded={open}
@@ -82,7 +83,7 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className="absolute top-full right-0 mt-2 w-40 z-50 bg-slate-800 rounded-2xl shadow-2xl border border-slate-700"
+          className="absolute top-full right-0 mt-2 w-40 z-[9999] bg-slate-800 rounded-2xl shadow-2xl border border-slate-700"
           role="menu"
         >
           <ul className="py-2">
@@ -97,6 +98,7 @@ function PageSizeSelect({
                   className={[
                     "w-full text-left px-4 py-2.5 text-sm font-medium transition-all duration-200",
                     "hover:bg-indigo-500/10 hover:text-indigo-300",
+                    "text-white",
                   ].join(" ")}
                   role="menuitem"
                 >
