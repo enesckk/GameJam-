@@ -144,43 +144,17 @@ export default function SchedulePage() {
     <section
       className="
         relative isolate min-h-screen overflow-hidden
-        text-white dark:text-white
-        bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30
-        dark:from-slate-950 dark:via-slate-900/50 dark:to-purple-950/30
+        text-white
+        bg-gradient-to-br from-slate-950 via-slate-900/50 to-purple-950/30
       "
     >
-      {/* Katman A: büyük mesh - daha dinamik */}
+      {/* Basitleştirilmiş arka plan */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 inset-[-20%] opacity-90
-          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.4),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.35),transparent_60%)]
-          motion-safe:animate-[meshPan_20s_ease-in-out_infinite]
+          pointer-events-none absolute -z-10 inset-0
+          bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10
         "
-        style={{ mixBlendMode: "screen" }}
-      />
-      
-      {/* Katman B: küçük mesh - daha yumuşak */}
-      <div
-        aria-hidden
-        className="
-          pointer-events-none absolute -z-10 inset-[-30%] opacity-80
-          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.35),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.32),transparent_60%)]
-          motion-safe:animate-[meshPanAlt_15s_ease-in-out_infinite]
-        "
-        style={{ mixBlendMode: "screen" }}
-      />
-      
-      {/* Katman C: conic swirl - daha yavaş */}
-      <div
-        aria-hidden
-        className="
-          pointer-events-none absolute -z-10 -inset-[25%] opacity-70
-          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.4),rgba(139,92,246,.4),rgba(34,197,94,.3),rgba(14,165,233,.4))]
-          motion-safe:animate-[swirl_25s_linear_infinite]
-          rounded-[9999px] blur-3xl
-        "
-        style={{ mixBlendMode: "screen" }}
       />
 
       {/* Floating particles */}

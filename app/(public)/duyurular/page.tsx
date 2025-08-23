@@ -88,20 +88,17 @@ export default function AnnouncementsPage() {
     <section
       className="
         relative isolate min-h-screen overflow-hidden
-        text-white dark:text-white
-        bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30
-        dark:from-slate-950 dark:via-slate-900/50 dark:to-purple-950/30
+        text-white
+        bg-gradient-to-br from-slate-950 via-slate-900/50 to-purple-950/30
       "
     >
-      {/* Katman A: büyük mesh - daha dinamik */}
+      {/* Basitleştirilmiş arka plan */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 inset-[-20%] opacity-90
-          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.4),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.35),transparent_60%)]
-          motion-safe:animate-[meshPan_20s_ease-in-out_infinite]
+          pointer-events-none absolute -z-10 inset-0
+          bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10
         "
-        style={{ mixBlendMode: "screen" }}
       />
       
       {/* Katman B: küçük mesh - daha yumuşak */}

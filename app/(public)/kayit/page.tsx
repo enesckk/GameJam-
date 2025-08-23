@@ -189,55 +189,38 @@ export default function KayitPage() {
       className="
         relative isolate min-h-screen
         overflow-visible
-        text-white dark:text-white
-        bg-gradient-to-b from-white via-gray-100 to-gray-200
-        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+        text-white
+        bg-gradient-to-b from-slate-950 via-slate-900 to-slate-900
       "
     >
-      {/* Katman A */}
+      {/* Basitleştirilmiş arka plan */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -z-10 inset-[-20%] opacity-80
-          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
-          motion-safe:animate-[meshPan_18s_ease-in-out_infinite]"
-        style={{ mixBlendMode: "screen" }}
-      />
-      {/* Katman B */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -z-10 inset-[-30%] opacity-70
-          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
-          motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]"
-        style={{ mixBlendMode: "screen" }}
-      />
-      {/* Katman C */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -z-10 -inset-[25%] opacity-60
-          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
-          motion-safe:animate-[swirl_22s_linear_infinite] rounded-[9999px] blur-3xl"
-        style={{ mixBlendMode: "screen" }}
+        className="
+          pointer-events-none absolute -z-10 inset-0
+          bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10
+        "
       />
 
       {/* Form */}
       <div className="relative z-10 mx-auto flex min-h-screen max-w-3xl items-center justify-center px-4 py-10">
         <div
-          className="w-full rounded-2xl p-6 sm:p-8 shadow-2xl
-            bg-white/10 dark:bg-black/20 backdrop-blur-xl
-            border border-white/30 dark:border-white/10
-            ring-1 ring-white/20 dark:ring-white/5"
+          className="w-full rounded-xl p-6 sm:p-8 shadow-lg
+            bg-slate-800/80 backdrop-blur-sm
+            border border-slate-700"
         >
-          <h1 className="mb-6 text-center text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="mb-6 text-center text-3xl font-bold text-white">
             Kayıt / Başvuru
           </h1>
           <form onSubmit={onSubmit} className="space-y-5" noValidate>
             {/* Başvuru tipi */}
-            <div className="flex flex-wrap items-center justify-center gap-4 text-gray-900 dark:text-gray-100">
+            <div className="flex flex-wrap items-center justify-center gap-4 text-slate-200">
               <label className="flex items-center gap-2">
                 <input
                   type="radio"
                   checked={f.type === "individual"}
                   onChange={() => onChange("type", "individual")}
+                  className="text-emerald-500"
                 />
                 Bireysel
               </label>
@@ -246,6 +229,7 @@ export default function KayitPage() {
                   type="radio"
                   checked={f.type === "team"}
                   onChange={() => onChange("type", "team")}
+                  className="text-emerald-500"
                 />
                 Takım (en fazla 4 kişi)
               </label>
@@ -256,13 +240,13 @@ export default function KayitPage() {
               <div>
                 <input
                   placeholder="Takım Adı"
-                  className="w-full rounded-xl border border-white/50 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent backdrop-blur-sm"
+                  className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
                   value={f.teamName}
                   onChange={(e) => onChange("teamName", e.target.value)}
                   required
                 />
                 {f.teamName.trim() === "" && (
-                  <p className="mt-1 text-xs text-red-200">Takım adı zorunlu.</p>
+                  <p className="mt-1 text-xs text-red-300">Takım adı zorunlu.</p>
                 )}
               </div>
             )}
@@ -272,7 +256,7 @@ export default function KayitPage() {
               <div className="sm:col-span-2">
                 <input
                   placeholder="Lider Ad Soyad"
-                  className="w-full rounded-xl border border-white/50 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent backdrop-blur-sm"
+                  className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
                   value={f.name}
                   onChange={(e) => onChange("name", e.target.value)}
                   required
@@ -286,7 +270,7 @@ export default function KayitPage() {
                 <input
                   placeholder="Lider E-posta"
                   type="email"
-                  className="w-full rounded-xl border border-white/50 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent backdrop-blur-sm"
+                  className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
                   value={f.email}
                   onChange={(e) => onChange("email", e.target.value)}
                   required
@@ -300,13 +284,13 @@ export default function KayitPage() {
                 <input
                   placeholder="Lider Telefon (örn. +90 5xx xxx xx xx)"
                   inputMode="tel"
-                  className="w-full rounded-xl border border-white/50 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent backdrop-blur-sm"
+                  className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
                   value={f.phone}
                   onChange={(e) => onChange("phone", e.target.value)}
                   required
                 />
                 {!phoneOk && f.phone !== "" && (
-                  <p className="mt-1 text-xs text-red-200">Geçerli bir telefon girin (10–14 hane).</p>
+                  <p className="mt-1 text-xs text-red-300">Geçerli bir telefon girin (10–14 hane).</p>
                 )}
               </div>
 
@@ -315,13 +299,13 @@ export default function KayitPage() {
                   placeholder="Lider Yaş (14+)"
                   type="number"
                   min={14}
-                  className="w-full rounded-xl border border-white/50 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent backdrop-blur-sm"
+                  className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
                   value={f.age}
                   onChange={(e) => onChange("age", e.target.value)}
                   required
                 />
                 {!ageOk && f.age !== "" && (
-                  <p className="mt-1 text-xs text-red-200">14 yaş ve üzeri olmalı.</p>
+                  <p className="mt-1 text-xs text-red-300">14 yaş ve üzeri olmalı.</p>
                 )}
               </div>
 
@@ -331,7 +315,7 @@ export default function KayitPage() {
                   <input
                     placeholder="Lider Şifre (en az 6 karakter)"
                     type={showPass ? "text" : "password"}
-                    className="w-full rounded-xl border border-white/50 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 pr-24 text-gray-900 dark:text-gray-100 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent backdrop-blur-sm"
+                    className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 pr-24 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
                     value={f.password}
                     onChange={(e) => onChange("password", e.target.value)}
                     onKeyUp={onPasswordKey}
@@ -365,22 +349,22 @@ export default function KayitPage() {
                 <div className="mt-2 flex flex-wrap items-center gap-3">
                   {f.password && (
                     <>
-                      <div className="h-2 w-28 rounded-full bg-gray-300 dark:bg-gray-700 overflow-hidden">
+                      <div className="h-2 w-28 rounded-full bg-slate-600 overflow-hidden">
                         <div
                           className={`h-2 transition-all duration-300 ${strength.barClass}`}
                           style={{ width: strength.width }}
                         />
                       </div>
-                      <span className="text-xs text-gray-800 dark:text-gray-200">
+                      <span className="text-xs text-slate-200">
                         {strength.label}
                       </span>
                     </>
                   )}
                   {!passOk && f.password !== "" && (
-                    <span className="text-xs text-red-200">Şifre en az 6 karakter olmalı.</span>
+                    <span className="text-xs text-red-300">Şifre en az 6 karakter olmalı.</span>
                   )}
                   {capsOn && (
-                    <span className="text-xs text-yellow-200 sm:hidden">Caps Lock açık</span>
+                    <span className="text-xs text-yellow-300 sm:hidden">Caps Lock açık</span>
                   )}
                 </div>
               </div>
@@ -463,7 +447,7 @@ export default function KayitPage() {
                       </div>
 
                       {!valid && (m.name || m.email || m.phone || m.age) && (
-                        <p className="sm:col-span-6 -mt-1 text-xs text-red-200">
+                        <p className="sm:col-span-6 -mt-1 text-xs text-red-300">
                           Üye bilgilerini kontrol edin (ad 3+ karakter, geçerli e-posta & telefon, 14 yaş ve üzeri).
                         </p>
                       )}
@@ -475,25 +459,26 @@ export default function KayitPage() {
 
             {/* KVKK checkbox + AÇILIR İÇERİK */}
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm text-gray-900 dark:text-gray-100">
+              <label className="flex items-center gap-2 text-sm text-slate-200">
                 <input
                   type="checkbox"
                   checked={f.consentKVKK}
                   onChange={(e) => onChange("consentKVKK", e.target.checked)}
                   required
                   aria-describedby="kvkk-desc"
+                  className="text-emerald-500"
                 />
                 KVKK metnini okudum, onaylıyorum.
               </label>
 
               <details
                 id="kvkk-desc"
-                className="rounded-xl border border-white/25 dark:border-white/10 bg-white/5 p-3 open:bg-white/10 open:backdrop-blur-sm"
+                className="rounded-xl border border-slate-600 bg-slate-700/50 p-3 open:bg-slate-700/80 open:backdrop-blur-sm"
               >
-                <summary className="cursor-pointer select-none text-sm text-emerald-700 hover:text-emerald-600 dark:text-emerald-200 dark:hover:text-emerald-100">
+                <summary className="cursor-pointer select-none text-sm text-emerald-300 hover:text-emerald-200">
                   KVKK Aydınlatma Metni (aç/kapa)
                 </summary>
-                <div className="mt-2 space-y-3 text-xs text-gray-900 dark:text-gray-100">
+                <div className="mt-2 space-y-3 text-xs text-slate-200">
                   <p>
                     <strong>Veri Sorumlusu:</strong> Şehitkamil Belediyesi
                     <br />
@@ -528,12 +513,12 @@ export default function KayitPage() {
 
             {/* Mesajlar */}
             {err && (
-              <p className="rounded-lg border border-red-400/30 bg-red-500/10 p-2 text-sm text-red-100" role="alert" aria-live="assertive">
+              <p className="rounded-lg border border-red-400/30 bg-red-500/10 p-2 text-sm text-red-300" role="alert" aria-live="assertive">
                 {err}
               </p>
             )}
             {msg && (
-              <p className="rounded-lg border border-emerald-400/30 bg-emerald-500/10 p-2 text-sm text-emerald-100">
+              <p className="rounded-lg border border-emerald-400/30 bg-emerald-500/10 p-2 text-sm text-emerald-300">
                 {msg}
               </p>
             )}
@@ -548,7 +533,7 @@ export default function KayitPage() {
             </button>
 
             {/* Alt bilgilendirme */}
-            <p className="text-center text-xs text-gray-900 dark:text-gray-100/80">
+            <p className="text-center text-xs text-slate-300">
               Başvurudan sonra lider için hesap otomatik açılır. Diğer takım üyelerine
               <br className="hidden sm:block" />
               <strong>davet e-postası</strong> gönderilir; e-postadaki <strong>şifre sıfırlama bağlantısı</strong> ile

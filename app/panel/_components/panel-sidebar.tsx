@@ -32,25 +32,24 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
       className="
         w-full h-full min-h-0
         grid grid-rows-[auto_1fr_auto]   /* header | links | footer */
-        bg-gradient-to-b from-slate-50 via-white to-slate-50
-        dark:from-slate-900 dark:via-slate-800 dark:to-slate-900
-        border-r border-slate-200/60 dark:border-slate-700/60
+        bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900
+        border-r border-slate-700/60
       "
     >
       {/* Header (row 1) */}
       <div className="px-3 sm:px-4 pt-4 sm:pt-6 pb-3 sm:pb-4">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl blur-xl" />
-          <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-white/20 dark:border-slate-700/50 shadow-lg">
+          <div className="relative bg-slate-800/80 backdrop-blur-xl rounded-2xl p-3 sm:p-4 border border-slate-700/50 shadow-lg">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                 <Gamepad2 className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-sm sm:text-lg font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent truncate">
+                <div className="text-sm sm:text-lg font-bold bg-gradient-to-r from-white to-slate-200 bg-clip-text text-transparent truncate">
                   Katılımcı Paneli
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate">
+                <div className="text-xs text-slate-400 font-medium truncate">
                   Game Jam Merkezi
                 </div>
               </div>
@@ -74,7 +73,7 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
                   "border border-transparent",
                   active
                     ? `bg-gradient-to-r ${color} bg-opacity-10 border-opacity-50 shadow-lg shadow-opacity-10`
-                    : "hover:bg-white/60 dark:hover:bg-slate-700/60 hover:border-slate-200/50 dark:hover:border-slate-600/50 hover:shadow-md",
+                    : "hover:bg-slate-700/60 hover:border-slate-600/50 hover:shadow-md",
                   "backdrop-blur-sm",
                 ].join(" ")}
               >
@@ -86,7 +85,7 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
                     "flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl transition-all duration-300 relative overflow-hidden flex-shrink-0",
                     active
                       ? `bg-gradient-to-br ${color} text-white shadow-lg shadow-opacity-25`
-                      : "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 group-hover:bg-gradient-to-br group-hover:from-slate-100 group-hover:to-slate-200 dark:group-hover:from-slate-700 dark:group-hover:to-slate-600 group-hover:text-slate-700 dark:group-hover:text-slate-300",
+                      : "bg-slate-700 text-slate-400 group-hover:bg-gradient-to-br group-hover:from-slate-700 group-hover:to-slate-600 group-hover:text-slate-300",
                   ].join(" ")}
                 >
                   <Icon className="h-4 w-4 sm:h-5 sm:w-5 relative z-10" />
@@ -96,8 +95,8 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
                   className={[
                     "text-xs sm:text-sm font-medium transition-all duration-300 relative truncate",
                     active
-                      ? "text-slate-900 dark:text-white font-semibold"
-                      : "text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-slate-100",
+                      ? "text-white font-semibold"
+                      : "text-slate-300 group-hover:text-slate-100",
                   ].join(" ")}
                 >
                   {label}
