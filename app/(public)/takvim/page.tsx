@@ -210,19 +210,19 @@ export default function SchedulePage() {
           <div className="mt-12 sm:mt-16 space-y-12">
             <div className="relative">
               {/* Timeline Line - daha etkileyici */}
-              <div className="absolute left-4 sm:left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500 via-blue-500 to-purple-500 shadow-lg"></div>
+              <div className="absolute left-6 sm:left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-green-500 via-blue-500 to-purple-500 shadow-lg"></div>
 
               {/* Timeline Items - daha interaktif */}
               <div className="space-y-12 sm:space-y-16">
                 {TIMELINE_DATA.map((item, idx) => (
-                  <div key={idx} className="relative flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8 group">
+                  <div key={idx} className="relative flex items-start gap-4 sm:gap-8 group">
                     <div className={`
                       flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-2xl 
                       bg-gradient-to-r ${getColorClasses(item.color)} 
                       flex items-center justify-center shadow-2xl
                       group-hover:scale-110 group-hover:shadow-3xl
                       transition-all duration-500 ease-out
-                      mx-auto sm:mx-0
+                      relative z-10
                     `}>
                       <div className="text-center text-white font-bold">
                         <div className="text-xs sm:text-sm">{item.date}</div>

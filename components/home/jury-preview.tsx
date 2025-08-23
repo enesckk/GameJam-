@@ -39,11 +39,11 @@ export default function JuryPreview() {
             key={p.name}
             className="
               group relative flex items-center gap-4
-              rounded-2xl bg-slate-900/80 p-5 backdrop-blur-md shadow-lg border border-slate-700/50
+              rounded-2xl bg-gray-900 p-5 backdrop-blur-md shadow-lg border border-gray-700
               transition-all duration-300 ease-out transform-gpu will-change-transform
               hover:scale-[1.05] hover:rounded-3xl
               hover:shadow-[0_0_15px_#ff00ff,0_0_20px_#8000ff,0_0_25px_#00ffff]
-              hover:border-slate-600/70
+              hover:border-gray-600
               motion-reduce:transition-none motion-reduce:hover:scale-100
 
               before:content-[''] before:absolute before:inset-0
@@ -57,7 +57,7 @@ export default function JuryPreview() {
             "
           >
             {/* Avatar */}
-            <div className="relative h-14 w-14 md:h-16 md:w-16 overflow-hidden rounded-full bg-slate-800/80 flex items-center justify-center border border-slate-600/50">
+            <div className="relative h-14 w-14 md:h-16 md:w-16 overflow-hidden rounded-full bg-gray-800 flex items-center justify-center border border-gray-600">
               <Image
                 src={p.avatar}
                 alt={`${p.name} avatar`}
@@ -76,7 +76,7 @@ export default function JuryPreview() {
                 {p.name}
               </div>
               <div
-                className="text-sm text-slate-300"
+                className="text-sm text-gray-300"
               >
                 {p.title}
               </div>

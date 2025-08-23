@@ -650,8 +650,8 @@ export default function AdminMessagesPage() {
 
                     {open && (
                       <div className="px-4 sm:px-6 pb-4 sm:pb-6">
-                        <div className="rounded-2xl bg-slate-50/80 p-3 sm:p-4">
-                          <p className="text-slate-700 whitespace-pre-wrap leading-relaxed">
+                        <div className="rounded-2xl bg-slate-800/80 backdrop-blur-sm border border-slate-700/60 p-3 sm:p-4">
+                          <p className="text-slate-200 whitespace-pre-wrap leading-relaxed">
                             {m.body}
                           </p>
                         </div>
@@ -975,6 +975,7 @@ export default function AdminMessagesPage() {
                       className="flex-1 bg-transparent outline-none text-white placeholder-slate-500"
                       value={subj}
                       onChange={(e) => setSubj(e.target.value)}
+                      placeholder="Mesaj konusu..."
                     />
                   </div>
                 </div>
@@ -991,6 +992,7 @@ export default function AdminMessagesPage() {
                       className="min-h-[120px] w-full bg-transparent outline-none p-3 sm:p-4 text-white placeholder-slate-500 resize-y"
                       value={body}
                       onChange={(e) => setBody(e.target.value)}
+                      placeholder="Mesaj içeriği..."
                     />
                   </div>
                 </div>
@@ -1044,9 +1046,9 @@ function UserPicker({
   return (
     <div className="space-y-2">
       <div className="relative">
-        <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
+        <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
         <input
-          className="w-full sm:w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none ring-0 focus:ring-2 focus:ring-violet-500 transition"
+          className="w-full sm:w-80 rounded-xl bg-slate-800/80 backdrop-blur-md border border-slate-700/60 pl-8 pr-3 py-2 text-sm text-white placeholder-slate-400 outline-none ring-0 focus:ring-2 focus:ring-violet-500 transition"
           placeholder="İsim/e-posta ara…"
           value={userQuery}
           onChange={(e) => setUserQuery(e.target.value)}
@@ -1061,22 +1063,22 @@ function UserPicker({
           return (
             <li
               key={u.id}
-              className="rounded-xl ring-1 ring-foreground/10 bg-white/70 dark:bg-white/10 backdrop-blur p-3 flex items-start justify-between"
+              className="rounded-xl ring-1 ring-slate-700/60 bg-slate-800/80 backdrop-blur p-3 flex items-start justify-between"
             >
               <div className="min-w-0">
-                <div className="font-semibold truncate" title={u.name ?? "—"}>
+                <div className="font-semibold truncate text-white" title={u.name ?? "—"}>
                   {u.name ?? "—"}
                 </div>
-                <div className="text-xs opacity-70 truncate">{u.email}</div>
-                <div className="text-xs opacity-70">{u.phone ?? "—"}</div>
+                <div className="text-xs text-slate-300 truncate">{u.email}</div>
+                <div className="text-xs text-slate-300">{u.phone ?? "—"}</div>
               </div>
               <button
                 type="button"
                 onClick={() => toggleUser(u.id)}
-                className="ml-3 inline-flex items-center justify-center rounded-md p-2 ring-1 ring-foreground/15 hover:bg-foreground/5"
+                className="ml-3 inline-flex items-center justify-center rounded-md p-2 ring-1 ring-slate-600 hover:bg-slate-700/50"
                 aria-pressed={checked}
               >
-                {checked ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
+                {checked ? <CheckSquare className="h-4 w-4 text-indigo-400" /> : <Square className="h-4 w-4 text-slate-400" />}
               </button>
             </li>
           );
@@ -1084,7 +1086,7 @@ function UserPicker({
       </ul>
 
       {/* Desktop Table */}
-      <div className="overflow-hidden rounded-xl ring-1 ring-foreground/10 bg-white/50 backdrop-blur dark:bg-white/10 hidden md:block">
+      <div className="overflow-hidden rounded-xl ring-1 ring-slate-700/60 bg-slate-800/80 backdrop-blur hidden md:block">
         <table className="min-w-full text-sm">
           <thead>
             <tr className="text-left">
@@ -1100,7 +1102,7 @@ function UserPicker({
               return (
                 <tr
                   key={u.id}
-                  className="cursor-pointer border-t border-foreground/10 hover:bg-foreground/[0.04]"
+                  className="cursor-pointer border-t border-slate-700/60 hover:bg-slate-700/50"
                   onClick={() => toggleUser(u.id)}
                 >
                   <Td
@@ -1115,31 +1117,23 @@ function UserPicker({
                         e.stopPropagation();
                         toggleUser(u.id);
                       }}
-                      className="inline-flex items-center justify-center rounded-md p-1 ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
+                      className="inline-flex items-center justify-center rounded-md p-1 ring-1 ring-slate-600 bg-transparent hover:bg-slate-700/50"
                       aria-pressed={checked}
-                      aria-label={checked ? "Kullanıcı seçili" : "Kullanıcı seç"}
+                      aria-label={checked ? "Kullanıcı seçili" : "Kullanıcıyı seçime ekle"}
                     >
-                      {checked ? (
-                        <CheckSquare className="h-4 w-4" />
-                      ) : (
-                        <Square className="h-4 w-4" />
-                      )}
+                      {checked ? <CheckSquare className="h-4 w-4 text-indigo-400" /> : <Square className="h-4 w-4 text-slate-400" />}
                     </button>
                   </Td>
-                  <Td className="font-semibold">{u.name ?? "—"}</Td>
-                  <Td className="max-w-[280px] truncate" title={u.email}>
+                  <Td className="font-semibold text-white">{u.name ?? "—"}</Td>
+                  <Td className="max-w-[320px] truncate text-slate-300" title={u.email}>
                     <span className="hover:opacity-80">{u.email}</span>
                   </Td>
-                  <Td className="font-semibold">{u.phone ?? "—"}</Td>
+                  <Td className="text-slate-300">{u.phone ?? "—"}</Td>
                 </tr>
               );
             })}
           </tbody>
         </table>
-      </div>
-
-      <div className="text-xs opacity-70">
-        Seçili: <strong>{selectedUsers.size}</strong>
       </div>
     </div>
   );
@@ -1171,9 +1165,9 @@ function TeamPicker({
   return (
     <div className="space-y-2">
       <div className="relative">
-        <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/60" />
+        <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
         <input
-          className="w-full sm:w-80 rounded-xl bg-white/30 dark:bg-white/10 backdrop-blur-md pl-8 pr-3 py-2 text-sm outline-none ring-0 focus:ring-2 focus:ring-violet-500 transition"
+          className="w-full sm:w-80 rounded-xl bg-slate-800/80 backdrop-blur-md border border-slate-700/60 pl-8 pr-3 py-2 text-sm text-white placeholder-slate-400 outline-none ring-0 focus:ring-2 focus:ring-violet-500 transition"
           placeholder="Takım ara…"
           value={teamQuery}
           onChange={(e) => setTeamQuery(e.target.value)}
@@ -1187,11 +1181,11 @@ function TeamPicker({
           return (
             <div
               key={t.id}
-              className="overflow-hidden rounded-xl ring-1 ring-foreground/10 bg-white/70 backdrop-blur dark:bg-white/10"
+              className="overflow-hidden rounded-xl ring-1 ring-slate-700/60 bg-slate-800/80 backdrop-blur"
             >
               <button
                 onClick={() => setSelectedTeam(open ? null : t)}
-                className="flex w-full items-center justify-between px-3 py-2 hover:bg-foreground/[0.04]"
+                className="flex w-full items-center justify-between px-3 py-2 hover:bg-slate-700/50 text-white"
               >
                 <div className="flex items-center gap-2">
                   {open ? (
@@ -1200,13 +1194,13 @@ function TeamPicker({
                     <ChevronRight className="h-4 w-4" />
                   )}
                   <div className="font-semibold">{t.name}</div>
-                  <span className="text-xs opacity-70">{t.members.length} üye</span>
+                  <span className="text-xs text-slate-300">{t.members.length} üye</span>
                 </div>
               </button>
 
               {open && (
-                <div className="space-y-2 border-t border-foreground/10 p-3">
-                  <label className="inline-flex items-center gap-2 text-sm">
+                <div className="space-y-2 border-t border-slate-700/60 p-3">
+                  <label className="inline-flex items-center gap-2 text-sm text-slate-300">
                     <input
                       type="checkbox"
                       checked={teamAll}
@@ -1227,24 +1221,24 @@ function TeamPicker({
                           return (
                             <li
                               key={m.id}
-                              className="rounded-xl ring-1 ring-foreground/10 bg-white/70 dark:bg-white/10 backdrop-blur p-3 flex items-start justify-between"
+                              className="rounded-xl ring-1 ring-slate-700/60 bg-slate-800/80 backdrop-blur p-3 flex items-start justify-between"
                             >
                               <div className="min-w-0">
-                                <div className="font-semibold truncate" title={m.name ?? "—"}>
+                                <div className="font-semibold truncate text-white" title={m.name ?? "—"}>
                                   {m.name ?? "—"}
                                 </div>
-                                <div className="text-xs opacity-70 truncate">{m.email}</div>
+                                <div className="text-xs text-slate-300 truncate">{m.email}</div>
                               </div>
                               <button
                                 type="button"
                                 onClick={() => toggleTeamMember(m.id)}
-                                className="ml-3 inline-flex items-center justify-center rounded-md p-2 ring-1 ring-foreground/15 hover:bg-foreground/5"
+                                className="ml-3 inline-flex items-center justify-center rounded-md p-2 ring-1 ring-slate-600 hover:bg-slate-700/50"
                                 aria-pressed={checked}
                               >
                                 {checked ? (
-                                  <CheckSquare className="h-4 w-4" />
+                                  <CheckSquare className="h-4 w-4 text-indigo-400" />
                                 ) : (
-                                  <Square className="h-4 w-4" />
+                                  <Square className="h-4 w-4 text-slate-400" />
                                 )}
                               </button>
                             </li>
@@ -1253,7 +1247,7 @@ function TeamPicker({
                       </ul>
 
                       {/* Desktop table */}
-                      <div className="overflow-x-auto rounded-xl ring-1 ring-foreground/10 hidden md:block">
+                      <div className="overflow-x-auto rounded-xl ring-1 ring-slate-700/60 bg-slate-800/80 backdrop-blur hidden md:block">
                         <table className="min-w-full text-sm">
                           <thead>
                             <tr className="text-left">
@@ -1268,7 +1262,7 @@ function TeamPicker({
                               return (
                                 <tr
                                   key={m.id}
-                                  className="cursor-pointer border-t border-foreground/10 hover:bg-foreground/[0.04]"
+                                  className="cursor-pointer border-t border-slate-700/60 hover:bg-slate-700/50"
                                   onClick={() => toggleTeamMember(m.id)}
                                 >
                                   <Td
@@ -1285,21 +1279,21 @@ function TeamPicker({
                                         e.stopPropagation();
                                         toggleTeamMember(m.id);
                                       }}
-                                      className="inline-flex items-center justify-center rounded-md p-1 ring-1 ring-foreground/15 bg-transparent hover:bg-foreground/5"
+                                      className="inline-flex items-center justify-center rounded-md p-1 ring-1 ring-slate-600 bg-transparent hover:bg-slate-700/50"
                                       aria-pressed={checked}
                                       aria-label={
                                         checked ? "Üye seçili" : "Üyeyi seçime ekle"
                                       }
                                     >
                                       {checked ? (
-                                        <CheckSquare className="h-4 w-4" />
+                                        <CheckSquare className="h-4 w-4 text-indigo-400" />
                                       ) : (
-                                        <Square className="h-4 w-4" />
+                                        <Square className="h-4 w-4 text-slate-400" />
                                       )}
                                     </button>
                                   </Td>
-                                  <Td className="font-semibold">{m.name ?? "—"}</Td>
-                                  <Td className="max-w-[320px] truncate" title={m.email}>
+                                  <Td className="font-semibold text-white">{m.name ?? "—"}</Td>
+                                  <Td className="max-w-[320px] truncate text-slate-300" title={m.email}>
                                     <span className="hover:opacity-80">{m.email}</span>
                                   </Td>
                                 </tr>
@@ -1380,7 +1374,7 @@ function Pager({
 }) {
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   return (
-    <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm">
+    <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm relative z-10">
       <div className="opacity-70">
         Toplam <strong>{total}</strong> mesaj • Sayfa <strong>{page}</strong> / {totalPages}
       </div>
