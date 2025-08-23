@@ -13,9 +13,9 @@ export const metadata: Metadata = {
   title: "Şehitkamil Game Jam — Oyna ve Kazan!",
   description: "Etkinlik takvimi, kayıt, duyurular ve paneller tek çatı altında.",
   
-  // Temaya göre renk şeması (destekleyen browser'lar)
+  // Sadece koyu tema için renk şeması
   other: {
-    "color-scheme": "dark light",
+    "color-scheme": "dark",
   },
 };
 
@@ -25,10 +25,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   viewportFit: "cover",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0b0c" },
-  ],
+  themeColor: "#0b0b0c", // Sadece koyu tema rengi
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -36,13 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="tr"
       suppressHydrationWarning
-      className="
-        h-full scroll-smooth perf-lite
-        [--safe-top:env(safe-area-inset-top)]
-        [--safe-right:env(safe-area-inset-right)]
-        [--safe-bottom:env(safe-area-inset-bottom)]
-        [--safe-left:env(safe-area-inset-left)]
-      "
+      className="dark h-full scroll-smooth perf-lite [--safe-top:env(safe-area-inset-top)] [--safe-right:env(safe-area-inset-right)] [--safe-bottom:env(safe-area-inset-bottom)] [--safe-left:env(safe-area-inset-left)]"
     >
       {/* Skip link: klavye kullanıcıları için */}
       <a
@@ -57,19 +48,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </a>
 
       <body
-        className={`
-          ${geistSans.variable} ${geistMono.variable}
-          antialiased h-full min-h-dvh
-          bg-[var(--background)] text-[var(--foreground)]
-          overflow-x-clip
-          [padding:var(--safe-top)_var(--safe-right)_calc(var(--safe-bottom)+16px)_var(--safe-left)]
-        `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full min-h-dvh bg-[var(--background)] text-[var(--foreground)] overflow-x-clip [padding:var(--safe-top)_var(--safe-right)_calc(var(--safe-bottom)+16px)_var(--safe-left)]`}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
-          // tema değişiminde renk geçişlerinde FOUC/animasyon zıplamasını engeller
+          defaultTheme="dark"
+          enableSystem={false}
           disableTransitionOnChange
           enableColorScheme
         >
