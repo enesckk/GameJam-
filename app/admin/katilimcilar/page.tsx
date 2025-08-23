@@ -288,7 +288,7 @@ export default function AdminParticipantsListPage() {
                             <Mail className="h-4 w-4 text-slate-300 shrink-0" />
                             <a
                               href={`mailto:${r.email}`}
-                              className="text-slate-300 hover:text-blue-400 transition-colors duration-200 truncate"
+                              className="text-white hover:text-blue-400 transition-colors duration-200 truncate"
                               title={r.email}
                             >
                               {r.email}
@@ -302,7 +302,7 @@ export default function AdminParticipantsListPage() {
                             {r.phone ? (
                               <a
                                 href={`tel:${r.phone}`}
-                                className="font-semibold text-slate-300 hover:text-green-400 transition-colors duration-200 truncate"
+                                className="font-semibold text-white hover:text-green-400 transition-colors duration-200 truncate"
                                 title={r.phone}
                               >
                                 {r.phone}
@@ -316,7 +316,7 @@ export default function AdminParticipantsListPage() {
                         <Td>
                           <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4 text-slate-300" />
-                            <span className="font-semibold text-slate-300">
+                            <span className="font-semibold text-white">
                               {Number.isFinite(r.age as any) ? r.age : "—"}
                             </span>
                           </div>

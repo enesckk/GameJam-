@@ -367,10 +367,10 @@ export default function MatchingPage() {
                             {u.name ?? "—"}
                           </div>
                         </div>
-                        <div className="mt-1 text-xs text-slate-300 break-all">
+                        <div className="mt-1 text-xs text-white break-all">
                           {u.email}
                         </div>
-                        <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-slate-300">
+                        <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-white">
                           <span className="font-semibold">
                             {u.phone ?? "—"}
                           </span>

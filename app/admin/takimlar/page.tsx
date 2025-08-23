@@ -318,17 +318,17 @@ export default function AdminTeamsPage() {
                               </div>
                               <div className="flex items-center gap-2 text-sm text-slate-700  min-w-0">
                                 <Mail className="h-4 w-4 text-slate-400 shrink-0" />
-                                <span className="truncate" title={m.email}>
-                                  {m.email}
-                                </span>
+                                                            <span className="truncate text-white" title={m.email}>
+                              {m.email}
+                            </span>
                               </div>
                               <div className="flex items-center gap-2 text-sm text-slate-700 ">
                                 <Phone className="h-4 w-4 text-slate-400" />
-                                <span className="truncate">{m.phone ?? "—"}</span>
+                                <span className="truncate text-white">{m.phone ?? "—"}</span>
                               </div>
                               <div className="flex items-center gap-2 text-sm text-slate-700 ">
                                 <Calendar className="h-4 w-4 text-slate-400" />
-                                <span>{Number.isFinite(m.age as any) ? m.age : "—"}</span>
+                                <span className="text-white">{Number.isFinite(m.age as any) ? m.age : "—"}</span>
                               </div>
                               <div>
                                 {m.profileRole ? (
@@ -386,25 +386,25 @@ export default function AdminTeamsPage() {
                                 <Td>
                                   <div className="flex items-center gap-2 max-w-[320px]">
                                     <Mail className="h-4 w-4 text-slate-400 shrink-0" />
-                                    <span className="text-slate-700  truncate" title={m.email}>
-                                      {m.email}
-                                    </span>
+                                                                <span className="text-white truncate" title={m.email}>
+                              {m.email}
+                            </span>
                                   </div>
                                 </Td>
                                 <Td>
                                   <div className="flex items-center gap-2 max-w-[220px]">
                                     <Phone className="h-4 w-4 text-slate-400 shrink-0" />
-                                    <span className="font-semibold text-slate-700  truncate" title={m.phone ?? "—"}>
-                                      {m.phone ?? "—"}
-                                    </span>
+                                                                <span className="font-semibold text-white truncate" title={m.phone ?? "—"}>
+                              {m.phone ?? "—"}
+                            </span>
                                   </div>
                                 </Td>
                                 <Td>
                                   <div className="flex items-center gap-2">
                                     <Calendar className="h-4 w-4 text-slate-400" />
-                                    <span className="font-semibold text-slate-700 ">
-                                      {Number.isFinite(m.age as any) ? m.age : "—"}
-                                    </span>
+                                                                <span className="font-semibold text-white">
+                              {Number.isFinite(m.age as any) ? m.age : "—"}
+                            </span>
                                   </div>
                                 </Td>
                                 <Td>
