@@ -85,16 +85,16 @@ export default function RoleSelect({
     setPos({ top, left, width: r.width, placement, maxH });
   };
 
-  useLayoutEffect(() => {
-    if (!open) return;
-    reposition();
-    const f = () => reposition();
-    window.addEventListener("resize", f);
-    window.addEventListener("scroll", f, true);
-    return () => {
-      window.removeEventListener("resize", f);
-      window.removeEventListener("scroll", f, true);
-    };
+  // Sadece dropdown açılırken konumlandır
+  useEffect(() => {
+    if (open) {
+      // Kısa bir gecikme ile konumlandır (DOM güncellemesi için)
+      const timer = setTimeout(() => {
+        reposition();
+      }, 10);
+      
+      return () => clearTimeout(timer);
+    }
   }, [open]);
 
   const current = ROLES.find(r => r.value === value)?.label ?? "";
