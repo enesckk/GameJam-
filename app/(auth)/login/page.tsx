@@ -1,4 +1,4 @@
-// app/(public)/login/page.tsx
+// app/(public)/login/page.tsx  ← kendi yoluna göre isim değişebilir
 "use client";
 
 import { Suspense, useState } from "react";
@@ -76,41 +76,22 @@ function LoginContent() {
       className="
         relative isolate min-h-screen overflow-hidden
         text-white
-        bg-slate-950
+        bg-gradient-to-b from-slate-950 via-slate-900 to-slate-900
       "
     >
       <ForceLogoutOnBack />
 
-      {/* Arka plan: gradient + noise */}
+      {/* Basitleştirilmiş arka plan */}
       <div
         aria-hidden
         className="
-          absolute inset-0 -z-10
-          bg-gradient-to-br from-indigo-700 via-purple-700 to-pink-700
-          opacity-50
-        "
-      />
-      <div
-        aria-hidden
-        className="
-          absolute inset-0 -z-10
-          [background-image:radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)]
-          [background-size:24px_24px]
+          pointer-events-none absolute -z-10 inset-0
+          bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10
         "
       />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4">
-        <Card
-          className="
-            w-full max-w-md rounded-xl
-            border border-white/20
-            bg-white/10
-            backdrop-blur-3xl
-            backdrop-saturate-150
-            shadow-2xl
-            p-8
-          "
-        >
+        <Card className="w-full max-w-md rounded-xl border-2 border-slate-600 bg-slate-800/30 backdrop-blur-xl p-8 shadow-xl">
           <h1 className="mb-6 text-center text-3xl font-bold text-white">
             Giriş Yap
           </h1>
@@ -122,13 +103,7 @@ function LoginContent() {
                 E-posta
               </label>
               <input
-                className="
-                  w-full rounded-xl
-                  border border-slate-600/60
-                  bg-slate-900
-                  px-3 py-2 text-white placeholder:text-slate-400
-                  focus:outline-none focus:ring-2 focus:ring-emerald-500/60
-                "
+                className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
@@ -148,13 +123,7 @@ function LoginContent() {
                 Şifre
               </label>
               <input
-                className="
-                  w-full rounded-xl
-                  border border-slate-600/60
-                  bg-slate-900
-                  px-3 py-2 text-white placeholder:text-slate-400
-                  focus:outline-none focus:ring-2 focus:ring-emerald-500/60
-                "
+                className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
