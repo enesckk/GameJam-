@@ -24,18 +24,18 @@ type Stats = {
 
 function Stat({ icon: Icon, label, value, trend }: { icon: any; label: string; value: string | number; trend?: string }) {
   return (
-    <div className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+    <div className="group relative overflow-hidden rounded-xl border border-slate-700 bg-slate-800 p-6 shadow-sm transition-shadow duration-200 hover:shadow-md">
       <div className="flex items-center gap-4">
         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500 shadow-sm">
           <Icon className="h-6 w-6 text-white" />
         </div>
         <div className="flex-1">
-          <div className="text-2xl font-bold text-slate-900 dark:text-white">{value}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400 font-medium">{label}</div>
+          <div className="text-2xl font-bold text-white">{value}</div>
+          <div className="text-sm text-slate-400 font-medium">{label}</div>
           {trend && (
             <div className="flex items-center gap-1 mt-1">
               <TrendingUp className="h-3 w-3 text-green-500" />
-              <span className="text-xs text-green-600 dark:text-green-400 font-medium">{trend}</span>
+              <span className="text-xs text-green-400 font-medium">{trend}</span>
             </div>
           )}
         </div>
@@ -135,8 +135,8 @@ export default function AdminHome() {
           <div className="flex items-center gap-3">
             <AlertCircle className="h-5 w-5 text-red-500" />
             <div>
-              <div className="font-semibold text-red-700 dark:text-red-400">Metrikler yüklenemedi</div>
-              <div className="text-sm text-red-600 dark:text-red-300">{err}</div>
+              <div className="font-semibold text-red-400">Metrikler yüklenemedi</div>
+              <div className="text-sm text-red-300">{err}</div>
             </div>
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function AdminHome() {
                 <div className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br ${color} shadow-sm transition-transform duration-200 group-hover:scale-105`}>
                   <Icon className="h-8 w-8 text-white" />
                 </div>
-                <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors duration-200">
+                <span className="text-sm font-semibold text-slate-300 group-hover:text-white transition-colors duration-200">
                   {label}
                 </span>
               </div>
@@ -193,15 +193,15 @@ export default function AdminHome() {
       {/* Bekleyen İşler */}
       <AdminSectionCard title="Bekleyen İşler" subtitle="Hızlı aksiyon almanız gerekenler">
         <div className="space-y-4">
-          <div className="flex items-center gap-4 p-4 rounded-xl bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800">
+          <div className="flex items-center gap-4 p-4 rounded-xl bg-orange-900/20 border border-orange-800">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500 shadow-sm">
               <Inbox className="h-6 w-6 text-white" />
             </div>
             <div className="flex-1">
-              <div className="font-semibold text-orange-900 dark:text-orange-100">
+              <div className="font-semibold text-orange-100">
                 Bekleyen Teslimler
               </div>
-              <div className="text-sm text-orange-700 dark:text-orange-300">
+              <div className="text-sm text-orange-300">
                 <Link href="/admin/teslimler" className="underline hover:no-underline">
                   Teslimler sekmesinde <strong>{loading ? "…" : (stats.pendingSubmissions ?? 0)}</strong> bekleyen inceleme var.
                 </Link>
@@ -210,15 +210,15 @@ export default function AdminHome() {
             <Clock className="h-5 w-5 text-orange-500" />
           </div>
 
-          <div className="flex items-center gap-4 p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+          <div className="flex items-center gap-4 p-4 rounded-xl bg-blue-900/20 border border-blue-800">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500 shadow-sm">
               <MessageSquare className="h-6 w-6 text-white" />
             </div>
             <div className="flex-1">
-              <div className="font-semibold text-blue-900 dark:text-blue-100">
+              <div className="font-semibold text-blue-100">
                 Okunmamış Mesajlar
               </div>
-              <div className="text-sm text-blue-700 dark:text-blue-300">
+              <div className="text-sm text-blue-300">
                 <Link href="/admin/mesajlar" className="underline hover:no-underline">
                   Mesajlar sekmesinde <strong>{loading ? "…" : (stats.unreadMessages ?? 0)}</strong> okunmamış ileti var.
                 </Link>

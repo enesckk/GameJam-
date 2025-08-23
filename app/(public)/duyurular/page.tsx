@@ -205,14 +205,14 @@ export default function AnnouncementsPage() {
                             </svg>
                           </div>
                         )}
-                        <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">
+                        <div className="flex items-center gap-2 text-sm text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
                           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"/>
                           </svg>
                           <span className="font-medium">{a.author?.name}</span>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">
+                      <div className="flex items-center gap-2 text-sm text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"/>
                         </svg>
@@ -221,7 +221,7 @@ export default function AnnouncementsPage() {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4 group-hover:text-white transition-colors duration-300">
+                    <h3 className="text-2xl font-bold text-slate-200 mb-4 group-hover:text-white transition-colors duration-300">
                       {a.title}
                     </h3>
 
@@ -232,7 +232,7 @@ export default function AnnouncementsPage() {
                         dangerouslySetInnerHTML={{ __html: raw }}
                       />
                     ) : (
-                      <p className="mt-4 text-base leading-relaxed text-slate-600 dark:text-slate-400 group-hover:text-slate-200 transition-colors duration-300">
+                      <p className="mt-4 text-base leading-relaxed text-slate-400 group-hover:text-slate-200 transition-colors duration-300">
                         {isOpen ? raw : previewText(raw)}
                       </p>
                     )}
@@ -271,10 +271,10 @@ export default function AnnouncementsPage() {
                     📢
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-slate-700 dark:text-slate-300 mb-2">
+                    <h3 className="text-xl font-bold text-slate-300 mb-2">
                       Henüz Duyuru Yok
                     </h3>
-                    <p className="text-slate-600 dark:text-slate-400">
+                    <p className="text-slate-400">
                       Yakında güncel duyurular burada görünecek.
                     </p>
                   </div>
@@ -300,7 +300,7 @@ export default function AnnouncementsPage() {
               <h2 className="text-4xl font-black mb-6 bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 bg-clip-text text-transparent">
                 Güncel Kalın!
               </h2>
-              <p className="text-xl text-slate-700 dark:text-slate-300 mb-8 leading-relaxed">
+                             <p className="text-xl text-slate-300 mb-8 leading-relaxed">
                 Duyuruları takip ederek Game Jam hakkında en güncel bilgilere ulaşın.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">

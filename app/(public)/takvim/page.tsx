@@ -304,7 +304,7 @@ export default function SchedulePage() {
                   <div className={`text-lg font-bold ${getColorClasses(item.color).split(' ')[0]} group-hover:text-white transition-colors duration-300`}>
                     {item.date}
                   </div>
-                  <div className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-200 transition-colors duration-300">
+                  <div className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors duration-300">
                     {item.time}
                   </div>
                 </div>
@@ -317,7 +317,7 @@ export default function SchedulePage() {
         <div
           className="
             relative rounded-3xl backdrop-blur-xl p-10
-            border border-white/30 dark:border-white/20
+            border border-white/20
             shadow-2xl shadow-purple-500/10
             hover:shadow-3xl hover:shadow-purple-500/20
             transition-all duration-500 hover:scale-[1.01]
@@ -360,7 +360,7 @@ export default function SchedulePage() {
                           <h4 className="font-bold text-lg mb-2 group-hover:text-white transition-colors duration-300">
                             {event.title}
                           </h4>
-                          <p className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-slate-200 transition-colors duration-300 leading-relaxed">
+                          <p className="text-sm text-slate-400 group-hover:text-slate-200 transition-colors duration-300 leading-relaxed">
                             {event.desc}
                           </p>
                         </div>
@@ -389,7 +389,7 @@ export default function SchedulePage() {
               <h2 className="text-4xl font-black mb-6 bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Hemen Kayıt Ol!
               </h2>
-              <p className="text-xl text-slate-700 dark:text-slate-300 mb-8 leading-relaxed">
+              <p className="text-xl text-slate-300 mb-8 leading-relaxed">
                 Game Jam'e katılmak için son fırsat. 30 Eylül'e kadar kayıtlarınızı tamamlayın.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
