@@ -103,7 +103,7 @@ function LoginContent() {
                 E-posta
               </label>
               <input
-                className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
+                className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
@@ -123,7 +123,7 @@ function LoginContent() {
                 Şifre
               </label>
               <input
-                className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
+                className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"

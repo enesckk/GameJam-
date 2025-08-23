@@ -94,7 +94,7 @@ function RegisterContent() {
             <div>
               <label className="mb-1 block text-sm text-slate-200">Ad Soyad</label>
               <input
-                className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white outline-none focus:ring-2 focus:ring-emerald-400"
+                className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white outline-none focus:ring-2 focus:ring-emerald-400"
                 value={f.name}
                 onChange={onChange("name")}
                 placeholder="Örn. Ayşe Yılmaz"
@@ -108,7 +108,7 @@ function RegisterContent() {
               <div>
                 <label className="mb-1 block text-sm text-slate-200">E‑posta</label>
                 <input
-                  className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
+                  className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
                   value={f.email}
                   onChange={onChange("email")}
                   type="email"
@@ -122,7 +122,7 @@ function RegisterContent() {
               <div>
                 <label className="mb-1 block text-sm text-slate-200">Telefon</label>
                 <input
-                  className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
+                  className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
                   value={f.phone}
                   onChange={onChange("phone")}
                   inputMode="tel"
@@ -138,7 +138,7 @@ function RegisterContent() {
               <div>
                 <label className="mb-1 block text-sm text-slate-200">Yaş (14–18)</label>
                 <input
-                  className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
+                  className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
                   value={f.age}
                   onChange={onChange("age")}
                   type="number"
@@ -153,7 +153,7 @@ function RegisterContent() {
               <div>
                 <label className="mb-1 block text-sm text-slate-200">Şifre</label>
                 <input
-                  className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
+                  className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
                   value={f.password}
                   onChange={onChange("password")}
                   type="password"
@@ -167,13 +167,13 @@ function RegisterContent() {
 
             <div>
               <label className="mb-1 block text-sm text-slate-200">Şifre Tekrar</label>
-              <input
-                className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
-                value={f.confirmPassword}
-                onChange={onChange("confirmPassword")}
-                type="password"
-                placeholder="••••••"
-              />
+                              <input
+                  className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
+                  value={f.confirmPassword}
+                  onChange={onChange("confirmPassword")}
+                  type="password"
+                  placeholder="••••••"
+                />
               {!confirmOk && f.confirmPassword !== "" && (
                 <p className="mt-1 text-xs text-red-300">Şifreler eşleşmiyor.</p>
               )}
