@@ -1,4 +1,4 @@
-// app/(public)/login/page.tsx  ← kendi yoluna göre isim değişebilir
+// app/(public)/login/page.tsx
 "use client";
 
 import { Suspense, useState } from "react";
@@ -81,7 +81,7 @@ function LoginContent() {
     >
       <ForceLogoutOnBack />
 
-      {/* Basitleştirilmiş arka plan */}
+      {/* Arka plan (senin kullandığın gradient aynı kalsın) */}
       <div
         aria-hidden
         className="
@@ -91,7 +91,17 @@ function LoginContent() {
       />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4">
-        <Card className="w-full max-w-md rounded-xl border-2 border-slate-600 bg-slate-800/30 backdrop-blur-xl p-8 shadow-xl">
+        <Card
+          className="
+            w-full max-w-md rounded-xl
+            border border-white/20
+            !bg-transparent
+            backdrop-blur-3xl supports-[backdrop-filter]:backdrop-blur-3xl
+            backdrop-contrast-125 backdrop-saturate-150
+            shadow-2xl
+            p-8
+          "
+        >
           <h1 className="mb-6 text-center text-3xl font-bold text-white">
             Giriş Yap
           </h1>
@@ -103,7 +113,13 @@ function LoginContent() {
                 E-posta
               </label>
               <input
-                className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
+                className="
+                  w-full rounded-xl
+                  border border-slate-600/60
+                  bg-slate-900
+                  px-3 py-2 text-white placeholder:text-slate-400
+                  focus:outline-none focus:ring-2 focus:ring-emerald-500/60
+                "
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 type="email"
@@ -123,7 +139,13 @@ function LoginContent() {
                 Şifre
               </label>
               <input
-                className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/60"
+                className="
+                  w-full rounded-xl
+                  border border-slate-600/60
+                  bg-slate-900
+                  px-3 py-2 text-white placeholder:text-slate-400
+                  focus:outline-none focus:ring-2 focus:ring-emerald-500/60
+                "
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type="password"
