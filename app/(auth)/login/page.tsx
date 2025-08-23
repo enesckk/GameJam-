@@ -91,7 +91,16 @@ function LoginContent() {
       />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4">
-        <Card className="w-full max-w-md rounded-xl border-2 border-slate-600 bg-slate-800/30 backdrop-blur-xl p-8 shadow-xl">
+        <Card
+        className="
+        w-full max-w-md rounded-xl
+        border border-white/20          /* kenarlık daha yumuşak */
+        bg-white/10                     /* hafif beyaz tint */
+        backdrop-blur-2xl               /* buzlu cam efekti */
+        backdrop-saturate-150           /* arka plan renkleri biraz canlansın */
+        shadow-2xl
+        p-8"
+      >
           <h1 className="mb-6 text-center text-3xl font-bold text-white">
             Giriş Yap
           </h1>
