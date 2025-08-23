@@ -75,7 +75,7 @@ function ResetPasswordContent() {
         />
 
         <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4">
-          <Card className="w-full max-w-md rounded-xl border border-slate-700 bg-slate-800 p-8 shadow-xl text-center">
+          <Card className="w-full max-w-md rounded-xl border border-slate-700 bg-slate-800/60 backdrop-blur-md p-8 shadow-xl text-center">
             <h1 className="mb-6 text-3xl font-bold text-white">Geçersiz Link</h1>
             <p className="text-slate-300 mb-6">
               Bu şifre sıfırlama linki geçersiz veya süresi dolmuş.
@@ -111,7 +111,7 @@ function ResetPasswordContent() {
         />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4">
-        <Card className="w-full max-w-md rounded-xl border border-slate-700 bg-slate-800 p-8 shadow-xl">
+        <Card className="w-full max-w-md rounded-xl border border-slate-700 bg-slate-800/60 backdrop-blur-md p-8 shadow-xl">
           <h1 className="mb-6 text-center text-3xl font-bold text-white">
             Yeni Şifre Belirle
           </h1>
