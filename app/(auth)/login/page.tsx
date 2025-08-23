@@ -159,7 +159,7 @@ function LoginContent() {
             <div className="text-center text-sm text-slate-300">
               Hesabınız yok mu?{" "}
               <Link
-                href="/register"
+                href="/kayit"
                 className="font-semibold text-emerald-400 hover:text-emerald-300 transition-colors duration-200"
               >
                 Kayıt olun

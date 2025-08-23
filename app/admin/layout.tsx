@@ -36,10 +36,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         relative isolate
         min-h-dvh lg:h-dvh
         lg:grid lg:grid-cols-[16rem_1fr]
-        text-white dark:text-white
-        bg-gradient-to-b 
-        from-white via-gray-100 to-gray-200
-        dark:from-slate-950 dark:via-slate-900 dark:to-slate-900
+        text-white
+        bg-gradient-to-b from-slate-950 via-slate-900 to-slate-900
         overflow-x-hidden [overflow-x:clip] lg:overflow-hidden
       "
     >
@@ -57,7 +55,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         className={[
           "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 will-change-transform touch-pan-y",
           open ? "translate-x-0" : "-translate-x-full",
-          "bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm",
+          "bg-slate-900/90 backdrop-blur-sm",
           "lg:static lg:translate-x-0 lg:h-full lg:overflow-y-auto no-scrollbar lg:overscroll-contain",
         ].join(" ")}
       >

@@ -101,28 +101,7 @@ export default function AnnouncementsPage() {
         "
       />
       
-      {/* Katman B: küçük mesh - daha yumuşak */}
-      <div
-        aria-hidden
-        className="
-          pointer-events-none absolute -z-10 inset-[-30%] opacity-80
-          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.35),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.32),transparent_60%)]
-          motion-safe:animate-[meshPanAlt_15s_ease-in-out_infinite]
-        "
-        style={{ mixBlendMode: "screen" }}
-      />
-      
-      {/* Katman C: conic swirl - daha yavaş */}
-      <div
-        aria-hidden
-        className="
-          pointer-events-none absolute -z-10 -inset-[25%] opacity-70
-          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.4),rgba(139,92,246,.4),rgba(34,197,94,.3),rgba(14,165,233,.4))]
-          motion-safe:animate-[swirl_25s_linear_infinite]
-          rounded-[9999px] blur-3xl
-        "
-        style={{ mixBlendMode: "screen" }}
-      />
+
 
       {/* Floating particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -149,7 +128,7 @@ export default function AnnouncementsPage() {
             </h1>
             <div className="absolute inset-0 bg-gradient-to-r from-amber-600/20 via-orange-600/20 to-red-600/20 blur-3xl -z-10"></div>
           </div>
-          <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 max-w-4xl mx-auto font-medium leading-relaxed">
+          <p className="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto font-medium leading-relaxed">
             Güncel bilgilendirmeler, kurallar ve program notları
           </p>
         </div>
@@ -158,9 +137,9 @@ export default function AnnouncementsPage() {
         <div
           className="
             relative rounded-3xl backdrop-blur-xl p-10 
-            border border-white/30 dark:border-white/20
-            shadow-2xl shadow-amber-500/10 dark:shadow-orange-500/10
-            hover:shadow-3xl hover:shadow-amber-500/20 dark:hover:shadow-orange-500/20
+            border border-white/20
+            shadow-2xl shadow-orange-500/10
+            hover:shadow-3xl hover:shadow-orange-500/20
             transition-all duration-500 hover:scale-[1.02]
           "
           style={{

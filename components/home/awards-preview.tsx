@@ -47,7 +47,7 @@ function AwardCard({ place, prize }: { place: string; prize: string }) {
       <div className="mb-3 text-3xl transition-transform duration-300 group-hover:scale-110">
         <span role="img" aria-hidden>{emoji}</span>
       </div>
-      <div className="text-sm text-black/70 dark:text-white/70">
+      <div className="text-sm text-white/70">
         {placeText}
       </div>
       <div className="mt-1 text-lg font-semibold transition-colors duration-300 group-hover:text-neon-pink">

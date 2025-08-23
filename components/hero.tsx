@@ -28,7 +28,7 @@ export default function Hero() {
       className="
         relative z-0 isolate w-full overflow-hidden
         py-20 md:py-24
-        text-white dark:text-white
+        text-white
         bg-cover bg-center bg-no-repeat
       "
       style={{ backgroundImage: "url('/bg-hero.png')" }}
@@ -38,8 +38,7 @@ export default function Hero() {
         aria-hidden
         className="
           absolute inset-0 -z-10
-          bg-gradient-to-r from-black/60 via-black/40 to-transparent
-          dark:from-black/70 dark:via-black/50
+          bg-gradient-to-r from-black/70 via-black/50 to-transparent
         "
       />
 

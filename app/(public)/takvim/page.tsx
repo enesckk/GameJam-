@@ -239,7 +239,7 @@ export default function SchedulePage() {
                       <h3 className={`text-2xl font-bold mb-3 ${getColorClasses(item.color).split(' ')[0]}`}>
                         {item.title}
                       </h3>
-                      <p className="text-slate-700 dark:text-slate-300 mb-4 text-lg leading-relaxed">
+                      <p className="text-slate-300 mb-4 text-lg leading-relaxed">
                         {item.desc}
                       </p>
                       <div className="flex items-center gap-6 text-sm">
@@ -268,7 +268,7 @@ export default function SchedulePage() {
         <div
           className="
             relative rounded-3xl backdrop-blur-xl p-10
-            border border-white/30 dark:border-white/20
+            border border-white/20
             shadow-2xl shadow-cyan-500/10
             hover:shadow-3xl hover:shadow-cyan-500/20
             transition-all duration-500 hover:scale-[1.01]
