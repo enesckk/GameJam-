@@ -224,16 +224,16 @@ export default function AdminParticipantsListPage() {
           <div className="py-16 text-center">
             <div className="inline-flex items-center gap-3 rounded-2xl bg-slate-800 px-6 py-4">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-400 border-t-blue-500" />
-              <span className="text-slate-400 font-medium">Yükleniyor…</span>
+              <span className="text-slate-300 font-medium">Yükleniyor…</span>
             </div>
           </div>
         ) : rows.length === 0 ? (
           <div className="py-12 sm:py-16 text-center">
             <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
-              <IdCard className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
+              <IdCard className="h-10 w-10 sm:h-12 sm:w-12 text-slate-300" />
               <div>
                 <div className="text-base sm:text-lg font-semibold text-slate-300">Kayıt bulunamadı</div>
-                <div className="text-sm text-slate-400">Arama kriterlerinizi değiştirmeyi deneyin</div>
+                <div className="text-sm text-slate-300">Arama kriterlerinizi değiştirmeyi deneyin</div>
               </div>
             </div>
           </div>
@@ -273,7 +273,7 @@ export default function AdminParticipantsListPage() {
                       >
                         <Td className="font-semibold">
                           <div className="flex items-center gap-3">
-                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-400">
+                            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-300">
                               {n}
                             </div>
                           </div>
@@ -285,7 +285,7 @@ export default function AdminParticipantsListPage() {
 
                         <Td>
                           <div className="flex items-center gap-2 max-w-[280px]">
-                            <Mail className="h-4 w-4 text-slate-400 shrink-0" />
+                            <Mail className="h-4 w-4 text-slate-300 shrink-0" />
                             <a
                               href={`mailto:${r.email}`}
                               className="text-slate-300 hover:text-blue-400 transition-colors duration-200 truncate"
@@ -298,7 +298,7 @@ export default function AdminParticipantsListPage() {
 
                         <Td>
                           <div className="flex items-center gap-2 max-w-[200px]">
-                            <Phone className="h-4 w-4 text-slate-400 shrink-0" />
+                            <Phone className="h-4 w-4 text-slate-300 shrink-0" />
                             {r.phone ? (
                               <a
                                 href={`tel:${r.phone}`}
@@ -308,14 +308,14 @@ export default function AdminParticipantsListPage() {
                                 {r.phone}
                               </a>
                             ) : (
-                              <span className="text-slate-400">—</span>
+                              <span className="text-slate-300">—</span>
                             )}
                           </div>
                         </Td>
 
                         <Td>
                           <div className="flex items-center gap-2">
-                            <Calendar className="h-4 w-4 text-slate-400" />
+                            <Calendar className="h-4 w-4 text-slate-300" />
                             <span className="font-semibold text-slate-300">
                               {Number.isFinite(r.age as any) ? r.age : "—"}
                             </span>
@@ -330,7 +330,7 @@ export default function AdminParticipantsListPage() {
                               {ROLE_BADGE[r.profileRole]}
                             </span>
                           ) : (
-                            <span className="text-slate-400">—</span>
+                            <span className="text-slate-300">—</span>
                           )}
                         </Td>
                       </tr>
@@ -344,7 +344,7 @@ export default function AdminParticipantsListPage() {
 
         {/* Pagination */}
         <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-0 sm:items-center sm:justify-between rounded-2xl bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm">
-          <div className="text-sm text-slate-400">
+          <div className="text-sm text-slate-300">
             Toplam{" "}
             <strong className="text-white">{total}</strong>{" "}
             katılımcı • Sayfa{" "}
@@ -378,7 +378,7 @@ export default function AdminParticipantsListPage() {
 
 function Th({ children }: { children: React.ReactNode }) {
   return (
-    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-400">
+    <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wide text-slate-300">
       {children}
     </th>
   );

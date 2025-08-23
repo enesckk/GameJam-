@@ -394,7 +394,7 @@ export default function MatchingPage() {
                         className={`mt-0.5 inline-flex items-center justify-center rounded-lg p-1.5 ${
                           checked
                             ? "bg-green-500 text-white shadow"
-                            : "bg-slate-700 text-slate-400"
+                            : "bg-slate-700 text-slate-300"
                         }`}
                         aria-label={checked ? "Seçimi kaldır" : "Seç"}
                       >
@@ -446,7 +446,7 @@ export default function MatchingPage() {
                             className={`inline-flex items-center justify-center rounded-lg p-1.5 transition-all duration-200 ${
                               checked
                                 ? "bg-green-500 text-white shadow-lg"
-                                : "bg-slate-700 text-slate-400 hover:bg-slate-600"
+                                : "bg-slate-700 text-slate-300 hover:bg-slate-600"
                             }`}
                             title={checked ? "Seçimi kaldır" : "Seç"}
                           >
@@ -482,7 +482,7 @@ export default function MatchingPage() {
                               {ROLE_BADGE[u.profileRole]}
                             </span>
                           ) : (
-                            <span className="text-slate-400">—</span>
+                                                          <span className="text-slate-300">—</span>
                           )}
                         </Td>
                       </tr>
@@ -703,7 +703,7 @@ export default function MatchingPage() {
                                         {ROLE_BADGE[m.profileRole]}
                                       </span>
                                     ) : (
-                                      <span className="text-slate-400">—</span>
+                                      <span className="text-slate-300">—</span>
                                     )}
                                   </Td>
                                   <Td>
@@ -778,7 +778,7 @@ export default function MatchingPage() {
                 <div className="group relative">
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-green-500/10 to-emerald-500/10 blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300" />
                   <div className="relative flex items-center gap-3 rounded-2xl border border-slate-700/60 bg-slate-800/80 p-3 sm:p-4 backdrop-blur-sm transition-all duration-300 group-focus-within:border-green-300 group-focus-within:shadow-lg group-focus-within:shadow-green-500/10">
-                    <Link2 className="h-5 w-5 text-slate-400 group-focus-within:text-green-500 transition-colors duration-300" />
+                    <Link2 className="h-5 w-5 text-slate-300 group-focus-within:text-green-500 transition-colors duration-300" />
                     <input
                       className="flex-1 bg-transparent outline-none text-white placeholder-slate-500"
                       placeholder="Örn. Piksel Pekerleri"
@@ -893,7 +893,7 @@ function EmptyState({
   return (
     <div className="py-12 sm:py-16 text-center">
       <div className="inline-flex flex-col items-center gap-4 rounded-2xl bg-slate-800 px-6 sm:px-8 py-5 sm:py-6">
-        <Icon className="h-10 w-10 sm:h-12 sm:w-12 text-slate-400" />
+                        <Icon className="h-10 w-10 sm:h-12 sm:w-12 text-slate-300" />
         <div>
           <div className="text-base sm:text-lg font-semibold text-slate-700 ">
             {title}
