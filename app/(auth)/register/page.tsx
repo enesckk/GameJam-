@@ -87,7 +87,7 @@ function RegisterContent() {
       />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4">
-        <Card className="w-full max-w-xl rounded-xl border border-slate-700 bg-slate-800/95 p-8 text-white shadow-xl">
+        <Card className="w-full max-w-xl rounded-xl border border-slate-700 bg-slate-800 p-8 text-white shadow-xl">
           <h1 className="mb-6 text-center text-3xl font-bold">Kayıt Ol</h1>
 
           <form onSubmit={submit} className="space-y-4">
