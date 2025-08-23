@@ -76,19 +76,26 @@ function LoginContent() {
       className="
         relative isolate min-h-screen overflow-hidden
         text-white
-        bg-gradient-to-b from-slate-950 via-slate-900 to-slate-900
+        bg-slate-950
       "
     >
       <ForceLogoutOnBack />
 
-      {/* (RENKSİZ) hafif dokulu arka plan opsiyonu — istersen kaldırabilirsin */}
+      {/* Arka plan: gradient + noise */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 inset-0
-          [background-image:radial-gradient(transparent_1px,rgba(255,255,255,0.03)_1px)]
-          [background-size:16px_16px]
-          opacity-40
+          absolute inset-0 -z-10
+          bg-gradient-to-br from-indigo-700 via-purple-700 to-pink-700
+          opacity-50
+        "
+      />
+      <div
+        aria-hidden
+        className="
+          absolute inset-0 -z-10
+          [background-image:radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)]
+          [background-size:24px_24px]
         "
       />
 
@@ -96,9 +103,10 @@ function LoginContent() {
         <Card
           className="
             w-full max-w-md rounded-xl
-            border border-white/15
+            border border-white/20
             bg-white/10
-            backdrop-blur-2xl supports-[backdrop-filter]:backdrop-blur-2xl
+            backdrop-blur-3xl
+            backdrop-saturate-150
             shadow-2xl
             p-8
           "
