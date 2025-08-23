@@ -70,11 +70,12 @@ function ResetPasswordContent() {
           className="
             pointer-events-none absolute -z-10 inset-0
             bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10
+            backdrop-blur-md
           "
         />
 
         <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4">
-          <Card className="w-full max-w-md rounded-xl border border-slate-700 bg-slate-800/95 p-8 shadow-xl backdrop-blur-sm text-center">
+          <Card className="w-full max-w-md rounded-xl border border-slate-700 bg-slate-800/95 p-8 shadow-xl text-center">
             <h1 className="mb-6 text-3xl font-bold text-white">Geçersiz Link</h1>
             <p className="text-slate-300 mb-6">
               Bu şifre sıfırlama linki geçersiz veya süresi dolmuş.
@@ -100,16 +101,17 @@ function ResetPasswordContent() {
       "
     >
       {/* Basitleştirilmiş arka plan */}
-      <div
-        aria-hidden
-        className="
-          pointer-events-none absolute -z-10 inset-0
-          bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10
-        "
-      />
+              <div
+          aria-hidden
+          className="
+            pointer-events-none absolute -z-10 inset-0
+            bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10
+            backdrop-blur-md
+          "
+        />
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4">
-        <Card className="w-full max-w-md rounded-xl border border-slate-700 bg-slate-800/95 p-8 shadow-xl backdrop-blur-sm">
+        <Card className="w-full max-w-md rounded-xl border border-slate-700 bg-slate-800/95 p-8 shadow-xl">
           <h1 className="mb-6 text-center text-3xl font-bold text-white">
             Yeni Şifre Belirle
           </h1>
