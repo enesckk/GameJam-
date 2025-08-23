@@ -81,12 +81,14 @@ function LoginContent() {
     >
       <ForceLogoutOnBack />
 
-      {/* Arka plan renkli layer */}
+      {/* (RENKSİZ) hafif dokulu arka plan opsiyonu — istersen kaldırabilirsin */}
       <div
         aria-hidden
         className="
           pointer-events-none absolute -z-10 inset-0
-          bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20
+          [background-image:radial-gradient(transparent_1px,rgba(255,255,255,0.03)_1px)]
+          [background-size:16px_16px]
+          opacity-40
         "
       />
 
@@ -97,7 +99,6 @@ function LoginContent() {
             border border-white/15
             bg-white/10
             backdrop-blur-2xl supports-[backdrop-filter]:backdrop-blur-2xl
-            backdrop-saturate-150
             shadow-2xl
             p-8
           "
@@ -115,8 +116,8 @@ function LoginContent() {
               <input
                 className="
                   w-full rounded-xl
-                  border border-slate-600
-                  bg-slate-800/90
+                  border border-slate-600/60
+                  bg-slate-900
                   px-3 py-2 text-white placeholder:text-slate-400
                   focus:outline-none focus:ring-2 focus:ring-emerald-500/60
                 "
@@ -141,8 +142,8 @@ function LoginContent() {
               <input
                 className="
                   w-full rounded-xl
-                  border border-slate-600
-                  bg-slate-800/90
+                  border border-slate-600/60
+                  bg-slate-900
                   px-3 py-2 text-white placeholder:text-slate-400
                   focus:outline-none focus:ring-2 focus:ring-emerald-500/60
                 "
