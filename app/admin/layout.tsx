@@ -43,44 +43,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         overflow-x-hidden [overflow-x:clip] lg:overflow-hidden
       "
     >
-      {/* Katman A: büyük mesh */}
+      {/* Basitleştirilmiş arka plan - sadece statik gradient */}
       <div
         aria-hidden
         className="
-          pointer-events-none absolute -z-10 inset-[-20%] opacity-80
-          [background:radial-gradient(55%_60%_at_20%_15%,rgba(99,102,241,.35),transparent_60%),radial-gradient(60%_55%_at_85%_25%,rgba(34,197,94,.30),transparent_60%)]
-          motion-safe:animate-[meshPan_18s_ease-in-out_infinite]
+          pointer-events-none absolute -z-10 inset-0
+          bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5
         "
-        style={{ mixBlendMode: "screen", willChange: "transform" }}
-      />
-      {/* Katman B: küçük mesh */}
-      <div
-        aria-hidden
-        className="
-          pointer-events-none absolute -z-10 inset-[-30%] opacity-70
-          [background:radial-gradient(45%_50%_at_30%_80%,rgba(56,189,248,.30),transparent_60%),radial-gradient(50%_45%_at_75%_70%,rgba(244,114,182,.28),transparent_60%)]
-          motion-safe:animate-[meshPanAlt_12s_ease-in-out_infinite]
-        "
-        style={{ mixBlendMode: "screen", willChange: "transform" }}
-      />
-      {/* Katman C: conic swirl */}
-      <div
-        aria-hidden
-        className="
-          pointer-events-none absolute -z-10 -inset-[25%] opacity-60
-          [background:conic-gradient(from_210deg_at_50%_50%,rgba(14,165,233,.35),rgba(139,92,246,.35),rgba(34,197,94,.25),rgba(14,165,233,.35))]
-          motion-safe:animate-[swirl_22s_linear_infinite]
-          rounded-[9999px] blur-3xl
-        "
-        style={{ mixBlendMode: "screen", willChange: "transform" }}
       />
 
       {/* Sidebar (mobil çekmece + masaüstü sabit) */}
       <aside
         className={[
-          "fixed inset-y-0 left-0 z-50 w-64 transition-transform will-change-transform touch-pan-y",
+          "fixed inset-y-0 left-0 z-50 w-64 transition-transform duration-300 will-change-transform touch-pan-y",
           open ? "translate-x-0" : "-translate-x-full",
-          "bg-background/35 backdrop-blur-xl supports-[backdrop-filter]:bg-background/20",
+          "bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm",
           "lg:static lg:translate-x-0 lg:h-full lg:overflow-y-auto no-scrollbar lg:overscroll-contain",
         ].join(" ")}
       >
@@ -101,7 +78,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           />
         )}
 
-        {/* Mobilde sayfa (body) kayar; lg’de main kayar */}
+        {/* Mobilde sayfa (body) kayar; lg'de main kayar */}
         <main
           className="
             min-h-0 flex-1

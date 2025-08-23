@@ -24,16 +24,10 @@ type Stats = {
 
 function Stat({ icon: Icon, label, value, trend }: { icon: any; label: string; value: string | number; trend?: string }) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-slate-200/60 bg-white/80 p-6 shadow-lg backdrop-blur-xl transition-all duration-500 hover:shadow-xl hover:shadow-slate-500/10 dark:border-slate-700/60 dark:bg-slate-800/80">
-      {/* Gradient background on hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500 dark:from-slate-700 dark:to-slate-800"></div>
-      
-      <div className="relative flex items-center gap-4">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          <div className="relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg">
-            <Icon className="h-6 w-6 text-white" />
-          </div>
+    <div className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md dark:border-slate-700 dark:bg-slate-800">
+      <div className="flex items-center gap-4">
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500 shadow-sm">
+          <Icon className="h-6 w-6 text-white" />
         </div>
         <div className="flex-1">
           <div className="text-2xl font-bold text-slate-900 dark:text-white">{value}</div>
@@ -125,8 +119,7 @@ export default function AdminHome() {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8 text-white shadow-2xl">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:20px_20px] opacity-50"></div>
+      <div className="relative overflow-hidden rounded-xl bg-slate-900 p-8 text-white shadow-lg">
         <div className="relative">
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
             Merhaba {displayName ?? "Yönetici"}, hoş geldiniz! 👋
@@ -138,7 +131,7 @@ export default function AdminHome() {
       </div>
 
       {err && (
-        <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4 backdrop-blur-sm">
+        <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4">
           <div className="flex items-center gap-3">
             <AlertCircle className="h-5 w-5 text-red-500" />
             <div>
@@ -182,16 +175,13 @@ export default function AdminHome() {
             <Link
               key={href}
               href={href}
-              className="group relative overflow-hidden rounded-2xl p-6 text-center transition-all duration-500 hover:scale-105 hover:shadow-xl"
+              className="group relative overflow-hidden rounded-xl p-6 text-center transition-shadow duration-200 hover:shadow-md"
             >
-              {/* Gradient background */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-              
               <div className="relative">
-                <div className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${color} shadow-lg transition-transform duration-500 group-hover:scale-110`}>
+                <div className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-gradient-to-br ${color} shadow-sm transition-transform duration-200 group-hover:scale-105`}>
                   <Icon className="h-8 w-8 text-white" />
                 </div>
-                <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors duration-300">
+                <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors duration-200">
                   {label}
                 </span>
               </div>
@@ -203,8 +193,8 @@ export default function AdminHome() {
       {/* Bekleyen İşler */}
       <AdminSectionCard title="Bekleyen İşler" subtitle="Hızlı aksiyon almanız gerekenler">
         <div className="space-y-4">
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500 shadow-lg">
+          <div className="flex items-center gap-4 p-4 rounded-xl bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500 shadow-sm">
               <Inbox className="h-6 w-6 text-white" />
             </div>
             <div className="flex-1">
@@ -220,8 +210,8 @@ export default function AdminHome() {
             <Clock className="h-5 w-5 text-orange-500" />
           </div>
 
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500 shadow-lg">
+          <div className="flex items-center gap-4 p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500 shadow-sm">
               <MessageSquare className="h-6 w-6 text-white" />
             </div>
             <div className="flex-1">

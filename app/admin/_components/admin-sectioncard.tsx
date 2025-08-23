@@ -14,16 +14,17 @@ export default function AdminSectionCard({
   return (
     <section
       className="
-        rounded-2xl p-4 md:p-5
-        bg-white/10 dark:bg-black/10 backdrop-blur-md
-        shadow-[0_10px_30px_rgba(0,0,0,.12)]
+        rounded-xl p-4 md:p-5
+        bg-white dark:bg-slate-800
+        border border-slate-200 dark:border-slate-700
+        shadow-sm
       "
     >
       {(title || subtitle) && (
         <header className="mb-3">
-          {title && <h2 className="text-lg font-semibold">{title}</h2>}
+          {title && <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h2>}
           {subtitle && (
-            <p className="mt-1 text-sm text-[color:color-mix(in_oklab,var(--foreground)_70%,transparent)]">
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
               {subtitle}
             </p>
           )}
