@@ -50,6 +50,7 @@ function PageSizeSelect({
 }) {
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState<'top' | 'bottom'>('bottom');
+  const [dropdownStyle, setDropdownStyle] = useState({});
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -70,8 +71,20 @@ function PageSizeSelect({
       
       if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
         setPosition('top');
+        setDropdownStyle({
+          position: 'fixed',
+          top: rect.top - dropdownHeight - 8,
+          left: rect.right - 160, // w-40 = 160px
+          zIndex: 9999
+        });
       } else {
         setPosition('bottom');
+        setDropdownStyle({
+          position: 'fixed',
+          top: rect.bottom + 8,
+          left: rect.right - 160, // w-40 = 160px
+          zIndex: 9999
+        });
       }
     }
     setOpen((s) => !s);
@@ -100,11 +113,8 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className={`absolute ${
-            position === 'top' 
-              ? 'bottom-full right-0 mb-2' 
-              : 'top-full right-0 mt-2'
-          } w-40 z-[9999] bg-slate-800 rounded-2xl shadow-2xl border border-slate-700`}
+          className="w-40 rounded-2xl shadow-2xl border border-slate-700 bg-slate-800"
+          style={dropdownStyle}
           role="menu"
         >
           <ul className="py-2">
