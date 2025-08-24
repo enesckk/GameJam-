@@ -73,7 +73,7 @@ function PageSizeSelect({
         setDropdownStyle({
           position: 'fixed',
           top: rect.top - dropdownHeight - 8,
-          left: rect.right - 160, // w-40 = 160px
+          left: rect.left, // Tam altında açılması için
           zIndex: 9999
         });
       } else {
@@ -81,7 +81,7 @@ function PageSizeSelect({
         setDropdownStyle({
           position: 'fixed',
           top: rect.bottom + 8,
-          left: rect.right - 160, // w-40 = 160px
+          left: rect.left, // Tam altında açılması için
           zIndex: 9999
         });
       }

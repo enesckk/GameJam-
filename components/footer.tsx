@@ -63,19 +63,6 @@ export default function Footer() {
                 Gaziantep, Türkiye
               </a>
             </li>
-            <li>
-              <div className="overflow-hidden rounded-lg">
-                <iframe
-                  title="Şehitkamil Belediyesi Kültür ve Kongre Merkezi"
-                  src="https://maps.app.goo.gl/Wi6o4wm9Eb4RZgLy7"
-                  width="100%"
-                  height="140"
-                  loading="lazy"
-                  className="block w-full border-0"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-            </li>
           </ul>
         </div>
 
