@@ -84,7 +84,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             p-4
             pb-[env(safe-area-inset-bottom)]
           "
-          style={{ WebkitOverflowScrolling: "touch" }}
+          style={{ 
+            WebkitOverflowScrolling: "touch",
+            willChange: "scroll-position",
+            transform: "translateZ(0)" // Hardware acceleration
+          }}
         >
           {children}
         </main>

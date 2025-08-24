@@ -57,6 +57,7 @@ export default function AdminSidebar({ onNavigate }: { onNavigate?: () => void }
                   ? "bg-indigo-900/20 border-indigo-700" 
                   : "hover:bg-slate-800 hover:border-slate-600",
               ].join(" ")}
+              style={{ willChange: "auto" }}
             >
               {/* Active indicator */}
               {active && (

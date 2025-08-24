@@ -82,6 +82,8 @@ export default function AdminHome() {
           }),
         ]);
 
+        if (!alive) return;
+
         if (!usersRes.ok) throw new Error(`Users HTTP ${usersRes.status}`);
         if (!teamsRes.ok) throw new Error(`Teams HTTP ${teamsRes.status}`);
         if (!subsTeamsRes.ok) throw new Error(`SubmissionsTeams HTTP ${subsTeamsRes.status}`);
@@ -92,6 +94,8 @@ export default function AdminHome() {
         const subsTeamsJson = await subsTeamsRes.json();
         const msgsJson = await msgsRes.json();
 
+        if (!alive) return;
+
         const next: Stats = {
           totalParticipants: Number(usersJson?.total ?? 0),
           totalTeams: Number(teamsJson?.totalTeams ?? 0),
@@ -99,22 +103,24 @@ export default function AdminHome() {
           unreadMessages: Number(msgsJson?.total ?? 0),
         };
 
-        if (alive) {
-          setStats(next);
-          setErr(null);
-        }
+        setStats(next);
+        setErr(null);
       } catch (e: any) {
-        if (alive) setErr(e?.message ?? "Bilinmeyen hata");
+        if (!alive) return;
+        setErr(e?.message || "Veri yüklenemedi");
       } finally {
-        if (alive) setLoading(false);
+        if (alive) {
+          setLoading(false);
+        }
       }
     }
 
     load();
+
     return () => {
       alive = false;
     };
-  }, []);
+  }, []); // Sadece component mount olduğunda çalışsın
 
   return (
     <div className="space-y-8">
