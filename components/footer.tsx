@@ -63,6 +63,24 @@ export default function Footer() {
                 Gaziantep, Türkiye
               </a>
             </li>
+            <li>
+              <div className="overflow-hidden rounded-lg border border-white/10 bg-slate-800/50">
+                <div className="flex items-center justify-center h-[140px] text-slate-400">
+                  <div className="text-center">
+                    <MapPin className="h-8 w-8 mx-auto mb-2 opacity-60" />
+                    <p className="text-sm">Harita görüntülenemiyor</p>
+                    <a
+                      href="https://maps.app.goo.gl/Wi6o4wm9Eb4RZgLy7"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-400 hover:text-blue-300 mt-1 inline-block"
+                    >
+                      Haritada Aç →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
           </ul>
         </div>
 

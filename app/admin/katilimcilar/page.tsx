@@ -111,7 +111,7 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className="w-40 rounded-2xl shadow-2xl border border-slate-700 bg-slate-800"
+          className="w-32 rounded-2xl shadow-2xl border border-slate-700 bg-slate-800"
           style={dropdownStyle}
           role="menu"
         >
