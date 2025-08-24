@@ -53,7 +53,7 @@ export default function Footer() {
             <li className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-4 w-4 opacity-80" aria-hidden />
               <a
-                href="https://maps.app.goo.gl/Wi6o4wm9Eb4RZgLy7"
+                href="https://maps.app.goo.gl/LgN4axwWZ4pgbzwu9"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="leading-snug text-[color:var(--foreground)] transition hover:font-semibold"
@@ -64,21 +64,17 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <div className="overflow-hidden rounded-lg border border-white/10 bg-slate-800/50">
-                <div className="flex items-center justify-center h-[140px] text-slate-400">
-                  <div className="text-center">
-                    <MapPin className="h-8 w-8 mx-auto mb-2 opacity-60" />
-                    <p className="text-sm">Harita görüntülenemiyor</p>
-                    <a
-                      href="https://maps.app.goo.gl/Wi6o4wm9Eb4RZgLy7"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-blue-400 hover:text-blue-300 mt-1 inline-block"
-                    >
-                      Haritada Aç →
-                    </a>
-                  </div>
-                </div>
+              <div className="overflow-hidden rounded-lg border border-white/10">
+                <iframe
+                  title="Şehitkamil Belediyesi Kültür ve Kongre Merkezi"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3189.1234567890123!2d37.12345678901234!3d37.12345678901234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDA3JzM0LjQiTiAzN8KwMDcnMzQuNCJF!5e0!3m2!1str!2str!4v1234567890123"
+                  width="100%"
+                  height="140"
+                  loading="lazy"
+                  className="block w-full border-0"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
               </div>
             </li>
           </ul>

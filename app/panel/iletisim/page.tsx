@@ -99,9 +99,7 @@ export default function IletisimPage() {
 
         {/* Konum */}
         <a
-          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-            VENUE.mapQuery
-          )}`}
+          href="https://maps.app.goo.gl/LgN4axwWZ4pgbzwu9"
           target="_blank"
           rel="noopener noreferrer"
           className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-500/20 via-indigo-500/15 to-purple-500/20 backdrop-blur-xl border border-blue-500/30 p-4 sm:p-6 hover:scale-105 transition-all duration-300 hover:shadow-xl"

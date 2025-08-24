@@ -73,7 +73,8 @@ function PageSizeSelect({
         setDropdownStyle({
           position: 'fixed',
           top: rect.top - dropdownHeight - 8,
-          left: rect.left, // Tam altında açılması için
+          left: rect.left,
+          width: rect.width, // Butonun genişliği kadar
           zIndex: 9999
         });
       } else {
@@ -81,7 +82,8 @@ function PageSizeSelect({
         setDropdownStyle({
           position: 'fixed',
           top: rect.bottom + 8,
-          left: rect.left, // Tam altında açılması için
+          left: rect.left,
+          width: rect.width, // Butonun genişliği kadar
           zIndex: 9999
         });
       }
@@ -111,7 +113,7 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className="w-32 rounded-2xl shadow-2xl border border-slate-700 bg-slate-800"
+          className="rounded-2xl shadow-2xl border border-slate-700 bg-slate-800"
           style={dropdownStyle}
           role="menu"
         >
