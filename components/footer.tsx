@@ -64,18 +64,21 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <div className="overflow-hidden rounded-lg border border-white/10">
-                <iframe
-                  title="Şehitkamil Belediyesi Kültür ve Kongre Merkezi"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3189.1234567890123!2d37.12345678901234!3d37.12345678901234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDA3JzM0LjQiTiAzN8KwMDcnMzQuNCJF!5e0!3m2!1str!2str!4v1234567890123"
-                  width="100%"
-                  height="140"
-                  loading="lazy"
-                  className="block w-full border-0"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                />
-              </div>
+              <a
+                href="https://maps.app.goo.gl/LgN4axwWZ4pgbzwu9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block overflow-hidden rounded-lg border border-white/10 bg-slate-800/50 hover:bg-slate-700/50 transition-colors duration-300"
+                title="Haritada Aç"
+              >
+                <div className="flex items-center justify-center h-[140px] text-slate-400">
+                  <div className="text-center">
+                    <MapPin className="h-8 w-8 mx-auto mb-2 opacity-60" />
+                    <p className="text-sm">Haritayı Aç</p>
+                    <p className="text-xs text-blue-400 mt-1">Tıklayın →</p>
+                  </div>
+                </div>
+              </a>
             </li>
           </ul>
         </div>

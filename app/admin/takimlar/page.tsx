@@ -42,15 +42,13 @@ const ROLE_COLORS = {
 function PageSizeSelect({
   value,
   onChange,
-  options = [5, 10, 20, 50],
+  options = [10, 20, 50, 100],
 }: {
   value: number;
   onChange: (n: number) => void;
   options?: number[];
 }) {
   const [open, setOpen] = useState(false);
-  const [position, setPosition] = useState<'top' | 'bottom'>('bottom');
-  const [dropdownStyle, setDropdownStyle] = useState({});
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -62,41 +60,11 @@ function PageSizeSelect({
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
 
-  const handleToggle = () => {
-    if (!open && ref.current) {
-      const rect = ref.current.getBoundingClientRect();
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const spaceAbove = rect.top;
-      const dropdownHeight = options.length * 40 + 20; // yaklaşık yükseklik
-      
-      if (spaceBelow < dropdownHeight && spaceAbove > spaceBelow) {
-        setPosition('top');
-        setDropdownStyle({
-          position: 'fixed',
-          top: rect.top - dropdownHeight - 8,
-          left: rect.left,
-          width: rect.width, // Butonun genişliği kadar
-          zIndex: 9999
-        });
-      } else {
-        setPosition('bottom');
-        setDropdownStyle({
-          position: 'fixed',
-          top: rect.bottom + 8,
-          left: rect.left,
-          width: rect.width, // Butonun genişliği kadar
-          zIndex: 9999
-        });
-      }
-    }
-    setOpen((s) => !s);
-  };
-
   return (
     <div className="relative" ref={ref}>
       <button
         type="button"
-        onClick={handleToggle}
+        onClick={() => setOpen((s) => !s)}
         className={[
           "inline-flex items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300",
           "ring-1 ring-slate-700/60 focus:ring-2 focus:ring-indigo-500/20",
@@ -115,8 +83,7 @@ function PageSizeSelect({
 
       {open && (
         <div
-          className="rounded-2xl shadow-2xl border border-slate-700 bg-slate-800"
-          style={dropdownStyle}
+          className="absolute top-full left-0 mt-2 w-full min-w-[120px] rounded-2xl shadow-2xl border border-slate-700 bg-slate-800 z-50"
           role="menu"
         >
           <ul className="py-2">
@@ -253,7 +220,7 @@ export default function AdminTeamsPage() {
                   setPageSize(n);
                   setPage(1);
                 }}
-                options={[5, 10, 20, 50]}
+                options={[10, 20, 50, 100]}
               />
             </div>
           </div>
