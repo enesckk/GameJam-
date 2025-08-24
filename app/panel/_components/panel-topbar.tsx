@@ -18,15 +18,20 @@ function useCountdown(target?: Date) {
     const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
+  
   const diff = target ? Math.max(0, target.getTime() - now.getTime()) : 0;
   const totalSec = Math.floor(diff / 1000);
-  return {
+  
+  // Memoize calculations to prevent unnecessary re-renders
+  const result = useMemo(() => ({
     days: Math.floor(totalSec / 86400),
     hours: Math.floor((totalSec % 86400) / 3600),
     minutes: Math.floor((totalSec % 3600) / 60),
     seconds: totalSec % 60,
     isDone: diff === 0,
-  };
+  }), [totalSec, diff]);
+  
+  return result;
 }
 
 function TimePill({ label, value }: { label: string; value: number | string }) {
@@ -72,7 +77,10 @@ export default function PanelTopbar({
       {/* Sabit yükseklik YOK; padding ile yükseklik, notch için safe-area */}
       <div className="relative w-full bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 text-white shadow-2xl overflow-hidden">
         {/* animasyon katmanı etkileşimi engellemesin */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 motion-safe:animate-pulse" />
+        <div 
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-blue-500/10 motion-safe:animate-pulse" 
+          style={{ willChange: "auto" }}
+        />
 
         <div className="relative px-2 sm:px-3 md:px-6 pt-[env(safe-area-inset-top)] py-2 sm:py-3 md:py-4">
           {/* Mobilde dikey yığılır, md+ yatay hizalanır */}

@@ -24,7 +24,6 @@ export default function Footer() {
               { href: "/takvim", label: "Etkinlik Takvimi" },
               { href: "/kurallar", label: "Kurallar" },
               { href: "/juri-mentor", label: "Jüri & Mentörler" }, // rota tutarlı
-              { href: "/iletisim", label: "İletişim" },
             ].map((item) => (
               <li key={item.href}>
                 <Link
@@ -54,21 +53,21 @@ export default function Footer() {
             <li className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-4 w-4 opacity-80" aria-hidden />
               <a
-                href="https://maps.google.com/?q=%C5%9Eehitkamil%20Belediyesi%20Sanat%20Merkezi"
+                href="https://maps.app.goo.gl/Wi6o4wm9Eb4RZgLy7"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="leading-snug text-[color:var(--foreground)] transition hover:font-semibold"
                 title="Haritada Aç"
               >
-                Şehitkamil Belediyesi Sanat Merkezi <br />
+                Şehitkamil Belediyesi Kültür ve Kongre Merkezi <br />
                 Gaziantep, Türkiye
               </a>
             </li>
             <li>
               <div className="overflow-hidden rounded-lg">
                 <iframe
-                  title="Şehitkamil Belediyesi Sanat Merkezi"
-                  src="https://maps.google.com/maps?q=%C5%9Eehitkamil%20Belediyesi%20Sanat%20Merkezi&z=15&output=embed"
+                  title="Şehitkamil Belediyesi Kültür ve Kongre Merkezi"
+                  src="https://maps.app.goo.gl/Wi6o4wm9Eb4RZgLy7"
                   width="100%"
                   height="140"
                   loading="lazy"

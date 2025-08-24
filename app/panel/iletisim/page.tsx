@@ -24,9 +24,9 @@ const PHONE = "+90 5xx xxx xx xx";
 const HOURS = "Hafta içi 09:00–18:00";
 
 const VENUE = {
-  name: "Şehitkamil Belediyesi",
+  name: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
   address: "Şehitkamil / Gaziantep",
-  mapQuery: "Şehitkamil Belediyesi, Gaziantep",
+  mapQuery: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi, Gaziantep",
 };
 
 const MAP_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(
@@ -280,7 +280,7 @@ export default function IletisimPage() {
         {[
           { icon: Users, title: "Topluluk", desc: "Aktif katılımcılar", color: "from-purple-500 to-pink-500" },
           { icon: Calendar, title: "Etkinlik", desc: "48 saat maraton", color: "from-blue-500 to-cyan-500" },
-          { icon: Building, title: "Mekan", desc: "Şehitkamil Belediyesi", color: "from-green-500 to-emerald-500" },
+          { icon: Building, title: "Mekan", desc: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi", color: "from-green-500 to-emerald-500" },
         ].map((item, index) => (
           <div key={index} className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6 hover:scale-105 transition-all duration-300">
             <div className="flex flex-col items-center text-center gap-3">

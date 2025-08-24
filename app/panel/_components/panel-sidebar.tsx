@@ -76,6 +76,7 @@ export default function PanelSidebar({ onNavigate }: { onNavigate?: () => void }
                     : "hover:bg-slate-700/60 hover:border-slate-600/50 hover:shadow-md",
                   "backdrop-blur-sm",
                 ].join(" ")}
+                style={{ willChange: "auto" }}
               >
                 {active && (
                   <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 sm:h-8 bg-gradient-to-b ${color} rounded-r-full`} />
