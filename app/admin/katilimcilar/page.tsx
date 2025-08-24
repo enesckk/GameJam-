@@ -1,19 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { createPortal } from "react-dom";
+import { Search, Filter, ChevronDown, IdCard, Mail, Phone, Calendar, MapPin, Users, Building, ExternalLink, ArrowLeft, ArrowRight } from "lucide-react";
 import AdminSectionCard from "@/app/admin/_components/admin-sectioncard";
-import {
-  Search,
-  ChevronDown,
-  IdCard,
-  Mail,
-  Phone,
-  Calendar,
-  ArrowLeft,
-  ArrowRight,
-  Filter,
-  UserCheck,
-} from "lucide-react";
 
 type Row = {
   id: string;
@@ -48,7 +38,13 @@ function PageSizeSelect({
   options?: number[];
 }) {
   const [open, setOpen] = useState(false);
+  const [portalEl, setPortalEl] = useState<HTMLElement | null>(null);
+  const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setPortalEl(document.body);
+  }, []);
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
@@ -59,11 +55,23 @@ function PageSizeSelect({
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
 
+  const handleToggle = () => {
+    if (!open && ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      setPos({
+        top: rect.bottom + 8,
+        left: rect.left,
+        width: rect.width
+      });
+    }
+    setOpen((s) => !s);
+  };
+
   return (
     <div className="relative" ref={ref}>
       <button
         type="button"
-        onClick={() => setOpen((s) => !s)}
+        onClick={handleToggle}
         className={[
           "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-all duration-300",
           "ring-1 ring-slate-700/60 focus:ring-2 focus:ring-indigo-500/20",
@@ -79,9 +87,15 @@ function PageSizeSelect({
         <ChevronDown className="h-4 w-4 opacity-70" />
       </button>
 
-      {open && (
+      {open && portalEl && pos && createPortal(
         <div
-          className="absolute top-full left-0 mt-2 w-full min-w-[120px] rounded-2xl shadow-2xl border border-slate-700 bg-slate-800 z-50"
+          className="fixed rounded-2xl shadow-2xl border border-slate-700 bg-slate-800 z-[99999]"
+          style={{
+            top: pos.top,
+            left: pos.left,
+            width: pos.width,
+            minWidth: '120px'
+          }}
           role="menu"
         >
           <ul className="py-2">
@@ -105,7 +119,8 @@ function PageSizeSelect({
               </li>
             ))}
           </ul>
-        </div>
+        </div>,
+        portalEl
       )}
     </div>
   );
