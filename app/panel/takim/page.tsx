@@ -598,7 +598,7 @@ export default function TeamPage() {
                     className="w-full bg-transparent outline-none px-3 py-3 text-white placeholder:text-yellow-200/60"
                     value={mAge}
                     onChange={(e) => setMAge(e.target.value)}
-                    placeholder="Yaş (14+)"
+                    placeholder="Yaş (18+)"
                     inputMode="numeric"
                   />
                 </div>

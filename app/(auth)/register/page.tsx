@@ -136,17 +136,16 @@ function RegisterContent() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1 block text-sm text-slate-200">Yaş (14–18)</label>
+                <label className="mb-1 block text-sm text-slate-200">Yaş (18+)</label>
                 <input
                   className="w-full rounded-xl border border-slate-600 bg-slate-700/80 backdrop-blur-sm px-3 py-2 text-white focus:ring-2 focus:ring-emerald-400"
                   value={f.age}
                   onChange={onChange("age")}
                   type="number"
-                  min={14}
-                  max={18}
+                  min={18}
                 />
                 {!ageOk && f.age !== "" && (
-                  <p className="mt-1 text-xs text-red-300">Yaş 14 ile 18 arasında olmalı.</p>
+                  <p className="mt-1 text-xs text-red-300">Yaş 18 ve üzeri olmalı.</p>
                 )}
               </div>
 
