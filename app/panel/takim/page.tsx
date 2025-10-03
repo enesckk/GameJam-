@@ -20,13 +20,13 @@ type Member = {
   isLeader?: boolean;
 };
 type Team = {
-  type: "individual" | "team";
+  type: "team";
   teamName: string;
   inviteCode?: string;
   members: Member[];
 };
 
-const MAX_TEAM = 4;
+const MAX_TEAM = 5;
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRe = /^\+?\d{10,14}$/;
 
@@ -60,9 +60,8 @@ function statusLabel(s: Member["status"]) {
 /** -------------------------------
  *  TypeSelect (PORTALLI + FLIP)
  *  ------------------------------- */
-type TeamType = "individual" | "team";
+type TeamType = "team";
 const TYPES: { value: TeamType; label: string }[] = [
-  { value: "individual", label: "Bireysel" },
   { value: "team", label: "Takım" },
 ];
 
@@ -298,7 +297,6 @@ export default function TeamPage() {
   };
 
   const regenCode = async () => { await saveTeamBasics({ action: "regen_code" }); };
-  const toIndividual = async () => { await saveTeamBasics({ action: "to_individual" }); };
 
   const addMember = async () => {
     if (!team || !canAdd) return;
@@ -389,7 +387,7 @@ export default function TeamPage() {
             </div>
           </div>
           <p className="text-sm sm:text-base leading-relaxed text-purple-100 max-w-2xl">
-            Takımınızı oluşturun, üye ekleyin ve davetler gönderin. Bireysel veya takım olarak
+            Takımınızı oluşturun, üye ekleyin ve davetler gönderin. Sadece takım olarak
             katılabilir, en fazla 4 kişilik ekipler kurabilirsiniz.
           </p>
         </div>
@@ -403,7 +401,7 @@ export default function TeamPage() {
           </div>
           <div>
             <h3 className="text-lg font-bold text-white">Takım Bilgileri</h3>
-            <p className="text-sm text-purple-200/80">Durum: {team.type === "team" ? "Takım" : "Bireysel"}</p>
+            <p className="text-sm text-purple-200/80">Durum: Takım</p>
           </div>
         </div>
 
@@ -536,14 +534,6 @@ export default function TeamPage() {
                     >
                       <Trash2 className="h-4 w-4" />
                       Çıkar
-                    </button>
-                  )}
-                  {m.isLeader && team.type === "team" && team.members.length > 1 && (
-                    <button
-                      onClick={toIndividual}
-                      className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/30 hover:border-amber-500/50 transition-all duration-200 text-sm font-medium flex-1 sm:flex-none"
-                    >
-                      Bireysel Ol
                     </button>
                   )}
                 </div>

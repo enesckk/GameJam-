@@ -58,7 +58,7 @@ export default function AboutPage() {
             </div>
             <div className="space-y-3 text-xs sm:text-sm text-purple-100">
               <p>
-                Belirlenen tema doğrultusunda sınırlı sürede bir oyun prototipi geliştirirsiniz. Sadece takım olarak katılabilirsiniz. Panel üzerinden{" "}
+                Yarışma başlangıcında açıklanacak tema doğrultusunda sınırlı sürede bir oyun prototipi geliştirirsiniz. Sadece takım olarak katılabilirsiniz. Panel üzerinden{" "}
                 <Link href="/panel/takim" className="text-purple-300 hover:text-purple-200 underline underline-offset-4 font-medium">Takım</Link>{" "}
                 ve <Link href="/panel/teslim" className="text-purple-300 hover:text-purple-200 underline underline-offset-4 font-medium">Oyun Teslimi</Link> adımlarını yönetebilirsiniz.
               </p>
@@ -124,7 +124,7 @@ export default function AboutPage() {
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
           {[
             { t: "Başvuru & Karşılama", d: "Panoya erişim, takım oluşturma / birleştirme.", icon: Users, color: "from-blue-500 to-cyan-500" },
-            { t: "Tema Duyurusu", d: "Açılışta açıklanır. Duyurular sayfasını takip edin.", icon: Target, color: "from-purple-500 to-pink-500" },
+            { t: "Tema Duyurusu", d: "Yarışma başlangıcında açıklanır. Duyurular sayfasını takip edin.", icon: Target, color: "from-purple-500 to-pink-500" },
             { t: "Geliştirme Süreci", d: "Mentör desteği, ara checkpoint'ler.", icon: Zap, color: "from-green-500 to-emerald-500" },
             { t: "Oyun Teslimi", d: "Panel ▸ Oyun Teslimi üzerinden belirtilen formatta.", icon: Trophy, color: "from-yellow-500 to-orange-500" },
             { t: "Sunum & Jüri", d: "Kısa oynanış/sunum; değerlendirme kriterleri uygulanır.", icon: Award, color: "from-pink-500 to-red-500" },

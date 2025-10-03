@@ -18,7 +18,7 @@ type Member = {
   isLeader?: boolean;
 };
 type TeamState = {
-  type: "individual" | "team";
+  type: "team";
   teamName: string;
   inviteCode?: string;
   members: Member[];
@@ -33,7 +33,7 @@ const quickLinks = [
   { href: "/panel/takvim", label: "Takvim", icon: Calendar, color: "from-pink-500 to-rose-600", desc: "Etkinlik programı" },
 ];
 
-const COUNTDOWN_TARGET_ISO = "2025-09-20T10:00:00+03:00";
+const COUNTDOWN_TARGET_ISO = "2025-10-24T09:00:00+03:00";
 
 async function getJSON<T = any>(url: string): Promise<T> {
   const res = await fetch(url, { credentials: "include" });
@@ -45,7 +45,7 @@ export default function PanelPage() {
   const { displayName } = useDisplayName();
 
   const [teamCount, setTeamCount] = useState<number>(0);
-  const teamLimit = 4;
+  const teamLimit = 5;
   const [unreadMessages, setUnreadMessages] = useState<number>(0);
   const [newAnnouncements, setNewAnnouncements] = useState<number>(0);
 

@@ -170,7 +170,7 @@ if (!user.canLogin && user.role !== "ADMIN") {
     res.cookies.set(
       "team",
       JSON.stringify({
-        type: user.team ? "team" : "individual",
+        type: "team",
         teamName: user.team?.name || "Takımım",
         inviteCode: invCode(),
         members: teamMembers,

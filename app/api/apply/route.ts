@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     const body = await req.json().catch(() => null);
     if (!body) return NextResponse.json({ message: "Geçersiz gövde" }, { status: 400 });
 
-    const type: "individual" | "team" = body.type === "team" ? "team" : "individual";
+    const type: "team" = "team";
     const role = String(body.role ?? "");
     const consentKVKK = Boolean(body.consentKVKK);
 

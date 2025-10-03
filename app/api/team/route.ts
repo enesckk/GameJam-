@@ -19,7 +19,7 @@ type Member = {
   isLeader?: boolean;
 };
 type TeamState = {
-  type: "individual" | "team";
+  type: "team";
   teamName: string;
   inviteCode?: string;
   members: Member[];
@@ -70,7 +70,7 @@ async function buildFromDBOrBootstrap(req: NextRequest): Promise<TeamState> {
       role: (ROLES.includes(prof.role) ? prof.role : "developer") as Role,
       status: "active", isLeader: true,
     };
-    return { type: "individual", teamName: "Takımım", inviteCode: newInvite(), members: [leader] };
+    return { type: "team", teamName: "Takımım", inviteCode: newInvite(), members: [leader] };
   }
 
   // DB'de kullanıcı + takımını oku
@@ -122,7 +122,7 @@ async function buildFromDBOrBootstrap(req: NextRequest): Promise<TeamState> {
       role: (ROLES.includes(me?.profileRole as Role) ? (me?.profileRole as Role) : (ROLES.includes(prof.role) ? prof.role : "developer")) as Role,
       status: "active", isLeader: true,
     };
-    return { type: "individual", teamName: "Takımım", inviteCode: newInvite(), members: [leader] };
+    return { type: "team", teamName: "Takımım", inviteCode: newInvite(), members: [leader] };
   } catch {
     const leader: Member = {
       id: uid(), name: prof.fullName || "Lider", email, phone: prof.phone || "",
@@ -130,7 +130,7 @@ async function buildFromDBOrBootstrap(req: NextRequest): Promise<TeamState> {
       role: (ROLES.includes(prof.role) ? prof.role : "developer") as Role,
       status: "active", isLeader: true,
     };
-    return { type: "individual", teamName: "Takımım", inviteCode: newInvite(), members: [leader] };
+    return { type: "team", teamName: "Takımım", inviteCode: newInvite(), members: [leader] };
   }
 }
 
@@ -172,7 +172,7 @@ export async function PATCH(req: NextRequest) {
     } catch {}
   }
 
-  if (body.type === "individual" || body.type === "team") {
+  if (body.type === "team") {
     if (body.type === "team" && team.type !== "team" && !team.inviteCode) {
       team.inviteCode = newInvite();
     }
@@ -184,29 +184,6 @@ export async function PATCH(req: NextRequest) {
     team.inviteCode = newInvite();
   }
 
-  if (body.action === "to_individual") {
-    const leader = team.members.find(m => m.isLeader);
-    if (leader) {
-      // Cookie: yalnızca lider kalsın
-      team.members = [leader];
-      team.type = "individual";
-
-      // DB: lider dışındakileri ayır
-      try {
-        const prof = readCookieJSON(req, PROFILE_COOKIE) || {};
-        const me = await db.user.findUnique({
-          where: { email: String(prof.email || "").toLowerCase().trim() },
-          select: { teamId: true, email: true },
-        });
-        if (me?.teamId) {
-          await db.user.updateMany({
-            where: { teamId: me.teamId, email: { not: String(me.email).toLowerCase() } },
-            data: { teamId: null },
-          });
-        }
-      } catch {}
-    }
-  }
 
   const res = NextResponse.json(team, { status: 200 });
   writeTeamCookie(res, team);
@@ -359,7 +336,7 @@ export async function DELETE(req: NextRequest) {
 
   if (targetIsLeader) {
     team.members = [leader!];
-    team.type = "individual";
+    team.type = "team";
     const res = NextResponse.json({ ok: true, team }, { status: 200 });
     writeTeamCookie(res, team);
 
@@ -386,7 +363,7 @@ export async function DELETE(req: NextRequest) {
   if (team.members.length === before) {
     return NextResponse.json({ message: "Üye bulunamadı" }, { status: 404 });
   }
-  if (team.members.length === 1) team.type = "individual";
+  if (team.members.length === 1) team.type = "team";
 
   const res = NextResponse.json({ ok: true, team }, { status: 200 });
   writeTeamCookie(res, team);

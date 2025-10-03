@@ -69,7 +69,7 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
         <div className="sticky top-0 z-20">
           <PanelTopbar
             onMenuClick={() => setOpen((s) => !s)}
-            countdownTargetISO="2025-09-20T10:00:00+03:00"
+            countdownTargetISO="2025-10-24T09:00:00+03:00"
             countdownDoneText="Başladı!"
           />
         </div>

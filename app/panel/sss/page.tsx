@@ -26,19 +26,19 @@ const FAQS: FAQ[] = [
     id: "kimler-katilabilir",
     cat: "kayit",
     q: "Kimler katılabilir? Yaş sınırı var mı?",
-    a: "14 yaş ve üzeri herkes katılabilir. 18 yaş altı katılımcılar için veliden onay gerekebilir.",
+    a: "18 yaş ve üzeri herkes katılabilir.",
   },
   {
     id: "bireysel-mi-takim-mi",
     cat: "kayit",
-    q: "Bireysel mi, takım olarak mı katılmalıyım?",
-    a: "Bireysel katılabilirsiniz; dilerseniz panelden takım oluşturup en fazla 4 kişiye kadar ekip kurabilirsiniz.",
+    q: "Takım olarak mı katılmalıyım?",
+    a: "Sadece takım olarak katılabilirsiniz. En az 3, en fazla 5 kişilik takımlar kabul edilir.",
   },
   {
     id: "takim-uyesi-ekleme",
     cat: "takim",
     q: "Takıma üye nasıl eklerim/çıkarırım?",
-    a: "Panel ▸ Takım sayfasından üye bilgilerini girip davet gönderebilir, mevcut üyeleri çıkarabilirsiniz. Lider kendini çıkarırsa başvuru bireysele döner.",
+    a: "Panel ▸ Takım sayfasından üye bilgilerini girip davet gönderebilir, mevcut üyeleri çıkarabilirsiniz. Takım en az 3 kişi olmalıdır.",
   },
   {
     id: "profil-bilgileri",

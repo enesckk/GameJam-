@@ -182,11 +182,11 @@ export default function RulesPage() {
             <div className="mt-10 space-y-8">
               <div className="p-8 rounded-2xl bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 group-hover:scale-[1.02] transition-transform duration-500">
                 <h3 className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent mb-6">
-                  2025 Teması: "Oyna ve Kazan!"
+                  2025 Teması: "Yarışma başlangıcında açıklanacak"
                 </h3>
                 <p className="text-xl leading-relaxed text-slate-700 dark:text-slate-300">
-                  Bu yılın teması, kullanıcıların oynadıkça puan kazandığı ve ödüller alabildiği oyunlar geliştirmektir. 
-                  Oyununuz bu konsepti yansıtmalıdır.
+                  Bu yılın teması, yarışma başlangıcında tüm katılımcılara açıklanacaktır. 
+                  Tema açıklanana kadar oyun geliştirmeye başlanamaz.
                 </p>
               </div>
               

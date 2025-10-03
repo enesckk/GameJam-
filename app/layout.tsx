@@ -10,7 +10,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"], dis
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Şehitkamil Game Jam — Oyna ve Kazan!",
+  title: "Şehitkamil Game Jam — Oyun Geliştirme Maratonu",
   description: "Etkinlik takvimi, başvuru, duyurular ve paneller tek çatı altında.",
   
   // Sadece koyu tema için renk şeması
