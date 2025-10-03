@@ -32,8 +32,8 @@ export default function AboutPage() {
       <section className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { k: "Süre", v: "48 Saat", icon: Clock, color: "from-blue-500 to-cyan-500" },
-          { k: "Ekip Boyutu", v: "En fazla 4 kişi", icon: Users, color: "from-purple-500 to-pink-500" },
-          { k: "Katılım", v: "Bireysel veya Takım", icon: Target, color: "from-green-500 to-emerald-500" },
+          { k: "Ekip Boyutu", v: "3-5 kişi", icon: Users, color: "from-purple-500 to-pink-500" },
+          { k: "Katılım", v: "Sadece Takım", icon: Target, color: "from-green-500 to-emerald-500" },
           { k: "Teslim", v: "Panel ▸ Oyun Teslimi", icon: Trophy, color: "from-yellow-500 to-orange-500" },
         ].map((i) => (
           <div key={i.k} className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-blue-500/10 backdrop-blur-xl border border-purple-500/20 p-4 sm:p-6 hover:scale-105 transition-all duration-300 hover:shadow-xl">
@@ -58,8 +58,7 @@ export default function AboutPage() {
             </div>
             <div className="space-y-3 text-xs sm:text-sm text-purple-100">
               <p>
-                Belirlenen tema doğrultusunda sınırlı sürede bir oyun prototipi geliştirirsiniz. İster bireysel,
-                ister takım olarak katılabilirsiniz. Panel üzerinden{" "}
+                Belirlenen tema doğrultusunda sınırlı sürede bir oyun prototipi geliştirirsiniz. Sadece takım olarak katılabilirsiniz. Panel üzerinden{" "}
                 <Link href="/panel/takim" className="text-purple-300 hover:text-purple-200 underline underline-offset-4 font-medium">Takım</Link>{" "}
                 ve <Link href="/panel/teslim" className="text-purple-300 hover:text-purple-200 underline underline-offset-4 font-medium">Oyun Teslimi</Link> adımlarını yönetebilirsiniz.
               </p>

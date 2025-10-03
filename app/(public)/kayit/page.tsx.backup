@@ -166,7 +166,7 @@ export default function KayitPage() {
 
       setMsg("Başvurun alındı! E-postanı kontrol et.");
       setF({
-        type: "team",
+        type: "individual",
         teamName: "",
         name: "",
         email: "",
@@ -233,7 +233,7 @@ export default function KayitPage() {
                   <p className="mt-1 text-xs text-red-300">Takım adı zorunlu.</p>
                 )}
               </div>
-            </div>
+            )}
 
             {/* Lider bilgileri */}
             <div className="grid gap-4 sm:grid-cols-2">

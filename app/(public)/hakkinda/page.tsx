@@ -105,11 +105,11 @@ export default function AboutPage() {
               <div className="space-y-4">
                 <h3 className="text-2xl font-bold text-pink-400">Kimler Katılabilir?</h3>
                 <ul className="space-y-2 text-slate-300">
-                  <li>• 14-18 yaş arası öğrenciler</li>
+                  <li>• 18 yaş ve üzeri katılımcılar</li>
                   <li>• Oyun geliştirme meraklıları</li>
                   <li>• Programlama ve tasarım tutkunları</li>
                   <li>• Yaratıcı projeler geliştirmek isteyenler</li>
-                  <li>• Takım çalışmasına açık bireyler</li>
+                  <li>• Takım çalışmasına açık bireyler (3-5 kişilik takımlar)</li>
                 </ul>
               </div>
             </div>
