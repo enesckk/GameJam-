@@ -29,8 +29,8 @@ export default function RulesPage() {
         id: "uygunluk",
         title: "Uygunluk ve Katılım",
         items: [
-          "Katılımcı yaşı en az 14 olmalıdır; 18 yaş altı için veli/vasî onayı gerekebilir.",
-          "Bireysel veya en fazla 4 kişilik takımlar kabul edilir.",
+          "Katılımcı yaşı en az 18 olmalıdır.",
+          "Sadece takım başvuruları kabul edilir. En az 3, en fazla 5 kişilik takımlar kabul edilir.",
           "Başvuru bilgileriniz (ad-soyad, e-posta, telefon) doğru ve güncel olmalıdır.",
         ],
       },

@@ -5,7 +5,7 @@ import { useState } from "react";
 import RoleSelect from "@/app/panel/_components/role-select"; // yolu ihtiyacına göre güncelle
 
 type RoleOption = "developer" | "designer" | "audio" | "pm";
-type ApplyType = "individual" | "team";
+type ApplyType = "team";
 
 type Member = {
   name: string;
@@ -27,10 +27,11 @@ type FormState = {
   role: RoleOption;
   consentKVKK: boolean;
   // Takım üyeleri (ekstra)
-  members: Member[]; // max 3 (lider + 3 = 4)
+  members: Member[]; // min 2, max 4 (lider + 2-4 = 3-5)
 };
 
-const MAX_TEAM = 4;
+const MIN_TEAM = 3;
+const MAX_TEAM = 5;
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRe = /^\+?\d{10,14}$/;
 
@@ -50,7 +51,7 @@ function getPasswordStrength(pw: string) {
 
 export default function KayitPage() {
   const [f, setF] = useState<FormState>({
-    type: "individual",
+    type: "team",
     teamName: "",
     name: "",
     email: "",
@@ -72,7 +73,7 @@ export default function KayitPage() {
   const emailOk = emailRe.test(f.email);
   const phoneOk = phoneRe.test(f.phone.replace(/\s/g, ""));
   const ageNum = Number(f.age);
-  const ageOk = Number.isInteger(ageNum) && ageNum >= 14;
+  const ageOk = Number.isInteger(ageNum) && ageNum >= 18;
   const passOk = f.password.length >= 6;
   const nameOk = f.name.trim().length >= 3;
   const consentOk = f.consentKVKK === true;
@@ -82,21 +83,20 @@ export default function KayitPage() {
     emailRe.test(m.email.toLowerCase().trim()) &&
     phoneRe.test(m.phone.replace(/\s/g, "")) &&
     Number.isInteger(Number(m.age)) &&
-    Number(m.age) >= 14;
+    Number(m.age) >= 18;
 
   const teamOk =
-    f.type === "individual"
-      ? true
-      : f.teamName.trim().length > 0 &&
-        1 + f.members.length <= MAX_TEAM &&
-        f.members.every(memberValid) &&
-        (() => {
-          const all = [
-            f.email.toLowerCase().trim(),
-            ...f.members.map((m) => m.email.toLowerCase().trim()),
-          ];
-          return new Set(all).size === all.length;
-        })();
+    f.teamName.trim().length > 0 &&
+    1 + f.members.length >= MIN_TEAM &&
+    1 + f.members.length <= MAX_TEAM &&
+    f.members.every(memberValid) &&
+    (() => {
+      const all = [
+        f.email.toLowerCase().trim(),
+        ...f.members.map((m) => m.email.toLowerCase().trim()),
+      ];
+      return new Set(all).size === all.length;
+    })();
 
   const allOk = emailOk && phoneOk && ageOk && nameOk && consentOk && passOk && teamOk;
 
@@ -213,30 +213,14 @@ export default function KayitPage() {
             Başvuru
           </h1>
           <form onSubmit={onSubmit} className="space-y-5" noValidate>
-            {/* Başvuru tipi */}
-            <div className="flex flex-wrap items-center justify-center gap-4 text-slate-200">
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  checked={f.type === "individual"}
-                  onChange={() => onChange("type", "individual")}
-                  className="text-emerald-500"
-                />
-                Bireysel
-              </label>
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  checked={f.type === "team"}
-                  onChange={() => onChange("type", "team")}
-                  className="text-emerald-500"
-                />
-                Takım (en fazla 4 kişi)
-              </label>
+            {/* Takım başvurusu bilgisi */}
+            <div className="text-center text-slate-300 mb-4">
+              <p className="text-lg font-semibold">Takım Başvurusu</p>
+              <p className="text-sm text-slate-400">En az 3, en fazla 5 kişilik takımlar kabul edilir</p>
             </div>
 
             {/* Takım adı */}
-            {f.type === "team" && (
+            <div>
               <div>
                 <input
                   placeholder="Takım Adı"
@@ -296,16 +280,16 @@ export default function KayitPage() {
 
               <div>
                 <input
-                  placeholder="Lider Yaş (14+)"
+                  placeholder="Lider Yaş (18+)"
                   type="number"
-                  min={14}
+                  min={18}
                   className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
                   value={f.age}
                   onChange={(e) => onChange("age", e.target.value)}
                   required
                 />
                 {!ageOk && f.age !== "" && (
-                  <p className="mt-1 text-xs text-red-300">14 yaş ve üzeri olmalı.</p>
+                  <p className="mt-1 text-xs text-red-300">18 yaş ve üzeri olmalı.</p>
                 )}
               </div>
 
@@ -380,21 +364,20 @@ export default function KayitPage() {
             </div>
 
             {/* Takım üyeleri */}
-            {f.type === "team" && (
-              <div className="space-y-3 rounded-xl border border-white/25 dark:border-white/10 p-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-900 dark:text-gray-100">
-                    Takım Üyeleri (Lider hariç, en fazla {MAX_TEAM - 1})
-                  </p>
-                  <button
-                    type="button"
-                    onClick={addMember}
-                    disabled={f.members.length >= MAX_TEAM - 1}
-                    className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white disabled:opacity-60"
-                  >
-                    Üye Ekle (Kalan: {MAX_TEAM - 1 - f.members.length})
-                  </button>
-                </div>
+            <div className="space-y-3 rounded-xl border border-white/25 dark:border-white/10 p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-gray-900 dark:text-gray-100">
+                  Takım Üyeleri (Lider hariç, en az {MIN_TEAM - 1}, en fazla {MAX_TEAM - 1})
+                </p>
+                <button
+                  type="button"
+                  onClick={addMember}
+                  disabled={f.members.length >= MAX_TEAM - 1}
+                  className="rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white disabled:opacity-60"
+                >
+                  Üye Ekle (Kalan: {MAX_TEAM - 1 - f.members.length})
+                </button>
+              </div>
 
                 {f.members.map((m, i) => {
                   const valid = memberValid(m);
@@ -420,8 +403,8 @@ export default function KayitPage() {
                       />
                       <input
                         type="number"
-                        min={14}
-                        placeholder="Yaş"
+                        min={18}
+                        placeholder="Yaş (18+)"
                         className="rounded-xl border border-white/50 dark:border-white/10 bg-white/70 dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-gray-100 backdrop-blur-sm"
                         value={m.age}
                         onChange={(e) => onMemberChange(i, { age: e.target.value })}
@@ -448,14 +431,13 @@ export default function KayitPage() {
 
                       {!valid && (m.name || m.email || m.phone || m.age) && (
                         <p className="sm:col-span-6 -mt-1 text-xs text-red-300">
-                          Üye bilgilerini kontrol edin (ad 3+ karakter, geçerli e-posta & telefon, 14 yaş ve üzeri).
+                          Üye bilgilerini kontrol edin (ad 3+ karakter, geçerli e-posta & telefon, 18 yaş ve üzeri).
                         </p>
                       )}
                     </div>
                   );
                 })}
               </div>
-            )}
 
             {/* KVKK checkbox + AÇILIR İÇERİK */}
             <div className="space-y-2">

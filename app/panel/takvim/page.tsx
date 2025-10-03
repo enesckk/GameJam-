@@ -8,9 +8,9 @@ import { Calendar, Clock, Trophy, Coffee, Users, Code, Gamepad2, Sparkles } from
 type Row = { time: string; title: string; note?: string; icon?: string };
 
 const day1: Row[] = [
-  { time: "09:00 – 10:00", icon: "🍽️", title: "Kahvaltı & Başvuru", note: "Karşılama, giriş işlemleri, yaka kartı & ekip karşılaması" },
+  { time: "09:00 – 10:00", icon: "🍽️", title: "Kahvaltı & Karşılama", note: "Karşılama, giriş işlemleri, yaka kartı & ekip karşılaması" },
   { time: "10:00 – 10:30", icon: "🗣️", title: "Açılış Konuşmaları", note: "Şehitkamil Belediyesi ve sponsor kurumlar" },
-  { time: "10:30 – 10:45", icon: "📣", title: "Tema Açıklanır", note: "Oyna ve Kazan!" },
+  { time: "10:30 – 10:45", icon: "📣", title: "Tema Açıklanır", note: "Yarışma teması açıklanır" },
   { time: "10:45 – 11:00", icon: "📱", title: "Sosyal Medya Görevi Başlatılır", note: "Paylaşım rehberi ve görev açıklaması yapılır" },
   { time: "11:00 – 13:00", icon: "🤝", title: "Takım içi planlama & fikir geliştirme", note: "Beyin fırtınası ve görev dağılımı" },
   { time: "13:00 – 14:00", icon: "🍽️", title: "Öğle Yemeği" },
@@ -24,13 +24,13 @@ const day1: Row[] = [
 
 const day2: Row[] = [
   { time: "09:00 – 10:00", icon: "☕",  title: "Kahvaltı & Güne Başlangıç" },
-  { time: "10:00 – 12:00", icon: "💻", title: "Final Geliştirme", note: "Son kontroller, teslim hazırlıkları" },
-  { time: "12:00 – 13:00", icon: "🧾", title: "Proje Teslimi", note: "Web sistemi üzerinden teslim alınır" },
-  { time: "13:00 – 14:00", icon: "🍽️", title: "Öğle Yemeği" },
-  { time: "14:00 – 16:00", icon: "🧑‍⚖️", title: "Jüri Değerlendirme & Sunumlar", note: "Tüm ekipler sırasıyla sunum yapar" },
-  { time: "16:00 – 16:30", icon: "📱", title: "Ara & Sosyal Medya Görevi Kapanışı", note: "Son paylaşımlar alınır" },
-  { time: "16:30 – 17:00", icon: "🏆", title: "Ödül Töreni", note: "Dereceler, sosyal medya ödülleri, sürpriz çekiliş" },
-  { time: "17:00 – 17:30", icon: "📸", title: "Kapanış Konuşmaları", note: "Teşekkürler & hatıra fotoğrafı" },
+  { time: "10:00 – 17:00", icon: "💻", title: "Final Geliştirme", note: "Son kontroller, teslim hazırlıkları" },
+  { time: "17:00 – 18:00", icon: "🧾", title: "Proje Teslimi", note: "Web sistemi üzerinden teslim alınır" },
+  { time: "18:00 – 19:00", icon: "🍽️", title: "Öğle Yemeği" },
+  { time: "19:00 – 21:00", icon: "🧑‍⚖️", title: "Jüri Değerlendirme & Sunumlar", note: "Tüm ekipler sırasıyla sunum yapar" },
+  { time: "21:00 – 21:30", icon: "📱", title: "Ara & Sosyal Medya Görevi Kapanışı", note: "Son paylaşımlar alınır" },
+  { time: "21:30 – 22:00", icon: "🏆", title: "Ödül Töreni", note: "Dereceler, sosyal medya ödülleri, sürpriz çekiliş" },
+  { time: "22:00 – 22:30", icon: "📸", title: "Kapanış Konuşmaları", note: "Teşekkürler & hatıra fotoğrafı" },
 ];
 
 function Timeline({ rows }: { rows: Row[] }) {

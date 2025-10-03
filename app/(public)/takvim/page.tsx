@@ -21,15 +21,6 @@ const TIMELINE_DATA = [
     color: "orange"
   },
   {
-    date: "10",
-    month: "Ekim",
-    title: "Ön Hazırlık Toplantısı",
-    desc: "Katılımcılar için bilgilendirme toplantısı. Kurallar, teknik detaylar ve organizasyon hakkında bilgi verilir.",
-    time: "14:00 - 16:00",
-    location: "Şehitkamil Belediyesi Sanat Merkezi",
-    color: "green"
-  },
-  {
     date: "24",
     month: "Ekim",
     title: "Game Jam Başlangıcı",
@@ -106,18 +97,12 @@ const DAILY_SCHEDULE = [
     day: "2. Gün",
     color: "green",
     events: [
-      { time: "10:00", title: "Geliştirme Süreci", desc: "Yoğun geliştirme süreci devam eder." },
-      { time: "15:00", title: "Ara Kontrol", desc: "Organizasyon ekibi ilerleme kontrolü yapar." }
+      { time: "09:00", title: "Geliştirme Süreci", desc: "Yoğun geliştirme süreci devam eder." },
+      { time: "17:00", title: "Proje Teslimi", desc: "Oyunlar teslim edilir." },
+      { time: "19:00", title: "Jüri Değerlendirmesi", desc: "Oyunlar değerlendirilir." },
+      { time: "21:30", title: "Ödül Töreni", desc: "Kazananlar açıklanır." }
     ]
   },
-  {
-    day: "3. Gün",
-    color: "purple",
-    events: [
-      { time: "20:00", title: "Son Kontroller", desc: "Oyunların son testleri yapılır." },
-      { time: "23:59", title: "Proje Teslimi", desc: "Oyunlar teslim edilir ve geliştirme süreci sona erer." }
-    ]
-  }
 ];
 
 const getColorClasses = (color: string) => {

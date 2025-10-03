@@ -75,7 +75,7 @@ export default function RulesPage() {
                 icon: "👥",
                 title: "Takım Kuralları",
                 rules: [
-                  "Her takım 2-5 kişiden oluşmalıdır",
+                  "Her takım 3-5 kişiden oluşmalıdır",
                   "Takım üyeleri 18 yaşını doldurmuş olmalıdır",
                   "Bir kişi sadece bir takımda yer alabilir",
                   "Takım isimleri uygun olmalıdır"

@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     // Sunucu validasyonu
     if (
       !name || !email || !phone || !password ||
-      typeof age !== "number" || age < 14
+      typeof age !== "number" || age < 18
     ) {
       return NextResponse.json({ message: "Eksik veya hatalı bilgi." }, { status: 400 });
     }

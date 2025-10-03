@@ -20,7 +20,8 @@ type Member = {
   role: string;
 };
 
-const MAX_TEAM = 4;
+const MIN_TEAM = 3;
+const MAX_TEAM = 5;
 const sha256 = (s: string) => crypto.createHash("sha256").update(s).digest("hex");
 
 function uid() {
@@ -63,19 +64,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Lider bilgileri/formatı hatalı" }, { status: 400 });
     }
 
-    if (type === "individual") {
-      if (password.length < 6) {
-        return NextResponse.json({ message: "Şifre en az 6 karakter olmalı" }, { status: 400 });
-      }
-    } else if (type === "team") {
+    if (type === "team") {
       if (!teamName) {
         return NextResponse.json({ message: "Takım adı zorunlu" }, { status: 400 });
       }
 
-      // Üye sayısı (lider + diğerleri) en fazla 4
+      // Üye sayısı (lider + diğerleri) en az 2, en fazla 4 (toplam 3-5 kişi)
       const allEmails = new Set<string>([leadEmail]);
-      if (!Array.isArray(members) || members.length > MAX_TEAM - 1) {
-        return NextResponse.json({ message: "Takım en fazla 4 kişi olabilir" }, { status: 400 });
+      if (!Array.isArray(members) || members.length < MIN_TEAM - 1 || members.length > MAX_TEAM - 1) {
+        return NextResponse.json({ message: "Takım en az 3, en fazla 5 kişi olabilir" }, { status: 400 });
       }
 
       // Her üye doğrulaması
@@ -90,7 +87,7 @@ export async function POST(req: Request) {
           n.length >= 3 &&
           emailRe.test(e) &&
           phoneRe.test(p) &&
-          Number.isInteger(a) && a >= 14 &&
+          Number.isInteger(a) && a >= 18 &&
           ROLES.has(r);
 
         if (!ok) {

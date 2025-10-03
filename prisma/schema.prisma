@@ -108,8 +108,8 @@ model Application {
   phone       String?
   age         Int?
   consentKVKK Boolean
-  // Bireysel/Team flag + takım adı (team başvurusunda zorunlu)
-  type        String // "individual" | "team"
+  // Team flag + takım adı (team başvurusunda zorunlu)
+  type        String // "team"
   teamName    String?
   createdAt   DateTime @default(now())
 }

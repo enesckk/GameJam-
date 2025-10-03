@@ -27,7 +27,7 @@ type TeamState = {
 
 const TEAM_COOKIE = "team";
 const PROFILE_COOKIE = "profile";
-const MAX_TEAM = 4;
+const MAX_TEAM = 5;
 const ROLES: Role[] = ["developer", "designer", "audio", "pm"];
 const SECURE = process.env.NODE_ENV === "production";
 
@@ -238,7 +238,7 @@ export async function POST(req: NextRequest) {
   if (name.length < 3) return NextResponse.json({ message: "Ad Soyad 3+ olmalı" }, { status: 400 });
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return NextResponse.json({ message: "Geçerli e-posta girin" }, { status: 400 });
   if (!/^\+?\d{10,14}$/.test(phone)) return NextResponse.json({ message: "Geçerli telefon girin" }, { status: 400 });
-  if (!Number.isInteger(age) || age < 14) return NextResponse.json({ message: "Yaş 14 ve üzeri olmalı" }, { status: 400 });
+  if (!Number.isInteger(age) || age < 18) return NextResponse.json({ message: "Yaş 18 ve üzeri olmalı" }, { status: 400 });
   if (!role) return NextResponse.json({ message: "Geçerli bir rol seçin" }, { status: 400 });
 
   // Cookie tarafında aynı e-posta var mı?
@@ -246,7 +246,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: "Bu e-posta zaten ekipte" }, { status: 409 });
   }
   if (team.members.length >= MAX_TEAM) {
-    return NextResponse.json({ message: "Maksimum 4 kişi" }, { status: 400 });
+    return NextResponse.json({ message: "Maksimum 5 kişi" }, { status: 400 });
   }
 
   let inviteResetUrl = "";
