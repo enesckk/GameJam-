@@ -5,12 +5,11 @@ import Link from "next/link";
 // import Button from "@/components/ui/button";
 
 const AWARDS = [
-  { place: "🥇 1. Takım", prize: "Huawei Tablet" },
-  { place: "🥈 2. Takım", prize: "Huawei Akıllı Saat" },
-  { place: "🥉 3. Takım", prize: "Oyun Aksesuar Seti (mouse, mousepad, kablo vb.)" },
+  { place: "🥇 1. Takım", prize: "30.000 TL" },
+  { place: "🥈 2. Takım", prize: "20.000 TL" },
+  { place: "🥉 3. Takım", prize: "10.000 TL" },
   { place: "🎁 Tüm Katılımcılara", prize: "Özel Hediyeler & Dijital Katılım Sertifikası" },
   { place: "🎉 Ekstra Ödüller", prize: "Kahoot Yarışması & Çekiliş Sürprizleri" },
-  { place: "🚀 Belediye Desteği", prize: "Başarılı oyunların uygulamaya entegrasyonu" },
 ];
 
 const TOP3 = AWARDS.slice(0, 3);

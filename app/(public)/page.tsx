@@ -5,7 +5,6 @@ import Hero from "@/components/hero";
 import IntroCards from "@/components/home/intro-cards";
 import AwardsPreview from "@/components/home/awards-preview";
 import SchedulePreview from "@/components/home/schedule-preview";
-import SponsorsStrip from "@/components/home/sponsors-strip";
 import JuryPreview from "@/components/home/jury-preview";
 import SocialTask from "@/components/home/social-task";
 import BottomCTA from "@/components/home/bottom-cta";
@@ -114,8 +113,8 @@ function Sep() {
 }
 
 export default function HomePage() {
-  // Game Jam başlangıç tarihi: 12 Ekim 2025 23:59 (TSİ)
-  const targetDate = new Date("2025-10-12T23:59:00+03:00");
+  // Game Jam başlangıç tarihi: 24 Ekim 2025 09:00 (TSİ)
+  const targetDate = new Date("2025-10-24T09:00:00+03:00");
 
   return (
     <>
@@ -156,7 +155,7 @@ export default function HomePage() {
 
                 <div className="mt-8 p-4 rounded-2xl bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-500/20">
                   <p className="text-lg text-slate-300 font-medium">
-                    🗓️ 12 Ekim 2025 Pazar 23:59
+                    🗓️ 24 Ekim 2025 Cuma 09:00
                   </p>
                   <p className="text-sm text-slate-400 mt-1 opacity-80">
                     ⏰ İstanbul saati (UTC+3)
@@ -169,7 +168,6 @@ export default function HomePage() {
           <IntroCards />
           <AwardsPreview />
           <SchedulePreview />
-          <SponsorsStrip />
           <JuryPreview />
           <SocialTask />
           <BottomCTA />

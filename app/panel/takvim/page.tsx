@@ -8,7 +8,7 @@ import { Calendar, Clock, Trophy, Coffee, Users, Code, Gamepad2, Sparkles } from
 type Row = { time: string; title: string; note?: string; icon?: string };
 
 const day1: Row[] = [
-  { time: "09:00 – 10:00", icon: "🍽️", title: "Kahvaltı & Kayıt", note: "Karşılama, giriş işlemleri, yaka kartı & ekip karşılaması" },
+  { time: "09:00 – 10:00", icon: "🍽️", title: "Kahvaltı & Başvuru", note: "Karşılama, giriş işlemleri, yaka kartı & ekip karşılaması" },
   { time: "10:00 – 10:30", icon: "🗣️", title: "Açılış Konuşmaları", note: "Şehitkamil Belediyesi ve sponsor kurumlar" },
   { time: "10:30 – 10:45", icon: "📣", title: "Tema Açıklanır", note: "Oyna ve Kazan!" },
   { time: "10:45 – 11:00", icon: "📱", title: "Sosyal Medya Görevi Başlatılır", note: "Paylaşım rehberi ve görev açıklaması yapılır" },
@@ -200,7 +200,7 @@ export default function SchedulePage() {
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold text-white">1. Gün – Açılış, Tema ve Geliştirme Başlangıcı</h3>
-                  <p className="text-xs sm:text-sm text-purple-200/80">Yoğun bir gün: Kayıt, tema açıklanması ve kodlamaya başlangıç</p>
+                  <p className="text-xs sm:text-sm text-purple-200/80">Yoğun bir gün: Başvuru, tema açıklanması ve kodlamaya başlangıç</p>
                 </div>
               </div>
             </div>

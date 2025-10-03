@@ -162,7 +162,7 @@ function LoginContent() {
                 href="/kayit"
                 className="font-semibold text-emerald-400 hover:text-emerald-300 transition-colors duration-200"
               >
-                Kayıt olun
+                Başvuru yapın
               </Link>
             </div>
 

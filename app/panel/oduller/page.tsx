@@ -46,7 +46,7 @@ export default function AwardsPage() {
           <AwardCard
             icon={<Trophy className="h-6 w-6 sm:h-8 sm:w-8" />}
             place="1. Takım"
-            prize="Huawei Tablet"
+            prize="30.000 TL"
             highlight
             color="from-yellow-500 to-orange-500"
             rank="1"
@@ -54,7 +54,7 @@ export default function AwardsPage() {
           <AwardCard
             icon={<Award className="h-6 w-6 sm:h-8 sm:w-8" />}
             place="2. Takım"
-            prize="Huawei Akıllı Saat"
+            prize="20.000 TL"
             highlight
             color="from-gray-400 to-gray-600"
             rank="2"
@@ -62,7 +62,7 @@ export default function AwardsPage() {
           <AwardCard
             icon={<Cpu className="h-6 w-6 sm:h-8 sm:w-8" />}
             place="3. Takım"
-            prize="Oyun Aksesuar Seti (mouse, mousepad, kablo vb.)"
+            prize="10.000 TL"
             highlight
             color="from-orange-600 to-red-600"
             rank="3"
@@ -70,35 +70,6 @@ export default function AwardsPage() {
         </div>
       </section>
 
-      {/* Entegrasyon & Belediye Desteği */}
-      <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-500/20 via-indigo-500/15 to-purple-500/20 backdrop-blur-xl border border-blue-500/30 p-4 sm:p-6 hover:scale-[1.02] transition-all duration-300">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-indigo-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        
-        <div className="relative z-10">
-          <div className="flex flex-col sm:flex-row items-start gap-4">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
-              <ShieldCheck className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-bold text-white mb-3">Uygulama Entegrasyonu ve Belediye Desteği</h3>
-              <ul className="space-y-3 text-sm text-blue-100">
-                <li className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Başarılı görülen oyunlar, <strong className="text-white">Şehitkamil Belediyesi mobil uygulamasına</strong> entegre edilme şansı yakalayacaktır.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Belediye mühendisleri teknik değerlendirmede rol alacak ve yönlendirme sağlayacaktır.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Geliştirilmeye uygun projeler, <strong className="text-white">teşvik edilerek</strong> desteklenmeye devam edecektir.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Her katılımcıya */}
       <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-500/20 via-emerald-500/15 to-teal-500/20 backdrop-blur-xl border border-green-500/30 p-4 sm:p-6 hover:scale-[1.02] transition-all duration-300">

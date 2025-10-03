@@ -31,13 +31,13 @@ export default function BottomCTA() {
           className="mx-auto mt-2 max-w-2xl"
           style={{ color: 'color-mix(in oklab, var(--foreground) 80%, transparent)' }}
         >
-          Kayıtlar açık. Takvimi ve kuralları mutlaka incele.
+          Başvurular açık. Takvimi ve kuralları mutlaka incele.
         </p>
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
           <Link href="/kayit">
             <Button variant="neon" className="hover:scale-105 transition-transform">
-              Kayıt Ol
+              Başvuru Yap
             </Button>
           </Link>
           <Link href="/takvim">

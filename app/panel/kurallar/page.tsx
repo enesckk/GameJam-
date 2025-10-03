@@ -31,7 +31,7 @@ export default function RulesPage() {
         items: [
           "Katılımcı yaşı en az 14 olmalıdır; 18 yaş altı için veli/vasî onayı gerekebilir.",
           "Bireysel veya en fazla 4 kişilik takımlar kabul edilir.",
-          "Kayıt bilgileriniz (ad-soyad, e-posta, telefon) doğru ve güncel olmalıdır.",
+          "Başvuru bilgileriniz (ad-soyad, e-posta, telefon) doğru ve güncel olmalıdır.",
         ],
       },
       {

@@ -85,7 +85,7 @@ const FAQS: FAQ[] = [
 ];
 
 const CAT_LABEL: Record<Cat, string> = {
-  kayit: "Kayıt & Başvuru",
+  kayit: "Başvuru",
   takim: "Takım & Profil",
   teslim: "Oyun Teslimi",
   takvim: "Takvim & Mekan",
@@ -177,7 +177,7 @@ export default function FAQPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-300" />
             <input
               className="w-full rounded-xl bg-white/20 backdrop-blur-sm pl-10 pr-4 py-3 text-sm outline-none border border-white/20 focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200"
-              placeholder="Ara: kayıt, teslim, ödüller..."
+              placeholder="Ara: başvuru, teslim, ödüller..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />

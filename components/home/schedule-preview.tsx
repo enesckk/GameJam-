@@ -7,10 +7,10 @@ type Milestone = { label: string; date: string };
 
 export default function SchedulePreview({
   items = [
-    { label: "Son Başvuru",  date: "?? • (Takvimde belirtilen saat)" },
-    { label: "Başlangıç",     date: "12 Ekim 2025 • 23:59 (TSİ)" },
-    { label: "Teslim",        date: "?? • (Takvimde belirtilen saat)" },
-    { label: "Ödül Töreni",   date: "?? • (Takvimde belirtilen saat)" },
+    { label: "Son Başvuru",  date: "15 Ekim 2025 • 23:59" },
+    { label: "Başlangıç",     date: "24 Ekim 2025 • 09:00 (TSİ)" },
+    { label: "Teslim",        date: "25 Ekim 2025 • 18:00" },
+    { label: "Ödül Töreni",   date: "26 Ekim 2025 • 19:00" },
   ] as Milestone[],
 }) {
   return (

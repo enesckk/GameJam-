@@ -3,21 +3,21 @@ import PageHeader from "../../panel/_components/page-header";
 
 const TIMELINE_DATA = [
   {
-    date: "15",
-    month: "Eylül",
-    title: "Kayıtların Açılması",
-    desc: "Game Jam'e katılım için kayıtlar başlar. Takımlar oluşturulur ve ön kayıt formları doldurulur.",
+    date: "6",
+    month: "Ekim",
+    title: "Başvuruların Açılması",
+    desc: "Game Jam'e katılım için başvurular başlar. Takımlar oluşturulur ve başvuru formları doldurulur.",
     time: "09:00 - 18:00",
-    location: "Online Kayıt",
+    location: "Online Başvuru",
     color: "blue"
   },
   {
-    date: "30",
-    month: "Eylül",
-    title: "Son Kayıt Tarihi",
-    desc: "Game Jam'e katılım için son kayıt tarihi. Bu tarihten sonra yeni kayıt alınmayacaktır.",
+    date: "15",
+    month: "Ekim",
+    title: "Son Başvuru Tarihi",
+    desc: "Game Jam'e katılım için son başvuru tarihi. Bu tarihten sonra yeni başvuru alınmayacaktır.",
     time: "23:59",
-    location: "Online Kayıt",
+    location: "Online Başvuru",
     color: "orange"
   },
   {
@@ -30,58 +30,67 @@ const TIMELINE_DATA = [
     color: "green"
   },
   {
-    date: "12",
+    date: "24",
     month: "Ekim",
     title: "Game Jam Başlangıcı",
     desc: "Tema açıklanır ve 48 saatlik geliştirme süreci başlar. Takımlar oyunlarını geliştirmeye başlar.",
-    time: "23:59",
-    location: "Online Platform",
+    time: "09:00",
+    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
     color: "purple"
   },
   {
-    date: "14",
+    date: "24",
     month: "Ekim",
-    title: "Geliştirme Süreci",
-    desc: "48 saatlik yoğun geliştirme süreci devam eder. Takımlar oyunlarını tamamlamaya çalışır.",
-    time: "00:00 - 23:59",
-    location: "Online Platform",
+    title: "Geliştirme Süreci - 1. Gün",
+    desc: "48 saatlik yoğun geliştirme sürecinin ilk günü. Takımlar oyunlarını geliştirmeye başlar.",
+    time: "09:00 - 23:59",
+    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
     color: "cyan"
   },
   {
-    date: "15",
+    date: "25",
+    month: "Ekim",
+    title: "Geliştirme Süreci - 2. Gün",
+    desc: "48 saatlik yoğun geliştirme sürecinin ikinci günü. Takımlar oyunlarını tamamlamaya çalışır.",
+    time: "00:00 - 18:00",
+    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
+    color: "cyan"
+  },
+  {
+    date: "25",
     month: "Ekim",
     title: "Proje Teslimi",
     desc: "Oyunların teslim edilmesi için son tarih. Bu saatten sonra yapılan değişiklikler kabul edilmez.",
-    time: "23:59",
-    location: "Online Platform",
+    time: "18:00",
+    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
     color: "red"
   },
   {
-    date: "16",
+    date: "25",
     month: "Ekim",
     title: "Jüri Değerlendirmesi",
     desc: "Jüri üyeleri oyunları değerlendirir ve puanlama yapar. Sonuçlar hazırlanır.",
-    time: "10:00 - 18:00",
-    location: "Şehitkamil Belediyesi",
+    time: "18:00 - 22:00",
+    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
     color: "indigo"
   },
   {
-    date: "18",
+    date: "26",
     month: "Ekim",
     title: "Ödül Töreni",
     desc: "Kazananlar açıklanır ve ödüller dağıtılır. Tüm katılımcılar için özel etkinlik.",
     time: "19:00 - 22:00",
-    location: "Şehitkamil Belediyesi Sanat Merkezi",
+    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
     color: "yellow"
   }
 ];
 
 const IMPORTANT_DATES = [
-  { title: "Kayıt Başlangıcı", date: "15 Eylül 2025", time: "09:00", icon: "📅", color: "blue" },
-  { title: "Kayıt Sonu", date: "30 Eylül 2025", time: "23:59", icon: "⏰", color: "red" },
-  { title: "Game Jam Başlangıcı", date: "12 Ekim 2025", time: "23:59", icon: "🚀", color: "green" },
-  { title: "Proje Teslimi", date: "15 Ekim 2025", time: "23:59", icon: "📦", color: "orange" },
-  { title: "Ödül Töreni", date: "18 Ekim 2025", time: "19:00", icon: "🏆", color: "yellow" }
+  { title: "Başvuru Başlangıcı", date: "6 Ekim 2025", time: "09:00", icon: "📅", color: "blue" },
+  { title: "Başvuru Sonu", date: "15 Ekim 2025", time: "23:59", icon: "⏰", color: "red" },
+  { title: "Game Jam Başlangıcı", date: "24 Ekim 2025", time: "09:00", icon: "🚀", color: "green" },
+  { title: "Proje Teslimi", date: "25 Ekim 2025", time: "18:00", icon: "📦", color: "orange" },
+  { title: "Ödül Töreni", date: "26 Ekim 2025", time: "19:00", icon: "🏆", color: "yellow" }
 ];
 
 const DAILY_SCHEDULE = [
@@ -388,10 +397,10 @@ export default function SchedulePage() {
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-blue-500/5 to-purple-500/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="relative z-10">
               <h2 className="text-3xl sm:text-4xl font-black mb-4 sm:mb-6 bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Hemen Kayıt Ol!
+                Hemen Başvuru Yap!
               </h2>
               <p className="text-lg sm:text-xl text-slate-300 mb-6 sm:mb-8 leading-relaxed px-4">
-                Game Jam'e katılmak için son fırsat. 30 Eylül'e kadar kayıtlarınızı tamamlayın.
+                Game Jam'e katılmak için son fırsat. 15 Ekim'e kadar başvurularınızı tamamlayın.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
                 <a
@@ -408,7 +417,7 @@ export default function SchedulePage() {
                   <svg className="w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd"/>
                   </svg>
-                  Kayıt Ol
+                  Başvuru Yap
                 </a>
                 <a
                   href="/kurallar"

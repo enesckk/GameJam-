@@ -190,7 +190,7 @@ export default function AdminProfilePage() {
           {/* Yeni Şifre */}
           <div className="md:col-span-2">
             <label className="text-sm font-semibold text-slate-300 mb-2 block">
-              Yeni Şifre (opsiyonel)
+              Yeni Şifre (opsiyonel)d
             </label>
             <div className="group relative">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 to-red-500/10 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"></div>

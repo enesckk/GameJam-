@@ -284,7 +284,7 @@ export default function PanelPage() {
           <div className="flex-1 min-w-0">
             <h3 className="text-lg font-bold text-white mb-1">Teslim Hatırlatması</h3>
             <p className="text-sm sm:text-base text-yellow-200/90 mb-3">
-              Son teslim: <strong>12 Ekim 2025 • 23:59</strong> (örnek). 
+              Son teslim: <strong>25 Ekim 2025 • 18:00</strong> (örnek). 
               Dosyalarınızı zamanında yüklemeyi unutmayın!
             </p>
             <Link 

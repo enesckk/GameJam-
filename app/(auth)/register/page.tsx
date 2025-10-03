@@ -63,7 +63,7 @@ function RegisterContent() {
       });
       if (!res.ok) {
         const j = await res.json().catch(() => ({}));
-        setErr(j?.message || "Kayıt sırasında bir sorun oluştu.");
+        setErr(j?.message || "Başvuru sırasında bir sorun oluştu.");
         return;
       }
       router.push("/(auth)/login");
@@ -88,7 +88,7 @@ function RegisterContent() {
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4">
         <Card className="w-full max-w-xl rounded-xl border-2 border-slate-600 bg-slate-800/30 backdrop-blur-xl p-8 text-white shadow-xl">
-          <h1 className="mb-6 text-center text-3xl font-bold">Kayıt Ol</h1>
+          <h1 className="mb-6 text-center text-3xl font-bold">Başvuru Yap</h1>
 
           <form onSubmit={submit} className="space-y-4">
             <div>
@@ -195,7 +195,7 @@ function RegisterContent() {
                 disabled:opacity-50 disabled:cursor-not-allowed
               "
             >
-              {loading ? "Kayıt yapılıyor..." : "Kayıt Ol"}
+              {loading ? "Başvuru yapılıyor..." : "Başvuru Yap"}
             </button>
 
             <div className="text-center text-sm text-slate-300">

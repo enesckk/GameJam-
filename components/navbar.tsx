@@ -10,7 +10,7 @@ const nav = [
   { href: "/takvim", label: "Takvim" },
   { href: "/kurallar", label: "Kurallar" },
   { href: "/duyurular", label: "Duyurular" },
-  { href: "/kayit", label: "Kayıt" },
+  { href: "/kayit", label: "Başvuru" },
 ];
 
 export default function Navbar() {
@@ -97,7 +97,7 @@ export default function Navbar() {
                   hover:shadow-[0_0_16px_#ff00ff,0_0_22px_#00ffff]
                 "
               >
-                Kayıt
+                Başvuru
               </Link>
 
               <Link

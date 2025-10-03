@@ -7,7 +7,7 @@ import { useMemo } from "react";
 
 export default function Hero() {
   // Etkinlik başlangıcı
-  const target = useMemo(() => new Date("2025-10-12T20:59:00Z"), []);
+  const target = useMemo(() => new Date("2025-10-24T06:00:00Z"), []);
 
   const fullDateTR = useMemo(() => {
     try {
@@ -56,7 +56,7 @@ export default function Hero() {
 
           {/* CTA'lar — Neon Tema Uyumlu */}
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <Link href="/kayit" aria-label="Kayıt Ol sayfasına git">
+            <Link href="/kayit" aria-label="Başvuru Yap sayfasına git">
               <div className="group relative">
                 {/* Neon Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl blur-md group-hover:blur-lg transition-all duration-300 opacity-60 group-hover:opacity-80"></div>
@@ -65,7 +65,7 @@ export default function Hero() {
                 <div className="relative bg-gradient-to-r from-cyan-500/90 to-blue-600/90 hover:from-cyan-400 hover:to-blue-500 rounded-xl px-6 py-3 text-white font-semibold text-base shadow-lg hover:shadow-cyan-400/30 transition-all duration-300 hover:scale-[1.02] border border-cyan-400/50 hover:border-cyan-300/70">
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-                    <span>Kayıt Ol</span>
+                    <span>Başvuru Yap</span>
                     <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
                   </div>
                 </div>

@@ -18,7 +18,6 @@ const links = [
   { href: "/panel/oduller", label: "Ödüller", icon: Trophy, color: "from-yellow-500 to-orange-500" },
   { href: "/panel/takvim", label: "Takvim", icon: Calendar, color: "from-pink-500 to-rose-500" },
   { href: "/panel/juri-mentor", label: "Jüri & Mentörler", icon: Gavel, color: "from-violet-500 to-purple-500" },
-  { href: "/panel/sponsorlar", label: "Sponsorlar", icon: Briefcase, color: "from-amber-500 to-yellow-500" },
   { href: "/panel/hakkimizda", label: "Hakkımızda", icon: Info, color: "from-cyan-500 to-blue-500" },
   { href: "/panel/sss", label: "SSS", icon: HelpCircle, color: "from-emerald-500 to-teal-500" },
   { href: "/panel/iletisim", label: "İletişim", icon: MapPin, color: "from-rose-500 to-pink-500" },

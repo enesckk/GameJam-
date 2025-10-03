@@ -210,7 +210,7 @@ export default function KayitPage() {
             border border-slate-700"
         >
           <h1 className="mb-6 text-center text-3xl font-bold text-white">
-            Kayıt / Başvuru
+            Başvuru
           </h1>
           <form onSubmit={onSubmit} className="space-y-5" noValidate>
             {/* Başvuru tipi */}

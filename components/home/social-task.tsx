@@ -32,7 +32,7 @@ export default function SocialTask() {
         >
           Etkinlik boyunca <span className="font-semibold">#Şehitkamil</span> etiketiyle
           LinkedIn, Instagram ve X (Twitter) üzerinde paylaşım yap. Paylaşımlar final
-          değerlendirmesine <span className="font-semibold">%10</span> katkı sağlar.
+          değerlendirmesine <span className="font-semibold">%20</span> katkı sağlar.
         </p>
 
         {/* Marka rengine göre arka ışık (glow) — yalnızca ikon hover/focus'ta */}

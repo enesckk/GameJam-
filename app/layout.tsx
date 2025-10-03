@@ -11,7 +11,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: "Şehitkamil Game Jam — Oyna ve Kazan!",
-  description: "Etkinlik takvimi, kayıt, duyurular ve paneller tek çatı altında.",
+  description: "Etkinlik takvimi, başvuru, duyurular ve paneller tek çatı altında.",
   
   // Sadece koyu tema için renk şeması
   other: {

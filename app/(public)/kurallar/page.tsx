@@ -241,7 +241,7 @@ export default function RulesPage() {
               { percentage: "20%", title: "Oynanabilirlik", desc: "Oyun mekanikleri, kullanıcı deneyimi ve eğlence faktörü", color: "purple", gradient: "from-purple-500/20 to-violet-600/20", border: "border-purple-500/30" },
               { percentage: "15%", title: "Tema Uyumu", desc: "Verilen temaya uygunluk ve konsept tutarlılığı", color: "orange", gradient: "from-orange-500/20 to-amber-600/20", border: "border-orange-500/30" },
               { percentage: "10%", title: "Görsel Tasarım", desc: "Grafik kalitesi, sanat yönetimi ve görsel çekicilik", color: "pink", gradient: "from-pink-500/20 to-rose-600/20", border: "border-pink-500/30" },
-              { percentage: "5%", title: "Sosyal Medya", desc: "#Şehitkamil etiketiyle yapılan paylaşımlar", color: "cyan", gradient: "from-cyan-500/20 to-sky-600/20", border: "border-cyan-500/30" }
+              { percentage: "20%", title: "Sosyal Medya", desc: "#Şehitkamil etiketiyle yapılan paylaşımlar", color: "cyan", gradient: "from-cyan-500/20 to-sky-600/20", border: "border-cyan-500/30" }
             ].map((criterion, index) => (
               <div
                 key={index}
@@ -392,7 +392,7 @@ export default function RulesPage() {
               },
               {
                 question: "Takım değişikliği yapabilir miyim?",
-                answer: "Kayıt süresi sona ermeden önce takım değişikliği yapabilirsiniz. Kayıt süresi bittikten sonra değişiklik yapılamaz.",
+                answer: "Başvuru süresi sona ermeden önce takım değişikliği yapabilirsiniz. Başvuru süresi bittikten sonra değişiklik yapılamaz.",
                 gradient: "from-orange-500/20 to-amber-600/20",
                 border: "border-orange-500/30"
               },

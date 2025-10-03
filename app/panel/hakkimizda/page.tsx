@@ -124,7 +124,7 @@ export default function AboutPage() {
       <SectionCard title="Akış Özeti" subtitle="Yüksek seviyede plan">
         <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
           {[
-            { t: "Kayıt & Karşılama", d: "Panoya erişim, takım oluşturma / birleştirme.", icon: Users, color: "from-blue-500 to-cyan-500" },
+            { t: "Başvuru & Karşılama", d: "Panoya erişim, takım oluşturma / birleştirme.", icon: Users, color: "from-blue-500 to-cyan-500" },
             { t: "Tema Duyurusu", d: "Açılışta açıklanır. Duyurular sayfasını takip edin.", icon: Target, color: "from-purple-500 to-pink-500" },
             { t: "Geliştirme Süreci", d: "Mentör desteği, ara checkpoint'ler.", icon: Zap, color: "from-green-500 to-emerald-500" },
             { t: "Oyun Teslimi", d: "Panel ▸ Oyun Teslimi üzerinden belirtilen formatta.", icon: Trophy, color: "from-yellow-500 to-orange-500" },

@@ -81,8 +81,8 @@ export default function IntroCards() {
       <div className="grid gap-6 md:grid-cols-4">
         <Item
           icon={<span>🎮</span>}
-          title="Tema: Oyna ve Kazan!"
-          desc="Kullanıcıların oynadıkça puan kazandığı ve ödüller alabildiği oyunlar geliştirilecek."
+          title="Tema: Yarışma Başlangıcında Açıklanacak"
+          desc="Tema, Game Jam başlangıcında tüm katılımcılara açıklanacak."
         />
         <Item
           icon={<span>🗓️</span>}
@@ -95,9 +95,9 @@ export default function IntroCards() {
           desc="İlk 3 takıma büyük ödüller, tüm katılımcılara sürpriz hediyeler."
         />
         <Item
-          icon={<span>📱</span>}
-          title="Mobil Entegrasyon"
-          desc="Başarılı projeler Şehitkamil Belediyesi mobil uygulamasına entegre edilecek."
+          icon={<span>🎯</span>}
+          title="Yarışma Formatı"
+          desc="48 saatlik yoğun geliştirme süreci ile yaratıcılığınızı sergileyin."
         />
       </div>
     </section>
