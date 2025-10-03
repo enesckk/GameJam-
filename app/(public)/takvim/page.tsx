@@ -81,7 +81,7 @@ const IMPORTANT_DATES = [
   { title: "Başvuru Sonu", date: "15 Ekim 2025", time: "23:59", icon: "⏰", color: "red" },
   { title: "Game Jam Başlangıcı", date: "24 Ekim 2025", time: "09:00", icon: "🚀", color: "green" },
   { title: "Proje Teslimi", date: "25 Ekim 2025", time: "18:00", icon: "📦", color: "orange" },
-  { title: "Ödül Töreni", date: "26 Ekim 2025", time: "19:00", icon: "🏆", color: "yellow" }
+  { title: "Ödül Töreni", date: "25 Ekim 2025", time: "19:00", icon: "🏆", color: "yellow" }
 ];
 
 const DAILY_SCHEDULE = [
