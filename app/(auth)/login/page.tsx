@@ -96,30 +96,6 @@ function LoginContent() {
             Giriş Yap
           </h1>
 
-          {/* Bilgilendirme kutusu */}
-          <div className="mb-6 rounded-xl bg-blue-500/10 border border-blue-500/30 p-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                <span className="text-blue-400 text-lg">ℹ️</span>
-              </div>
-              <div>
-                <p className="text-sm text-blue-200 font-medium">Başvuru yapmadınız mı?</p>
-                <p className="text-xs text-blue-300/80 mt-1">
-                  Game Jam'e katılmak için önce başvuru yapmanız gerekiyor.
-                </p>
-              </div>
-            </div>
-            <div className="mt-3">
-              <Link
-                href="/kayit"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 hover:border-blue-500/50 rounded-lg text-sm font-medium text-blue-200 hover:text-blue-100 transition-all duration-200"
-              >
-                <span>📝</span>
-                Başvuru Yap
-              </Link>
-            </div>
-          </div>
-
           <form onSubmit={submit} className="space-y-4">
             {/* E-posta input */}
             <div>
