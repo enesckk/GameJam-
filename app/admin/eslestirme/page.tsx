@@ -214,7 +214,7 @@ export default function MatchingPage() {
     try {
       const userIds = unmatched
         .filter((u) => selected.has(u.id))
-        .slice(0, 4)
+        .slice(0, 5) // Max 5 üye (takım kaptanı + 4 üye)
         .map((u) => u.id);
       const r = await fetch("/api/admin/matching/create-team", {
         method: "POST",

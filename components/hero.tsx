@@ -33,12 +33,12 @@ export default function Hero() {
       "
       style={{ backgroundImage: "url('/bg-hero.png')" }}
     >
-      {/* SOL tarafı butonlar için karartan overlay */}
+      {/* Şehitkamil renklerine uygun overlay */}
       <div
         aria-hidden
         className="
           absolute inset-0 -z-10
-          bg-gradient-to-r from-black/70 via-black/50 to-transparent
+          bg-gradient-to-r from-green-900/80 via-blue-900/60 to-purple-900/40
         "
       />
 
@@ -58,11 +58,11 @@ export default function Hero() {
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
             <Link href="/kayit" aria-label="Başvuru Yap sayfasına git">
               <div className="group relative">
-                {/* Neon Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl blur-md group-hover:blur-lg transition-all duration-300 opacity-60 group-hover:opacity-80"></div>
+                {/* Şehitkamil Yeşil Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 rounded-xl blur-md group-hover:blur-lg transition-all duration-300 opacity-60 group-hover:opacity-80"></div>
                 
                 {/* Button */}
-                <div className="relative bg-gradient-to-r from-cyan-500/90 to-blue-600/90 hover:from-cyan-400 hover:to-blue-500 rounded-xl px-6 py-3 text-white font-semibold text-base shadow-lg hover:shadow-cyan-400/30 transition-all duration-300 hover:scale-[1.02] border border-cyan-400/50 hover:border-cyan-300/70">
+                <div className="relative bg-gradient-to-r from-green-500/90 to-emerald-600/90 hover:from-green-400 hover:to-emerald-500 rounded-xl px-6 py-3 text-white font-semibold text-base shadow-lg hover:shadow-green-400/30 transition-all duration-300 hover:scale-[1.02] border border-green-400/50 hover:border-green-300/70">
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
                     <span>Başvuru Yap</span>
@@ -74,11 +74,11 @@ export default function Hero() {
 
             <Link href="/takvim" aria-label="Etkinlik takvimini gör">
               <div className="group relative">
-                {/* Neon Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 rounded-xl blur-md group-hover:blur-lg transition-all duration-300 opacity-60 group-hover:opacity-80"></div>
+                {/* Şehitkamil Mavi Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-indigo-500 rounded-xl blur-md group-hover:blur-lg transition-all duration-300 opacity-60 group-hover:opacity-80"></div>
                 
                 {/* Button */}
-                <div className="relative bg-gradient-to-r from-purple-500/90 to-pink-600/90 hover:from-purple-400 hover:to-pink-500 rounded-xl px-6 py-3 text-white font-semibold text-base shadow-lg hover:shadow-purple-400/30 transition-all duration-300 hover:scale-[1.02] border border-purple-400/50 hover:border-purple-300/70">
+                <div className="relative bg-gradient-to-r from-blue-500/90 to-indigo-600/90 hover:from-blue-400 hover:to-indigo-500 rounded-xl px-6 py-3 text-white font-semibold text-base shadow-lg hover:shadow-blue-400/30 transition-all duration-300 hover:scale-[1.02] border border-blue-400/50 hover:border-blue-300/70">
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                     <span>Takvimi Gör</span>

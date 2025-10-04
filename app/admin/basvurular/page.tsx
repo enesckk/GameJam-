@@ -93,14 +93,14 @@ function PageSizeSelect({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-800 border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors text-slate-300"
+        className="flex items-center gap-2 px-3 py-2 text-sm bg-white/10 border border-white/20 rounded-xl hover:bg-white/20 transition-colors text-white backdrop-blur-sm"
       >
         <span>{value} / sayfa</span>
         <ChevronDown className="w-4 h-4" />
       </button>
       {open && portalEl && pos && createPortal(
         <div
-          className="absolute z-50 bg-slate-800 border border-slate-600 rounded-lg shadow-xl min-w-[120px]"
+          className="absolute z-50 bg-slate-800/90 border border-purple-500/30 rounded-xl shadow-xl min-w-[120px] backdrop-blur-sm"
           style={{ top: pos.top, left: pos.left, width: pos.width }}
         >
           {options.map((opt) => (
@@ -110,7 +110,7 @@ function PageSizeSelect({
                 onChange(opt);
                 setOpen(false);
               }}
-              className="w-full px-3 py-2 text-sm text-left text-slate-300 hover:bg-slate-700 first:rounded-t-lg last:rounded-b-lg"
+              className="w-full px-3 py-2 text-sm text-left text-white hover:bg-purple-500/20 first:rounded-t-lg last:rounded-b-lg"
             >
               {opt} / sayfa
             </button>
@@ -227,24 +227,39 @@ export default function BasvurularPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Başvurular</h1>
-          <p className="text-slate-400">Game Jam başvurularını yönetin</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Search className="w-4 h-4 text-slate-400" />
-            <input
-              type="text"
-              placeholder="Ara..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+      {/* Hero Section */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6 sm:p-8 text-white shadow-2xl">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.1)_1px,transparent_0)] bg-[length:18px_18px] opacity-40 sm:opacity-50" />
+        <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4 sm:gap-6">
+            <div className="relative">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-400 to-purple-600 blur-lg opacity-60 sm:opacity-75" />
+              <div className="relative rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 p-3 sm:p-4 shadow-lg">
+                <Users className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
+              </div>
+            </div>
+            <div>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-1 sm:mb-2">
+                Başvurular
+              </h1>
+              <p className="text-slate-300 text-sm sm:text-base">
+                Game Jam başvurularını yönetin
+              </p>
+            </div>
           </div>
-          <PageSizeSelect value={pageSize} onChange={setPageSize} />
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <Search className="w-4 h-4 text-purple-300" />
+              <input
+                type="text"
+                placeholder="İsim, e-posta veya takım ara..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="px-3 py-2 bg-white/10 border border-white/20 rounded-xl text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 backdrop-blur-sm"
+              />
+            </div>
+            <PageSizeSelect value={pageSize} onChange={setPageSize} />
+          </div>
         </div>
       </div>
 
@@ -260,10 +275,10 @@ export default function BasvurularPage() {
             <button
               key={key}
               onClick={() => setFilter(key as any)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
                 filter === key
-                  ? "bg-blue-600 text-white"
-                  : "bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-600"
+                  ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg"
+                  : "bg-slate-700/80 text-slate-300 hover:bg-slate-600 border border-slate-500/50 hover:border-purple-500/50"
               }`}
             >
               {label} ({count})
