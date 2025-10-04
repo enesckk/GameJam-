@@ -100,3 +100,37 @@ export function useDisplayName() {
 
   return { displayName: mounted ? name : null };
 }
+
+// Server-side session function
+export async function getSession(req: Request) {
+  try {
+    // JWT token'ı cookie'den al
+    const cookies = req.headers.get('cookie') || '';
+    const authMatch = cookies.match(/auth=([^;]+)/);
+    
+    if (!authMatch) {
+      return { ok: false, user: null };
+    }
+
+    const token = authMatch[1];
+    
+    // JWT'yi decode et (basit implementation)
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    
+    // User bilgilerini database'den al
+    const { db } = await import('./prisma');
+    const user = await db.user.findUnique({
+      where: { id: payload.sub },
+      select: { id: true, email: true, name: true, role: true }
+    });
+
+    if (!user) {
+      return { ok: false, user: null };
+    }
+
+    return { ok: true, user };
+  } catch (error) {
+    console.error('Session error:', error);
+    return { ok: false, user: null };
+  }
+}
