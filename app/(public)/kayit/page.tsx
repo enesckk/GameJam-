@@ -23,7 +23,6 @@ type FormState = {
   email: string;
   phone: string;
   age: string;
-  password: string; // sadece lider için
   role: RoleOption;
   consentKVKK: boolean;
   // Takım üyeleri (ekstra)
@@ -57,7 +56,6 @@ export default function KayitPage() {
     email: "",
     phone: "",
     age: "",
-    password: "",
     role: "developer",
     consentKVKK: false,
     members: [],
@@ -66,15 +64,14 @@ export default function KayitPage() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
-  const [showPass, setShowPass] = useState(false);
-  const [capsOn, setCapsOn] = useState(false);
+  // Password-related state removed
 
   // --- Validasyonlar ---
   const emailOk = emailRe.test(f.email);
   const phoneOk = phoneRe.test(f.phone.replace(/\s/g, ""));
   const ageNum = Number(f.age);
   const ageOk = Number.isInteger(ageNum) && ageNum >= 18;
-  const passOk = f.password.length >= 6;
+  // Password validation removed - admin will generate password
   const nameOk = f.name.trim().length >= 3;
   const consentOk = f.consentKVKK === true;
 
@@ -98,7 +95,7 @@ export default function KayitPage() {
       return new Set(all).size === all.length;
     })();
 
-  const allOk = emailOk && phoneOk && ageOk && nameOk && consentOk && passOk && teamOk;
+  const allOk = emailOk && phoneOk && ageOk && nameOk && consentOk && teamOk;
 
   // --- Change handlers ---
   function onChange<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -121,9 +118,7 @@ export default function KayitPage() {
   function removeMember(i: number) {
     setF((s) => ({ ...s, members: s.members.filter((_, idx) => idx !== i) }));
   }
-  function onPasswordKey(ev: React.KeyboardEvent<HTMLInputElement>) {
-    setCapsOn(ev.getModifierState("CapsLock"));
-  }
+  // Password key handler removed
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -164,7 +159,7 @@ export default function KayitPage() {
         return;
       }
 
-      setMsg("Başvurun alındı! E-postanı kontrol et.");
+      setMsg("Başvurun alındı! Değerlendirme sonucu e-posta ile bildirilecektir.");
       setF({
         type: "team",
         teamName: "",
@@ -172,7 +167,6 @@ export default function KayitPage() {
         email: "",
         phone: "",
         age: "",
-        password: "",
         role: "developer",
         consentKVKK: false,
         members: [],
@@ -182,7 +176,7 @@ export default function KayitPage() {
     }
   }
 
-  const strength = getPasswordStrength(f.password);
+  // Password strength calculation removed
 
   return (
     <div
@@ -293,65 +287,7 @@ export default function KayitPage() {
                 )}
               </div>
 
-              {/* Şifre + Göster/Gizle + CapsLock + Güç Göstergesi */}
-              <div className="sm:col-span-2">
-                <div className="relative">
-                  <input
-                    placeholder="Lider Şifre (en az 6 karakter)"
-                    type={showPass ? "text" : "password"}
-                    className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 pr-24 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
-                    value={f.password}
-                    onChange={(e) => onChange("password", e.target.value)}
-                    onKeyUp={onPasswordKey}
-                    onKeyDown={onPasswordKey}
-                    required
-                    aria-invalid={!passOk && f.password !== "" ? "true" : "false"}
-                  />
-                  <div className="absolute inset-y-0 right-2 flex items-center gap-2">
-                    {capsOn && (
-                      <span
-                        className="hidden sm:inline text-[10px] px-2 py-1 rounded-md bg-yellow-500/20 text-yellow-200 border border-yellow-500/30"
-                        title="Caps Lock açık"
-                      >
-                        CAPS
-                      </span>
-                    )}
-                    <button
-                      type="button"
-                      onClick={() => setShowPass((s) => !s)}
-                      className="my-1 inline-flex items-center rounded-lg px-2 text-xs text-emerald-200 hover:text-emerald-100"
-                      aria-pressed={showPass}
-                      aria-label={showPass ? "Şifreyi gizle" : "Şifreyi göster"}
-                      title={showPass ? "Şifreyi gizle" : "Şifreyi göster"}
-                    >
-                      {showPass ? "Gizle" : "Göster"}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Güç barı & uyarılar */}
-                <div className="mt-2 flex flex-wrap items-center gap-3">
-                  {f.password && (
-                    <>
-                      <div className="h-2 w-28 rounded-full bg-slate-600 overflow-hidden">
-                        <div
-                          className={`h-2 transition-all duration-300 ${strength.barClass}`}
-                          style={{ width: strength.width }}
-                        />
-                      </div>
-                      <span className="text-xs text-slate-200">
-                        {strength.label}
-                      </span>
-                    </>
-                  )}
-                  {!passOk && f.password !== "" && (
-                    <span className="text-xs text-red-300">Şifre en az 6 karakter olmalı.</span>
-                  )}
-                  {capsOn && (
-                    <span className="text-xs text-yellow-300 sm:hidden">Caps Lock açık</span>
-                  )}
-                </div>
-              </div>
+              {/* Şifre alanı kaldırıldı - Admin onayı ile şifre oluşturulacak */}
             </div>
 
             {/* Lider Rol — RoleSelect */}
@@ -516,10 +452,9 @@ export default function KayitPage() {
 
             {/* Alt bilgilendirme */}
             <p className="text-center text-xs text-slate-300">
-              Başvurudan sonra lider için hesap otomatik açılır. Diğer takım üyelerine
+              Başvurunuz değerlendirildikten sonra <strong>onay e-postası</strong> gönderilecektir.
               <br className="hidden sm:block" />
-              <strong>davet e-postası</strong> gönderilir; e-postadaki <strong>şifre sıfırlama bağlantısı</strong> ile
-              sisteme giriş yapabilirsiniz.
+              Onaylandığınızda <strong>giriş bilgileriniz</strong> e-posta ile iletilecektir.
             </p>
           </form>
         </div>
