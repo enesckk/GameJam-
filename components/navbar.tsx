@@ -71,7 +71,7 @@ export default function Navbar() {
               className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
             />
           </div>
-          <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <span className="text-white">
             Şehitkamil Game Jam
           </span>
         </Link>
@@ -88,7 +88,11 @@ export default function Navbar() {
                   key={i.href}
                   href={i.href}
                   aria-current={active ? "page" : undefined}
-                  className="text-sm px-3 py-2 rounded-lg font-medium transition-all duration-300 hover:bg-green-500/20 hover:text-green-300 text-slate-300 hover:scale-105"
+                  className={`text-sm px-3 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 ${
+                    active 
+                      ? "bg-green-500/20 text-green-300 border border-green-500/30" 
+                      : "text-slate-300 hover:bg-green-500/20 hover:text-green-300"
+                  }`}
                 >
                   {i.label}
                 </Link>
