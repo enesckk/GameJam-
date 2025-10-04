@@ -54,31 +54,33 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "E-posta veya şifre hatalı" }, { status: 401 });
     }
 
-    // Başvuru durumunu kontrol et
-    const application = await db.application.findUnique({
-      where: { email },
-    });
+    // Başvuru durumunu kontrol et (sadece PARTICIPANT'lar için)
+    if (user.role === "PARTICIPANT") {
+      const application = await db.application.findUnique({
+        where: { email },
+      });
 
-    if (!application) {
-      return NextResponse.json({ message: "Başvuru bulunamadı" }, { status: 403 });
-    }
+      if (!application) {
+        return NextResponse.json({ message: "Başvuru bulunamadı" }, { status: 403 });
+      }
 
-    if (application.status === "pending") {
-      return NextResponse.json({ 
-        message: "Başvurunuz henüz değerlendirilmedi. Lütfen onay bekleyin." 
-      }, { status: 403 });
-    }
+      if (application.status === "pending") {
+        return NextResponse.json({ 
+          message: "Başvurunuz henüz değerlendirilmedi. Lütfen onay bekleyin." 
+        }, { status: 403 });
+      }
 
-    if (application.status === "rejected") {
-      return NextResponse.json({ 
-        message: "Başvurunuz reddedilmiştir." 
-      }, { status: 403 });
-    }
+      if (application.status === "rejected") {
+        return NextResponse.json({ 
+          message: "Başvurunuz reddedilmiştir." 
+        }, { status: 403 });
+      }
 
-    if (application.status !== "approved") {
-      return NextResponse.json({ 
-        message: "Başvurunuz onaylanmamıştır." 
-      }, { status: 403 });
+      if (application.status !== "approved") {
+        return NextResponse.json({ 
+          message: "Başvurunuz onaylanmamıştır." 
+        }, { status: 403 });
+      }
     }
 
    // canLogin kuralı — ADMIN için bypass
