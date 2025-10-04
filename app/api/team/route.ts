@@ -275,33 +275,9 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Davet: yalnızca giriş yapamayanlar için token üret + TEK MAİL gönder
-    if (willInvite) {
-      const target = await db.user.findUnique({ where: { email }, select: { id: true, name: true } });
-      if (target) {
-        await db.passwordResetToken.deleteMany({ where: { userId: target.id, usedAt: null } });
-
-        const raw = rawToken();
-        const tokenHash = sha256(raw);
-        // Not: diğer akışlarla tutarlı olsun diye 1 saat
-        const expiresAt = new Date(Date.now() + 1000 * 60 * 60); // 1 saat
-
-        await db.passwordResetToken.create({
-          data: { userId: target.id, tokenHash, expiresAt },
-        });
-
-        const link = `${baseUrl(req)}/reset-password?token=${encodeURIComponent(raw)}`;
-        inviteResetUrl = link; // istersen response'tan kaldırabilirsin
-
-        const r: any = await sendAccessEmail({
-          to: email,
-          name: name || undefined,
-          link,
-          // reason: "invite" // opsiyonel, metni özelleştirir
-        });
-        if (r?.error) console.error("ACCESS_EMAIL_ERROR", r.error);
-      }
-    }
+    // ---- Davet sistemi kaldırıldı ----
+    // Artık sadece admin onayı ile kullanıcılar sisteme girebilir
+    // Admin panelinden başvurular onaylandığında otomatik şifre oluşturulur ve mail gönderilir
   } catch (e) {
     console.error("[team:add_member] error:", e);
     // DB erişilemezse cookie üzerinden devam (demo/hata toleransı)

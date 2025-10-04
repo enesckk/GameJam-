@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Home, UserCog, IdCard, Users, Megaphone, Link2, MessageSquare, Inbox,
+  Home, UserCog, IdCard, Users, Megaphone, Link2, MessageSquare, Inbox, FileText,
 } from "lucide-react";
 
 const links = [
   { href: "/admin", label: "Gösterge", icon: Home },
   { href: "/admin/profil", label: "Profil", icon: UserCog },
+  { href: "/admin/basvurular", label: "Başvurular", icon: FileText },
   { href: "/admin/katilimcilar", label: "Katılımcılar", icon: IdCard },
   { href: "/admin/takimlar", label: "Takımlar", icon: Users },
   { href: "/admin/duyurular", label: "Duyurular", icon: Megaphone },

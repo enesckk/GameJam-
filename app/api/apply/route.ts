@@ -225,48 +225,9 @@ export async function POST(req: Request) {
       path: "/", sameSite: "lax", maxAge: 60 * 60 * 24 * 365, httpOnly: false
     });
 
-    // ---- Kayıt sonrası davet/erişim mailleri (tek şablon) ----
-    // Üyeler login kapalı geldi; hepsine 1 saatlik token üretip erişim maili gönderiyoruz.
-    try {
-      if (type === "team" && members.length) {
-        const base = (process.env.APP_URL || "").trim() || "http://localhost:3000";
-        const memberEmails = members.map(m => String(m.email).toLowerCase().trim());
-
-        // Az önce oluşturulan üyeleri çek (id ve ad için)
-        const createdMembers = await db.user.findMany({
-          where: { email: { in: memberEmails } },
-          select: { id: true, name: true, email: true },
-        });
-
-        await Promise.all(createdMembers.map(async (u) => {
-          const raw = crypto.randomBytes(32).toString("hex");
-          const tokenHash = sha256(raw);
-          const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 saat
-
-          await db.passwordResetToken.create({
-            data: { userId: u.id, tokenHash, expiresAt },
-          });
-
-          const link = `${base}/reset-password?token=${encodeURIComponent(raw)}`;
-          const r: any = await sendAccessEmail({ to: u.email, name: u.name ?? undefined, link, reason: "invite" });
-          if (r?.error) console.error("ACCESS_EMAIL_ERROR", r.error);
-        }));
-      }
-
-      // (Opsiyonel) Lider’e de aynı erişim maili gönderilebilir:
-      // - Lider zaten şifre belirlediği için genelde gerekmez.
-      // const base = (process.env.APP_URL || "").trim() || "http://localhost:3000";
-      // const leadUser = await db.user.findUnique({ where: { email: leadEmail }, select: { id: true, name: true, email: true } });
-      // if (leadUser) {
-      //   const rawLead = crypto.randomBytes(32).toString("hex");
-      //   await db.passwordResetToken.create({ data: { userId: leadUser.id, tokenHash: sha256(rawLead), expiresAt: new Date(Date.now() + 60 * 60 * 1000) } });
-      //   await sendAccessEmail({ to: leadUser.email, name: leadUser.name ?? undefined, link: `${base}/reset?token=${encodeURIComponent(rawLead)}`, reason: "invite" });
-      // }
-
-    } catch (mailErr: any) {
-      // Mail hataları başvuruyu iptal etmesin; log yeter.
-      console.error("POST_APPLY_MAIL_ERROR", mailErr?.response?.body || mailErr?.message || mailErr);
-    }
+    // ---- Davet sistemi kaldırıldı ----
+    // Artık sadece admin onayı ile kullanıcılar sisteme girebilir
+    // Admin panelinden başvurular onaylandığında otomatik şifre oluşturulur ve mail gönderilir
 
     return res;
   } catch (e: any) {

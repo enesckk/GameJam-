@@ -111,6 +111,9 @@ model Application {
   // Team flag + takım adı (team başvurusunda zorunlu)
   type        String // "team"
   teamName    String?
+  status      String  @default("pending") // "pending" | "approved" | "rejected"
+  approvedAt  DateTime?
+  rejectedAt  DateTime?
   createdAt   DateTime @default(now())
 }
 

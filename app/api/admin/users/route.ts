@@ -120,27 +120,9 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 2) Eski tokenları sil
-    await db.passwordResetToken.deleteMany({ where: { userId: user.id } });
-
-    // 3) Yeni token üret
-    const raw = crypto.randomBytes(32).toString("hex");
-    const tokenHash = sha256(raw);
-    const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24 saat
-
-    await db.passwordResetToken.create({
-      data: { userId: user.id, tokenHash, expiresAt },
-    });
-
-    // 4) Davet linki
-    const link = `${originFrom(req)}/reset-password?token=${raw}`;
-
-    // 5) Local: mail yerine console.log
-    await sendInviteEmailDev({
-      to: email,
-      name: name ?? undefined,
-      link,
-    });
+    // ---- Davet sistemi kaldırıldı ----
+    // Artık sadece admin onayı ile kullanıcılar sisteme girebilir
+    // Admin panelinden başvurular onaylandığında otomatik şifre oluşturulur ve mail gönderilir
 
     return NextResponse.json({ ok: true, message: "Davet oluşturuldu" });
   } catch (e) {
