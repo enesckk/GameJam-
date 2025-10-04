@@ -45,10 +45,10 @@ export default function Footer() {
             <li className="flex items-center gap-2">
               <Mail className="h-4 w-4 opacity-80" aria-hidden />
               <a
-                href="mailto:info@gamejam.org"
+                href="mailto:info@gamejam.sehitkamil.bel.tr"
                 className="text-[color:var(--foreground)] transition hover:font-semibold"
               >
-                info@gamejam.org
+                info@gamejam.sehitkamil.bel.tr
               </a>
             </li>
             <li className="flex items-start gap-2">
