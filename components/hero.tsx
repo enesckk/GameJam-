@@ -95,24 +95,17 @@ export default function Hero() {
         
         {/* Düzenleyici Kurumlar - Hero Alt Kısmı */}
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10">
-          <div className="flex items-center gap-6 sm:gap-8">
-            <div className="flex items-center gap-3">
-              <img 
-                src="/sehitkamil.png" 
-                alt="Şehitkamil Belediyesi" 
-                className="h-8 w-auto object-contain"
-              />
-              <span className="text-white text-sm font-medium">Şehitkamil Belediyesi</span>
-            </div>
-            <div className="w-px h-6 bg-white/20"></div>
-            <div className="flex items-center gap-3">
-              <img 
-                src="/umut-yilmaz.png" 
-                alt="Av. Umut Yılmaz" 
-                className="h-8 w-auto object-contain"
-              />
-              <span className="text-white text-sm font-medium">Av. Umut Yılmaz</span>
-            </div>
+          <div className="flex items-center gap-8 sm:gap-12">
+            <img 
+              src="/sehitkamil.png" 
+              alt="Şehitkamil Belediyesi" 
+              className="h-16 sm:h-20 w-auto object-contain drop-shadow-lg"
+            />
+            <img 
+              src="/umut-yilmaz.png" 
+              alt="Av. Umut Yılmaz" 
+              className="h-16 sm:h-20 w-auto object-contain drop-shadow-lg"
+            />
           </div>
         </div>
       </div>
