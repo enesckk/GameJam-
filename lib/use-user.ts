@@ -114,8 +114,8 @@ export async function getSession(req: Request) {
 
     const token = authMatch[1];
     
-    // JWT'yi decode et (basit implementation)
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    // JWT'yi decode et (Node.js uyumlu)
+    const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
     
     // User bilgilerini database'den al
     const { db } = await import('./prisma');
