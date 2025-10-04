@@ -76,14 +76,14 @@ function PageSizeSelect({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-800 border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors"
+        className="flex items-center gap-2 px-3 py-2 text-sm bg-purple-800/50 border border-purple-500/50 rounded-lg hover:bg-purple-700/50 transition-colors text-purple-200"
       >
         <span>{value} / sayfa</span>
         <ChevronDown className="w-4 h-4" />
       </button>
       {open && portalEl && pos && createPortal(
         <div
-          className="absolute z-50 bg-slate-800 border border-slate-600 rounded-lg shadow-xl min-w-[120px]"
+          className="absolute z-50 bg-purple-800/90 border border-purple-500/50 rounded-lg shadow-xl min-w-[120px] backdrop-blur-sm"
           style={{ top: pos.top, left: pos.left, width: pos.width }}
         >
           {options.map((opt) => (
@@ -93,7 +93,7 @@ function PageSizeSelect({
                 onChange(opt);
                 setOpen(false);
               }}
-              className="w-full px-3 py-2 text-sm text-left hover:bg-slate-700 first:rounded-t-lg last:rounded-b-lg"
+              className="w-full px-3 py-2 text-sm text-left text-purple-200 hover:bg-purple-700/50 first:rounded-t-lg last:rounded-b-lg"
             >
               {opt} / sayfa
             </button>
@@ -211,20 +211,20 @@ export default function BasvurularPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-xl p-6 border border-purple-500/30">
         <div>
           <h1 className="text-2xl font-bold text-white">Başvurular</h1>
-          <p className="text-slate-400">Game Jam başvurularını yönetin</p>
+          <p className="text-purple-200">Game Jam başvurularını yönetin</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <Search className="w-4 h-4 text-slate-400" />
+            <Search className="w-4 h-4 text-purple-300" />
             <input
               type="text"
               placeholder="Ara..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-2 bg-purple-800/50 border border-purple-500/50 rounded-lg text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
             />
           </div>
           <PageSizeSelect value={pageSize} onChange={setPageSize} />
@@ -245,8 +245,8 @@ export default function BasvurularPage() {
               onClick={() => setFilter(key as any)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 filter === key
-                  ? "bg-blue-600 text-white"
-                  : "bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-600"
+                  ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white"
+                  : "bg-purple-800/30 text-purple-200 hover:bg-purple-700/50 border border-purple-500/30"
               }`}
             >
               {label} ({count})
@@ -307,41 +307,53 @@ export default function BasvurularPage() {
                   </div>
 
                   {/* Takım Üyeleri */}
-                  {app.type === "team" && app.members && app.members.length > 0 && (
+                  {app.type === "team" && (
                     <div className="mt-6">
-                      <details className="group">
-                        <summary className="cursor-pointer text-sm font-medium text-blue-400 hover:text-blue-300 flex items-center gap-2">
-                          <Users className="w-4 h-4" />
-                          <span>Takım Üyeleri ({app.members.length} kişi)</span>
-                          <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180" />
-                        </summary>
-                        <div className="mt-4 space-y-3 pl-6 border-l-2 border-blue-500/30">
-                          {app.members.map((member, index) => (
-                            <div key={index} className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-                                <div className="flex items-center gap-2 text-slate-300">
-                                  <Users className="w-4 h-4 text-slate-400" />
-                                  <span><strong>İsim:</strong> {member.name}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-slate-300">
-                                  <Mail className="w-4 h-4 text-slate-400" />
-                                  <span><strong>E-posta:</strong> {member.email}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-slate-300">
-                                  <span><strong>Rol:</strong> {member.role}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-slate-300">
-                                  <Phone className="w-4 h-4 text-slate-400" />
-                                  <span><strong>Telefon:</strong> {member.phone}</span>
-                                </div>
-                                <div className="flex items-center gap-2 text-slate-300">
-                                  <span><strong>Yaş:</strong> {member.age}</span>
+                      {app.members && app.members.length > 0 ? (
+                        <details className="group">
+                          <summary className="cursor-pointer text-sm font-medium text-blue-400 hover:text-blue-300 flex items-center gap-2">
+                            <Users className="w-4 h-4" />
+                            <span>Takım Üyeleri ({app.members.length} kişi)</span>
+                            <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180" />
+                          </summary>
+                          <div className="mt-4 space-y-3 pl-6 border-l-2 border-blue-500/30">
+                            {app.members.map((member, index) => (
+                              <div key={index} className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                                  <div className="flex items-center gap-2 text-slate-300">
+                                    <Users className="w-4 h-4 text-slate-400" />
+                                    <span><strong>İsim:</strong> {member.name}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-slate-300">
+                                    <Mail className="w-4 h-4 text-slate-400" />
+                                    <span><strong>E-posta:</strong> {member.email}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-slate-300">
+                                    <span><strong>Rol:</strong> {member.role}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-slate-300">
+                                    <Phone className="w-4 h-4 text-slate-400" />
+                                    <span><strong>Telefon:</strong> {member.phone}</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-slate-300">
+                                    <span><strong>Yaş:</strong> {member.age}</span>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
+                        </details>
+                      ) : (
+                        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+                          <div className="flex items-center gap-2 text-yellow-300">
+                            <Users className="w-4 h-4" />
+                            <span className="font-medium">Takım üyeleri bilgisi bulunamadı</span>
+                          </div>
+                          <p className="text-yellow-200 text-sm mt-1">
+                            Bu başvuru eski sistemde yapılmış olabilir. Yeni başvurularda takım üyeleri görünecektir.
+                          </p>
                         </div>
-                      </details>
+                      )}
                     </div>
                   )}
                 </div>
