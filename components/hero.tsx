@@ -42,19 +42,6 @@ export default function Hero() {
         "
       />
 
-      {/* Logolar - Sol Üst Köşe */}
-      <div className="absolute top-20 left-4 sm:top-24 sm:left-6 z-10 flex items-center gap-6 sm:gap-8">
-        <img 
-          src="/sehitkamil.png" 
-          alt="Şehitkamil Belediyesi" 
-          className="h-12 sm:h-16 w-auto object-contain drop-shadow-lg"
-        />
-        <img 
-          src="/umut-yilmaz.png" 
-          alt="Av. Umut Yılmaz" 
-          className="h-12 sm:h-16 w-auto object-contain drop-shadow-lg"
-        />
-      </div>
 
       {/* İçerik */}
       <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 sm:px-6 md:grid-cols-2">
@@ -103,6 +90,29 @@ export default function Hero() {
                 </div>
               </div>
             </Link>
+          </div>
+        </div>
+        
+        {/* Düzenleyici Kurumlar - Hero Alt Kısmı */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10">
+          <div className="flex items-center gap-6 sm:gap-8">
+            <div className="flex items-center gap-3">
+              <img 
+                src="/sehitkamil.png" 
+                alt="Şehitkamil Belediyesi" 
+                className="h-8 w-auto object-contain"
+              />
+              <span className="text-white text-sm font-medium">Şehitkamil Belediyesi</span>
+            </div>
+            <div className="w-px h-6 bg-white/20"></div>
+            <div className="flex items-center gap-3">
+              <img 
+                src="/umut-yilmaz.png" 
+                alt="Av. Umut Yılmaz" 
+                className="h-8 w-auto object-contain"
+              />
+              <span className="text-white text-sm font-medium">Av. Umut Yılmaz</span>
+            </div>
           </div>
         </div>
       </div>
