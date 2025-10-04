@@ -16,6 +16,12 @@ interface Application {
   teamName?: string;
   status: string;
   createdAt: string;
+  leaderPassword?: string;
+  memberPasswords?: Array<{
+    email: string;
+    name: string;
+    password: string;
+  }>;
   members?: Array<{
     name: string;
     email: string;
@@ -29,6 +35,17 @@ const STATUS_BADGE: Record<string, { label: string; color: string; icon: any }> 
   pending: { label: "Beklemede", color: "from-yellow-500 to-orange-500", icon: Clock },
   approved: { label: "Onaylandı", color: "from-green-500 to-emerald-500", icon: CheckCircle },
   rejected: { label: "Reddedildi", color: "from-red-500 to-pink-500", icon: XCircle },
+};
+
+const ROLE_TRANSLATIONS: Record<string, string> = {
+  developer: "Geliştirici",
+  designer: "Tasarımcı", 
+  audio: "Ses / Müzik",
+  pm: "Proje Yöneticisi",
+};
+
+const getRoleTranslation = (role: string) => {
+  return ROLE_TRANSLATIONS[role] || role;
 };
 
 function PageSizeSelect({
@@ -76,14 +93,14 @@ function PageSizeSelect({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-2 text-sm bg-purple-800/50 border border-purple-500/50 rounded-lg hover:bg-purple-700/50 transition-colors text-purple-200"
+        className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-800 border border-slate-600 rounded-lg hover:bg-slate-700 transition-colors text-slate-300"
       >
         <span>{value} / sayfa</span>
         <ChevronDown className="w-4 h-4" />
       </button>
       {open && portalEl && pos && createPortal(
         <div
-          className="absolute z-50 bg-purple-800/90 border border-purple-500/50 rounded-lg shadow-xl min-w-[120px] backdrop-blur-sm"
+          className="absolute z-50 bg-slate-800 border border-slate-600 rounded-lg shadow-xl min-w-[120px]"
           style={{ top: pos.top, left: pos.left, width: pos.width }}
         >
           {options.map((opt) => (
@@ -93,7 +110,7 @@ function PageSizeSelect({
                 onChange(opt);
                 setOpen(false);
               }}
-              className="w-full px-3 py-2 text-sm text-left text-purple-200 hover:bg-purple-700/50 first:rounded-t-lg last:rounded-b-lg"
+              className="w-full px-3 py-2 text-sm text-left text-slate-300 hover:bg-slate-700 first:rounded-t-lg last:rounded-b-lg"
             >
               {opt} / sayfa
             </button>
@@ -211,20 +228,20 @@ export default function BasvurularPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-xl p-6 border border-purple-500/30">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Başvurular</h1>
-          <p className="text-purple-200">Game Jam başvurularını yönetin</p>
+          <p className="text-slate-400">Game Jam başvurularını yönetin</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <Search className="w-4 h-4 text-purple-300" />
+            <Search className="w-4 h-4 text-slate-400" />
             <input
               type="text"
               placeholder="Ara..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="px-3 py-2 bg-purple-800/50 border border-purple-500/50 rounded-lg text-white placeholder-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <PageSizeSelect value={pageSize} onChange={setPageSize} />
@@ -245,8 +262,8 @@ export default function BasvurularPage() {
               onClick={() => setFilter(key as any)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 filter === key
-                  ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white"
-                  : "bg-purple-800/30 text-purple-200 hover:bg-purple-700/50 border border-purple-500/30"
+                  ? "bg-blue-600 text-white"
+                  : "bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-600"
               }`}
             >
               {label} ({count})
@@ -284,7 +301,7 @@ export default function BasvurularPage() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                     <div className="flex items-center gap-2 text-slate-300">
                       <Users className="w-4 h-4 text-slate-400" />
-                      <span><strong>Lider:</strong> {app.name}</span>
+                      <span><strong>Takım Kaptanı:</strong> {app.name}</span>
                     </div>
                     <div className="flex items-center gap-2 text-slate-300">
                       <Mail className="w-4 h-4 text-slate-400" />
@@ -295,7 +312,7 @@ export default function BasvurularPage() {
                       <span><strong>Telefon:</strong> {app.phone || "Belirtilmemiş"}</span>
                     </div>
                     <div className="flex items-center gap-2 text-slate-300">
-                      <span><strong>Rol:</strong> {app.role}</span>
+                      <span><strong>Rol:</strong> {getRoleTranslation(app.role)}</span>
                     </div>
                     <div className="flex items-center gap-2 text-slate-300">
                       <span><strong>Yaş:</strong> {app.age || "Belirtilmemiş"}</span>
@@ -328,9 +345,9 @@ export default function BasvurularPage() {
                                     <Mail className="w-4 h-4 text-slate-400" />
                                     <span><strong>E-posta:</strong> {member.email}</span>
                                   </div>
-                                  <div className="flex items-center gap-2 text-slate-300">
-                                    <span><strong>Rol:</strong> {member.role}</span>
-                                  </div>
+                                <div className="flex items-center gap-2 text-slate-300">
+                                  <span><strong>Rol:</strong> {getRoleTranslation(member.role)}</span>
+                                </div>
                                   <div className="flex items-center gap-2 text-slate-300">
                                     <Phone className="w-4 h-4 text-slate-400" />
                                     <span><strong>Telefon:</strong> {member.phone}</span>
@@ -354,6 +371,63 @@ export default function BasvurularPage() {
                           </p>
                         </div>
                       )}
+                    </div>
+                  )}
+
+                  {/* Şifreler - Sadece onaylanmış başvurular için */}
+                  {app.status === "approved" && (app.leaderPassword || app.memberPasswords) && (
+                    <div className="mt-6">
+                      <details className="group">
+                        <summary className="cursor-pointer text-sm font-medium text-green-400 hover:text-green-300 flex items-center gap-2">
+                          <span>🔐 Giriş Şifreleri</span>
+                          <ChevronDown className="w-4 h-4 transition-transform group-open:rotate-180" />
+                        </summary>
+                        <div className="mt-4 space-y-3 pl-6 border-l-2 border-green-500/30">
+                          {/* Lider şifresi */}
+                          {app.leaderPassword && (
+                            <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+                              <div className="flex items-center gap-2 text-green-300 mb-2">
+                                <span className="font-medium">👑 Takım Kaptanı Şifresi</span>
+                              </div>
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                                <div className="text-green-200">
+                                  <strong>E-posta:</strong> {app.email}
+                                </div>
+                                <div className="text-green-200">
+                                  <strong>Şifre:</strong> 
+                                  <code className="ml-2 bg-green-800/50 px-2 py-1 rounded text-green-100 font-mono">
+                                    {app.leaderPassword}
+                                  </code>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Üye şifreleri */}
+                          {app.memberPasswords && app.memberPasswords.length > 0 && (
+                            <div className="space-y-2">
+                              {app.memberPasswords.map((member, index) => (
+                                <div key={index} className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+                                  <div className="flex items-center gap-2 text-green-300 mb-2">
+                                    <span className="font-medium">👤 {member.name}</span>
+                                  </div>
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                                    <div className="text-green-200">
+                                      <strong>E-posta:</strong> {member.email}
+                                    </div>
+                                    <div className="text-green-200">
+                                      <strong>Şifre:</strong> 
+                                      <code className="ml-2 bg-green-800/50 px-2 py-1 rounded text-green-100 font-mono">
+                                        {member.password}
+                                      </code>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </details>
                     </div>
                   )}
                 </div>

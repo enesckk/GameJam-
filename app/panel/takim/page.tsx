@@ -515,7 +515,7 @@ export default function TeamPage() {
                     </h4>
                     {m.isLeader && (
                       <span className="px-2 py-1 rounded-full bg-gradient-to-r from-yellow-500/20 to-orange-500/20 text-yellow-200 text-xs font-medium w-fit">
-                        Lider
+                        Takım Kaptanı
                       </span>
                     )}
                   </div>

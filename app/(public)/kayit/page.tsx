@@ -18,7 +18,7 @@ type Member = {
 type FormState = {
   type: ApplyType;
   teamName: string;
-  // Lider (başvuran)
+  // Takım Kaptanı (başvuran)
   name: string;
   email: string;
   phone: string;
@@ -229,11 +229,11 @@ export default function KayitPage() {
               </div>
             </div>
 
-            {/* Lider bilgileri */}
+            {/* Takım Kaptanı bilgileri */}
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
                 <input
-                  placeholder="Lider Ad Soyad"
+                  placeholder="Takım Kaptanı Ad Soyad"
                   className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
                   value={f.name}
                   onChange={(e) => onChange("name", e.target.value)}
@@ -246,7 +246,7 @@ export default function KayitPage() {
 
               <div>
                 <input
-                  placeholder="Lider E-posta"
+                  placeholder="Takım Kaptanı E-posta"
                   type="email"
                   className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
                   value={f.email}
@@ -260,7 +260,7 @@ export default function KayitPage() {
 
               <div>
                 <input
-                  placeholder="Lider Telefon (örn. +90 5xx xxx xx xx)"
+                  placeholder="Takım Kaptanı Telefon (örn. +90 5xx xxx xx xx)"
                   inputMode="tel"
                   className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
                   value={f.phone}
@@ -274,7 +274,7 @@ export default function KayitPage() {
 
               <div>
                 <input
-                  placeholder="Lider Yaş (18+)"
+                  placeholder="Takım Kaptanı Yaş (18+)"
                   type="number"
                   min={18}
                   className="w-full rounded-xl border border-slate-600 bg-slate-700 px-3 py-2 text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-emerald-500/60 focus:border-transparent"
@@ -290,7 +290,7 @@ export default function KayitPage() {
               {/* Şifre alanı kaldırıldı - Admin onayı ile şifre oluşturulacak */}
             </div>
 
-            {/* Lider Rol — RoleSelect */}
+            {/* Takım Kaptanı Rol — RoleSelect */}
             <div className="relative overflow-visible">
               <RoleSelect
                 className="[&>label]:sr-only"
@@ -303,7 +303,7 @@ export default function KayitPage() {
             <div className="space-y-3 rounded-xl border border-white/25 dark:border-white/10 p-4">
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-900 dark:text-gray-100">
-                  Takım Üyeleri (Lider hariç, en az {MIN_TEAM - 1}, en fazla {MAX_TEAM - 1})
+                  Takım Üyeleri (Takım Kaptanı hariç, en az {MIN_TEAM - 1}, en fazla {MAX_TEAM - 1})
                 </p>
                 <button
                   type="button"

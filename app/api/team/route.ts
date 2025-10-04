@@ -65,7 +65,7 @@ async function buildFromDBOrBootstrap(req: NextRequest): Promise<TeamState> {
   // Profile yoksa minimal bootstrap
   if (!email) {
     const leader: Member = {
-      id: uid(), name: prof.fullName || "Lider", email: "leader@example.com",
+      id: uid(), name: prof.fullName || "Takım Kaptanı", email: "leader@example.com",
       phone: prof.phone || "", age: 18,
       role: (ROLES.includes(prof.role) ? prof.role : "developer") as Role,
       status: "active", isLeader: true,
@@ -115,7 +115,7 @@ async function buildFromDBOrBootstrap(req: NextRequest): Promise<TeamState> {
 
     const leader: Member = {
       id: me?.id || uid(),
-      name: me?.name || prof.fullName || "Lider",
+      name: me?.name || prof.fullName || "Takım Kaptanı",
       email,
       phone: me?.phone || prof.phone || "",
       age: Number.isFinite(me?.age as any) ? Number(me?.age) : 18,
@@ -125,7 +125,7 @@ async function buildFromDBOrBootstrap(req: NextRequest): Promise<TeamState> {
     return { type: "team", teamName: "Takımım", inviteCode: newInvite(), members: [leader] };
   } catch {
     const leader: Member = {
-      id: uid(), name: prof.fullName || "Lider", email, phone: prof.phone || "",
+      id: uid(), name: prof.fullName || "Takım Kaptanı", email, phone: prof.phone || "",
       age: Number.isFinite(prof.age) ? Number(prof.age) : 18,
       role: (ROLES.includes(prof.role) ? prof.role : "developer") as Role,
       status: "active", isLeader: true,

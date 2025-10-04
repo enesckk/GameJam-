@@ -12,10 +12,10 @@ type Member = {
 };
 
 const MEMBERS: Member[] = [
-  { name: "Enis Kirazoğlu", role: "Oyun Yayıncısı / İçerik Üretici", img: "/jury/enis.jpg", type: "Jüri", color: "blue", emoji: "🎮" },
-  { name: "Ferit (wtcN)", role: "Streamer & İçerik Üretici", img: "/jury/ferit.jpg", type: "Jüri", color: "purple", emoji: "📺" },
-  { name: "Dr. Ayşe Yılmaz", role: "Üniversite Öğretim Üyesi", img: "/mentors/ayse.jpg", type: "Mentör", color: "green", emoji: "🎓" },
-  { name: "Mehmet Demir", role: "Kıdemli Oyun Geliştirici", img: "/mentors/mehmet.jpg", type: "Mentör", color: "orange", emoji: "💻" },
+  { name: "Ad Soyad", role: "Jüri Üyesi", img: "/jury/juri-1.jpg", type: "Jüri", color: "blue", emoji: "🎮" },
+  { name: "Ad Soyad", role: "Jüri Üyesi", img: "/jury/juri-2.jpg", type: "Jüri", color: "purple", emoji: "📺" },
+  { name: "Ad Soyad", role: "Mentör", img: "/mentors/mentor-1.jpg", type: "Mentör", color: "green", emoji: "🎓" },
+  { name: "Ad Soyad", role: "Mentör", img: "/mentors/mentor-2.jpg", type: "Mentör", color: "orange", emoji: "💻" },
   // ... dilediğin kadar ekleyebilirsin
 ];
 

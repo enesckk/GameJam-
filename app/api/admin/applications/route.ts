@@ -39,6 +39,8 @@ export async function GET(req: NextRequest) {
         type: app.type,
         teamName: app.teamName,
         members: (app as any).members ? JSON.parse((app as any).members) : null,
+        leaderPassword: (app as any).leaderPassword,
+        memberPasswords: (app as any).memberPasswords ? JSON.parse((app as any).memberPasswords) : null,
         status: (app as any).status,
         createdAt: app.createdAt.toISOString(),
         approvedAt: (app as any).approvedAt?.toISOString(),
@@ -99,7 +101,7 @@ export async function PUT(req: NextRequest) {
           });
         }
 
-        // Lider için kullanıcı oluştur
+        // Takım Kaptanı için kullanıcı oluştur
         await db.user.create({
           data: {
             email: application.email,
@@ -114,14 +116,29 @@ export async function PUT(req: NextRequest) {
           },
         });
 
+        // Takım Kaptanı şifresini kaydet
+        await db.application.update({
+          where: { id },
+          data: { leaderPassword: plainPassword } as any,
+        });
+
         // Takım üyeleri için de kullanıcı oluştur
         if (application.type === "team" && (application as any).members) {
           try {
             const members = JSON.parse((application as any).members);
+            const memberPasswords = [];
+            
             for (const member of members) {
               // Her üye için şifre oluştur
               const memberPassword = generatePassword();
               const memberPasswordHash = await bcrypt.hash(memberPassword, 12);
+
+              // Üye şifresini kaydet
+              memberPasswords.push({
+                email: member.email,
+                name: member.name,
+                password: memberPassword
+              });
 
               // Üye için kullanıcı oluştur
               await db.user.create({
@@ -142,11 +159,11 @@ export async function PUT(req: NextRequest) {
               try {
                 await sendEmail({
                   to: member.email,
-                  subject: "Game Jam Takımınız Onaylandı! 🎉",
+                  subject: "Şehitkamil Game Jam Takımınız Onaylandı! 🎉",
                   html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
                       <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
-                        <h1 style="margin: 0; font-size: 28px;">🎮 Game Jam Takımınız Onaylandı!</h1>
+                        <h1 style="margin: 0; font-size: 28px;">🎮 Şehitkamil Game Jam Takımınız Onaylandı!</h1>
                         <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Hoş geldiniz!</p>
                       </div>
                       
@@ -156,7 +173,7 @@ export async function PUT(req: NextRequest) {
                         </p>
                         
                         <p style="font-size: 16px; color: #333; margin-bottom: 20px;">
-                          <strong>${application.teamName}</strong> takımınız Game Jam için onaylandı! Artık sisteme giriş yapabilirsiniz.
+                          <strong>${application.teamName}</strong> takımınız Şehitkamil Game Jam için onaylandı! Artık sisteme giriş yapabilirsiniz.
                         </p>
                         
                         <div style="background: white; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin: 20px 0;">
@@ -166,7 +183,7 @@ export async function PUT(req: NextRequest) {
                         </div>
                         
                         <div style="text-align: center; margin: 30px 0;">
-                          <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/login" 
+                          <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://gamejam.sehitkamil.bel.tr'}/login" 
                              style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
                             🚀 Sisteme Giriş Yap
                           </a>
@@ -183,6 +200,12 @@ export async function PUT(req: NextRequest) {
                 console.error(`Üye ${member.email} için mail gönderilemedi:`, emailError);
               }
             }
+            
+            // Üye şifrelerini kaydet
+            await db.application.update({
+              where: { id },
+              data: { memberPasswords: JSON.stringify(memberPasswords) } as any,
+            });
           } catch (parseError) {
             console.error("Members JSON parse hatası:", parseError);
           }
@@ -192,11 +215,11 @@ export async function PUT(req: NextRequest) {
         try {
           await sendEmail({
             to: application.email,
-            subject: "Game Jam Başvurunuz Onaylandı! 🎉",
+            subject: "Şehitkamil Game Jam Başvurunuz Onaylandı! 🎉",
             html: `
               <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
                 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
-                  <h1 style="margin: 0; font-size: 28px;">🎮 Game Jam Başvurunuz Onaylandı!</h1>
+                  <h1 style="margin: 0; font-size: 28px;">🎮 Şehitkamil Game Jam Başvurunuz Onaylandı!</h1>
                   <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Hoş geldiniz!</p>
                 </div>
                 
@@ -206,7 +229,7 @@ export async function PUT(req: NextRequest) {
                   </p>
                   
                   <p style="font-size: 16px; color: #333; margin-bottom: 20px;">
-                    Game Jam başvurunuz başarıyla onaylandı! Artık sisteme giriş yapabilirsiniz.
+                    Şehitkamil Game Jam başvurunuz başarıyla onaylandı! Artık sisteme giriş yapabilirsiniz.
                   </p>
                   
                   <div style="background: white; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin: 20px 0;">
@@ -216,7 +239,7 @@ export async function PUT(req: NextRequest) {
                   </div>
                   
                   <div style="text-align: center; margin: 30px 0;">
-                    <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/login" 
+                    <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'https://gamejam.sehitkamil.bel.tr'}/login" 
                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
                       🚀 Sisteme Giriş Yap
                     </a>

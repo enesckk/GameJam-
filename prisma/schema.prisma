@@ -115,6 +115,9 @@ model Application {
   status      String  @default("pending") // "pending" | "approved" | "rejected"
   approvedAt  DateTime?
   rejectedAt  DateTime?
+  // Onaylandıktan sonra oluşturulan şifreler
+  leaderPassword String? // Lider şifresi
+  memberPasswords String? // JSON string olarak üye şifreleri
   createdAt   DateTime @default(now())
 }
 

@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     const role = String(body.role ?? "");
     const consentKVKK = Boolean(body.consentKVKK);
 
-    // Lider (zorunlu)
+    // Takım Kaptanı (zorunlu)
     const leadName = String(body.name ?? "").trim();
     const leadEmail = String(body.email ?? "").toLowerCase().trim();
     const leadPhone = String(body.phone ?? "").replace(/\s/g, "");
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
       consentKVKK;
 
     if (!commonOk) {
-      return NextResponse.json({ message: "Lider bilgileri/formatı hatalı" }, { status: 400 });
+      return NextResponse.json({ message: "Takım Kaptanı bilgileri/formatı hatalı" }, { status: 400 });
     }
 
     if (type === "team") {
