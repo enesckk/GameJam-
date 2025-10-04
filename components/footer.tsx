@@ -54,7 +54,7 @@ export default function Footer() {
             <li className="flex items-start gap-2">
               <MapPin className="mt-0.5 h-4 w-4 opacity-80" aria-hidden />
               <a
-                href="https://maps.app.goo.gl/LgN4axwWZ4pgbzwu9"
+                href="https://www.google.com/maps/place/GAZ%C4%B0ANTEP+DEVLET+T%C4%B0YATROSU/@37.0747194,37.3411855,609m/data=!3m1!1e3!4m6!3m5!1s0x1531e1a970368e4f:0x5f33d57300615f9c!8m2!3d37.0747725!4d37.3410604!16s%2Fg%2F11slhxrtb3?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="leading-snug text-[color:var(--foreground)] transition hover:font-semibold"
@@ -67,7 +67,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="https://maps.app.goo.gl/LgN4axwWZ4pgbzwu9"
+                href="https://www.google.com/maps/place/GAZ%C4%B0ANTEP+DEVLET+T%C4%B0YATROSU/@37.0747194,37.3411855,609m/data=!3m1!1e3!4m6!3m5!1s0x1531e1a970368e4f:0x5f33d57300615f9c!8m2!3d37.0747725!4d37.3410604!16s%2Fg%2F11slhxrtb3?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block overflow-hidden rounded-lg border border-white/10 hover:border-white/20 transition-colors duration-300"
@@ -144,33 +144,29 @@ export default function Footer() {
         {/* 4) RESMİ LOGOLAR */}
         <div className="text-sm">
           <h4 className="mb-3 text-lg font-semibold text-[color:var(--foreground)]">Resmi Logolar</h4>
-          <div className="space-y-4">
+          <div className="flex items-center justify-center gap-4">
             {/* Şehitkamil Belediyesi Logosu */}
-            <div className="flex items-center justify-center p-4 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-colors duration-300">
-              <div className="relative w-full max-w-[200px] h-auto">
-                <Image
-                  src="/sehitkamil.png"
-                  alt="Şehitkamil Belediyesi Logosu"
-                  width={200}
-                  height={80}
-                  className="w-full h-auto object-contain"
-                  priority={false}
-                />
-              </div>
+            <div className="relative w-full max-w-[150px] h-auto">
+              <Image
+                src="/sehitkamil.png"
+                alt="Şehitkamil Belediyesi Logosu"
+                width={150}
+                height={60}
+                className="w-full h-auto object-contain"
+                priority={false}
+              />
             </div>
 
             {/* Belediye Başkanı Logosu */}
-            <div className="flex items-center justify-center p-4 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-colors duration-300">
-              <div className="relative w-full max-w-[200px] h-auto">
-                <Image
-                  src="/umut-yilmaz.png"
-                  alt="Av. Umut Yılmaz - Şehitkamil Belediye Başkanı"
-                  width={200}
-                  height={80}
-                  className="w-full h-auto object-contain"
-                  priority={false}
-                />
-              </div>
+            <div className="relative w-full max-w-[150px] h-auto">
+              <Image
+                src="/umut-yilmaz.png"
+                alt="Av. Umut Yılmaz - Şehitkamil Belediye Başkanı"
+                width={150}
+                height={60}
+                className="w-full h-auto object-contain"
+                priority={false}
+              />
             </div>
           </div>
         </div>

@@ -47,10 +47,10 @@ export default function Hero() {
         {/* SOL */}
         <div className="drop-shadow-[0_3px_14px_rgba(0,0,0,0.55)]">
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold tracking-tight text-white">
-            #ŞehitkamilBelediyesi #UmutYılmaz
+            Oyna ve Kazan!
           </h1>
           <p className="mt-4 max-w-xl opacity-95 text-white/90">
-            Oyununu geliştir, sosyal medyada paylaş, ödülleri kap. Başarılı projeler belediye
+            Oyununu geliştir, puan topla, ödülleri kap. Başarılı projeler belediye
             mobil uygulamasına entegre edilecek.
           </p>
 
