@@ -90,8 +90,8 @@ export default function Navbar() {
                   aria-current={active ? "page" : undefined}
                   className={`text-sm px-3 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105 relative ${
                     active 
-                      ? "bg-green-500/20 text-green-300 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-blue-400 after:to-green-500 after:rounded-full" 
-                      : "text-slate-300 hover:bg-green-500/20 hover:text-green-300"
+                      ? "text-green-300 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-gradient-to-r after:from-blue-400 after:to-green-500 after:rounded-full" 
+                      : "text-slate-300 hover:text-green-300 hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:right-0 hover:after:h-0.5 hover:after:bg-gradient-to-r hover:after:from-blue-400 hover:after:to-green-500 hover:after:rounded-full"
                   }`}
                 >
                   {i.label}
