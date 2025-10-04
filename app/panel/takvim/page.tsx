@@ -9,7 +9,7 @@ type Row = { time: string; title: string; note?: string; icon?: string };
 
 const day1: Row[] = [
   { time: "09:00 – 10:00", icon: "🍽️", title: "Kahvaltı & Karşılama", note: "Karşılama, giriş işlemleri, yaka kartı & ekip karşılaması" },
-  { time: "10:00 – 10:30", icon: "🗣️", title: "Açılış Konuşmaları", note: "Şehitkamil Belediyesi ve sponsor kurumlar" },
+  { time: "10:00 – 10:30", icon: "🗣️", title: "Açılış Konuşmaları", note: "Şehitkamil Devlet Tiyatroları ve sponsor kurumlar" },
   { time: "10:30 – 10:45", icon: "📣", title: "Tema Açıklanır", note: "Yarışma teması açıklanır" },
   { time: "10:45 – 11:00", icon: "📱", title: "Sosyal Medya Görevi Başlatılır", note: "Paylaşım rehberi ve görev açıklaması yapılır" },
   { time: "11:00 – 13:00", icon: "🤝", title: "Takım içi planlama & fikir geliştirme", note: "Beyin fırtınası ve görev dağılımı" },
@@ -31,6 +31,13 @@ const day2: Row[] = [
   { time: "21:00 – 21:30", icon: "📱", title: "Ara & Sosyal Medya Görevi Kapanışı", note: "Son paylaşımlar alınır" },
   { time: "21:30 – 22:00", icon: "🏆", title: "Ödül Töreni", note: "Dereceler, sosyal medya ödülleri, sürpriz çekiliş" },
   { time: "22:00 – 22:30", icon: "📸", title: "Kapanış Konuşmaları", note: "Teşekkürler & hatıra fotoğrafı" },
+];
+
+const day3: Row[] = [
+  { time: "19:00 – 20:00", icon: "🏆", title: "Ödül Töreni", note: "Kazananlar açıklanır ve ödüller dağıtılır" },
+  { time: "20:00 – 21:00", icon: "🎉", title: "Kutlama & Sosyal Etkinlik", note: "Tüm katılımcılar için özel etkinlik" },
+  { time: "21:00 – 22:00", icon: "📸", title: "Hatıra Fotoğrafları", note: "Grup fotoğrafları ve anılar" },
+  { time: "22:00", icon: "👋", title: "Kapanış", note: "Etkinlik sona erer" },
 ];
 
 function Timeline({ rows }: { rows: Row[] }) {
@@ -106,7 +113,7 @@ function Timeline({ rows }: { rows: Row[] }) {
 }
 
 export default function SchedulePage() {
-  const [day, setDay] = useState<1 | 2>(1);
+  const [day, setDay] = useState<1 | 2 | 3>(1);
 
   return (
     <div className="space-y-6">
@@ -170,8 +177,8 @@ export default function SchedulePage() {
             }`}
           >
             <Gamepad2 className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">1. Gün (Cumartesi)</span>
-            <span className="sm:hidden">1. Gün</span>
+            <span className="hidden sm:inline">24 Ekim</span>
+            <span className="sm:hidden">24</span>
           </button>
           <button
             onClick={() => setDay(2)}
@@ -182,8 +189,20 @@ export default function SchedulePage() {
             }`}
           >
             <Trophy className="h-3 w-3 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">2. Gün (Pazar)</span>
-            <span className="sm:hidden">2. Gün</span>
+            <span className="hidden sm:inline">25 Ekim</span>
+            <span className="sm:hidden">25</span>
+          </button>
+          <button
+            onClick={() => setDay(3)}
+            className={`flex items-center gap-2 px-3 sm:px-6 py-2 sm:py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 ${
+              day === 3 
+                ? "bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg shadow-purple-500/25" 
+                : "text-purple-200 hover:text-white hover:bg-white/10"
+            }`}
+          >
+            <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">26 Ekim</span>
+            <span className="sm:hidden">26</span>
           </button>
         </div>
       </div>
@@ -199,8 +218,20 @@ export default function SchedulePage() {
                   <Gamepad2 className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white">1. Gün – Açılış, Tema ve Geliştirme Başlangıcı</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-white">24 Ekim – Açılış, Tema ve Geliştirme Başlangıcı</h3>
                   <p className="text-xs sm:text-sm text-purple-200/80">Yoğun bir gün: Başvuru, tema açıklanması ve kodlamaya başlangıç</p>
+                </div>
+              </div>
+            </div>
+          ) : day === 2 ? (
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
+                  <Trophy className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-white">25 Ekim – Son Dokunuşlar, Jüri Sunumları & Ödüller</h3>
+                  <p className="text-xs sm:text-sm text-purple-200/80">Final teslim, sunumlar ve ödül töreni ile muhteşem kapanış</p>
                 </div>
               </div>
             </div>
@@ -208,17 +239,17 @@ export default function SchedulePage() {
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-                  <Trophy className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                  <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-white">2. Gün – Son Dokunuşlar, Jüri Sunumları & Ödüller</h3>
-                  <p className="text-xs sm:text-sm text-purple-200/80">Final teslim, sunumlar ve ödül töreni ile muhteşem kapanış</p>
+                  <h3 className="text-lg sm:text-xl font-bold text-white">26 Ekim – Ödül Töreni ve Kapanış</h3>
+                  <p className="text-xs sm:text-sm text-purple-200/80">Kazananlar açıklanır, ödüller dağıtılır ve etkinlik sona erer</p>
                 </div>
               </div>
             </div>
           )}
           
-          <Timeline rows={day === 1 ? day1 : day2} />
+          <Timeline rows={day === 1 ? day1 : day === 2 ? day2 : day3} />
         </div>
       </div>
 

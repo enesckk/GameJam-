@@ -26,7 +26,7 @@ const TIMELINE_DATA = [
     title: "Game Jam Başlangıcı",
     desc: "Tema açıklanır ve 48 saatlik geliştirme süreci başlar. Takımlar oyunlarını geliştirmeye başlar.",
     time: "09:00",
-    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
+    location: "Şehitkamil Devlet Tiyatroları",
     color: "purple"
   },
   {
@@ -35,7 +35,7 @@ const TIMELINE_DATA = [
     title: "Geliştirme Süreci - 1. Gün",
     desc: "48 saatlik yoğun geliştirme sürecinin ilk günü. Takımlar oyunlarını geliştirmeye başlar.",
     time: "09:00 - 23:59",
-    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
+    location: "Şehitkamil Devlet Tiyatroları",
     color: "cyan"
   },
   {
@@ -44,7 +44,7 @@ const TIMELINE_DATA = [
     title: "Geliştirme Süreci - 2. Gün",
     desc: "48 saatlik yoğun geliştirme sürecinin ikinci günü. Takımlar oyunlarını tamamlamaya çalışır.",
     time: "00:00 - 18:00",
-    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
+    location: "Şehitkamil Devlet Tiyatroları",
     color: "cyan"
   },
   {
@@ -53,7 +53,7 @@ const TIMELINE_DATA = [
     title: "Proje Teslimi",
     desc: "Oyunların teslim edilmesi için son tarih. Bu saatten sonra yapılan değişiklikler kabul edilmez.",
     time: "18:00",
-    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
+    location: "Şehitkamil Devlet Tiyatroları",
     color: "red"
   },
   {
@@ -62,7 +62,7 @@ const TIMELINE_DATA = [
     title: "Jüri Değerlendirmesi",
     desc: "Jüri üyeleri oyunları değerlendirir ve puanlama yapar. Sonuçlar hazırlanır.",
     time: "18:00 - 22:00",
-    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
+    location: "Şehitkamil Devlet Tiyatroları",
     color: "indigo"
   },
   {
@@ -71,7 +71,7 @@ const TIMELINE_DATA = [
     title: "Ödül Töreni",
     desc: "Kazananlar açıklanır ve ödüller dağıtılır. Tüm katılımcılar için özel etkinlik.",
     time: "19:00 - 22:00",
-    location: "Şehitkamil Belediyesi Kültür ve Kongre Merkezi",
+    location: "Şehitkamil Devlet Tiyatroları",
     color: "yellow"
   }
 ];
@@ -81,26 +81,34 @@ const IMPORTANT_DATES = [
   { title: "Başvuru Sonu", date: "15 Ekim 2025", time: "23:59", icon: "⏰", color: "red" },
   { title: "Game Jam Başlangıcı", date: "24 Ekim 2025", time: "09:00", icon: "🚀", color: "green" },
   { title: "Proje Teslimi", date: "25 Ekim 2025", time: "18:00", icon: "📦", color: "orange" },
-  { title: "Ödül Töreni", date: "25 Ekim 2025", time: "19:00", icon: "🏆", color: "yellow" }
+  { title: "Ödül Töreni", date: "26 Ekim 2025", time: "19:00", icon: "🏆", color: "yellow" }
 ];
 
 const DAILY_SCHEDULE = [
   {
-    day: "1. Gün",
+    day: "24 Ekim - 1. Gün",
     color: "blue",
     events: [
-      { time: "23:59", title: "Tema Açıklanması", desc: "Game Jam teması açıklanır ve geliştirme süreci başlar." },
-      { time: "00:30", title: "Takım Toplantıları", desc: "Takımlar kendi aralarında planlama yapar." }
+      { time: "09:00", title: "Game Jam Başlangıcı", desc: "Tema açıklanır ve geliştirme süreci başlar." },
+      { time: "09:30", title: "Takım Toplantıları", desc: "Takımlar kendi aralarında planlama yapar." },
+      { time: "10:00", title: "Geliştirme Süreci", desc: "Yoğun geliştirme süreci başlar." }
     ]
   },
   {
-    day: "2. Gün",
+    day: "25 Ekim - 2. Gün",
     color: "green",
     events: [
-      { time: "09:00", title: "Geliştirme Süreci", desc: "Yoğun geliştirme süreci devam eder." },
-      { time: "17:00", title: "Proje Teslimi", desc: "Oyunlar teslim edilir." },
-      { time: "19:00", title: "Jüri Değerlendirmesi", desc: "Oyunlar değerlendirilir." },
-      { time: "21:30", title: "Ödül Töreni", desc: "Kazananlar açıklanır." }
+      { time: "00:00", title: "Geliştirme Devam", desc: "Geliştirme süreci devam eder." },
+      { time: "18:00", title: "Proje Teslimi", desc: "Oyunlar teslim edilir." },
+      { time: "19:00", title: "Jüri Değerlendirmesi", desc: "Oyunlar değerlendirilir." }
+    ]
+  },
+  {
+    day: "26 Ekim - 3. Gün",
+    color: "purple",
+    events: [
+      { time: "19:00", title: "Ödül Töreni", desc: "Kazananlar açıklanır ve ödüller dağıtılır." },
+      { time: "20:00", title: "Kapanış", desc: "Etkinlik sona erer." }
     ]
   },
 ];

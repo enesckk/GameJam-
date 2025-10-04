@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { MapPin, Mail } from "lucide-react";
@@ -14,7 +15,7 @@ export default function Footer() {
 
   return (
     <footer className="w-full overflow-x-clip border-t border-white/10 dark:border-white/5 bg-black/5 dark:bg-white/5 backdrop-blur-md">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 sm:px-6 py-12 md:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 sm:px-6 py-12 md:grid-cols-4">
         {/* 1) MENÜ */}
         <nav aria-label="Alt Menü" className="text-sm">
           <h4 className="mb-3 text-lg font-semibold text-[color:var(--foreground)]">Menü</h4>
@@ -59,8 +60,9 @@ export default function Footer() {
                 className="leading-snug text-[color:var(--foreground)] transition hover:font-semibold"
                 title="Haritada Aç"
               >
-                Şehitkamil Belediyesi Kültür ve Kongre Merkezi <br />
-                Gaziantep, Türkiye
+                Şehitkamil Devlet Tiyatroları <br />
+                Batıkent, Abdulkadir Aksu Blv. NO:48 <br />
+                27560 Şehitkamil/Gaziantep
               </a>
             </li>
             <li>
@@ -72,7 +74,7 @@ export default function Footer() {
                 title="Haritada Aç"
               >
                 <iframe
-                  title="Şehitkamil Belediyesi Kültür ve Kongre Merkezi"
+                  title="Şehitkamil Devlet Tiyatroları"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3189.1234567890123!2d37.12345678901234!3d37.12345678901234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDA3JzM0LjQiTiAzN8KwMDcnMzQuNCJF!5e0!3m2!1str!2str!4v1234567890123"
                   width="100%"
                   height="140"
@@ -94,7 +96,7 @@ export default function Footer() {
           <div className="flex gap-5">
             {/* Instagram */}
             <Link
-              href="https://instagram.com"
+              href="https://instagram.com/sehitkamilbelediyesi"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -109,7 +111,7 @@ export default function Footer() {
 
             {/* LinkedIn */}
             <Link
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/company/sehitkamil-belediyesi"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -124,7 +126,7 @@ export default function Footer() {
 
             {/* X (Twitter) */}
             <Link
-              href="https://twitter.com"
+              href="https://twitter.com/sehitkamilbel"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X (Twitter)"
@@ -138,11 +140,45 @@ export default function Footer() {
             </Link>
           </div>
         </div>
+
+        {/* 4) RESMİ LOGOLAR */}
+        <div className="text-sm">
+          <h4 className="mb-3 text-lg font-semibold text-[color:var(--foreground)]">Resmi Logolar</h4>
+          <div className="space-y-4">
+            {/* Şehitkamil Belediyesi Logosu */}
+            <div className="flex items-center justify-center p-4 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-colors duration-300">
+              <div className="relative w-full max-w-[200px] h-auto">
+                <Image
+                  src="/sehitkamil.png"
+                  alt="Şehitkamil Belediyesi Logosu"
+                  width={200}
+                  height={80}
+                  className="w-full h-auto object-contain"
+                  priority={false}
+                />
+              </div>
+            </div>
+
+            {/* Belediye Başkanı Logosu */}
+            <div className="flex items-center justify-center p-4 bg-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-colors duration-300">
+              <div className="relative w-full max-w-[200px] h-auto">
+                <Image
+                  src="/umut-yilmaz.png"
+                  alt="Av. Umut Yılmaz - Şehitkamil Belediye Başkanı"
+                  width={200}
+                  height={80}
+                  className="w-full h-auto object-contain"
+                  priority={false}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Alt satır */}
       <div className="border-t border-white/10 dark:border-white/5 py-4 text-center text-xs text-slate-500 dark:text-slate-400">
-        © {new Date().getFullYear()} Şehitkamil Game Jam • #OynaVeKazan
+        © {new Date().getFullYear()} Şehitkamil Game Jam • #ŞehitkamilBelediyesi #UmutYılmaz
       </div>
     </footer>
   );

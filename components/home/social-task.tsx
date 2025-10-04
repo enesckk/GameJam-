@@ -30,7 +30,7 @@ export default function SocialTask() {
         <p
           className="mx-auto mt-2 max-w-2xl text-[color:color-mix(in_oklab,var(--foreground)_80%,transparent)]"
         >
-          Etkinlik boyunca <span className="font-semibold">#Şehitkamil</span> etiketiyle
+          Etkinlik boyunca <span className="font-semibold">#ŞehitkamilBelediyesi #UmutYılmaz</span> etiketleriyle
           LinkedIn, Instagram ve X (Twitter) üzerinde paylaşım yap. Paylaşımlar final
           değerlendirmesine <span className="font-semibold">%20</span> katkı sağlar.
         </p>
@@ -39,7 +39,7 @@ export default function SocialTask() {
         <div className="mt-5 flex items-center justify-center gap-7 md:gap-9">
           {/* Instagram */}
           <Link
-            href="https://instagram.com"
+            href="https://instagram.com/sehitkamilbelediyesi"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
@@ -66,7 +66,7 @@ export default function SocialTask() {
 
           {/* LinkedIn */}
           <Link
-            href="https://www.linkedin.com"
+            href="https://www.linkedin.com/company/sehitkamil-belediyesi"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
@@ -93,7 +93,7 @@ export default function SocialTask() {
 
           {/* X (Twitter) */}
           <Link
-            href="https://twitter.com"
+            href="https://twitter.com/sehitkamilbel"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="X (Twitter)"

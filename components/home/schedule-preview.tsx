@@ -10,7 +10,7 @@ export default function SchedulePreview({
     { label: "Son Başvuru",  date: "15 Ekim 2025 • 23:59" },
     { label: "Başlangıç",     date: "24 Ekim 2025 • 09:00 (TSİ)" },
     { label: "Teslim",        date: "25 Ekim 2025 • 18:00" },
-    { label: "Ödül Töreni",   date: "25 Ekim 2025 • 19:00" },
+    { label: "Ödül Töreni",   date: "26 Ekim 2025 • 19:00" },
   ] as Milestone[],
 }) {
   return (
