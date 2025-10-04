@@ -239,7 +239,7 @@ export default function SchedulePage() {
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center">
-                  <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+                  <span className="text-sm sm:text-lg font-bold text-white">3</span>
                 </div>
                 <div>
                   <h3 className="text-lg sm:text-xl font-bold text-white">26 Ekim – Ödül Töreni ve Kapanış</h3>

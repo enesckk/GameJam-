@@ -96,7 +96,7 @@ export default function Footer() {
           <div className="flex gap-5">
             {/* Instagram */}
             <Link
-              href="https://instagram.com/sehitkamilbelediyesi"
+              href="https://www.instagram.com/sehitkamilbel/?hl=tr"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -111,7 +111,7 @@ export default function Footer() {
 
             {/* LinkedIn */}
             <Link
-              href="https://www.linkedin.com/company/sehitkamil-belediyesi"
+              href="https://www.linkedin.com/company/%C5%9Fehitkamil-belediyesi/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -126,7 +126,7 @@ export default function Footer() {
 
             {/* X (Twitter) */}
             <Link
-              href="https://twitter.com/sehitkamilbel"
+              href="https://x.com/SehitkamilBel"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="X (Twitter)"
@@ -143,7 +143,7 @@ export default function Footer() {
 
         {/* 4) RESMİ LOGOLAR */}
         <div className="text-sm">
-          <h4 className="mb-3 text-lg font-semibold text-[color:var(--foreground)]">Resmi Logolar</h4>
+      
           <div className="flex items-center justify-center gap-4">
             {/* Şehitkamil Belediyesi Logosu */}
             <div className="relative w-full max-w-[150px] h-auto">

@@ -39,7 +39,7 @@ export default function SocialTask() {
         <div className="mt-5 flex items-center justify-center gap-7 md:gap-9">
           {/* Instagram */}
           <Link
-            href="https://instagram.com/sehitkamilbelediyesi"
+            href="https://www.instagram.com/sehitkamilbel/?hl=tr"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
@@ -66,7 +66,7 @@ export default function SocialTask() {
 
           {/* LinkedIn */}
           <Link
-            href="https://www.linkedin.com/company/sehitkamil-belediyesi"
+            href="https://www.linkedin.com/company/%C5%9Fehitkamil-belediyesi/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"
@@ -93,7 +93,7 @@ export default function SocialTask() {
 
           {/* X (Twitter) */}
           <Link
-            href="https://twitter.com/sehitkamilbel"
+            href="https://x.com/SehitkamilBel"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="X (Twitter)"
