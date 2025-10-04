@@ -134,6 +134,7 @@ export async function POST(req: Request) {
         consentKVKK,
         type,
         teamName: teamName ?? null,
+        members: type === "team" && members.length > 0 ? JSON.stringify(members) : null,
         status: "pending", // Başlangıçta pending
       },
     });

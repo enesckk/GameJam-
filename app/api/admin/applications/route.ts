@@ -38,6 +38,7 @@ export async function GET(req: NextRequest) {
         age: app.age,
         type: app.type,
         teamName: app.teamName,
+        members: app.members ? JSON.parse(app.members) : null,
         status: app.status,
         createdAt: app.createdAt.toISOString(),
         approvedAt: app.approvedAt?.toISOString(),
