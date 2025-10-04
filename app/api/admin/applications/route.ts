@@ -86,6 +86,16 @@ export async function PUT(req: NextRequest) {
         const plainPassword = generatePassword();
         const passwordHash = await bcrypt.hash(plainPassword, 12);
 
+        // Team oluştur (eğer team başvurusu ise)
+        let team = null;
+        if (application.type === "team" && application.teamName) {
+          team = await db.team.create({
+            data: {
+              name: application.teamName,
+            },
+          });
+        }
+
         // Yeni kullanıcı oluştur
         await db.user.create({
           data: {
@@ -97,6 +107,7 @@ export async function PUT(req: NextRequest) {
             profileRole: application.role,
             canLogin: true,
             passwordHash: passwordHash,
+            teamId: team?.id, // Team'e bağla
           },
         });
 
