@@ -42,22 +42,18 @@ export default function Hero() {
         "
       />
 
-      {/* Logolar - Sağ Üst Köşe */}
-      <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-        <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-xl px-2 py-1.5 sm:px-3 sm:py-2 border border-white/20">
-          <img 
-            src="/sehitkamil.png" 
-            alt="Şehitkamil Belediyesi" 
-            className="h-6 sm:h-8 w-auto object-contain"
-          />
-        </div>
-        <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-xl px-2 py-1.5 sm:px-3 sm:py-2 border border-white/20">
-          <img 
-            src="/umut-yilmaz.png" 
-            alt="Av. Umut Yılmaz" 
-            className="h-6 sm:h-8 w-auto object-contain"
-          />
-        </div>
+      {/* Logolar - Sol Üst Köşe */}
+      <div className="absolute top-20 left-4 sm:top-24 sm:left-6 z-10 flex items-center gap-6 sm:gap-8">
+        <img 
+          src="/sehitkamil.png" 
+          alt="Şehitkamil Belediyesi" 
+          className="h-12 sm:h-16 w-auto object-contain drop-shadow-lg"
+        />
+        <img 
+          src="/umut-yilmaz.png" 
+          alt="Av. Umut Yılmaz" 
+          className="h-12 sm:h-16 w-auto object-contain drop-shadow-lg"
+        />
       </div>
 
       {/* İçerik */}
