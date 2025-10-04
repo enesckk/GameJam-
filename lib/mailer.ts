@@ -78,3 +78,27 @@ export const sendInviteEmail = (p: Omit<AccessArgs, "reason">) =>
   sendAccessEmail({ ...p, reason: "invite" });
 export const sendResetEmail = (p: Omit<AccessArgs, "reason">) =>
   sendAccessEmail({ ...p, reason: "reset" });
+
+// Genel email gönderme fonksiyonu
+export async function sendEmail(args: { to: string; subject: string; html: string }) {
+  if (PROVIDER === "sendgrid") {
+    try {
+      await sg.send({
+        from: FROM,
+        to: args.to,
+        subject: args.subject,
+        html: args.html,
+      });
+      console.log(`✅ Mail gönderildi: ${args.to}`);
+    } catch (error) {
+      console.error("SendGrid hatası:", error);
+      throw error;
+    }
+  } else {
+    // Dev mode - sadece log
+    console.log("📧 DEV MODE - Mail gönderilecek:");
+    console.log(`To: ${args.to}`);
+    console.log(`Subject: ${args.subject}`);
+    console.log(`HTML: ${args.html.substring(0, 200)}...`);
+  }
+}

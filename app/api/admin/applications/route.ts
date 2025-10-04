@@ -38,11 +38,11 @@ export async function GET(req: NextRequest) {
         age: app.age,
         type: app.type,
         teamName: app.teamName,
-        members: app.members ? JSON.parse(app.members) : null,
-        status: app.status,
+        members: (app as any).members ? JSON.parse((app as any).members) : null,
+        status: (app as any).status,
         createdAt: app.createdAt.toISOString(),
-        approvedAt: app.approvedAt?.toISOString(),
-        rejectedAt: app.rejectedAt?.toISOString(),
+        approvedAt: (app as any).approvedAt?.toISOString(),
+        rejectedAt: (app as any).rejectedAt?.toISOString(),
       })),
     });
   } catch (error) {
@@ -99,7 +99,7 @@ export async function PUT(req: NextRequest) {
           });
         }
 
-        // Yeni kullanıcı oluştur
+        // Lider için kullanıcı oluştur
         await db.user.create({
           data: {
             email: application.email,
@@ -113,6 +113,80 @@ export async function PUT(req: NextRequest) {
             teamId: team?.id, // Team'e bağla
           },
         });
+
+        // Takım üyeleri için de kullanıcı oluştur
+        if (application.type === "team" && (application as any).members) {
+          try {
+            const members = JSON.parse((application as any).members);
+            for (const member of members) {
+              // Her üye için şifre oluştur
+              const memberPassword = generatePassword();
+              const memberPasswordHash = await bcrypt.hash(memberPassword, 12);
+
+              // Üye için kullanıcı oluştur
+              await db.user.create({
+                data: {
+                  email: member.email,
+                  name: member.name,
+                  phone: member.phone || "",
+                  age: member.age || 18,
+                  role: "PARTICIPANT",
+                  profileRole: member.role,
+                  canLogin: true,
+                  passwordHash: memberPasswordHash,
+                  teamId: team?.id, // Aynı team'e bağla
+                },
+              });
+
+              // Üye için onay maili gönder
+              try {
+                await sendEmail({
+                  to: member.email,
+                  subject: "Game Jam Takımınız Onaylandı! 🎉",
+                  html: `
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
+                        <h1 style="margin: 0; font-size: 28px;">🎮 Game Jam Takımınız Onaylandı!</h1>
+                        <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Hoş geldiniz!</p>
+                      </div>
+                      
+                      <div style="background: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px;">
+                        <p style="font-size: 16px; color: #333; margin-bottom: 20px;">
+                          Merhaba <strong>${member.name}</strong>,
+                        </p>
+                        
+                        <p style="font-size: 16px; color: #333; margin-bottom: 20px;">
+                          <strong>${application.teamName}</strong> takımınız Game Jam için onaylandı! Artık sisteme giriş yapabilirsiniz.
+                        </p>
+                        
+                        <div style="background: white; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin: 20px 0;">
+                          <h3 style="color: #495057; margin-top: 0;">Giriş Bilgileriniz:</h3>
+                          <p style="margin: 10px 0;"><strong>E-posta:</strong> ${member.email}</p>
+                          <p style="margin: 10px 0;"><strong>Şifre:</strong> <code style="background: #f8f9fa; padding: 4px 8px; border-radius: 4px; font-family: monospace;">${memberPassword}</code></p>
+                        </div>
+                        
+                        <div style="text-align: center; margin: 30px 0;">
+                          <a href="${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/login" 
+                             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
+                            🚀 Sisteme Giriş Yap
+                          </a>
+                        </div>
+                        
+                        <p style="font-size: 14px; color: #6c757d; margin-top: 30px;">
+                          Bu e-posta otomatik olarak gönderilmiştir. Lütfen yanıtlamayın.
+                        </p>
+                      </div>
+                    </div>
+                  `,
+                });
+              } catch (emailError) {
+                console.error(`Üye ${member.email} için mail gönderilemedi:`, emailError);
+              }
+            }
+          } catch (parseError) {
+            console.error("Members JSON parse hatası:", parseError);
+          }
+        }
 
         // Onay maili gönder
         try {
@@ -175,9 +249,9 @@ export async function PUT(req: NextRequest) {
         id: application.id,
         name: application.name,
         email: application.email,
-        status: application.status,
-        approvedAt: application.approvedAt?.toISOString(),
-        rejectedAt: application.rejectedAt?.toISOString(),
+        status: (application as any).status,
+        approvedAt: (application as any).approvedAt?.toISOString(),
+        rejectedAt: (application as any).rejectedAt?.toISOString(),
       },
     });
   } catch (error) {
