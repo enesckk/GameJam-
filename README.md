@@ -1,36 +1,163 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🎮 GameJam Web Platform
 
-## Getting Started
+GameJam Web Platform, oyun geliştirme maratonları (GameJam etkinlikleri) için hazırlanmış, hem başvuru yönetimini hem de etkinlik tanıtımını tek bir yerde toplayan modern bir web uygulamasıdır.
+Proje, Next.js + Prisma mimarisi ile geliştirilmiş olup, Plesk veya Vercel üzerinde çalışacak şekilde yapılandırılmıştır.
 
-First, run the development server:
+🚀 Amaç
 
-```bash
+Bu platform, GameJam katılımcılarının kolayca:
+
+Etkinlik kurallarını ve takvimini görüntülemesini,
+
+Takım kurmasını veya bireysel olarak başvuru yapmasını,
+
+Duyuru ve sonuçlara ulaşmasını sağlar.
+
+Etkinlik organizatörleri için ise başvuruların, ekiplerin ve proje yüklemelerinin tek panelden yönetilmesine olanak tanır.
+
+🧩 Proje Mimarisi
+
+Proje iki ana bölümden oluşur:
+
+1️⃣ Frontend – Next.js
+
+Framework: Next.js (React tabanlı)
+
+Stil: TailwindCSS / CSS Modules
+
+İşlev: Kullanıcı arayüzü, sayfa yönlendirmeleri, formlar
+
+Deploy: Vercel veya Plesk Node.js modülü ile
+
+2️⃣ Backend – Node.js + Prisma
+
+Sunucu: Express.js veya Next.js API routes
+
+ORM: Prisma
+
+Veritabanı: PostgreSQL / SQLite
+
+İşlev: Kullanıcı verilerini kaydetme, sorgulama, duyuru yönetimi
+
+📁 Klasör Yapısı
+GameJam/
+├── prisma/
+│   ├── schema.prisma        # Veritabanı modeli ve yapılandırması
+│   ├── migrations/          # Veritabanı versiyon geçmişi
+│
+├── src/ veya pages/         # Next.js sayfa dosyaları
+│   ├── index.js             # Ana sayfa
+│   ├── apply.js             # Başvuru formu
+│   └── api/                 # Backend API route’ları
+│
+├── public/                  # Görseller, logolar, afişler
+├── package.json             # Bağımlılıklar ve komutlar
+└── .env                     # Ortam değişkenleri (veritabanı, port, gizli anahtarlar)
+
+⚙️ Kullanılan Teknolojiler
+Katman	Teknoloji	Açıklama
+🖥️ Frontend	Next.js / React	Kullanıcı arayüzü ve sayfa yönlendirmesi
+🎨 Tasarım	TailwindCSS	Modern ve responsive tasarım
+⚙️ Backend	Node.js + Express.js	API yönetimi ve iş mantığı
+🧠 ORM	Prisma	Veritabanı yönetimi (SQL sorgularını kodla yönetme)
+🗄️ Database	PostgreSQL / SQLite	Verilerin saklandığı katman
+☁️ Hosting	Vercel / Plesk	Uygulamanın dağıtıldığı ortam
+🧠 Prisma Yapısı (örnek)
+
+prisma/schema.prisma dosyası veritabanı modelini tanımlar:
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  teamName  String?
+  createdAt DateTime @default(now())
+}
+
+🧰 Kurulum ve Çalıştırma
+🔹 1. Depoyu Klonla
+git clone https://github.com/enesckk/GameJam-.git
+cd GameJam-
+
+🔹 2. Bağımlılıkları Yükle
+npm install
+
+🔹 3. Ortam Değişkenlerini Ayarla
+
+.env dosyası oluştur:
+
+DATABASE_URL="postgresql://user:password@localhost:5432/gamejam"
+PORT=4000
+
+🔹 4. Prisma Yapılandırması
+npx prisma generate
+npx prisma migrate dev --name init
+
+🔹 5. Geliştirme Ortamında Çalıştır
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Tarayıcıdan: http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+🌍 Plesk Üzerinde Yayına Alma
+🔸 1. Plesk’e Giriş
 
-## Learn More
+Yeni bir domain veya subdomain oluştur
 
-To learn more about Next.js, take a look at the following resources:
+“Node.js” sekmesini aktif et
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+🔸 2. GitHub Bağlantısı
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Git sekmesinden Remote Git repository olarak ekle:
 
-## Deploy on Vercel
+https://github.com/enesckk/GameJam-.git
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Application root → GameJam-
+
+Document root → build veya .next klasörü
+
+🔸 3. Komutları Belirle
+
+Install command:
+
+npm install && npx prisma generate
+
+
+Start command:
+
+npm run start
+
+🔸 4. Veritabanı Ayarları
+
+.env dosyasına kendi Plesk veritabanı bağlantını gir
+
+(Örneğin Plesk içindeki “Databases” sekmesinden yeni PostgreSQL oluştur)
+
+🔸 5. SSL ve Domain Ayarları
+
+Let’s Encrypt üzerinden ücretsiz SSL sertifikası ekle
+
+Domain ayarlarını kontrol et
+
+Siteyi yayına al 🎉
+
+🔒 Güvenlik Notları
+
+.env dosyasını asla GitHub’a yükleme
+
+Production ortamında Prisma Studio’yu kapat (npx prisma studio sadece local’de)
+
+Plesk’te HTTPS zorunlu yap
+
+👥 Katkı ve Geliştirme
+
+Proje ekibi veya topluluk katkıda bulunmak isterse:
+
+git checkout -b feature/yeni-ozellik
+# değişiklikleri yap
+git commit -m "Yeni özellik eklendi"
+git push origin feature/yeni-ozellik
+
+
+Pull request oluştur ve değişiklikleri açıklayan kısa bir not ekle.
