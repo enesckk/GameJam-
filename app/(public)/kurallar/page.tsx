@@ -236,11 +236,10 @@ export default function RulesPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
             {[
-              { percentage: "25%", title: "Yaratıcılık", desc: "Orijinal fikirler, yenilikçi yaklaşımlar ve yaratıcı çözümler", color: "emerald", gradient: "from-emerald-500/20 to-teal-600/20", border: "border-emerald-500/30" },
-              { percentage: "25%", title: "Teknik Kalite", desc: "Kod kalitesi, performans, hata yokluğu ve teknik mükemmellik", color: "blue", gradient: "from-blue-500/20 to-indigo-600/20", border: "border-blue-500/30" },
+              { percentage: "20%", title: "Yaratıcılık ve Görsel", desc: "Orijinal fikirler, sanat yönetimi ve görsel çekicilik", color: "emerald", gradient: "from-emerald-500/20 to-teal-600/20", border: "border-emerald-500/30" },
+              { percentage: "20%", title: "Teknik Kalite", desc: "Kod kalitesi, performans, hata yokluğu ve teknik mükemmellik", color: "blue", gradient: "from-blue-500/20 to-indigo-600/20", border: "border-blue-500/30" },
               { percentage: "20%", title: "Oynanabilirlik", desc: "Oyun mekanikleri, kullanıcı deneyimi ve eğlence faktörü", color: "purple", gradient: "from-purple-500/20 to-violet-600/20", border: "border-purple-500/30" },
-              { percentage: "15%", title: "Tema Uyumu", desc: "Verilen temaya uygunluk ve konsept tutarlılığı", color: "orange", gradient: "from-orange-500/20 to-amber-600/20", border: "border-orange-500/30" },
-              { percentage: "10%", title: "Görsel Tasarım", desc: "Grafik kalitesi, sanat yönetimi ve görsel çekicilik", color: "pink", gradient: "from-pink-500/20 to-rose-600/20", border: "border-pink-500/30" },
+              { percentage: "20%", title: "Tema Uyumu", desc: "Verilen temaya uygunluk ve konsept tutarlılığı", color: "orange", gradient: "from-orange-500/20 to-amber-600/20", border: "border-orange-500/30" },
               { percentage: "20%", title: "Sosyal Medya", desc: "#Şehitkamil etiketiyle yapılan paylaşımlar", color: "cyan", gradient: "from-cyan-500/20 to-sky-600/20", border: "border-cyan-500/30" }
             ].map((criterion, index) => (
               <div
@@ -462,23 +461,6 @@ export default function RulesPage() {
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
               </svg>
               E-posta Gönder
-            </a>
-            <a 
-              href="#"
-              className="
-                group inline-flex items-center gap-3 px-8 py-4 
-                bg-gradient-to-r from-purple-600 to-purple-700 
-                hover:from-purple-500 hover:to-purple-600
-                text-white rounded-2xl font-semibold
-                transition-all duration-300 hover:scale-105 hover:shadow-2xl
-                shadow-lg
-              "
-            >
-              <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
-                <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
-              </svg>
-              Sohbet Başlat
             </a>
           </div>
         </div>
